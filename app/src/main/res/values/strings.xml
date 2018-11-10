@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MF Tau</string>
+    <string name="statute">Statut</string>
+    <string name="prayer_book">Modlitewnik</string>
+    <string name="song_book">Śpiewnik</string>
+    <string name="breviary">Brewiarz</string>
+    <string name="mftau_website">mftau.pl</string>
+    <string name="community_logo">Logo wspólnoty MF Tau</string>
+</resources>

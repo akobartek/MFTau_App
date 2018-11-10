@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+    </style>
+
+    <style name="MainMenuButtons">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorButtonText</item>
+    </style>
+
+</resources>
