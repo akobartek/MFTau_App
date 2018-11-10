@@ -21,7 +21,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebsiteActivity" />
-        <activity android:name=".PdfActivity"></activity>
+        <activity android:name=".PdfActivity" />
+        <activity
+            android:name=".BreviaryActivity"
+            android:label="@string/breviary">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

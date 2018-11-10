@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="breviary_list">
+        <item>@string/invitatory</item>
+        <item>@string/office_of_readings</item>
+        <item>@string/morning_prayer</item>
+        <item>@string/midmorning_prayer</item>
+        <item>@string/midday_prayer</item>
+        <item>@string/midafternoon_prayer</item>
+        <item>@string/evening_prayer</item>
+        <item>@string/night_prayer</item>
+    </string-array>
+</resources>

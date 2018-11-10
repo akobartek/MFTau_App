@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statute">Statut</string>
+    <string name="prayer_book">Modlitwy</string>
+    <string name="breviary">Brewiarz</string>
+    <string name="song_book">Spiewnik</string>
+    <string name="community_logo">Logo wspólnoty MF Tau</string>
+
+    <!-- BREVIARY STRINGS -->
+    <string name="invitatory">Wezwanie</string>
+    <string name="office_of_readings">Godzina czytań</string>
+    <string name="morning_prayer">Jutrznia</string>
+    <string name="midmorning_prayer">Modlitwa przedpołudniowa</string>
+    <string name="midday_prayer">Modlitwa południowa</string>
+    <string name="midafternoon_prayer">Modlitwa popołudniowa</string>
+    <string name="evening_prayer">Nieszpory</string>
+    <string name="night_prayer">Kompleta</string>
+
+
+</resources>

@@ -1,9 +1,21 @@
 <resources>
-    <string name="app_name">MF Tau</string>
-    <string name="statute">Statut</string>
-    <string name="prayer_book">Modlitewnik</string>
-    <string name="song_book">Śpiewnik</string>
-    <string name="breviary">Brewiarz</string>
-    <string name="mftau_website">mftau.pl</string>
-    <string name="community_logo">Logo wspólnoty MF Tau</string>
+    <string name="app_name" translatable="false">MF Tau</string>
+    <string name="mftau_website" translatable="false">mftau.pl</string>
+    <string name="statute">Statute</string>
+    <string name="prayer_book">Prayers</string>
+    <string name="song_book">Song book</string>
+    <string name="breviary">Breviary</string>
+    <string name="community_logo">MF Tau community logo</string>
+
+    <!-- BREVIARY STRINGS -->
+    <string name="invitatory">Invitatory</string>
+    <string name="office_of_readings">Office of Readings</string>
+    <string name="morning_prayer">Morning Prayer</string>
+    <string name="midmorning_prayer">Midmorning Prayer</string>
+    <string name="midday_prayer">Midday Prayer</string>
+    <string name="midafternoon_prayer">Midafternoon Prayer</string>
+    <string name="evening_prayer">Evening Prayer</string>
+    <string name="night_prayer">Night Prayer</string>
+
+
 </resources>
