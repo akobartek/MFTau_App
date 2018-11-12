@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".MainActivity">
 
     <ImageView
@@ -46,37 +47,40 @@
         app:layout_constraintStart_toEndOf="@+id/prayerBook"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
     <TextView
         android:id="@+id/breviary"
         style="@style/MainMenuButtons"
+        android:layout_marginEnd="12dp"
         android:drawableTop="@drawable/ic_breviary"
         android:text="@string/breviary"
-        app:layout_constraintEnd_toStartOf="@+id/website"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
 
     <TextView
         android:id="@+id/website"
         style="@style/MainMenuButtons"
+        android:layout_marginStart="12dp"
         android:drawableTop="@drawable/ic_website"
         android:text="@string/mftau_website"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/breviary"
+        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/login"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="80dp"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:drawableTop="@drawable/ic_notes"-->
-    <!--android:drawablePadding="4dp"-->
-    <!--android:text="Śpiewnik"-->
-    <!--android:textAlignment="center"-->
-    <!--android:textAllCaps="true"-->
-    <!--android:textColor="@android:color/black"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/logo" />-->
+    <ImageView
+        android:id="@+id/menuBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/menu_description"
+        android:src="@drawable/ic_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

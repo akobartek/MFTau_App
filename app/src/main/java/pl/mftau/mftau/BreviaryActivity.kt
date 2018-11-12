@@ -1,9 +1,9 @@
 package pl.mftau.mftau
 
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.NavUtils
+import androidx.core.app.NavUtils
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_breviary.*
@@ -41,7 +41,6 @@ class BreviaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_breviary)
         setSupportActionBar(breviaryToolbar)
-
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -59,6 +58,7 @@ class BreviaryActivity : AppCompatActivity() {
             breviaryText.loadData(getStringBetweenTwoValues(breviaryHtml, beginningValues[position], end),
                     "text/html", "UTF-8")
             breviaryText.visibility = View.VISIBLE
+            breviaryText.scrollTo(0, 0)
             breviaryText.animate().alpha(1f).duration = animationDuration
             title = parent.getItemAtPosition(position).toString()
         }

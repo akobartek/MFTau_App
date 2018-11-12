@@ -3,12 +3,14 @@ package pl.mftau.mftau
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+import android.widget.PopupMenu
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         const val songBookExtraString = "songBook"
         const val statuteExtraString = "statute"
     }
+
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -29,7 +33,14 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
+        mAuth = FirebaseAuth.getInstance()
+
         setOnClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("MainActivity", mAuth.currentUser.toString())
     }
 
     private fun setOnClickListeners() {
@@ -39,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         prayerBook.setOnClickListener {
-
+            Toast.makeText(this@MainActivity, "Jeszcze nie wiem co tu będzie, oczekuj aktualizacji XD", Toast.LENGTH_SHORT).show()
         }
 
         statute.setOnClickListener {
@@ -53,6 +64,26 @@ class MainActivity : AppCompatActivity() {
 
         website.setOnClickListener {
             startActivity(Intent(this@MainActivity, WebsiteActivity::class.java))
+        }
+
+        menuBtn.setOnClickListener { _ ->
+            val popupMenu = PopupMenu(this@MainActivity, menuBtn)
+            popupMenu.menuInflater.inflate(R.menu.menu_main, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_login -> {
+                        // Open loginActivity
+                        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                        true
+                    }
+                    R.id.action_settings -> {
+                        Toast.makeText(this@MainActivity, "Tu kiedyś będą otwierać się ustawienia", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> true
+                }
+            }
+            popupMenu.show()
         }
     }
 }

@@ -1,6 +1,6 @@
 package pl.mftau.mftau
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.activity_website.*

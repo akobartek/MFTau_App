@@ -6,6 +6,41 @@
     <string name="song_book">Song book</string>
     <string name="breviary">Breviary</string>
     <string name="community_logo">MF Tau community logo</string>
+    <string name="menu_description">Menu with options like log in or open settings.</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign out</string>
+    <string name="register">Register</string>
+    <string name="settings">Settings</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="email_ending" translatable="false">\@mftau.pl</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="create_account">Create account</string>
+    <string name="email_error">Incorrect email address.</string>
+    <string name="password_error_too_short">Password must contain at least 6 signs.</string>
+    <string name="password_error_wrong">Password must contain upper/lowercase and number.</string>
+
+    <string name="send">Send</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="message_sent">Message sent</string>
+
+    <string name="sign_up_error">Sign up failed, please check connection and try again in few minutes!</string>
+    <string name="sign_up_successful_dialog_title">Signed up</string>
+    <string name="sign_up_successful_dialog_message">In order to use your account, you must verify your account (check your email).</string>
+
+    <string name="signed_in">Signed in</string>
+    <string name="sign_in_error">Sign in failed, please check connection and try again in few minutes!</string>
+    <string name="verify_email_dialog_title">Verify email</string>
+    <string name="verify_email_dialog_message">In order to use you account, you must verify your account.</string>
+    <string name="verify_email_send_again">Send again</string>
+
+    <string name="reset_password_dialog_title">Reset Password</string>
+    <string name="reset_password_dialog_message">Enter the email address:</string>
+    <string name="reset_password_error">Operation failed, please check connection and the input!</string>
+
 
     <!-- BREVIARY STRINGS -->
     <string name="invitatory">Invitatory</string>
