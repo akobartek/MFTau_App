@@ -79,18 +79,22 @@
     <string name="select_photo">Select photo</string>
     <string name="add_member">Add member</string>
     <string name="edit_member">Edit member</string>
+    <string name="delete_member">Delete member</string>
     <string name="empty_name_error">Name cannot be empty!</string>
     <string name="empty_city_error">City cannot be empty!</string>
-    <string name="member_with_photo_added">Member and photo saved successfully!</string>
+    <string name="member_with_photo_saved">Member and photo saved successfully!</string>
     <string name="member_added">Member saved successfully!</string>
     <string name="member_add_error">Error with adding member!</string>
+    <string name="member_update_error">Error with updating member!</string>
     <string name="member_photo_error">Error with saving photo!</string>
     <string name="uploading">Uploading…</string>
     <string name="unsaved_changes_dialog_msg">Do you want to discard changes?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
-    <string name="delete_dialog_msg">Do you want to delete this person?</string>
+    <string name="member_delete_dialog_msg">Do you want to delete this person?</string>
     <string name="delete">Delete</string>
+    <string name="member_delete_successfully">Member deleted!</string>
+    <string name="delete_error">Error occurred!</string>
 
 
 </resources>

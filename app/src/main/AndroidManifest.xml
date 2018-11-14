@@ -54,14 +54,14 @@
                 android:value=".view.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".view.activities.AddMeetingActivity"
+            android:name=".view.activities.MeetingEditorActivity"
             android:label="@string/add_meeting">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MeetingsActivity" />
         </activity>
         <activity
-            android:name=".view.activities.AddMemberActivity"
+            android:name=".view.activities.MemberEditorActivity"
             android:label="@string/add_member">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -74,7 +74,7 @@ class MembersActivity : AppCompatActivity() {
             }
         }
 
-        addMemberBtn.setOnClickListener { startActivity(Intent(this@MembersActivity, AddMemberActivity::class.java)) }
+        addMemberBtn.setOnClickListener { startActivity(Intent(this@MembersActivity, MemberEditorActivity::class.java)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

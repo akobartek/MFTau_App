@@ -32,7 +32,7 @@ class MeetingsActivity : AppCompatActivity() {
 
         initViewPager()
 
-        addMeetingBtn.setOnClickListener { startActivity(Intent(this@MeetingsActivity, AddMeetingActivity::class.java)) }
+        addMeetingBtn.setOnClickListener { startActivity(Intent(this@MeetingsActivity, MeetingEditorActivity::class.java)) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

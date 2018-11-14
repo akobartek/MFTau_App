@@ -1,16 +1,16 @@
 package pl.mftau.mftau.view.adapters
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_member.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.utils.GlideApp
+import pl.mftau.mftau.view.activities.MemberEditorActivity
 
 class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.MembersViewHolder>() {
 
@@ -42,24 +42,15 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
 
             GlideApp.with(itemView.context)
                     .load(storageReference)
-                    .transform(CircleCrop())
+                    .circleCrop()
                     .placeholder(R.drawable.ic_user)
                     .into(itemView.memberPhoto)
 
-//            if (member.isPhotoAdded) {
-//                val storageReference = FirebaseStorage.getInstance()
-//                        .reference.child("members/${member.id}")
-//
-//                GlideApp.with(itemView.context)
-//                        .load(storageReference)
-//                        .transform(CircleCrop())
-//                        .into(itemView.memberPhoto)
-//            } else {
-//                GlideApp.with(itemView.context)
-//                        .load(R.drawable.ic_user)
-//                        .transform(CircleCrop())
-//                        .into(itemView.memberPhoto)
-//            }
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, MemberEditorActivity::class.java)
+                intent.putExtra("member", member)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 }

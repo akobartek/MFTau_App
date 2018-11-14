@@ -13,7 +13,7 @@ import pl.mftau.mftau.R
 import java.util.*
 
 
-class AddMeetingActivity : AppCompatActivity() {
+class MeetingEditorActivity : AppCompatActivity() {
 
     private var date = ""
 
@@ -34,7 +34,7 @@ class AddMeetingActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         setDateBtn.setOnClickListener {
             val calendar = Calendar.getInstance()
-            val dialog = DatePickerDialog(this@AddMeetingActivity, myDateListener,
+            val dialog = DatePickerDialog(this@MeetingEditorActivity, myDateListener,
                     calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
             dialog.show()
         }
@@ -66,7 +66,7 @@ class AddMeetingActivity : AppCompatActivity() {
     }
 
     private fun showUnsavedChangesDialog() {
-        AlertDialog.Builder(this@AddMeetingActivity)
+        AlertDialog.Builder(this@MeetingEditorActivity)
                 .setMessage(R.string.unsaved_changes_dialog_msg)
                 .setCancelable(false)
                 .setPositiveButton(R.string.discard) { dialog, _ ->

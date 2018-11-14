@@ -13,5 +13,4 @@ object FirestoreUtils {
     const val firestoreKeyName = "name"
     const val firestoreKeyCity = "city"
     const val firestoreKeyIsResponsible = "isResponsible"
-    const val firestoreKeyIsPhotoAdded = "isPhotoAdded"
 }

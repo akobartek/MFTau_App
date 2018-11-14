@@ -75,17 +75,21 @@
     <string name="select_photo">Wybierz zdjęcie</string>
     <string name="add_member">Dodawanie osoby</string>
     <string name="edit_member">Edytowanie osoby</string>
+    <string name="delete_member">Usuń osobę</string>
     <string name="empty_name_error">Uzupełnij imię i nazwisko!</string>
     <string name="empty_city_error">Uzupełnij miasto!</string>
-    <string name="member_with_photo_added">Zapisano osobę oraz zdjęcie!</string>
+    <string name="member_with_photo_saved">Zapisano osobę oraz zdjęcie!</string>
     <string name="member_added">Zapisano osobę!</string>
     <string name="member_add_error">Błąd w trakcie dodawania osoby!</string>
+    <string name="member_update_error">Błąd w trakcie aktualizacji danych!</string>
     <string name="member_photo_error">Błąd w trakcie zapisywania zdjęcia!</string>
     <string name="uploading">Zapisywanie…</string>
     <string name="unsaved_changes_dialog_msg">Odrzucić wprowadzone zmiany?</string>
     <string name="discard">Odrzuć</string>
     <string name="keep_editing">Pozostań</string>
-    <string name="delete_dialog_msg">Usunąć tę osobę?</string>
+    <string name="member_delete_dialog_msg">Usunąć tę osobę?</string>
     <string name="delete">Usuń</string>
+    <string name="member_delete_successfully">Usunięto osobę!</string>
+    <string name="delete_error">Wystąpił błąd podczas usuwania!</string>
 
 </resources>
