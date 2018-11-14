@@ -1,4 +1,4 @@
-package pl.mftau.mftau
+package pl.mftau.mftau.view.activities
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,7 @@ import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
 import android.view.View
+import pl.mftau.mftau.R
 import java.io.InputStreamReader
 import java.net.URL
 import java.io.BufferedReader

@@ -1,4 +1,4 @@
-package pl.mftau.mftau
+package pl.mftau.mftau.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.webkit.WebView
+import pl.mftau.mftau.R
 
 
 class WebsiteActivity : AppCompatActivity() {

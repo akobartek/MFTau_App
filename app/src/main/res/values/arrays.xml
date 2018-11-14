@@ -10,4 +10,10 @@
         <item>@string/evening_prayer</item>
         <item>@string/night_prayer</item>
     </string-array>
+
+    <string-array name="meeting_types">
+        <item>@string/formation</item>
+        <item>@string/prayerful</item>
+        <item>@string/other</item>
+    </string-array>
 </resources>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="pl.mftau.mftau">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,9 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activities.MainActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,21 +23,49 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebsiteActivity" />
-        <activity android:name=".PdfActivity" />
+        <activity android:name=".view.activities.WebsiteActivity" />
+        <activity android:name=".view.activities.PdfActivity" />
         <activity
-            android:name=".BreviaryActivity"
+            android:name=".view.activities.BreviaryActivity"
             android:label="@string/breviary">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".view.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.activities.LoginActivity"
             android:label="">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.MembersActivity"
+            android:label="@string/members">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.MeetingsActivity"
+            android:label="@string/meetings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.AddMeetingActivity"
+            android:label="@string/add_meeting">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MeetingsActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.AddMemberActivity"
+            android:label="@string/add_member">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MembersActivity" />
         </activity>
     </application>
 

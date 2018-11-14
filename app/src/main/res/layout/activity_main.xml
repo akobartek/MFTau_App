@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:context=".view.activities.MainActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -71,6 +71,26 @@
         android:text="@string/mftau_website"
         app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
+
+    <TextView
+        android:id="@+id/members"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:drawableTop="@drawable/ic_people"
+        android:text="@string/people"
+        app:layout_constraintEnd_toEndOf="@+id/breviary"
+        app:layout_constraintStart_toStartOf="@+id/breviary"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <TextView
+        android:id="@+id/meetings"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:drawableTop="@drawable/ic_meeting"
+        android:text="@string/meetings"
+        app:layout_constraintEnd_toEndOf="@+id/website"
+        app:layout_constraintStart_toStartOf="@+id/website"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
 
     <ImageView
         android:id="@+id/menuBtn"

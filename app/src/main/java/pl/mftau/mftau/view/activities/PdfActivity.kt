@@ -1,4 +1,4 @@
-package pl.mftau.mftau
+package pl.mftau.mftau.view.activities
 
 import android.graphics.Color
 import android.os.Build
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_pdf.*
+import pl.mftau.mftau.R
 
 class PdfActivity : AppCompatActivity() {
 

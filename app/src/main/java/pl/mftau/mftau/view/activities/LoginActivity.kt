@@ -1,4 +1,4 @@
-package pl.mftau.mftau
+package pl.mftau.mftau.view.activities
 
 import android.graphics.Color
 import android.os.Build
@@ -9,18 +9,36 @@ import kotlinx.android.synthetic.main.activity_login.*
 import java.util.regex.Pattern
 import android.text.style.UnderlineSpan
 import android.text.SpannableString
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NavUtils
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.dialog_reset_password.view.*
+import pl.mftau.mftau.R
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyEmail
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
 
 
 class LoginActivity : AppCompatActivity() {
 
     private var isSigningUp = false
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mFirestore: FirebaseFirestore
+
+    private val adminAddresses = arrayOf(
+            "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +52,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         mAuth = FirebaseAuth.getInstance()
+        mFirestore = FirebaseFirestore.getInstance()
+
         setOnClickListeners()
 
         var string = SpannableString(forgotPasswordTV.text)
@@ -54,38 +74,85 @@ class LoginActivity : AppCompatActivity() {
             loginBtn.text = getString(R.string.sign_up)
             forgotPasswordTV.animate().alpha(0f).duration = 300
             createAccountTV.animate().alpha(0f).duration = 300
-//            forgotPasswordTV.visibility = View.INVISIBLE
-//            createAccountTV.visibility = View.INVISIBLE
+            emailET.error = null
+            passwordET.error = null
         }
 
         loginBtn.setOnClickListener {
             val email = emailET.text.toString().trim()
             val password = passwordET.text.toString().trim()
 
-            if (!isEmailAndPasswordValid(email, password)) return@setOnClickListener
-
             if (isSigningUp) {
+                if (!isEmailAndPasswordValid(email, password)) return@setOnClickListener
+
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
                             if (task.isSuccessful) {
                                 mAuth.currentUser!!.sendEmailVerification()
+
+                                val user = HashMap<String, Any>()
+                                user[firestoreKeyEmail] = mAuth.currentUser!!.email!!
+                                when {
+                                    adminAddresses.contains(email) -> {
+                                        user[firestoreKeyIsAdmin] = true
+                                        user[firestoreKeyIsLeader] = false
+                                        user[firestoreKeyIsMember] = false
+                                    }
+                                    email.contains("@mftau.pl") -> {
+                                        user[firestoreKeyIsAdmin] = false
+                                        user[firestoreKeyIsLeader] = true
+                                        user[firestoreKeyIsMember] = false
+                                    }
+                                    else -> {
+                                        user[firestoreKeyIsAdmin] = false
+                                        user[firestoreKeyIsLeader] = false
+                                        user[firestoreKeyIsMember] = true
+                                    }
+                                }
+                                mFirestore.collection(firestoreCollectionUsers)
+                                        .document(mAuth.currentUser!!.uid)
+                                        .set(user)
+
+                                mAuth.signOut()
+                                isSigningUp = false
+                                loginBtn.text = getString(R.string.sign_in)
+                                forgotPasswordTV.animate().alpha(1f).duration = 300
+                                createAccountTV.animate().alpha(1f).duration = 300
+
                                 showSignupSuccessfulDialog()
                             } else {
-                                Snackbar.make(loginLayout, R.string.sign_up_error, Snackbar.LENGTH_SHORT).show()
+                                Log.d("SignUpFailed", task.exception!!.toString())
+                                if (task.exception is FirebaseAuthUserCollisionException) {
+                                    emailET.error = getString(R.string.sign_up_existing_user_error)
+                                    emailET.requestFocus()
+                                } else
+                                    Snackbar.make(loginLayout, R.string.sign_up_error, Snackbar.LENGTH_LONG).show()
                             }
                         }
             } else {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
                             if (task.isSuccessful) {
-                                if (!mAuth.currentUser!!.isEmailVerified) {
-                                    showVerifyEmailDialog()
-                                } else {
-                                    Toast.makeText(this@LoginActivity, R.string.signed_in, Toast.LENGTH_SHORT).show()
-                                    finish()
-                                }
+                                // TODO (Auth) -> Turn on verification
+//                                if (!mAuth.currentUser!!.isEmailVerified) {
+//                                    showVerifyEmailDialog()
+//                                } else {
+//                                    Toast.makeText(this@LoginActivity, R.string.signed_in, Toast.LENGTH_SHORT).show()
+//                                    finish()
+//                                }
                             } else {
-                                Snackbar.make(loginLayout, R.string.sign_in_error, Snackbar.LENGTH_SHORT).show()
+                                Log.d("SignInFailed", task.exception!!.toString())
+                                when {
+                                    task.exception is FirebaseAuthInvalidUserException -> {
+                                        emailET.error = getString(R.string.sign_in_no_user_error)
+                                        emailET.requestFocus()
+                                    }
+                                    task.exception is FirebaseAuthInvalidCredentialsException -> {
+                                        passwordET.error = getString(R.string.sign_in_wrong_password_error)
+                                        passwordET.requestFocus()
+                                    }
+                                    else -> Snackbar.make(loginLayout, R.string.sign_in_error, Snackbar.LENGTH_LONG).show()
+                                }
                             }
                         }
             }
@@ -122,13 +189,22 @@ class LoginActivity : AppCompatActivity() {
         return matcher.matches()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                NavUtils.navigateUpFromSameTask(this@LoginActivity)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun showSignupSuccessfulDialog() = AlertDialog.Builder(this)
             .setTitle(R.string.sign_up_successful_dialog_title)
             .setMessage(R.string.sign_up_successful_dialog_message)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog?.dismiss()
-                finish()
             }
             .create()
             .show()
@@ -139,13 +215,13 @@ class LoginActivity : AppCompatActivity() {
             .setCancelable(false)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                 dialog?.dismiss()
-                finish()
+                mAuth.signOut()
             }
             .setNeutralButton(getString(R.string.verify_email_send_again)) { dialog, _ ->
                 dialog.dismiss()
                 mAuth.currentUser!!.sendEmailVerification()
+                mAuth.signOut()
                 Toast.makeText(this@LoginActivity, getString(R.string.message_sent), Toast.LENGTH_SHORT).show()
-                finish()
             }
             .create()
             .show()
@@ -173,7 +249,7 @@ class LoginActivity : AppCompatActivity() {
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     dialog.dismiss()
-                                    Snackbar.make(loginLayout, R.string.message_sent, Snackbar.LENGTH_SHORT).show()
+                                    Snackbar.make(loginLayout, R.string.message_sent, Snackbar.LENGTH_LONG).show()
                                 } else {
                                     view.resetPasswordET.error = getString(R.string.reset_password_error)
                                 }
