@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.app.NavUtils
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -42,12 +43,20 @@ class MembersActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
-
         mAdapter = MembersRecyclerAdapter()
 
         membersRecyclerView.layoutManager = LinearLayoutManager(this@MembersActivity)
         membersRecyclerView.itemAnimator = DefaultItemAnimator()
         membersRecyclerView.adapter = mAdapter
+        membersRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy < 0 && !addMemberBtn.isShown)
+                    addMemberBtn.show()
+                else if (dy > 0 && addMemberBtn.isShown)
+                    addMemberBtn.hide()
+            }
+        })
 
         val city = mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@"))
         mMembersQuery = mFirestore.collection(firestoreCollectionCities)
@@ -66,13 +75,15 @@ class MembersActivity : AppCompatActivity() {
             }
             mAdapter.setMemberList(memberList)
 
-            loadingIndicator.visibility = View.INVISIBLE
+            loadingIndicator.animate().alpha(0f).duration = 100
             if (querySnapshot.isEmpty) {
                 emptyView.visibility = View.VISIBLE
             } else {
                 emptyView.visibility = View.INVISIBLE
             }
         }
+
+        // TODO () -> Emausy
 
         addMemberBtn.setOnClickListener { startActivity(Intent(this@MembersActivity, MemberEditorActivity::class.java)) }
     }

@@ -140,8 +140,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         prayerBook.setOnClickListener {
-            // TODO (Modlitewnik) -> Dodać modlitewnik
-            Toast.makeText(this@MainActivity, "Jeszcze nie wiem co tu będzie, oczekuj aktualizacji XD", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@MainActivity, PrayerActivity::class.java))
         }
 
         website.setOnClickListener {

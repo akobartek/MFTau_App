@@ -24,7 +24,7 @@
         android:id="@+id/songBook"
         style="@style/MainMenuButtons"
         android:layout_marginEnd="24dp"
-        android:drawableTop="@drawable/ic_notes"
+        android:drawableTop="@drawable/ic_songbook"
         android:text="@string/song_book"
         app:layout_constraintEnd_toStartOf="@+id/prayerBook"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
@@ -33,7 +33,7 @@
         android:id="@+id/prayerBook"
         style="@style/MainMenuButtons"
         android:drawableTop="@drawable/ic_pray"
-        android:text="@string/prayer_book"
+        android:text="@string/prayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
@@ -77,7 +77,7 @@
         style="@style/MainMenuButtons"
         android:alpha="0"
         android:drawableTop="@drawable/ic_people"
-        android:text="@string/people"
+        android:text="@string/members"
         app:layout_constraintEnd_toEndOf="@+id/breviary"
         app:layout_constraintStart_toStartOf="@+id/breviary"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />

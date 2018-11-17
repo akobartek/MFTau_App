@@ -2,10 +2,9 @@
     <string name="app_name" translatable="false">MF Tau</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statute</string>
-    <string name="prayer_book">Prayers</string>
+    <string name="prayer">Prayer</string>
     <string name="song_book">Song book</string>
     <string name="breviary">Breviary</string>
-    <string name="people">People</string>
     <string name="members">Members</string>
     <string name="meetings">Meetings</string>
     <string name="community_logo">MF Tau community logo</string>
@@ -59,14 +58,31 @@
     <string name="night_prayer">Night Prayer</string>
 
     <!-- MEETINGS STRINGS -->
+    <string name="empty_meeting_list">There are no meetings saved!</string>
     <string name="meeting_name">Name</string>
     <string name="formation">Formation</string>
     <string name="prayerful">Prayer</string>
     <string name="other">Other</string>
+    <string name="check_list_description">Check presence of members on the meeting.</string>
     <string name="add_meeting">Add meeting</string>
     <string name="edit_meeting">Edit meeting</string>
+    <string name="delete_meeting">Delete meeting</string>
+    <string name="empty_meeting_name_error">Name cannot be empty!</string>
+    <string name="empty_meeting_date_error">You must to set date of meeting!</string>
+    <string name="meeting_saved">Meeting saved successfully!</string>
+    <string name="meeting_add_error">Error with saving meeting!</string>
+    <string name="meeting_updated">Meeting updated!</string>
+    <string name="meeting_update_error">Error with updating meeting!</string>
+    <string name="check_presence_dialog_msg">Do you want to check members\' presence on this meeting now?</string>
+    <string name="check_presence">Check presence</string>
+    <string name="show_presence">Show presence</string>
+    <string name="delete_meetings_dialog_msg">Do you want to delete ALL meetings?</string>
+    <string name="delete_meetings">Delete all meetings</string>
+    <string name="delete_meetings_successfully">All meetings deleted</string>
     <string name="meeting_type_prompt">Choose meeting type</string>
     <string name="set_date">Set date</string>
+    <string name="meeting_delete_dialog_msg">Do you want to delete this meeting?</string>
+    <string name="meeting_delete_successfully">Meeting deleted!</string>
 
     <!-- MEMBERS STRINGS -->
     <string name="empty_member_list">There are no members saved!</string>
@@ -84,7 +100,7 @@
     <string name="empty_city_error">City cannot be empty!</string>
     <string name="member_with_photo_saved">Member and photo saved successfully!</string>
     <string name="member_added">Member saved successfully!</string>
-    <string name="member_add_error">Error with adding member!</string>
+    <string name="member_add_error">Error with saving member!</string>
     <string name="member_update_error">Error with updating member!</string>
     <string name="member_photo_error">Error with saving photo!</string>
     <string name="uploading">Uploading…</string>

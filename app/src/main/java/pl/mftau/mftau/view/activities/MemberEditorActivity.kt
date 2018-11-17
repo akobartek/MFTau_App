@@ -20,7 +20,6 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsResponsible
 import android.content.Intent
 import android.net.Uri
 import android.app.Activity
-import android.util.Log
 import android.view.Menu
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -35,15 +34,14 @@ class MemberEditorActivity : AppCompatActivity() {
     private lateinit var mFirestore: FirebaseFirestore
     private lateinit var mStorageRef: StorageReference
 
-    private var mFilePath: Uri? = null
     private var mMember: Member? = null
+    private var mFilePath: Uri? = null
     private var mPersonHasChanged = false
 
     private val mTouchListener = View.OnTouchListener { _, _ ->
         mPersonHasChanged = true
         false
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -14,18 +14,18 @@ import pl.mftau.mftau.view.activities.MemberEditorActivity
 
 class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.MembersViewHolder>() {
 
-    private var memberList = listOf<Member>()
+    private var mMembersList = listOf<Member>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder =
             MembersViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_member, parent, false))
 
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) =
-            holder.bindView(memberList[position])
+            holder.bindView(mMembersList[position])
 
-    override fun getItemCount(): Int = memberList.size
+    override fun getItemCount(): Int = mMembersList.size
 
     fun setMemberList(list: List<Member>) {
-        memberList = list
+        mMembersList = list
         notifyDataSetChanged()
     }
 

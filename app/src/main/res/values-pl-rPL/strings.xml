@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="statute">Statut</string>
-    <string name="prayer_book">Modlitwy</string>
+    <string name="prayer">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
-    <string name="song_book">Spiewnik</string>
-    <string name="people">Ludzie</string>
+    <string name="song_book">Śpiewnik</string>
     <string name="members">Członkowie</string>
     <string name="meetings">Spotkania</string>
     <string name="community_logo">Logo wspólnoty MF Tau</string>
@@ -55,17 +54,34 @@
     <string name="night_prayer">Kompleta</string>
 
     <!-- MEETINGS STRINGS -->
+    <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
     <string name="meeting_name">Nazwa</string>
     <string name="formation">Formacyjne</string>
     <string name="prayerful">Modlitewne</string>
     <string name="other">Inne</string>
+    <string name="check_list_description">Sprawdź obecność członków na spotkaniu.</string>
     <string name="add_meeting">Dodawanie spotkania</string>
     <string name="edit_meeting">Edytowanie spotkania</string>
+    <string name="delete_meeting">Usuń spotkanie</string>
+    <string name="empty_meeting_name_error">Uzupełnij nazwę spotkania!</string>
+    <string name="empty_meeting_date_error">Wybierz datę spotkania!</string>
+    <string name="meeting_saved">Zapisano spotkanie!</string>
+    <string name="meeting_add_error">Błąd w trakcie zapisywania spotkania!</string>
+    <string name="meeting_updated">Zaktualizowano spotkanie!</string>
+    <string name="meeting_update_error">Błąd w trakcie aktualizacji spotkania!</string>
+    <string name="check_presence_dialog_msg">Chcesz teraz sprawdzić obecność na spotkaniu?</string>
+    <string name="check_presence">Sprawdź obecność</string>
+    <string name="show_presence">Pokaż obecności</string>
+    <string name="delete_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
+    <string name="delete_meetings">Usuń wszystkie spotkania</string>
+    <string name="delete_meetings_successfully">Usunięto wszystkie spotkania!</string>
     <string name="meeting_type_prompt">Wybierz typ spotkania</string>
     <string name="set_date">Ustaw datę</string>
+    <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
+    <string name="meeting_delete_successfully">Spotkanie usunięte!</string>
 
     <!-- MEMBERS STRINGS -->
-    <string name="empty_member_list">Nie ma żadnych dodanych członków!</string>
+    <string name="empty_member_list">Nie ma żadnych dodanych osób!</string>
     <string name="member_name">Imię i nazwisko</string>
     <string name="is_responsible">Odpowiedzialny?</string>
     <string name="yes">Tak</string>
@@ -80,7 +96,7 @@
     <string name="empty_city_error">Uzupełnij miasto!</string>
     <string name="member_with_photo_saved">Zapisano osobę oraz zdjęcie!</string>
     <string name="member_added">Zapisano osobę!</string>
-    <string name="member_add_error">Błąd w trakcie dodawania osoby!</string>
+    <string name="member_add_error">Błąd w trakcie zapisywania osoby!</string>
     <string name="member_update_error">Błąd w trakcie aktualizacji danych!</string>
     <string name="member_photo_error">Błąd w trakcie zapisywania zdjęcia!</string>
     <string name="uploading">Zapisywanie…</string>

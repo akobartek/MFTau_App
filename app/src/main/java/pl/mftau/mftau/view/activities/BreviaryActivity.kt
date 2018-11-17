@@ -21,9 +21,6 @@ import java.io.IOException
 class BreviaryActivity : AppCompatActivity() {
 
     companion object {
-        private var isTextShowed = false
-        private const val animationDuration = 1000L
-
         private const val breviaryUrl = "http://skrzynkaintencji.pl/brewiarz/"
         private val beginningValues = arrayOf(
                 "<h2><a name=\"wezwanie\">Wezwanie</a></h2>",
@@ -37,6 +34,9 @@ class BreviaryActivity : AppCompatActivity() {
         )
         private const val end = "<p></body></html></div>"
     }
+
+    private var isTextShowed = false
+    private val animationDuration = 1000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,7 @@ class BreviaryActivity : AppCompatActivity() {
             isTextShowed = false
             title = getString(R.string.breviary)
             breviaryText.animate()
-                    .alpha(-1f)
+                    .alpha(0f)
                     .withEndAction { breviaryText.visibility = View.INVISIBLE }
                     .duration = animationDuration * 3 / 5
         }

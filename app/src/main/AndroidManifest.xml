@@ -22,6 +22,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity android:name=".view.activities.WebsiteActivity" />
         <activity android:name=".view.activities.PdfActivity" />
@@ -55,14 +59,28 @@
         </activity>
         <activity
             android:name=".view.activities.MeetingEditorActivity"
-            android:label="@string/add_meeting">
+            android:label="@string/add_meeting"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MeetingsActivity" />
         </activity>
         <activity
             android:name=".view.activities.MemberEditorActivity"
-            android:label="@string/add_member">
+            android:label="@string/add_member"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MembersActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.PrayerActivity"
+            android:label="@string/prayer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MembersActivity" />
+        </activity>
+        <activity android:name=".view.activities.ChartActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MembersActivity" />
