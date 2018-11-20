@@ -72,6 +72,7 @@
     <string name="check_presence_dialog_msg">Chcesz teraz sprawdzić obecność na spotkaniu?</string>
     <string name="check_presence">Sprawdź obecność</string>
     <string name="show_presence">Pokaż obecności</string>
+    <string name="presence">Obecności</string>
     <string name="delete_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
     <string name="delete_meetings">Usuń wszystkie spotkania</string>
     <string name="delete_meetings_successfully">Usunięto wszystkie spotkania!</string>
@@ -107,5 +108,17 @@
     <string name="delete">Usuń</string>
     <string name="member_delete_successfully">Usunięto osobę!</string>
     <string name="delete_error">Wystąpił błąd podczas usuwania!</string>
+    <string name="emauses">Emausy</string>
+    <string name="not_drawn">nie został‚ wylosowany, dodaj tę osobę do ostatniej pary.</string>
+    <string name="no_people_msg">Musisz najpierw dodać członków do bazy!</string>
+    <string name="empty_draw_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
+    <string name="full_draws_msg">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>
+    <string name="reload_members">Odśwież członków</string>
+    <string name="reset_draws">Wyczyść losowania</string>
+    <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
+    <string name="delete_last_draw">Usuń ostatnie losowanie</string>
+    <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
+    <string name="copy_draws">Skopiuj losowania</string>
+    <string name="copied_draws">Skopiowano do schowka!</string>
 
 </resources>

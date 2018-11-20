@@ -10,13 +10,12 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyEmail
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
+import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,11 +25,7 @@ class MainActivity : AppCompatActivity() {
         const val statuteExtraString = "statute"
     }
 
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var mFirestore: FirebaseFirestore
-
-    private var isLeaderSignedIn = false
-    private var isNormalUserSignedIn = false
+    private lateinit var mMainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -42,8 +37,7 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
-        mAuth = FirebaseAuth.getInstance()
-        mFirestore = FirebaseFirestore.getInstance()
+        mMainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
 
         setOnClickListeners()
     }
@@ -51,34 +45,75 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // TODO (Auth) -> Turn on verification
-        if (mAuth.currentUser != null /*&& mAuth.currentUser!!.isEmailVerified*/) {
-            mFirestore.collection(firestoreCollectionUsers)
-                    .document(mAuth.currentUser!!.uid)
+        if (FirebaseAuth.getInstance().currentUser != null /*&& mAuth.currentUser!!.isEmailVerified*/) {
+            FirebaseFirestore.getInstance().collection(FirestoreUtils.firestoreCollectionUsers)
+                    .document(FirebaseAuth.getInstance().currentUser!!.uid)
                     .get()
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful)
-                            if (task.result!!.get(firestoreKeyIsLeader) as Boolean)
-                                showLeaderUI(true)
+                        if (task.isSuccessful) {
+                            when {
+                                (task.result!!.get(FirestoreUtils.firestoreKeyIsAdmin) as Boolean) -> {
+                                    showUIChanges(MainViewModel.USER_TYPE_ADMIN)
+                                }
+                                (task.result!!.get(FirestoreUtils.firestoreKeyIsLeader) as Boolean) -> {
+                                    showUIChanges(MainViewModel.USER_TYPE_LEADER)
+                                }
+                                (task.result!!.get(FirestoreUtils.firestoreKeyIsMember) as Boolean) -> {
+                                    showUIChanges(MainViewModel.USER_TYPE_MEMBER)
+                                }
+                                else -> showUIChanges(MainViewModel.USER_TYPE_NONE)
+                            }
+                        }
                     }
+        } else {
+            showUIChanges(MainViewModel.USER_TYPE_NONE)
         }
+    }
+
+    private fun showUIChanges(userType: Int) {
+        when (userType) {
+            MainViewModel.USER_TYPE_ADMIN -> {
+                showAdminUI(true)
+                showLeaderUI(false)
+                showNormalUserUI(false)
+            }
+            MainViewModel.USER_TYPE_LEADER -> {
+                showAdminUI(false)
+                showLeaderUI(true)
+                showNormalUserUI(false)
+            }
+            MainViewModel.USER_TYPE_MEMBER -> {
+                showAdminUI(false)
+                showLeaderUI(false)
+                showNormalUserUI(true)
+            }
+            MainViewModel.USER_TYPE_NONE -> {
+                showAdminUI(false)
+                showLeaderUI(false)
+                showNormalUserUI(false)
+            }
+        }
+    }
+
+    private fun showAdminUI(isLogged: Boolean) {
+
     }
 
     private fun showLeaderUI(isLogged: Boolean) {
         members.isClickable = isLogged
         meetings.isClickable = isLogged
-        isLeaderSignedIn = isLogged
 
-        if (isLogged) {
-            members.animate().alpha(1f).duration = 400
-            meetings.animate().alpha(1f).duration = 400
-        } else {
-            members.animate().alpha(0f).duration = 400
-            meetings.animate().alpha(0f).duration = 400
+        if (isLogged && members.alpha == 0f) {
+            members.animate().alpha(1f).duration = 333
+            meetings.animate().alpha(1f).duration = 333
+        } else if (!isLogged && members.alpha == 1f) {
+            members.animate().alpha(0f).duration = 333
+            meetings.animate().alpha(0f).duration = 333
         }
     }
 
     private fun showNormalUserUI(isLogged: Boolean) {
-        isNormalUserSignedIn = isLogged
+
     }
 
     private fun setOnClickListeners() {
@@ -99,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         menuBtn.setOnClickListener {
             val popupMenu = PopupMenu(this@MainActivity, menuBtn)
 
-            if (mAuth.currentUser != null)
+            if (FirebaseAuth.getInstance().currentUser != null)
                 popupMenu.menuInflater.inflate(R.menu.menu_main_out, popupMenu.menu)
             else
                 popupMenu.menuInflater.inflate(R.menu.menu_main_in, popupMenu.menu)
@@ -111,13 +146,8 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.action_sign_out -> {
-                        mAuth.signOut()
-
-                        if (isLeaderSignedIn)
-                            showLeaderUI(false)
-                        else if (isNormalUserSignedIn)
-                            showNormalUserUI(false)
-
+                        FirebaseAuth.getInstance().signOut()
+                        showUIChanges(MainViewModel.USER_TYPE_NONE)
                         true
                     }
                     R.id.action_settings -> {

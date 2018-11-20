@@ -1,4 +1,4 @@
-package pl.mftau.mftau.ui
+package pl.mftau.mftau.view.ui
 
 import android.content.Context
 import android.os.Build

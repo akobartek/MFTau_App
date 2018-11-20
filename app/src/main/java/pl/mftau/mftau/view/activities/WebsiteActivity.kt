@@ -31,12 +31,12 @@ class WebsiteActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 if (url == urlAddress)
-                    loadingIndicator.visibility = View.VISIBLE
+                    loadingIndicator.show()
                 super.onPageStarted(view, url, favicon)
             }
 
             override fun onPageCommitVisible(view: WebView?, url: String?) {
-                loadingIndicator.visibility = View.GONE
+                loadingIndicator.hide()
                 super.onPageCommitVisible(view, url)
             }
         }

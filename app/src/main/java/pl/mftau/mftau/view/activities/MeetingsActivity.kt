@@ -5,24 +5,21 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_meetings.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.view.adapters.MeetingPagerAdapter
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 
 class MeetingsActivity : AppCompatActivity() {
 
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var mFirestore: FirebaseFirestore
+    private lateinit var mMeetingsViewModel: MeetingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +32,7 @@ class MeetingsActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
-        mAuth = FirebaseAuth.getInstance()
-        mFirestore = FirebaseFirestore.getInstance()
+        mMeetingsViewModel = ViewModelProviders.of(this@MeetingsActivity).get(MeetingsViewModel::class.java)
 
         initViewPager()
 
@@ -85,29 +81,7 @@ class MeetingsActivity : AppCompatActivity() {
                     .show()
 
     private fun clearMeetings() {
-        for (meetingType in FirestoreUtils.meetingTypes) {
-            mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                    .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                    .document(meetingType)
-                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                        if (firebaseFirestoreException != null) {
-                            Log.e("MeetingsActivity", firebaseFirestoreException.toString())
-                            return@addSnapshotListener
-                        }
-
-                        querySnapshot!!.forEach {
-                            mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                                    .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                                    .document(meetingType)
-                                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                                    .document(it.id)
-                                    .delete()
-                        }
-                    }
-        }
+        mMeetingsViewModel.clearMeetings()
         Snackbar.make(meetingsLayout, getString(R.string.delete_meetings_successfully), Snackbar.LENGTH_SHORT).show()
     }
 }

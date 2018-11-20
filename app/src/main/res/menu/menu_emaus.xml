@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/action_copy_draws"
+        android:title="@string/copy_draws" />
+
+    <item android:id="@+id/action_reload_members"
+        android:title="@string/reload_members" />
+
+    <item android:id="@+id/action_delete_last_draw"
+        android:title="@string/delete_last_draw" />
+
+    <item android:id="@+id/action_reset_draws"
+        android:title="@string/reset_draws" />
+</menu>

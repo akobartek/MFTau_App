@@ -1,0 +1,21 @@
+package pl.mftau.mftau.db.entities
+
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import pl.mftau.mftau.db.converters.ListConverters
+import java.util.*
+
+@Entity(tableName = "draws_table")
+data class DrawEntity(@PrimaryKey(autoGenerate = true) var id: Long? = null,
+                      @ColumnInfo(name = "number_of_draw") @NonNull var numberOfDraw: Int,
+                      @ColumnInfo(name = "draw_date") @NonNull var drawDate: Date,
+                      @TypeConverters(ListConverters::class)
+                      @ColumnInfo(name = "draws") @NonNull var draws: List<String>)
+
+//@Entity(tableName = "single_draw_table")
+//data class Draw(@PrimaryKey(autoGenerate = true) var id: Long?,
+//                @ColumnInfo(name = "first_id") @NonNull var firstId: String,
+//                @ColumnInfo(name = "second_id") @NonNull var secondId: String)

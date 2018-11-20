@@ -8,7 +8,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_presence_check.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.utils.GlideApp
+import pl.mftau.mftau.model.utils.GlideApp
 
 class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecyclerAdapter.AttendanceListViewHolder>() {
 
@@ -23,9 +23,9 @@ class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecycle
 
     override fun getItemCount(): Int = mMembersList.size
 
-    fun setLists(memberList: List<Member>, attandanceList: ArrayList<String>) {
+    fun setLists(memberList: List<Member>, attendanceList: ArrayList<String>) {
         mMembersList = memberList
-        mAttendanceList = attandanceList
+        mAttendanceList = attendanceList
         notifyDataSetChanged()
     }
 
@@ -34,7 +34,7 @@ class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecycle
         fun bindView(member: Member) {
             itemView.tag = member.id
             itemView.memberName.text = member.name
-            // TODO () -> set correct checkbox value
+            itemView.isPresentCheckBox.setOnCheckedChangeListener(null)
             itemView.isPresentCheckBox.isChecked = mAttendanceList.contains(member.id)
 
             val storageReference = FirebaseStorage.getInstance()
@@ -59,8 +59,16 @@ class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecycle
             }
 
             itemView.setOnClickListener {
-                itemView.isPresentCheckBox.isChecked = true
-                mAttendanceList.add(member.id)
+                itemView.isPresentCheckBox.isChecked = !itemView.isPresentCheckBox.isChecked
+                if (itemView.isPresentCheckBox.isChecked) {
+                    if (!mAttendanceList.contains(member.id)) {
+                        mAttendanceList.add(member.id)
+                    }
+                } else {
+                    if (mAttendanceList.contains(member.id)) {
+                        mAttendanceList.remove(member.id)
+                    }
+                }
             }
         }
     }

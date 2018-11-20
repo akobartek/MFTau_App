@@ -18,8 +18,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_meeting" />
 
-    <ProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/loadingIndicator"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="42dp"
         android:layout_height="42dp"
         app:layout_constraintBottom_toBottomOf="parent"

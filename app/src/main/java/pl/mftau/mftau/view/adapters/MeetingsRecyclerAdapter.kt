@@ -1,27 +1,31 @@
 package pl.mftau.mftau.view.adapters
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_meeting.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.ItemMeetingBinding
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.view.activities.MeetingEditorActivity
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MeetingsRecyclerAdapter : RecyclerView.Adapter<MeetingsRecyclerAdapter.MeetingsViewHolder>() {
 
     private var mMeetingList = listOf<Meeting>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetingsViewHolder =
-            MeetingsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_meeting, parent, false))
+            MeetingsViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_meeting, parent, false))
 
-    override fun onBindViewHolder(holder: MeetingsViewHolder, position: Int) =
-            holder.bindView(mMeetingList[position])
+    override fun onBindViewHolder(holder: MeetingsViewHolder, position: Int) {
+        holder.binding.meeting = mMeetingList[position]
+        holder.binding.attendanceListBtn.setOnClickListener {
+            holder.startEditorActivity(mMeetingList[position], true)
+        }
+        holder.binding.root.setOnClickListener {
+            holder.startEditorActivity(mMeetingList[position], false)
+        }
+    }
 
     override fun getItemCount(): Int = mMeetingList.size
 
@@ -30,30 +34,14 @@ class MeetingsRecyclerAdapter : RecyclerView.Adapter<MeetingsRecyclerAdapter.Mee
         notifyDataSetChanged()
     }
 
+    inner class MeetingsViewHolder(val binding: ItemMeetingBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    inner class MeetingsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bindView(meeting: Meeting) {
-            itemView.tag = meeting.id
-            itemView.meetingName.text = meeting.name
-            itemView.meetingDate.text = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                    .format(meeting.date.toDate())
-
-            itemView.attendanceListBtn.setOnClickListener {
-                val intent = Intent(itemView.context, MeetingEditorActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.putExtra("meeting", meeting)
-                        .putExtra("checking", true)
-                itemView.context.startActivity(intent)
-            }
-
-            itemView.setOnClickListener {
-                val intent = Intent(itemView.context, MeetingEditorActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                intent.putExtra("meeting", meeting)
-                        .putExtra("checking", false)
-                itemView.context.startActivity(intent)
-            }
+        fun startEditorActivity(meeting: Meeting, isChecking: Boolean) {
+            val intent = Intent(binding.root.context, MeetingEditorActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.putExtra("meeting", meeting)
+                    .putExtra("checking", isChecking)
+            itemView.context.startActivity(intent)
         }
     }
 }

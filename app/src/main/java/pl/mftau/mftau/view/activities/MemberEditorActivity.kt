@@ -8,36 +8,27 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_add_member.*
+import kotlinx.android.synthetic.main.activity_member_editor.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.GlideApp
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionCities
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionMembers
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyCity
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsResponsible
+import pl.mftau.mftau.model.utils.GlideApp
+import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyName
+import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyCity
+import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyIsResponsible
 import android.content.Intent
-import android.net.Uri
 import android.app.Activity
 import android.view.Menu
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.databinding.ActivityMemberEditorBinding
+import pl.mftau.mftau.viewmodel.MemberEditorViewModel
 
 
 class MemberEditorActivity : AppCompatActivity() {
 
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var mFirestore: FirebaseFirestore
-    private lateinit var mStorageRef: StorageReference
+    private lateinit var mMemberEditorViewModel: MemberEditorViewModel
 
-    private var mMember: Member? = null
-    private var mFilePath: Uri? = null
     private var mPersonHasChanged = false
-
     private val mTouchListener = View.OnTouchListener { _, _ ->
         mPersonHasChanged = true
         false
@@ -45,7 +36,9 @@ class MemberEditorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_member)
+//        setContentView(R.layout.activity_member_editor)
+        val binding = DataBindingUtil.setContentView<ActivityMemberEditorBinding>(
+                this@MemberEditorActivity, R.layout.activity_member_editor)
         setSupportActionBar(addMemberToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
@@ -54,27 +47,15 @@ class MemberEditorActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
-        mAuth = FirebaseAuth.getInstance()
-        mFirestore = FirebaseFirestore.getInstance()
-        mStorageRef = FirebaseStorage.getInstance().reference
+        mMemberEditorViewModel = ViewModelProviders.of(this@MemberEditorActivity).get(MemberEditorViewModel::class.java)
+        binding.viewModel = mMemberEditorViewModel
 
-        mMember = intent.getParcelableExtra("member")
-        if (mMember == null) {
+        mMemberEditorViewModel.member = intent.getParcelableExtra("member")
+        title = if (mMemberEditorViewModel.member == null) {
             invalidateOptionsMenu()
-            title = getString(R.string.add_member)
-            GlideApp.with(this@MemberEditorActivity)
-                    .load(R.drawable.ic_photo)
-                    .into(addMemberPhoto)
+            getString(R.string.add_member)
         } else {
-            title = getString(R.string.edit_member)
-            GlideApp.with(this@MemberEditorActivity)
-                    .load(mStorageRef.child("$firestoreCollectionMembers/${mMember!!.id}.jpg"))
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_user)
-                    .into(addMemberPhoto)
-            memberNameET.setText(mMember!!.name)
-            cityET.setText(mMember!!.city)
-            responsibleSwitch.isSelected = mMember!!.isResponsible
+            getString(R.string.edit_member)
         }
 
         setOnClickListeners()
@@ -99,79 +80,18 @@ class MemberEditorActivity : AppCompatActivity() {
             memberValues[firestoreKeyCity] = cityET.text.toString().trim()
             memberValues[firestoreKeyIsResponsible] = responsibleSwitch.isChecked
 
-            if (mMember == null) {
-                mFirestore.collection(firestoreCollectionCities)
-                        .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                        .collection(firestoreCollectionMembers)
-                        .add(memberValues)
-                        .addOnSuccessListener { documentReference ->
-                            if (mFilePath != null) {
-                                val dialog = AlertDialog.Builder(this@MemberEditorActivity)
-                                        .setView(R.layout.dialog_loading)
-                                        .create()
-
-                                dialog.show()
-                                putPhoto(documentReference.id, dialog)
-                            } else {
-                                Toast.makeText(this@MemberEditorActivity,
-                                        getString(R.string.member_added), Toast.LENGTH_SHORT).show()
-                                finish()
-                            }
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this@MemberEditorActivity,
-                                    getString(R.string.member_add_error), Toast.LENGTH_SHORT).show()
-                        }
+            if (mMemberEditorViewModel.member == null) {
+                mMemberEditorViewModel.addMember(this@MemberEditorActivity, memberValues)
             } else {
-                mPersonHasChanged = (memberNameET.text.toString().trim() != mMember!!.name
-                        || cityET.text.toString().trim() != mMember!!.city
-                        || responsibleSwitch.isChecked != mMember!!.isResponsible)
-
+                mPersonHasChanged = (memberNameET.text.toString().trim() != mMemberEditorViewModel.member!!.name
+                        || cityET.text.toString().trim() != mMemberEditorViewModel.member!!.city
+                        || responsibleSwitch.isChecked != mMemberEditorViewModel.member!!.isResponsible)
                 when {
-                    mPersonHasChanged -> mFirestore.collection(firestoreCollectionCities)
-                            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                            .collection(firestoreCollectionMembers)
-                            .document(mMember!!.id)
-                            .set(memberValues)
-                            .addOnSuccessListener {
-                                if (mFilePath != null) {
-                                    val dialog = AlertDialog.Builder(this@MemberEditorActivity)
-                                            .setView(R.layout.dialog_loading)
-                                            .create()
-                                    dialog.show()
-
-                                    mStorageRef.child("$firestoreCollectionMembers/${mMember!!.id}.jpg")
-                                            .delete()
-                                            .addOnSuccessListener {
-                                                putPhoto(mMember!!.id, dialog)
-                                            }
-                                            .addOnFailureListener {
-                                                putPhoto(mMember!!.id, dialog)
-                                            }
-                                } else {
-                                    Toast.makeText(this@MemberEditorActivity,
-                                            getString(R.string.member_added), Toast.LENGTH_SHORT).show()
-                                    finish()
-                                }
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(this@MemberEditorActivity,
-                                        getString(R.string.member_update_error), Toast.LENGTH_SHORT).show()
-                            }
-                    mFilePath != null -> {
-                        val dialog = AlertDialog.Builder(this@MemberEditorActivity)
-                                .setView(R.layout.dialog_loading)
-                                .create()
-                        dialog.show()
-
-                        mStorageRef.child("$firestoreCollectionMembers/${mMember!!.id}.jpg")
-                                .delete()
-                                .addOnSuccessListener {
-                                    putPhoto(mMember!!.id, dialog)
-                                }
-                                .addOnFailureListener {
-                                    putPhoto(mMember!!.id, dialog)
-                                }
+                    mPersonHasChanged -> {
+                        mMemberEditorViewModel.updateMember(this@MemberEditorActivity, memberValues)
+                    }
+                    mMemberEditorViewModel.filePath != null -> {
+                        mMemberEditorViewModel.updatePhoto(this@MemberEditorActivity)
                     }
                     else -> finish()
                 }
@@ -179,41 +99,26 @@ class MemberEditorActivity : AppCompatActivity() {
         }
 
         addMemberPhoto.setOnClickListener {
+            if (FirebaseAuth.getInstance().currentUser!!.email!! == "example@mftau.pl")
+                return@setOnClickListener
+
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), 777)
         }
-
         memberNameET.setOnTouchListener(mTouchListener)
         cityET.setOnTouchListener(mTouchListener)
         responsibleSwitch.setOnTouchListener(mTouchListener)
     }
 
-    private fun putPhoto(id: String, dialog: AlertDialog) {
-        mStorageRef.child("$firestoreCollectionMembers/$id.jpg")
-                .putFile(mFilePath!!)
-                .addOnSuccessListener {
-                    dialog.dismiss()
-                    Toast.makeText(this@MemberEditorActivity,
-                            getString(R.string.member_with_photo_saved), Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-                .addOnFailureListener {
-                    dialog.dismiss()
-                    Toast.makeText(this@MemberEditorActivity,
-                            getString(R.string.member_photo_error), Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 777 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            mFilePath = data.data
+            mMemberEditorViewModel.filePath = contentResolver.openInputStream(data.data!!)
             try {
                 GlideApp.with(this@MemberEditorActivity)
-                        .load(mFilePath)
+                        .load(data.data)
                         .transform(CircleCrop())
                         .into(addMemberPhoto)
             } catch (exc: Exception) {
@@ -223,7 +128,7 @@ class MemberEditorActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (mFilePath != null || mPersonHasChanged)
+        if (mMemberEditorViewModel.filePath != null || mPersonHasChanged)
             showUnsavedChangesDialog()
         else
             super.onBackPressed()
@@ -235,7 +140,7 @@ class MemberEditorActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (mMember == null)
+        if (mMemberEditorViewModel.member == null)
             menu.findItem(R.id.action_delete_member).isVisible = false
         return super.onPrepareOptionsMenu(menu)
     }
@@ -266,35 +171,15 @@ class MemberEditorActivity : AppCompatActivity() {
                     .create()
                     .show()
 
-
     private fun showDeleteConfirmationDialog() =
             AlertDialog.Builder(this@MemberEditorActivity)
                     .setMessage(R.string.member_delete_dialog_msg)
-                    .setPositiveButton(R.string.delete) { _, _ -> deletePerson() }
+                    .setPositiveButton(R.string.delete) { dialog, _ ->
+                        dialog.dismiss()
+                        mMemberEditorViewModel.deleteMember(this@MemberEditorActivity)
+                        finish()
+                    }
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
                     .create()
                     .show()
-
-    private fun deletePerson() {
-        if (mMember != null) {
-            mFirestore.collection(firestoreCollectionCities)
-                    .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                    .collection(firestoreCollectionMembers)
-                    .document(mMember!!.id)
-                    .delete()
-                    .addOnSuccessListener {
-                        mStorageRef.child("$firestoreCollectionMembers/${mMember!!.id}.jpg")
-                                .delete()
-                                .addOnSuccessListener {
-                                    Toast.makeText(this@MemberEditorActivity, getString(R.string.member_delete_successfully),
-                                            Toast.LENGTH_SHORT).show()
-                                }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this@MemberEditorActivity, getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
-                    }
-        }
-        finish()
-    }
-
 }

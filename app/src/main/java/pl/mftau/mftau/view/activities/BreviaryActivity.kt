@@ -7,36 +7,20 @@ import androidx.core.app.NavUtils
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_breviary.*
-import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import pl.mftau.mftau.R
-import java.io.InputStreamReader
-import java.net.URL
-import java.io.BufferedReader
-import java.io.IOException
+import pl.mftau.mftau.viewmodel.BreviaryViewModel
 
 
 class BreviaryActivity : AppCompatActivity() {
 
-    companion object {
-        private const val breviaryUrl = "http://skrzynkaintencji.pl/brewiarz/"
-        private val beginningValues = arrayOf(
-                "<h2><a name=\"wezwanie\">Wezwanie</a></h2>",
-                "<h2><a name=\"godzina_czytan\">Godzina Czytań</a></h2>",
-                "<h2><a name=\"jutrznia\">Jutrznia</h2>",
-                "<h2><a name=\"przedpoludniowa\">Modlitwa przedpołudniowa</a></h2>",
-                "<h2><a name=\"poludniowa\">Modlitwa południowa</a></h2>",
-                "<h2><a name=\"popoludniowa\">Modlitwa popołudniowa</a></h2>",
-                "<h2><a name=\"nieszpory\">Nieszpory</a></h2>",
-                "<h2><a name=\"kompleta\">Kompleta</a></h2>"
-        )
-        private const val end = "<p></body></html></div>"
-    }
+    private lateinit var mBreviaryViewModel: BreviaryViewModel
 
-    private var isTextShowed = false
-    private val animationDuration = 1000L
+    private val animationDuration = 444L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,32 +33,42 @@ class BreviaryActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
-        val breviaryHtml = DownloadTask().execute(breviaryUrl).get().replace("e88b40", "4e342e")
+        mBreviaryViewModel = ViewModelProviders.of(this@BreviaryActivity).get(BreviaryViewModel::class.java)
 
         breviaryList.adapter = ArrayAdapter<String>(this@BreviaryActivity,
                 android.R.layout.simple_list_item_1, resources.getStringArray(R.array.breviary_list))
 
-        breviaryList.setOnItemClickListener { parent, _, position, _ ->
-            isTextShowed = true
-            breviaryText.loadData(getStringBetweenTwoValues(breviaryHtml, beginningValues[position], end),
-                    "text/html", "UTF-8")
-            breviaryText.visibility = View.VISIBLE
-            breviaryText.scrollTo(0, 0)
-            breviaryText.animate().alpha(1f).duration = animationDuration
-            title = parent.getItemAtPosition(position).toString()
+        mBreviaryViewModel.getActivityStatus().observe(this@BreviaryActivity, Observer { activityStatus ->
+            when {
+                activityStatus.first -> {
+                    breviaryText.loadData(mBreviaryViewModel.getBreviary(), "text/html", "UTF-8")
+                    breviaryText.visibility = View.VISIBLE
+                    breviaryText.scrollTo(0, 0)
+                    breviaryText.animate().alpha(1f).duration = animationDuration
+                    title = breviaryList.getItemAtPosition(activityStatus.second).toString()
+                }
+                activityStatus.third -> {
+                    if (activityStatus.second == -1) {
+                        NavUtils.navigateUpFromSameTask(this@BreviaryActivity)
+                    } else {
+                        title = getString(R.string.breviary)
+                        breviaryText.animate()
+                                .alpha(0f)
+                                .withEndAction { breviaryText.visibility = View.INVISIBLE }
+                                .duration = animationDuration * 3 / 5
+                        mBreviaryViewModel.setActivityStatus(false, -1, false)
+                    }
+                }
+            }
+        })
+
+        breviaryList.setOnItemClickListener { _, _, position, _ ->
+            mBreviaryViewModel.setActivityStatus(true, position, false)
         }
     }
 
     override fun onBackPressed() {
-        if (!isTextShowed) NavUtils.navigateUpFromSameTask(this@BreviaryActivity)
-        else {
-            isTextShowed = false
-            title = getString(R.string.breviary)
-            breviaryText.animate()
-                    .alpha(0f)
-                    .withEndAction { breviaryText.visibility = View.INVISIBLE }
-                    .duration = animationDuration * 3 / 5
-        }
+        mBreviaryViewModel.setActivityStatus(false, null, true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -84,51 +78,6 @@ class BreviaryActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun getStringBetweenTwoValues(input: String, startValue: String, endValue: String): String {
-        try {
-            val start = input.indexOf(startValue)
-            if (start != -1) {
-                val end = input.indexOf(endValue, start + startValue.length)
-                if (end != -1) {
-                    return input.substring(start + startValue.length, end)
-                }
-            }
-        } catch (exc: Exception) {
-            Log.e(BreviaryActivity::class.java.name, exc.toString())
-            return ""
-        }
-        return ""
-    }
-}
-
-class DownloadTask : AsyncTask<String, Void, String>() {
-
-    override fun doInBackground(vararg urls: String): String? {
-
-        try {
-            // Build and set timeout values for the request.
-            val connection = URL(urls[0]).openConnection()
-            connection.connectTimeout = 5000
-            connection.readTimeout = 5000
-            connection.connect()
-
-            // Read and store the result line by line then return the entire string.
-            val `in` = connection.getInputStream()
-            val reader = BufferedReader(InputStreamReader(`in`))
-            val html = StringBuilder()
-            var line = reader.readLine()
-            while (line != null) {
-                html.append(line)
-                line = reader.readLine()
-            }
-            `in`.close()
-
-            return html.toString()
-        } catch (exc: IOException) {
-            return exc.toString()
         }
     }
 }

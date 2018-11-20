@@ -78,9 +78,18 @@
             android:label="@string/prayer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MembersActivity" />
+                android:value=".view.activities.MainActivity" />
         </activity>
-        <activity android:name=".view.activities.ChartActivity">
+        <activity
+            android:name=".view.activities.ChartActivity"
+            android:label="@string/presence">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MeetingsActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.EmausActivity"
+            android:label="@string/emauses">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MembersActivity" />

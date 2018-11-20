@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
@@ -12,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_presence_show.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.utils.GlideApp
+import pl.mftau.mftau.model.utils.GlideApp
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -69,6 +70,7 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
                     .load(storageReference)
                     .circleCrop()
                     .placeholder(R.drawable.ic_user)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(itemView.presenceMemberPhoto)
         }
 

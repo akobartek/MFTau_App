@@ -1,4 +1,4 @@
-package pl.mftau.mftau.utils
+package pl.mftau.mftau.model.utils
 
 object FirestoreUtils {
 

@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
-import java.util.regex.Pattern
-import android.text.style.UnderlineSpan
-import android.text.SpannableString
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -23,12 +21,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.dialog_reset_password.view.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyEmail
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
-
+import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreCollectionUsers
+import pl.mftau.mftau.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,9 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirestore: FirebaseFirestore
 
-    private val adminAddresses = arrayOf(
-            "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
-    )
+    private lateinit var mLoginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,14 +46,12 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
 
+        mLoginViewModel = ViewModelProviders.of(this@LoginActivity).get(LoginViewModel::class.java)
+
         setOnClickListeners()
 
-        var string = SpannableString(forgotPasswordTV.text)
-        string.setSpan(UnderlineSpan(), 0, string.length, 0)
-        forgotPasswordTV.text = string
-        string = SpannableString(createAccountTV.text)
-        string.setSpan(UnderlineSpan(), 0, string.length, 0)
-        createAccountTV.text = string
+        forgotPasswordTV.text = mLoginViewModel.createSpannableString(forgotPasswordTV.text.toString())
+        createAccountTV.text = mLoginViewModel.createSpannableString(createAccountTV.text.toString())
     }
 
     private fun setOnClickListeners() {
@@ -90,28 +80,9 @@ class LoginActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 mAuth.currentUser!!.sendEmailVerification()
 
-                                val user = HashMap<String, Any>()
-                                user[firestoreKeyEmail] = mAuth.currentUser!!.email!!
-                                when {
-                                    adminAddresses.contains(email) -> {
-                                        user[firestoreKeyIsAdmin] = true
-                                        user[firestoreKeyIsLeader] = false
-                                        user[firestoreKeyIsMember] = false
-                                    }
-                                    email.contains("@mftau.pl") -> {
-                                        user[firestoreKeyIsAdmin] = false
-                                        user[firestoreKeyIsLeader] = true
-                                        user[firestoreKeyIsMember] = false
-                                    }
-                                    else -> {
-                                        user[firestoreKeyIsAdmin] = false
-                                        user[firestoreKeyIsLeader] = false
-                                        user[firestoreKeyIsMember] = true
-                                    }
-                                }
                                 mFirestore.collection(firestoreCollectionUsers)
                                         .document(mAuth.currentUser!!.uid)
-                                        .set(user)
+                                        .set(mLoginViewModel.createUserValues(email))
 
                                 mAuth.signOut()
                                 isSigningUp = false
@@ -162,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
     private fun isEmailAndPasswordValid(email: String, password: String): Boolean {
         var isValid = true
 
-        if (!isEmailValid(email)) {
+        if (!mLoginViewModel.isEmailValid(email)) {
             emailET.error = getString(R.string.email_error)
             isValid = false
         }
@@ -170,23 +141,12 @@ class LoginActivity : AppCompatActivity() {
         if (password.length < 6) {
             passwordET.error = getString(R.string.password_error_too_short)
             isValid = false
-        } else if (!isValidPassword(password)) {
+        } else if (!mLoginViewModel.isValidPassword(password)) {
             passwordET.error = getString(R.string.password_error_wrong)
             isValid = false
         }
 
         return isValid
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})"
-        val pattern = Pattern.compile(passwordRegex)
-        val matcher = pattern.matcher(password)
-        return matcher.matches()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -241,7 +201,7 @@ class LoginActivity : AppCompatActivity() {
         dialog.setOnShowListener {
             (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val email = view.resetPasswordET.text.toString().trim()
-                if (!isEmailValid(email)) {
+                if (!mLoginViewModel.isEmailValid(email)) {
                     view.resetPasswordET.error = getString(R.string.email_error)
                     return@setOnClickListener
                 } else {
