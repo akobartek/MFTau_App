@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         const val statuteExtraString = "statute"
     }
 
+    private lateinit var mAuth: FirebaseAuth
     private lateinit var mMainViewModel: MainViewModel
     private var isNightMode = false
 
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = Color.WHITE
         }
 
+        mAuth = FirebaseAuth.getInstance()
         mMainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
 
         setOnClickListeners()
@@ -56,8 +58,7 @@ class MainActivity : AppCompatActivity() {
             recreate()
         }
 
-        // TODO (Auth) -> Turn on verification
-        if (FirebaseAuth.getInstance().currentUser != null /*&& mAuth.currentUser!!.isEmailVerified*/) {
+        if (mAuth.currentUser != null && mAuth.currentUser!!.isEmailVerified) {
             FirebaseFirestore.getInstance().collection(FirestoreUtils.firestoreCollectionUsers)
                     .document(FirebaseAuth.getInstance().currentUser!!.uid)
                     .get()

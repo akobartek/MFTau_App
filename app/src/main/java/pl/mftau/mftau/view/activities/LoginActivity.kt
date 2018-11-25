@@ -112,13 +112,12 @@ class LoginActivity : AppCompatActivity() {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
                             if (task.isSuccessful) {
-                                // TODO (Auth) -> Turn on verification
-//                                if (!mAuth.currentUser!!.isEmailVerified) {
-//                                    showVerifyEmailDialog()
-//                                } else {
-//                                    Toast.makeText(this@LoginActivity, R.string.signed_in, Toast.LENGTH_SHORT).show()
-//                                    finish()
-//                                }
+                                if (!mAuth.currentUser!!.isEmailVerified) {
+                                    showVerifyEmailDialog()
+                                } else {
+                                    Toast.makeText(this@LoginActivity, R.string.signed_in, Toast.LENGTH_SHORT).show()
+                                    finish()
+                                }
                             } else {
                                 Log.d("SignInFailed", task.exception!!.toString())
                                 when {
