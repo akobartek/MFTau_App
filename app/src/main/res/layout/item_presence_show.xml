@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorListItemBackground">
 
         <ImageView
             android:id="@+id/presenceMemberPhoto"
@@ -34,7 +35,7 @@
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorText"
             app:layout_constraintBottom_toBottomOf="@+id/presenceMemberPhoto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/presenceMemberPhoto"
@@ -47,7 +48,7 @@
             android:layout_height="180dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="4dp"
-            android:background="@color/colorBackground"
+            android:background="?attr/colorListItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

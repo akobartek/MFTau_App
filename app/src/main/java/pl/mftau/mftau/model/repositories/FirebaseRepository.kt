@@ -5,7 +5,6 @@ import android.app.Application
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,6 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.model.utils.FirestoreUtils
 import java.io.InputStream
 
@@ -25,10 +25,72 @@ class FirebaseRepository(val app: Application) {
 
 
     /**
+     * Retreats methods.
+     */
+
+    fun getAllRetreats(): MutableLiveData<List<Retreat>> {
+        val mutableLiveData = MutableLiveData<List<Retreat>>()
+        mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
+                .orderBy(FirestoreUtils.firestoreKeyBeginDate, Query.Direction.ASCENDING)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (firebaseFirestoreException != null) {
+                        Log.e("FirebaseRepository", firebaseFirestoreException.toString())
+                    }
+
+                    val retreatList = querySnapshot!!.toObjects(Retreat::class.java)
+                    querySnapshot.forEachIndexed { index, queryDocumentSnapshot ->
+                        retreatList[index].id = queryDocumentSnapshot.id
+                    }
+                    mutableLiveData.value = retreatList
+                }
+        return mutableLiveData
+    }
+
+    fun addRetreat(activity: Activity, retreatValues: HashMap<String, Any>) {
+        mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
+                .add(retreatValues)
+                .addOnSuccessListener {
+                    Toast.makeText(activity, activity.getString(R.string.retreat_added), Toast.LENGTH_SHORT).show()
+                    activity.finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, activity.getString(R.string.retreat_add_error), Toast.LENGTH_SHORT).show()
+                }
+    }
+
+    fun updateRetreat(activity: Activity, retreatId: String, retreatValues: HashMap<String, Any>) {
+        mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
+                .document(retreatId)
+                .set(retreatValues)
+                .addOnSuccessListener {
+                    Toast.makeText(activity, activity.getString(R.string.retreat_updated), Toast.LENGTH_SHORT).show()
+                    activity.finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, activity.getString(R.string.retreat_update_error), Toast.LENGTH_SHORT).show()
+                }
+    }
+
+    fun deleteRetreat(activity: Activity, retreatId: String, withToast: Boolean) {
+        mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
+                .document(retreatId)
+                .delete()
+                .addOnSuccessListener {
+                    if (withToast)
+                        Toast.makeText(activity, activity.getString(R.string.retreat_delete_successfully), Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    if (withToast)
+                        Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
+                }
+    }
+
+
+    /**
      * Members methods.
      */
 
-    fun getAllMembers(): LiveData<List<Member>> {
+    fun getAllMembers(): MutableLiveData<List<Member>> {
         val mutableLiveData = MutableLiveData<List<Member>>()
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
                 .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))

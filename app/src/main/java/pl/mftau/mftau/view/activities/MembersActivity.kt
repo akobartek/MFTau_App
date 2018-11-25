@@ -5,23 +5,19 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.app.NavUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_members.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreCollectionCities
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreCollectionMembers
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyName
 import pl.mftau.mftau.view.adapters.MembersRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MembersViewModel
 
@@ -31,16 +27,21 @@ class MembersActivity : AppCompatActivity() {
     private lateinit var mAdapter: MembersRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@MembersActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_members)
         setSupportActionBar(membersToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-            invalidateOptionsMenu()
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mMembersViewModel = ViewModelProviders.of(this@MembersActivity).get(MembersViewModel::class.java)
         mAdapter = MembersRecyclerAdapter()
@@ -59,7 +60,10 @@ class MembersActivity : AppCompatActivity() {
         })
 
         mMembersViewModel.getAllMembers().observe(this@MembersActivity, Observer { members ->
+            membersRecyclerView.layoutAnimation =
+                    AnimationUtils.loadLayoutAnimation(membersRecyclerView.context, R.anim.layout_animation_fall_down)
             mAdapter.setMemberList(members)
+            membersRecyclerView.scheduleLayoutAnimation()
 
             loadingIndicator.hide()
             if (members.isEmpty()) {
@@ -75,13 +79,6 @@ class MembersActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_members, menu)
         return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            menu.findItem(R.id.action_emauses).icon = getDrawable(R.drawable.ic_dice_grey)
-        }
-        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

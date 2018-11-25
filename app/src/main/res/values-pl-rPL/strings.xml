@@ -6,6 +6,7 @@
     <string name="song_book">Śpiewnik</string>
     <string name="members">Członkowie</string>
     <string name="meetings">Spotkania</string>
+    <string name="retreat">Rekolekcje</string>
     <string name="community_logo">Logo wspólnoty MF Tau</string>
     <string name="menu_description">Menu z opcjami zalogowania się oraz otworzeniem ustawień.</string>
     <string name="sign_in">Zaloguj</string>
@@ -13,6 +14,16 @@
     <string name="sign_out">Wyloguj</string>
     <string name="register">Zarejestruj</string>
     <string name="settings">Ustawienia</string>
+    <string name="ask_for_pray">Poproś o modlitwę</string>
+    <string name="report_error">Zgłoś błąd</string>
+
+    <string name="send_mail">Wyślij maila…</string>
+    <string name="send_mail_error">Nie znaleziono żadnego klienta mailowego!</string>
+    <string name="email_name">Imię</string>
+    <string name="intention">Intencja</string>
+    <string name="error_description">Opis problemu</string>
+    <string name="empty_email_name_error">Podaj swoje imię!</string>
+    <string name="empty_email_intention_error">Wpisz intencję!</string>
 
     <string name="email">Email</string>
     <string name="password">Hasło</string>
@@ -43,6 +54,11 @@
     <string name="reset_password_dialog_message">Wpisz adres mailowy:</string>
     <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
 
+    <!-- PREFERENCES STRINGS -->
+    <string name="preferences">Ustawienia</string>
+    <string name="night_mode_title">Tryb nocny</string>
+    <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
+
     <!-- BREVIARY STRINGS -->
     <string name="invitatory">Wezwanie</string>
     <string name="office_of_readings">Godzina czytań</string>
@@ -53,12 +69,48 @@
     <string name="evening_prayer">Nieszpory</string>
     <string name="night_prayer">Kompleta</string>
 
+    <!-- RETREAT STRINGS -->
+    <string name="empty_retreat_list">Nie dodano jeszcze żadnych rekolekcji!</string>
+    <string name="add_retreat">Dodawanie rekolekcji</string>
+    <string name="edit_retreat">Edytowanie rekolekcji</string>
+    <string name="retreat_added">Rekolekcje zapisane!</string>
+    <string name="retreat_add_error">Błąd w trakcie dodawania rekolekcji!</string>
+    <string name="retreat_updated">Rekolekcje zaktualizowane!</string>
+    <string name="retreat_update_error">Błąd w trakcie aktualizowania rekolekcji!</string>
+    <string name="retreat_delete_successfully">Usunięto rekolekcje!</string>
+    <string name="retreat_name">Nazwa rekolekcji</string>
+    <string name="retreat_city">Miasto</string>
+    <string name="retreat_address">Adres</string>
+    <string name="retreat_price">Cena</string>
+    <string name="begin">Początek</string>
+    <string name="end">Koniec</string>
+    <string name="delete_retreat">Usuń rekolekcje</string>
+    <string name="retreat_delete_dialog_msg">Usunąć te rekolekcje?</string>
+    <string name="empty_retreat_name_error">Uzupełnij nazwę rekolekcji!</string>
+    <string name="empty_address_error">Uzupełnij adres!</string>
+    <string name="empty_price_error">Uzuepełnij cenę rekolekcji!</string>
+    <string name="show_on_map">Pokaż na mapie</string>
+    <string name="error_begin_date_later_than_end">Data końcowa musi być ustawiona później niż początkowa!</string>
+    <string name="error_retreat_has_taken_place">Te rekolekcje już się odbyły!</string>
+    <string name="error_date_limit_after_begin">Data końca zapisów musi być ustawiona wcześniej niż data początku rekolekcji!</string>
+    <string name="save_to_calendar">Dodawanie do kalendarza</string>
+    <string name="save_to_calendar_msg">Czy chcesz dodać te rekolekcje do kalendarza?</string>
+    <string name="retreat_added_to_calendar">Rekolekcje dodane do kalendarza!</string>
+    <string name="calendar_security_error">Brak pozwolenia na dodawanie do kalendarza!</string>
+    <string name="retreat_register_title">Zapisy na rekolekcje</string>
+    <string name="retreat_register_msg">Wpisz swoje imię i nazwisko:</string>
+    <string name="advance_payment_title">Wymagana zaliczka</string>
+    <string name="advance_payment_msg">Te rekolekcje wymagają opłacenia zaliczki! Pamiętaj aby zrobić przelew!</string>
+    <string name="register_until">Zapisy możliwe do:</string>
+    <string name="advance_payment_required">Wymagana zaliczka?</string>
+
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
-    <string name="meeting_name">Nazwa</string>
+    <string name="meeting_name">Nazwa spotkania</string>
     <string name="formation">Formacyjne</string>
     <string name="prayerful">Modlitewne</string>
     <string name="other">Inne</string>
+    <string name="calendar_description">Ikona służąca ustawieniu daty spotkania.</string>
     <string name="check_list_description">Sprawdź obecność członków na spotkaniu.</string>
     <string name="add_meeting">Dodawanie spotkania</string>
     <string name="edit_meeting">Edytowanie spotkania</string>

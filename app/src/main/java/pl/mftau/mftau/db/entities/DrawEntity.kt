@@ -14,8 +14,3 @@ data class DrawEntity(@PrimaryKey(autoGenerate = true) var id: Long? = null,
                       @ColumnInfo(name = "draw_date") @NonNull var drawDate: Date,
                       @TypeConverters(ListConverters::class)
                       @ColumnInfo(name = "draws") @NonNull var draws: List<String>)
-
-//@Entity(tableName = "single_draw_table")
-//data class Draw(@PrimaryKey(autoGenerate = true) var id: Long?,
-//                @ColumnInfo(name = "first_id") @NonNull var firstId: String,
-//                @ColumnInfo(name = "second_id") @NonNull var secondId: String)

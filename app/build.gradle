@@ -33,12 +33,18 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.1.0-alpha01'
+
+    // ConstraintLayout
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
     kapt 'com.android.databinding:compiler:3.2.0-alpha10'
+
+    // Preferences
+    implementation "androidx.preference:preference:1.0.0"
+    implementation "androidx.legacy:legacy-preference-v14:1.0.0"
 
     // Room database
     implementation "androidx.room:room-runtime:2.1.0-alpha02"

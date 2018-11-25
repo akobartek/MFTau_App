@@ -8,6 +8,14 @@ object FirestoreUtils {
     const val firestoreKeyIsAdmin = "isAdmin"
     const val firestoreKeyIsMember = "isMember"
 
+    const val firestoreCollectionRetreats = "retreats"
+    const val firestoreKeyBeginDate = "beginDate"
+    const val firestoreKeyEndDate = "endDate"
+    const val firestoreKeyRegisterLimitDate = "registerLimitDate"
+    const val firestoreKeyAddress = "address"
+    const val firestoreKeyPrice = "price"
+    const val firestoreKeyAdvancePayment = "advancePayment"
+
     const val firestoreCollectionCities = "cities"
 
     const val firestoreCollectionMembers = "members"

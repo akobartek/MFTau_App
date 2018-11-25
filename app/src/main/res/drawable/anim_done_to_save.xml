@@ -11,7 +11,7 @@
             <path
                 android:name="ic_done"
                 android:pathData="M 9 16.2 L 4.8 12 L 3.4 13.4 L 9 19 L 21 7 L 19.6 5.6 L 9 16.2 Z"
-                android:fillColor="#FFFFFF"/>
+                android:fillColor="?attr/colorBackground"/>
         </vector>
     </aapt:attr>
     <target android:name="ic_done">

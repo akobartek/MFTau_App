@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio%20Preview/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_bulleted_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio%20Preview/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_dice" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\ic_dice.svg" />
+                            <entry key="outputName" value="ic_calendar_save" />
+                            <entry key="sourceFile" value="C:\Users\User\Downloads\ic_calendar_save.svg" />
                           </map>
                         </option>
                       </PersistentState>

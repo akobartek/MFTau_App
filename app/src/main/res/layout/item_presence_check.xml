@@ -5,12 +5,13 @@
     android:id="@+id/itemLayout"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/colorBackground">
+    android:background="?attr/colorBackground">
 
     <ImageView
         android:id="@+id/memberPhoto"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:contentDescription="@string/member_photo_description"
         android:padding="8dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +28,7 @@
         android:fontFamily="sans-serif-light"
         android:maxLines="2"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="?attr/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/isPresentCheckBox"
         app:layout_constraintStart_toEndOf="@+id/memberPhoto"

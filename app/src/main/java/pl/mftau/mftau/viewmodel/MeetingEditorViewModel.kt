@@ -12,6 +12,7 @@ import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyAttendanceList
 import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyDate
 import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyMeetingType
 import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyName
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -22,9 +23,10 @@ class MeetingEditorViewModel(val app: Application) : AndroidViewModel(app) {
     private val mFirebaseRepository = FirebaseRepository(app)
 
     var meeting: Meeting? = null
-    var date: Date? = null
+    var date: Date = Date()
     var attendanceList = arrayListOf<String>()
 
+    fun getDateFormatted(): String = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
 
     fun getAllMembers(): LiveData<List<Member>> = mFirebaseRepository.getAllMembers()
 

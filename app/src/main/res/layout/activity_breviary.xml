@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.activities.BreviaryActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="?attr/colorText" />
 
     <ListView
         android:id="@+id/breviaryList"
@@ -29,6 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:alpha="0"
+        android:background="?attr/colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_presence_check.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.model.utils.GlideApp
 
 class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecyclerAdapter.AttendanceListViewHolder>() {
 
@@ -37,14 +35,7 @@ class AttendanceListRecyclerAdapter : RecyclerView.Adapter<AttendanceListRecycle
             itemView.isPresentCheckBox.setOnCheckedChangeListener(null)
             itemView.isPresentCheckBox.isChecked = mAttendanceList.contains(member.id)
 
-            val storageReference = FirebaseStorage.getInstance()
-                    .reference.child("members/${member.id}.jpg")
-
-            GlideApp.with(itemView.context)
-                    .load(storageReference)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_user)
-                    .into(itemView.memberPhoto)
+            Member.loadImage(itemView.memberPhoto, member)
 
             itemView.isPresentCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {

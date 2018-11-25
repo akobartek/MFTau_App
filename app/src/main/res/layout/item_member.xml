@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:bind="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="member"
             type="pl.mftau.mftau.model.Member" />
@@ -20,20 +22,21 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:background="?attr/colorListItemBackground">
 
             <ImageView
                 android:id="@+id/memberPhoto"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:contentDescription="@string/member_photo_description"
+                bind:memberPhoto="@{member}"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
-                bind:memberPhoto="@{member}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_people"
-                android:contentDescription="@string/member_photo_description" />
+                tools:src="@drawable/ic_people" />
 
             <TextView
                 android:id="@+id/memberName"
@@ -45,7 +48,7 @@
                 android:maxLines="2"
                 android:text="@{member.name}"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/memberPhoto"
@@ -59,6 +62,7 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@{member.city}"
+                android:textColor="?attr/colorText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Skomielna Czarna" />

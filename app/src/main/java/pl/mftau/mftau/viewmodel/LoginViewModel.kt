@@ -42,7 +42,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                 user[FirestoreUtils.firestoreKeyIsLeader] = false
                 user[FirestoreUtils.firestoreKeyIsMember] = false
             }
-            email.contains("@mftau.pl") -> {
+            email.contains("@mftau.pl") && email != "modlitwa@mftau.pl" -> {
                 user[FirestoreUtils.firestoreKeyIsAdmin] = false
                 user[FirestoreUtils.firestoreKeyIsLeader] = true
                 user[FirestoreUtils.firestoreKeyIsMember] = false

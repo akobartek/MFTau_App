@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:bind="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="viewModel"
             type="pl.mftau.mftau.viewmodel.MemberEditorViewModel" />
@@ -12,7 +14,7 @@
         android:id="@+id/addMemberLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="?attr/colorBackground"
         tools:context=".view.activities.MemberEditorActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -21,7 +23,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="?attr/colorText" />
 
         <ImageView
             android:id="@+id/addMemberPhoto"
@@ -41,6 +44,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
+            android:textColorHint="?attr/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addMemberPhoto">
@@ -49,9 +53,11 @@
                 android:id="@+id/memberNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorAccent"
                 android:hint="@string/member_name"
                 android:inputType="textPersonName|textCapWords"
-                android:text='@{viewModel.member.name ?? ""}' />
+                android:text='@{viewModel.member.name ?? ""}'
+                android:textColor="?attr/colorText" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -62,7 +68,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/is_responsible"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
 
@@ -85,6 +91,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
+            android:textColorHint="?attr/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/responsibleSwitch">
@@ -93,9 +100,11 @@
                 android:id="@+id/cityET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorAccent"
                 android:hint="@string/city"
                 android:inputType="textCapWords"
-                android:text='@{viewModel.member.city ?? ""}' />
+                android:text='@{viewModel.member.city ?? ""}'
+                android:textColor="?attr/colorText" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

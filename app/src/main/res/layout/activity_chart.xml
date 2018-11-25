@@ -5,7 +5,7 @@
     android:id="@+id/chartLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.activities.ChartActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="?attr/colorText" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chartRecyclerView"
@@ -34,7 +35,7 @@
         android:layout_marginEnd="20dp"
         android:drawableTop="@drawable/ic_no_members"
         android:text="@string/empty_member_list"
-        android:textColor="@color/colorIcons"
+        android:textColor="?attr/colorIcons"
         android:textSize="15sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

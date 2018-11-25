@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -36,7 +36,7 @@
         android:layout_marginEnd="20dp"
         android:drawableTop="@drawable/ic_no_meetings"
         android:text="@string/empty_meeting_list"
-        android:textColor="@color/colorIcons"
+        android:textColor="?attr/colorIcons"
         android:textSize="15sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

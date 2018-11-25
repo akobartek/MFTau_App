@@ -21,34 +21,29 @@ data class Member(var id: String = "",
         @BindingAdapter("memberPhoto")
         @JvmStatic
         fun loadImage(view: ImageView, member: Member?) {
-            if (member != null) {
-                if ("example@mftau.pl" != FirebaseAuth.getInstance().currentUser!!.email!!) {
-                    val storageReference = FirebaseStorage.getInstance()
-                            .reference.child("members/${member!!.id}.jpg")
+            if ("example@mftau.pl" != FirebaseAuth.getInstance().currentUser!!.email!!) {
+                val storageReference = FirebaseStorage.getInstance()
+                        .reference.child("members/${member?.id}.jpg")
 
-                    GlideApp.with(view.context)
-                            .load(storageReference)
-                            .circleCrop()
-                            .placeholder(R.drawable.ic_user)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .into(view)
-                } else {
-                    val randomNumber = Random.nextInt(100)
-                    val address = if (member!!.name.last() == 'a')
+                GlideApp.with(view.context)
+                        .load(storageReference)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_user)
+                        .into(view)
+            } else {
+                val randomNumber = Random.nextInt(100)
+                val address = if (member != null) {
+                    if (member.name.last() == 'a')
                         "https://randomuser.me/api/portraits/women/$randomNumber.jpg"
                     else
                         "https://randomuser.me/api/portraits/men/$randomNumber.jpg"
+                } else ""
 
-                    GlideApp.with(view.context)
-                            .load(address)
-                            .circleCrop()
-                            .placeholder(R.drawable.ic_user)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .into(view)
-                }
-            } else {
                 GlideApp.with(view.context)
-                        .load(R.drawable.ic_photo)
+                        .load(address)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_user)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(view)
             }
         }

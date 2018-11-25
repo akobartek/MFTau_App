@@ -5,7 +5,7 @@
     android:id="@+id/loginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:focusableInTouchMode="true"
     tools:context=".view.activities.LoginActivity">
 
@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="?attr/colorText" />
 
     <ImageView
         android:id="@+id/logo"
@@ -23,7 +24,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:contentDescription="@string/community_logo"
-        android:src="@drawable/full_logo"
+        android:src="?attr/logoFull"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="48dp"
-        android:textColor="@color/colorPrimary"
+        android:textColorHint="?attr/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo">
@@ -46,8 +47,10 @@
             android:id="@+id/emailET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorAccent"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="?attr/colorAccent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/colorPrimary"
+        android:textColorHint="?attr/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
         app:layout_constraintStart_toStartOf="@+id/emailInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
@@ -64,8 +67,10 @@
             android:id="@+id/passwordET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorAccent"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="?attr/colorAccent" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -73,9 +78,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="?attr/colorAccent"
         android:text="@string/sign_in"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/colorBackground"
         app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
         app:layout_constraintStart_toStartOf="@+id/emailInputLayout"
         app:layout_constraintTop_toBottomOf="@id/passwordInputLayout" />
@@ -86,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/forgot_password"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorAccent"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
         app:layout_constraintStart_toStartOf="@+id/emailInputLayout"
@@ -98,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/create_account"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/colorAccent"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/emailInputLayout"
         app:layout_constraintStart_toStartOf="@+id/emailInputLayout"

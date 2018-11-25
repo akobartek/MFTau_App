@@ -16,9 +16,13 @@ import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyCity
 import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyIsResponsible
 import android.content.Intent
 import android.app.Activity
+import android.content.Context
 import android.view.Menu
+import android.view.inputmethod.InputMethodManager
+import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.databinding.ActivityMemberEditorBinding
 import pl.mftau.mftau.viewmodel.MemberEditorViewModel
@@ -27,25 +31,26 @@ import pl.mftau.mftau.viewmodel.MemberEditorViewModel
 class MemberEditorActivity : AppCompatActivity() {
 
     private lateinit var mMemberEditorViewModel: MemberEditorViewModel
-
     private var mPersonHasChanged = false
-    private val mTouchListener = View.OnTouchListener { _, _ ->
-        mPersonHasChanged = true
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@MemberEditorActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_member_editor)
         val binding = DataBindingUtil.setContentView<ActivityMemberEditorBinding>(
                 this@MemberEditorActivity, R.layout.activity_member_editor)
         setSupportActionBar(addMemberToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mMemberEditorViewModel = ViewModelProviders.of(this@MemberEditorActivity).get(MemberEditorViewModel::class.java)
         binding.viewModel = mMemberEditorViewModel
@@ -64,11 +69,11 @@ class MemberEditorActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         saveMemberBtn.setOnClickListener {
             var errorOccurred = false
-            if (memberNameET.text.isNullOrEmpty()) {
+            if (memberNameET.text.isNullOrBlank()) {
                 memberNameET.error = getString(R.string.empty_name_error)
                 errorOccurred = true
             }
-            if (cityET.text.isNullOrEmpty()) {
+            if (cityET.text.isNullOrBlank()) {
                 cityET.error = getString(R.string.empty_city_error)
                 errorOccurred = true
             }
@@ -107,6 +112,11 @@ class MemberEditorActivity : AppCompatActivity() {
             intent.action = Intent.ACTION_GET_CONTENT
             startActivityForResult(Intent.createChooser(intent, getString(R.string.select_photo)), 777)
         }
+
+        addMemberLayout.setOnClickListener(mHideKeyboardClickListener)
+        responsibleSwitch.setOnClickListener(mHideKeyboardClickListener)
+        responsibleTextView.setOnClickListener(mHideKeyboardClickListener)
+
         memberNameET.setOnTouchListener(mTouchListener)
         cityET.setOnTouchListener(mTouchListener)
         responsibleSwitch.setOnTouchListener(mTouchListener)
@@ -131,7 +141,7 @@ class MemberEditorActivity : AppCompatActivity() {
         if (mMemberEditorViewModel.filePath != null || mPersonHasChanged)
             showUnsavedChangesDialog()
         else
-            super.onBackPressed()
+            NavUtils.navigateUpFromSameTask(this@MemberEditorActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -182,4 +192,14 @@ class MemberEditorActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
                     .create()
                     .show()
+
+
+    private val mTouchListener = View.OnTouchListener { _, _ ->
+        mPersonHasChanged = true
+        false
+    }
+    private val mHideKeyboardClickListener = View.OnClickListener {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+    }
 }

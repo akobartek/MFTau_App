@@ -3,7 +3,6 @@ package pl.mftau.mftau.viewmodel
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.repositories.FirebaseRepository
 import java.io.InputStream

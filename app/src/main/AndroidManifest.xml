@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <application
         android:allowBackup="true"
@@ -12,10 +14,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppTheme.Light"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".view.activities.MainActivity"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,7 +63,7 @@
         <activity
             android:name=".view.activities.MeetingEditorActivity"
             android:label="@string/add_meeting"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MeetingsActivity" />
@@ -68,7 +71,7 @@
         <activity
             android:name=".view.activities.MemberEditorActivity"
             android:label="@string/add_member"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MembersActivity" />
@@ -93,6 +96,41 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MembersActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.PreferenceActivity"
+            android:label="@string/preferences">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.EmailActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.RetreatActivity"
+            android:label="@string/retreat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.RetreatDetailsActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.RetreatActivity" />
+        </activity>
+        <activity
+            android:name=".view.activities.RetreatEditActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.activities.RetreatActivity" />
         </activity>
     </application>
 

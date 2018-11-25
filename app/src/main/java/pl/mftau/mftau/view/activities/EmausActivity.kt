@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.activities
 
+import android.animation.Animator
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
 import androidx.lifecycle.Observer
@@ -20,6 +22,9 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.MemberEntity
 import pl.mftau.mftau.view.adapters.EmausRecyclerAdapter
 import pl.mftau.mftau.viewmodel.EmausViewModel
+import android.view.ViewAnimationUtils
+import androidx.preference.PreferenceManager
+
 
 class EmausActivity : AppCompatActivity() {
 
@@ -27,15 +32,21 @@ class EmausActivity : AppCompatActivity() {
     private lateinit var mAdapter: EmausRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@EmausActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emaus)
         setSupportActionBar(drawsToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mEmausViewModel = ViewModelProviders.of(this@EmausActivity).get(EmausViewModel::class.java)
         mAdapter = EmausRecyclerAdapter()
@@ -135,11 +146,46 @@ class EmausActivity : AppCompatActivity() {
                     && (mEmausViewModel.getMaxNumberOfDraw() >= (mEmausViewModel.members!!.size - 1))) {
                 showFullListDialog()
             } else {
+                createCircularReveal(circularRevealView)
+            }
+        }
+    }
+
+    private fun createCircularReveal(view: View) {
+        // to get the center of FAB
+        val centerX = startDrawBtn.x.toInt() + startDrawBtn.width / 2
+        val centerY = startDrawBtn.y.toInt()
+        val finalRadius = Math.hypot(view.width.toDouble(), view.height.toDouble()).toFloat()
+        // starts the effect at centerX, center Y and covers final radius
+        val revealAnimator = ViewAnimationUtils.createCircularReveal(view,
+                centerX, centerY, 0f, finalRadius)
+        revealAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {
                 if (!mEmausViewModel.startDraw()) {
                     showFullListDialog()
                 }
             }
-        }
+
+            override fun onAnimationCancel(p0: Animator?) {}
+            override fun onAnimationStart(p0: Animator?) {
+                startDrawBtn.hide()
+            }
+        })
+
+        view.alpha = 1f
+        view.visibility = View.VISIBLE
+        revealAnimator.start()
+    }
+
+    private fun hideCircularReveal(view: View) {
+        view.animate()
+                .alpha(0f)
+                .withEndAction {
+                    startDrawBtn.show()
+                    view.visibility = View.INVISIBLE
+                }
+                .duration = 300
     }
 
     private fun trySetAdapter() {
@@ -162,6 +208,11 @@ class EmausActivity : AppCompatActivity() {
             mAdapter.setDraws(drawsWithMembers)
             drawsEmptyView.visibility = View.INVISIBLE
             drawsRecyclerView.visibility = View.VISIBLE
+
+            hideCircularReveal(circularRevealView)
+            drawsRecyclerView.layoutAnimation =
+                    AnimationUtils.loadLayoutAnimation(drawsRecyclerView.context, R.anim.layout_animation_fall_down)
+            drawsRecyclerView.scheduleLayoutAnimation()
 
             val oddPersonID = mEmausViewModel.getOddPersonID()
             if (oddPersonID != null && oddPersonID != "") {
@@ -198,18 +249,21 @@ class EmausActivity : AppCompatActivity() {
         })
     }
 
-    private fun showFullListDialog() =
-            AlertDialog.Builder(this@EmausActivity)
-                    .setMessage(R.string.full_draws_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { dialog, _ ->
-                        dialog.dismiss()
-                        mEmausViewModel.deleteAllDrawsInDatabase()
-                        mEmausViewModel.startDraw()
-                    }
-                    .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
-                    .create()
-                    .show()
+    private fun showFullListDialog() {
+        hideCircularReveal(circularRevealView)
+
+        AlertDialog.Builder(this@EmausActivity)
+                .setMessage(R.string.full_draws_msg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes) { dialog, _ ->
+                    dialog.dismiss()
+                    mEmausViewModel.deleteAllDrawsInDatabase()
+                    mEmausViewModel.startDraw()
+                }
+                .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
+                .create()
+                .show()
+    }
 
     private fun showDeleteLastDrawDialog() =
             AlertDialog.Builder(this@EmausActivity)

@@ -51,11 +51,11 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun getMaxNumberOfDraw(): Int = mEmausRepository.getMaxNumberOfDraw()
 
-    fun updateMembersListsInDatabase(members: List<MemberEntity>) = mEmausRepository.updateMembersLists(members)
+    private fun updateMembersListsInDatabase(members: List<MemberEntity>) = mEmausRepository.updateMembersLists(members)
 
     fun deleteMembersInDatabase(members: List<MemberEntity>) = mEmausRepository.deleteMembers(members)
 
-    fun insertDrawToDatabase(draw: DrawEntity) = mEmausRepository.insertDraw(draw)
+    private fun insertDrawToDatabase(draw: DrawEntity) = mEmausRepository.insertDraw(draw)
 
     fun deleteLastDrawInDatabase() {
         mEmausRepository.deleteLastDraw()

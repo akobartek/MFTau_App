@@ -1,15 +1,63 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <!-- Light base application theme. -->
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#402222</item>
+        <item name="colorPrimaryDark">#391e1e</item>
+        <item name="colorAccent">#391e1e</item>
+        <item name="colorText">#391e1e</item>
+        <item name="colorButtonText">#000000</item>
+        <item name="colorIcons">#4e342e</item>
+        <item name="colorMenuIcons">#777777</item>
+        <item name="colorBackground">#FFFFFF</item>
+        <item name="colorListItemBackground">#FFFFFF</item>
+        <item name="logoFull">@drawable/logo_full</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="alertDialogTheme">@style/DialogTheme</item>
+    </style>
+
+    <!-- Dark base application theme. -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#28292e</item>
+        <item name="colorPrimaryDark">#28292e</item>
+        <item name="colorAccent">#FFFFFF</item>
+        <item name="colorText">#FFFFFF</item>
+        <item name="colorButtonText">#FFFFFF</item>
+        <item name="colorIcons">#FFFFFF</item>
+        <item name="colorMenuIcons">#FFFFFF</item>
+        <item name="colorBackground">#28292e</item>
+        <item name="colorListItemBackground">#232428</item>
+        <item name="logoFull">@drawable/logo_full_white</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+        <item name="alertDialogTheme">@style/DialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/DialogTheme</item>
+        <item name="android:textAppearanceMedium">@style/MyTextAppearance</item>
+    </style>
+
+    <style name="PreferenceFragmentDarkStyle" parent="AppTheme.Dark">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="android:textColorTertiary">#FFFFFF</item>
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+    <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">#FFFFFF</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#28292e</item>
+    </style>
+
+    <style name="MyTextAppearance" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 
     <style name="MainMenuButtons">
         <item name="android:layout_width">wrap_content</item>
@@ -20,7 +68,7 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/mffont</item>
-        <item name="android:textColor">@color/colorButtonText</item>
+        <item name="android:textColor">?attr/colorButtonText</item>
     </style>
 
 </resources>

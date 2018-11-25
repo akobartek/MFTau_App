@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_meetings.*
 import pl.mftau.mftau.R
@@ -22,15 +23,21 @@ class MeetingsActivity : AppCompatActivity() {
     private lateinit var mMeetingsViewModel: MeetingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@MeetingsActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meetings)
         setSupportActionBar(meetingsToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mMeetingsViewModel = ViewModelProviders.of(this@MeetingsActivity).get(MeetingsViewModel::class.java)
 

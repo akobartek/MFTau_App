@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.activities
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NavUtils
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -33,15 +35,21 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mLoginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setSupportActionBar(loginToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mAuth = FirebaseAuth.getInstance()
         mFirestore = FirebaseFirestore.getInstance()
@@ -159,33 +167,36 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSignupSuccessfulDialog() = AlertDialog.Builder(this)
-            .setTitle(R.string.sign_up_successful_dialog_title)
-            .setMessage(R.string.sign_up_successful_dialog_message)
-            .setCancelable(false)
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                dialog?.dismiss()
-            }
-            .create()
-            .show()
+    private fun showSignupSuccessfulDialog() =
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.sign_up_successful_dialog_title)
+                    .setMessage(R.string.sign_up_successful_dialog_message)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                        dialog?.dismiss()
+                    }
+                    .create()
+                    .show()
 
-    private fun showVerifyEmailDialog() = AlertDialog.Builder(this)
-            .setTitle(R.string.verify_email_dialog_title)
-            .setMessage(R.string.verify_email_dialog_message)
-            .setCancelable(false)
-            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                dialog?.dismiss()
-                mAuth.signOut()
-            }
-            .setNeutralButton(getString(R.string.verify_email_send_again)) { dialog, _ ->
-                dialog.dismiss()
-                mAuth.currentUser!!.sendEmailVerification()
-                mAuth.signOut()
-                Toast.makeText(this@LoginActivity, getString(R.string.message_sent), Toast.LENGTH_SHORT).show()
-            }
-            .create()
-            .show()
+    private fun showVerifyEmailDialog() =
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.verify_email_dialog_title)
+                    .setMessage(R.string.verify_email_dialog_message)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                        dialog?.dismiss()
+                        mAuth.signOut()
+                    }
+                    .setNeutralButton(getString(R.string.verify_email_send_again)) { dialog, _ ->
+                        dialog.dismiss()
+                        mAuth.currentUser!!.sendEmailVerification()
+                        mAuth.signOut()
+                        Toast.makeText(this@LoginActivity, getString(R.string.message_sent), Toast.LENGTH_SHORT).show()
+                    }
+                    .create()
+                    .show()
 
+    @SuppressLint("InflateParams")
     private fun showResetPasswordDialog() {
         val view = LayoutInflater.from(this@LoginActivity).inflate(R.layout.dialog_reset_password, null)
 

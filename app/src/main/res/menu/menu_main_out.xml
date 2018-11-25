@@ -8,4 +8,12 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings" />
+
+    <item
+        android:id="@+id/action_ask_for_pray"
+        android:title="@string/ask_for_pray" />
+
+    <item
+        android:id="@+id/action_report_error"
+        android:title="@string/report_error" />
 </menu>

@@ -10,12 +10,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/drawItemLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/colorBackground">
 
         <ImageView
             android:id="@+id/drawFirstPicture"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:contentDescription="@string/member_photo_description"
             android:padding="8dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +29,7 @@
             android:id="@+id/drawSecondPicture"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:contentDescription="@string/member_photo_description"
             android:padding="8dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +48,7 @@
             android:gravity="center"
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?attr/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drawSecondPicture"
             app:layout_constraintStart_toEndOf="@+id/drawFirstPicture"

@@ -1,6 +1,8 @@
 package pl.mftau.mftau.view.activities
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
@@ -9,13 +11,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_meeting_editor.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ActivityMeetingEditorBinding
@@ -24,7 +31,6 @@ import pl.mftau.mftau.viewmodel.MeetingEditorViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
-
 
 class MeetingEditorActivity : AppCompatActivity() {
 
@@ -38,28 +44,23 @@ class MeetingEditorActivity : AppCompatActivity() {
     private var mMeetingHasChanged = false
     private var mIsPresenceChecking = false
 
-    private val mTouchListener = View.OnTouchListener { _, _ ->
-        mMeetingHasChanged = true
-        false
-    }
-
-    private val myDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-        val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
-        dateText.text = dateString
-        mMeetingEditorViewModel.date = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(dateString)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@MeetingEditorActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityMeetingEditorBinding>(
                 this@MeetingEditorActivity, R.layout.activity_meeting_editor)
         setSupportActionBar(addMeetingToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mMeetingEditorViewModel = ViewModelProviders.of(this@MeetingEditorActivity).get(MeetingEditorViewModel::class.java)
         binding.viewModel = mMeetingEditorViewModel
@@ -73,6 +74,16 @@ class MeetingEditorActivity : AppCompatActivity() {
             mMeetingEditorViewModel.date = mMeetingEditorViewModel.meeting!!.date.toDate()
             mMeetingEditorViewModel.attendanceList = mMeetingEditorViewModel.meeting!!.attendanceList
             title = getString(R.string.edit_meeting)
+        }
+
+        meetingTypeSpinner.adapter = object : ArrayAdapter<String>(this@MeetingEditorActivity,
+                R.layout.item_spinner, resources.getStringArray(R.array.meeting_types)) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).setTextColor(Color.BLACK)
+
+                return view
+            }
         }
 
         attendanceRecyclerView.layoutManager = LinearLayoutManager(this@MeetingEditorActivity)
@@ -98,12 +109,8 @@ class MeetingEditorActivity : AppCompatActivity() {
             )
 
             if (!mIsPresenceChecking) {
-                if (meetingNameET.text.isNullOrEmpty()) {
+                if (meetingNameET.text.isNullOrBlank()) {
                     meetingNameET.error = getString(R.string.empty_meeting_name_error)
-                    return@setOnClickListener
-                } else if (mMeetingEditorViewModel.date == null) {
-                    setDateBtn.error = ""
-                    Snackbar.make(addMeetingLayout, getString(R.string.empty_meeting_date_error), Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
@@ -139,25 +146,20 @@ class MeetingEditorActivity : AppCompatActivity() {
                     mMeetingEditorViewModel.updateAttendanceList(meetingTypeSpinner.selectedItemPosition)
                     if (intent.getBooleanExtra("checking", false))
                         finish()
-                    else
-                        setDateBtn.visibility = View.VISIBLE
                 }
 
             }
         }
 
-        setDateBtn.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            if (mMeetingEditorViewModel.date != null) {
-                calendar.time = mMeetingEditorViewModel.date
-            }
-            DatePickerDialog(this@MeetingEditorActivity, myDateListener,
-                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
+        setDateIcon.setOnClickListener(mDateClickListener)
+        dateText.setOnClickListener(mDateClickListener)
+
+        addMeetingLayout.setOnClickListener(mHideKeyboardClickListener)
 
         meetingNameET.setOnTouchListener(mTouchListener)
         meetingTypeSpinner.setOnTouchListener(mTouchListener)
-        setDateBtn.setOnTouchListener(mTouchListener)
+        setDateIcon.setOnTouchListener(mTouchListener)
+        dateText.setOnTouchListener(mTouchListener)
     }
 
     override fun onBackPressed() {
@@ -166,7 +168,7 @@ class MeetingEditorActivity : AppCompatActivity() {
         else if (mMeetingHasChanged || mIsPresenceChecking)
             showUnsavedChangesDialog()
         else
-            super.onBackPressed()
+            NavUtils.navigateUpFromSameTask(this@MeetingEditorActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -233,7 +235,6 @@ class MeetingEditorActivity : AppCompatActivity() {
                     saveMeetingBtn.hide()
             }
         })
-        setDateBtn.visibility = View.INVISIBLE
 
         if (mAdapter.mMembersList.isEmpty()) {
             mMeetingEditorViewModel.getAllMembers().observe(this@MeetingEditorActivity, androidx.lifecycle.Observer { members ->
@@ -275,4 +276,28 @@ class MeetingEditorActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
                     .create()
                     .show()
+
+
+    private val mTouchListener = View.OnTouchListener { _, _ ->
+        mMeetingHasChanged = true
+        false
+    }
+    private val mHideKeyboardClickListener = View.OnClickListener {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+    }
+    private val mDateClickListener = View.OnClickListener {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+
+        val calendar = Calendar.getInstance()
+        calendar.time = mMeetingEditorViewModel.date
+
+        DatePickerDialog(this@MeetingEditorActivity, myDateListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+    private val myDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+        val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
+        mMeetingEditorViewModel.date = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(dateString)
+    }
 }

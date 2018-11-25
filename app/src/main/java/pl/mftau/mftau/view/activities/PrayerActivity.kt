@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.core.app.NavUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_prayer.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.utils.PrayerUtils
@@ -20,22 +22,30 @@ class PrayerActivity : AppCompatActivity() {
     private lateinit var mPrayerViewModel: PrayerViewModel
 
     private val animationDuration = 444L
+    private var isNightMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@PrayerActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+            isNightMode = true
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prayer)
         setSupportActionBar(prayerToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mPrayerViewModel = ViewModelProviders.of(this@PrayerActivity).get(PrayerViewModel::class.java)
 
         prayerList.adapter = ArrayAdapter<String>(this@PrayerActivity,
-                android.R.layout.simple_list_item_1, PrayerUtils.prayerNames)
+                R.layout.item_listview, PrayerUtils.prayerNames)
 
         mPrayerViewModel.getActivityStatus().observe(this@PrayerActivity, Observer { activityStatus ->
             when {

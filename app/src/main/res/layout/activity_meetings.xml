@@ -5,7 +5,7 @@
     android:id="@+id/meetingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.activities.MeetingsActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="?attr/colorText" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
@@ -30,7 +31,9 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabTextColor="?attr/colorText"
+            app:tabIndicatorColor="?attr/colorText" />
     </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+
         android:src="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

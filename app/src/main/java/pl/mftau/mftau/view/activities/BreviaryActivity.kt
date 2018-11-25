@@ -8,10 +8,12 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_breviary.*
 import android.os.Build
-import android.util.Log
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceManager
 import pl.mftau.mftau.R
 import pl.mftau.mftau.viewmodel.BreviaryViewModel
 
@@ -21,22 +23,31 @@ class BreviaryActivity : AppCompatActivity() {
     private lateinit var mBreviaryViewModel: BreviaryViewModel
 
     private val animationDuration = 444L
+    private var isNightMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (PreferenceManager.getDefaultSharedPreferences(this@BreviaryActivity)
+                        .getBoolean(getString(R.string.night_mode_key), false)) {
+            setTheme(R.style.AppTheme_Dark)
+            isNightMode = true
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                window.statusBarColor = Color.WHITE
+            }
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_breviary)
         setSupportActionBar(breviaryToolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-        }
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         mBreviaryViewModel = ViewModelProviders.of(this@BreviaryActivity).get(BreviaryViewModel::class.java)
+        mBreviaryViewModel.isNightMode = isNightMode
 
         breviaryList.adapter = ArrayAdapter<String>(this@BreviaryActivity,
-                android.R.layout.simple_list_item_1, resources.getStringArray(R.array.breviary_list))
+                R.layout.item_listview, resources.getStringArray(R.array.breviary_list))
 
         mBreviaryViewModel.getActivityStatus().observe(this@BreviaryActivity, Observer { activityStatus ->
             when {

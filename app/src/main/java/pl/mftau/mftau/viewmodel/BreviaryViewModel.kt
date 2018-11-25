@@ -19,6 +19,8 @@ class BreviaryViewModel(app: Application) : AndroidViewModel(app) {
             .get()
             .replace("e88b40", "4e342e"))
 
+    var isNightMode = false
+
     private val activityStatusLiveData = MutableLiveData<Triple<Boolean, Int, Boolean>>()
     private var activityStatus = Triple(false, -1, false)
 
@@ -41,8 +43,18 @@ class BreviaryViewModel(app: Application) : AndroidViewModel(app) {
                     val endIndex = mBreviary.html.indexOf(Breviary.endValue,
                             startIndex + Breviary.beginningValues[activityStatus.second].length)
                     if (endIndex != -1) {
-                        return mBreviary.html.substring(startIndex +
-                                Breviary.beginningValues[activityStatus.second].length, endIndex)
+                        return if (isNightMode) {
+                            ("<html><head>"
+                                    + "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}"
+                                    + "</style></head>"
+                                    + "<body>"
+                                    + mBreviary.html.replace("4e342e", "82574e").substring(
+                                    startIndex + Breviary.beginningValues[activityStatus.second].length, endIndex)
+                                    + "</body></html>")
+                        } else {
+                            mBreviary.html.substring(
+                                    startIndex + Breviary.beginningValues[activityStatus.second].length, endIndex)
+                        }
                     }
                 }
             } catch (exc: Exception) {

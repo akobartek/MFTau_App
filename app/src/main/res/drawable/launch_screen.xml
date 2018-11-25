@@ -5,12 +5,12 @@
     android:opacity="opaque">
 
     <!-- The background color, preferably the same as your normal theme -->
-    <item android:drawable="@android:color/white" />
+    <item android:drawable="?attr/colorBackground" />
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/full_logo" />
+            android:src="@drawable/logo_full" />
     </item>
 
 </layer-list>

@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_presence_show.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.model.utils.GlideApp
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -25,6 +22,7 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
     private var mMemberList = listOf<Member>()
     private var mPresence = HashMap<String, Array<Int>>()
     private var mNumberOfMeetings = arrayOf(0, 0, 0)
+    private var isNightMode = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartViewHolder {
         val viewHolder = ChartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_show, parent, false))
@@ -37,10 +35,11 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
 
     override fun getItemCount(): Int = mMemberList.size
 
-    fun setLists(memberList: List<Member>, presence: HashMap<String, Array<Int>>, numberOfMeetings: Array<Int>) {
+    fun setLists(memberList: List<Member>, presence: HashMap<String, Array<Int>>, numberOfMeetings: Array<Int>, isNightMode: Boolean) {
         mMemberList = memberList
         mPresence = presence
         mNumberOfMeetings = numberOfMeetings
+        this.isNightMode = isNightMode
         notifyDataSetChanged()
     }
 
@@ -63,15 +62,7 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
             itemView.tag = member.id
             itemView.presenceMemberName.text = member.name
 
-            val storageReference = FirebaseStorage.getInstance()
-                    .reference.child("members/${member.id}.jpg")
-
-            GlideApp.with(itemView.context)
-                    .load(storageReference)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_user)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(itemView.presenceMemberPhoto)
+            Member.loadImage(itemView.presenceMemberPhoto, member)
         }
 
         fun reloadChart() {
@@ -90,16 +81,19 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
             xAxis.setDrawLabels(false)
+            xAxis.textColor = if (isNightMode) Color.WHITE else Color.BLACK
 
             val yAxisLeft = itemView.presenceMemberChart.axisLeft
             yAxisLeft.axisMinimum = 0f
             yAxisLeft.axisMaximum = 100f
             yAxisLeft.spaceTop = 15f
+            yAxisLeft.textColor = if (isNightMode) Color.WHITE else Color.BLACK
 
             val yAxisRight = itemView.presenceMemberChart.axisRight
             yAxisRight.axisMinimum = 0f
             yAxisRight.axisMaximum = 100f
             yAxisRight.spaceTop = 15f
+            yAxisRight.textColor = if (isNightMode) Color.WHITE else Color.BLACK
 
             itemView.presenceMemberChart.animateY(777)
 
@@ -115,6 +109,7 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
             legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
             legend.orientation = Legend.LegendOrientation.HORIZONTAL
+            legend.textColor = if (isNightMode) Color.WHITE else Color.BLACK
             legend.setDrawInside(false)
             legend.formSize = 8f
             legend.setCustom(legendEntries)
