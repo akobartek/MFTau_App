@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.repositories.FirebaseRepository
-import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.utils.FirestoreUtils
 
 class ChartViewModel(val app: Application) : AndroidViewModel(app) {
 

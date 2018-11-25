@@ -10,7 +10,7 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.item_emaus.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.MemberEntity
-import pl.mftau.mftau.model.utils.GlideApp
+import pl.mftau.mftau.utils.GlideApp
 import kotlin.random.Random
 
 class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausViewHolder>() {

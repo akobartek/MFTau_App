@@ -161,7 +161,8 @@
     <string name="member_delete_successfully">Usunięto osobę!</string>
     <string name="delete_error">Wystąpił błąd podczas usuwania!</string>
     <string name="emauses">Emausy</string>
-    <string name="not_drawn">nie został‚ wylosowany, dodaj tę osobę do ostatniej pary.</string>
+    <string name="not_drawn_female">nie została wylosowana, dodaj tę osobę do ostatniej pary.</string>
+    <string name="not_drawn_male">nie został wylosowany, dodaj tę osobę do ostatniej pary.</string>
     <string name="no_people_msg">Musisz najpierw dodać członków do bazy!</string>
     <string name="empty_draw_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
     <string name="full_draws_msg">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>

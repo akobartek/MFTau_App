@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -214,9 +215,16 @@ class EmausActivity : AppCompatActivity() {
                     AnimationUtils.loadLayoutAnimation(drawsRecyclerView.context, R.anim.layout_animation_fall_down)
             drawsRecyclerView.scheduleLayoutAnimation()
 
-            val oddPersonID = mEmausViewModel.getOddPersonID()
-            if (oddPersonID != null && oddPersonID != "") {
-                val text = "${mEmausViewModel.getMemberNameByIdFromDatabase(oddPersonID)} ${getString(R.string.not_drawn)}"
+            val oddPersonId = mEmausViewModel.getOddPersonId()
+            if (oddPersonId != null && oddPersonId != "") {
+                val oddPersonName = mEmausViewModel.getMemberNameByIdFromDatabase(oddPersonId)
+                Log.d("xDDD", "id = $oddPersonId, name = $oddPersonName")
+                val genderText =
+                        if (oddPersonName.substring(0, oddPersonName.indexOf(" ")).last() == 'a')
+                            getString(R.string.not_drawn_female)
+                        else
+                            getString(R.string.not_drawn_male)
+                val text = "$oddPersonName $genderText"
                 oddPerson.text = text
                 oddPerson.visibility = View.VISIBLE
             } else {

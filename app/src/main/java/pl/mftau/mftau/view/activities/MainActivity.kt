@@ -13,7 +13,7 @@ import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -110,10 +110,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAdminUI(isLogged: Boolean) {
         retreat.isClickable = isLogged
+        members.visibility = View.INVISIBLE
+        meetings.visibility = View.INVISIBLE
 
         if (isLogged && retreat.alpha == 0f) {
             retreat.animate()
                     .alpha(1f)
+                    .withStartAction {
+                        members.visibility = View.INVISIBLE
+                        meetings.visibility = View.INVISIBLE
+                    }
                     .duration = 333
         } else if (!isLogged && retreat.alpha == 1f) {
             retreat.animate()
@@ -129,6 +135,9 @@ class MainActivity : AppCompatActivity() {
         if (isLogged && members.alpha == 0f) {
             members.animate()
                     .alpha(1f)
+                    .withStartAction {
+                        retreat.visibility = View.INVISIBLE
+                    }
                     .duration = 333
             meetings.animate()
                     .alpha(1f)
@@ -149,6 +158,10 @@ class MainActivity : AppCompatActivity() {
         if (isLogged && retreat.alpha == 0f) {
             retreat.animate()
                     .alpha(1f)
+                    .withStartAction {
+                        members.visibility = View.INVISIBLE
+                        meetings.visibility = View.INVISIBLE
+                    }
                     .duration = 333
         } else if (!isLogged && retreat.alpha == 1f) {
             retreat.animate()

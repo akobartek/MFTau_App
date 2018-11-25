@@ -10,10 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import kotlinx.android.synthetic.main.activity_member_editor.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.utils.GlideApp
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyName
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyCity
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyIsResponsible
+import pl.mftau.mftau.utils.GlideApp
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyCity
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsResponsible
 import android.content.Intent
 import android.app.Activity
 import android.content.Context

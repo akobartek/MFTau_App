@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_prayer.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.utils.PrayerUtils
+import pl.mftau.mftau.utils.PrayerUtils
 import pl.mftau.mftau.viewmodel.PrayerViewModel
 
 class PrayerActivity : AppCompatActivity() {

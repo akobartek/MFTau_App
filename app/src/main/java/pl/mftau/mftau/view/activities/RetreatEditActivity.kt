@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_retreat_edit.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.viewmodel.MainViewModel
 import pl.mftau.mftau.viewmodel.RetreatEditViewModel
 import java.text.SimpleDateFormat
@@ -206,6 +208,13 @@ class RetreatEditActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_save_to_calendar -> {
+                if (PermissionUtils.haveCalendarReadWritePermissions(this@RetreatEditActivity))
+                    showSaveToCalendarDialog()
+                else
+                    PermissionUtils.requestCalendarReadWritePermission(this@RetreatEditActivity)
+                true
+            }
             R.id.action_delete_retreat -> {
                 showDeleteConfirmationDialog()
                 true
@@ -218,13 +227,56 @@ class RetreatEditActivity : AppCompatActivity() {
         }
     }
 
+    private fun showSaveToCalendarDialog() =
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.save_to_calendar)
+                    .setMessage(R.string.save_to_calendar_msg)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                        dialog.dismiss()
+                        if (PermissionUtils.haveCalendarReadWritePermissions(this@RetreatEditActivity))
+                            saveToCalendar()
+                        else
+                            PermissionUtils.requestCalendarReadWritePermission(this@RetreatEditActivity)
+                    }
+                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+                    .show()
+
+    private fun saveToCalendar() {
+        val startMillis: Long = Calendar.getInstance().run {
+            time = mRetreatEditViewModel.retreat!!.beginDate.toDate()
+            set(Calendar.HOUR_OF_DAY, 18)
+            timeInMillis
+        }
+        val endMillis: Long = Calendar.getInstance().run {
+            time = mRetreatEditViewModel.retreat!!.endDate.toDate()
+            set(Calendar.HOUR_OF_DAY, 14)
+            timeInMillis
+        }
+
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            type = "vnd.android.cursor.item/event"
+            putExtra(CalendarContract.Events.CALENDAR_ID, 1)
+            putExtra(CalendarContract.Events.TITLE, mRetreatEditViewModel.retreat!!.name)
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
+            putExtra(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED)
+            putExtra(CalendarContract.Events.EVENT_LOCATION, "${mRetreatEditViewModel.retreat!!.address}, " +
+                    mRetreatEditViewModel.retreat!!.city)
+            putExtra(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+        }
+        startActivity(intent)
+    }
+
     private fun showUnsavedChangesDialog() =
             AlertDialog.Builder(this@RetreatEditActivity)
                     .setMessage(R.string.unsaved_changes_dialog_msg)
                     .setCancelable(false)
                     .setPositiveButton(R.string.discard) { dialog, _ ->
                         dialog.dismiss()
-
                         finish()
                     }
                     .setNegativeButton(R.string.keep_editing) { dialog, _ -> dialog.dismiss() }

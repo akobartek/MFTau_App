@@ -1,9 +1,7 @@
 package pl.mftau.mftau.view.activities
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -25,10 +23,8 @@ import kotlinx.android.synthetic.main.dialog_retreat_register.view.*
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.util.*
 import android.provider.CalendarContract.Events
-import android.content.pm.PackageManager
 import android.provider.CalendarContract
-import androidx.core.content.ContextCompat
-import androidx.core.app.ActivityCompat
+import pl.mftau.mftau.utils.PermissionUtils
 
 
 class RetreatDetailsActivity : AppCompatActivity() {
@@ -95,10 +91,10 @@ class RetreatDetailsActivity : AppCompatActivity() {
                 true
             }
             R.id.action_save_to_calendar -> {
-                if (haveCalendarReadWritePermissions())
+                if (PermissionUtils.haveCalendarReadWritePermissions(this@RetreatDetailsActivity))
                     showSaveToCalendarDialog()
                 else
-                    requestCalendarReadWritePermission()
+                    PermissionUtils.requestCalendarReadWritePermission(this@RetreatDetailsActivity)
                 true
             }
             android.R.id.home -> {
@@ -178,10 +174,10 @@ class RetreatDetailsActivity : AppCompatActivity() {
                     .setCancelable(false)
                     .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                         dialog.dismiss()
-                        if (haveCalendarReadWritePermissions())
+                        if (PermissionUtils.haveCalendarReadWritePermissions(this@RetreatDetailsActivity))
                             saveToCalendar()
                         else
-                            requestCalendarReadWritePermission()
+                            PermissionUtils.requestCalendarReadWritePermission(this@RetreatDetailsActivity)
                     }
                     .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                         dialog.dismiss()
@@ -213,44 +209,5 @@ class RetreatDetailsActivity : AppCompatActivity() {
             putExtra(Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
         }
         startActivity(intent)
-    }
-
-    private fun requestCalendarReadWritePermission() {
-        val permissionList = ArrayList<String>()
-
-        if (ContextCompat.checkSelfPermission(this@RetreatDetailsActivity,
-                        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_CALENDAR)
-        }
-
-        if (ContextCompat.checkSelfPermission(this@RetreatDetailsActivity,
-                        Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_CALENDAR)
-        }
-
-        if (permissionList.size > 0) {
-            val permissionArray = arrayOfNulls<String>(permissionList.size)
-
-            for (i in 0 until permissionList.size) {
-                permissionArray[i] = permissionList[i]
-            }
-
-            ActivityCompat.requestPermissions(this@RetreatDetailsActivity, permissionArray, 911)
-        }
-    }
-
-    private fun haveCalendarReadWritePermissions(): Boolean {
-        var permissionCheck = ContextCompat.checkSelfPermission(this@RetreatDetailsActivity,
-                Manifest.permission.READ_CALENDAR)
-
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            permissionCheck = ContextCompat.checkSelfPermission(this@RetreatDetailsActivity,
-                    Manifest.permission.WRITE_CALENDAR)
-
-            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                return true
-            }
-        }
-        return false
     }
 }

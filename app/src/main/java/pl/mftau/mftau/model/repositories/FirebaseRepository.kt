@@ -14,7 +14,7 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.Retreat
-import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.utils.FirestoreUtils
 import java.io.InputStream
 
 class FirebaseRepository(val app: Application) {

@@ -19,11 +19,6 @@ import kotlin.random.Random
 
 class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
 
-    companion object {
-        const val PREFERENCES_NAME = "drawPrefs"
-        const val PREFERENCES_ODD_PERSON_ID = "oddPersonID"
-    }
-
     private val mEmausRepository = EmausRepository(app)
     private val mFirebaseRepository = FirebaseRepository(app)
 
@@ -59,7 +54,6 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun deleteLastDrawInDatabase() {
         mEmausRepository.deleteLastDraw()
-        setOddPersonID("")
     }
 
     fun deleteAllDrawsInDatabase() {
@@ -68,7 +62,6 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
             members!!.forEach { it.drawsList = arrayListOf() }
             updateMembersListsInDatabase(members!!)
         }
-        setOddPersonID("")
     }
 
 
@@ -110,10 +103,11 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
             return false
         }
 
-        if (listOfMembersIDs.size % 2 != 0) {
-            Log.d("startDraw", "oddPersonId value: " + listOfMembersIDs[0])
-            setOddPersonID(listOfMembersIDs[0])
-        }
+        val oddPersonId =
+                if (listOfMembersIDs.size % 2 != 0) {
+                    Log.d("startDraw", "oddPersonId value: " + listOfMembersIDs[0])
+                    listOfMembersIDs[0]
+                } else ""
 
         val listOfDraws = arrayListOf<String>()
         listOfPairs.forEach { pair ->
@@ -121,7 +115,8 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
             members!!.single { it.id == pair.second }.drawsList.add(pair.first)
             listOfDraws.add(members!!.single { it.id == pair.first }.id + "+" + members!!.single { it.id == pair.second }.id)
         }
-        val draw = DrawEntity(numberOfDraw = numberOfDraw, draws = listOfDraws.toList(), drawDate = Calendar.getInstance().time)
+        val draw = DrawEntity(numberOfDraw = numberOfDraw, draws = listOfDraws.toList(),
+                drawDate = Calendar.getInstance().time, oddPersonId = oddPersonId)
         Log.d("startDraw", "draw value: $draw")
         insertDrawToDatabase(draw)
         updateMembersListsInDatabase(members!!)
@@ -148,23 +143,20 @@ class EmausViewModel(private val app: Application) : AndroidViewModel(app) {
             )
         }
 
-        val oddPersonID = getOddPersonID()
-        if (oddPersonID != null && oddPersonID != "")
-            textToCopy.append("\n${getMemberNameByIdFromDatabase(oddPersonID)} ${app.getString(R.string.not_drawn)}")
+        val oddPersonId = getOddPersonId()
+        if (oddPersonId != null && oddPersonId != "") {
+            val oddPersonName = getMemberNameByIdFromDatabase(oddPersonId)
+            val genderText =
+                    if (oddPersonName.substring(0, oddPersonName.indexOf(" ")).last() == 'a')
+                        app.getString(R.string.not_drawn_female)
+                    else
+                        app.getString(R.string.not_drawn_male)
+            textToCopy.append("\n$oddPersonName $genderText")
+        }
 
         (app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                 .primaryClip = ClipData.newPlainText("emaus", textToCopy.toString())
     }
 
-    fun getOddPersonID(): String? {
-        return app.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-                .getString(PREFERENCES_ODD_PERSON_ID, "")
-    }
-
-    fun setOddPersonID(id: String) {
-        app.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .putString(PREFERENCES_ODD_PERSON_ID, id)
-                .apply()
-    }
+    fun getOddPersonId(): String? = mEmausRepository.getOddPersonId()
 }

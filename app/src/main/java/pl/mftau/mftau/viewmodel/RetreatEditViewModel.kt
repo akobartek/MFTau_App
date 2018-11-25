@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.model.repositories.FirebaseRepository
-import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.utils.FirestoreUtils
 import java.text.SimpleDateFormat
 import java.util.*
 

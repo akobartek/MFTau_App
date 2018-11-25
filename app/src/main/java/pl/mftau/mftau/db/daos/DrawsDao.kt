@@ -20,6 +20,9 @@ interface DrawsDao {
     @Query("SELECT draws FROM draws_table WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws_table);")
     fun getLastDraws(): LiveData<List<String>>
 
+    @Query("SELECT odd_person_id FROM draws_table WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws_table);")
+    fun getOddPersonId(): String
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDraw(draw: DrawEntity)
 

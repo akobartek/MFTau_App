@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.parcel.Parcelize
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.utils.GlideApp
+import pl.mftau.mftau.utils.GlideApp
 import kotlin.random.Random
 
 @Parcelize

@@ -8,10 +8,10 @@ import com.google.firebase.Timestamp
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.repositories.FirebaseRepository
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyAttendanceList
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyDate
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyMeetingType
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreKeyName
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyAttendanceList
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyDate
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyMeetingType
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

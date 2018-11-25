@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.dialog_reset_password.view.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.utils.FirestoreUtils.firestoreCollectionUsers
+import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
 import pl.mftau.mftau.viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {

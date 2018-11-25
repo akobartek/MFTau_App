@@ -5,7 +5,7 @@ import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import androidx.lifecycle.AndroidViewModel
 import com.google.firebase.auth.FirebaseAuth
-import pl.mftau.mftau.model.utils.FirestoreUtils
+import pl.mftau.mftau.utils.FirestoreUtils
 import java.util.regex.Pattern
 
 

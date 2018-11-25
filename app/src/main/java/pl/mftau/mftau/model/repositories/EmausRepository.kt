@@ -32,6 +32,8 @@ class EmausRepository(application: Application) {
 
     fun getMemberNameById(id: String): String = GetMemberNameByIdAsyncTask(mMembersDao).execute(id).get()
 
+    fun getOddPersonId(): String? = GetOddPersonIdAsyncTask(mDrawsDao).execute().get()
+
     fun getMaxNumberOfDraw(): Int = GetMaxNumberOfDrawAsyncTask(mDrawsDao).execute().get()
 
     fun insertMembers(members: List<MemberEntity>) {
@@ -64,6 +66,14 @@ class EmausRepository(application: Application) {
 
         override fun doInBackground(vararg params: String): String {
             return mAsyncTaskDao.getNameById(params[0])
+        }
+    }
+
+    private class GetOddPersonIdAsyncTask internal constructor(private val mAsyncTaskDao: DrawsDao)
+        : AsyncTask<String, Void, String>() {
+
+        override fun doInBackground(vararg params: String): String {
+            return mAsyncTaskDao.getOddPersonId()
         }
     }
 

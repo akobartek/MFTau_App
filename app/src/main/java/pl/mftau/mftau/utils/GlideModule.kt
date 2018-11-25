@@ -1,4 +1,4 @@
-package pl.mftau.mftau.model.utils
+package pl.mftau.mftau.utils
 
 import android.content.Context
 import com.bumptech.glide.annotation.GlideModule
