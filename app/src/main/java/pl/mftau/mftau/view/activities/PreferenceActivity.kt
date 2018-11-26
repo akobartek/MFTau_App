@@ -22,6 +22,7 @@ class PreferenceActivity : AppCompatActivity() {
         if (PreferenceManager.getDefaultSharedPreferences(this@PreferenceActivity)
                         .getBoolean(getString(R.string.night_mode_key), false)) {
             setTheme(R.style.PreferenceFragmentDarkStyle)
+            window.decorView.systemUiVisibility = 0
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR

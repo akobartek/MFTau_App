@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         if (PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
                         .getBoolean(getString(R.string.night_mode_key), false)) {
             setTheme(R.style.AppTheme_Dark)
+            window.decorView.systemUiVisibility = 0
             isNightMode = true
         } else {
             setTheme(R.style.AppTheme_Light)
