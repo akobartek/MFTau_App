@@ -110,8 +110,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAdminUI(isLogged: Boolean) {
         retreat.isClickable = isLogged
-        members.visibility = View.INVISIBLE
-        meetings.visibility = View.INVISIBLE
 
         if (isLogged && retreat.alpha == 0f) {
             retreat.animate()
@@ -119,6 +117,7 @@ class MainActivity : AppCompatActivity() {
                     .withStartAction {
                         members.visibility = View.INVISIBLE
                         meetings.visibility = View.INVISIBLE
+                        retreat.visibility = View.VISIBLE
                     }
                     .duration = 333
         } else if (!isLogged && retreat.alpha == 1f) {
@@ -137,6 +136,8 @@ class MainActivity : AppCompatActivity() {
                     .alpha(1f)
                     .withStartAction {
                         retreat.visibility = View.INVISIBLE
+                        members.visibility = View.VISIBLE
+                        meetings.visibility = View.VISIBLE
                     }
                     .duration = 333
             meetings.animate()
@@ -161,6 +162,7 @@ class MainActivity : AppCompatActivity() {
                     .withStartAction {
                         members.visibility = View.INVISIBLE
                         meetings.visibility = View.INVISIBLE
+                        retreat.visibility = View.VISIBLE
                     }
                     .duration = 333
         } else if (!isLogged && retreat.alpha == 1f) {
