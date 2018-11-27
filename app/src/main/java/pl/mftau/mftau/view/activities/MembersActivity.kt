@@ -76,6 +76,11 @@ class MembersActivity : AppCompatActivity() {
         addMemberBtn.setOnClickListener { startActivity(Intent(this@MembersActivity, MemberEditorActivity::class.java)) }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@MembersActivity, MainActivity::class.java))
+        finish()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_members, menu)
         return super.onCreateOptionsMenu(menu)
@@ -88,7 +93,7 @@ class MembersActivity : AppCompatActivity() {
                 true
             }
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@MembersActivity)
+                onBackPressed()
                 true
             }
             else -> return super.onOptionsItemSelected(item)

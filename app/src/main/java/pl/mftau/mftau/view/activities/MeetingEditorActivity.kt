@@ -2,6 +2,7 @@ package pl.mftau.mftau.view.activities
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -167,8 +168,10 @@ class MeetingEditorActivity : AppCompatActivity() {
             finish()
         else if (mMeetingHasChanged || mIsPresenceChecking)
             showUnsavedChangesDialog()
-        else
-            NavUtils.navigateUpFromSameTask(this@MeetingEditorActivity)
+        else {
+            startActivity(Intent(this@MeetingEditorActivity, MeetingsActivity::class.java))
+            finish()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

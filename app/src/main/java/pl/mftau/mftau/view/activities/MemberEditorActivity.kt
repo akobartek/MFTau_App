@@ -140,8 +140,10 @@ class MemberEditorActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (mMemberEditorViewModel.filePath != null || mPersonHasChanged)
             showUnsavedChangesDialog()
-        else
-            NavUtils.navigateUpFromSameTask(this@MemberEditorActivity)
+        else {
+            startActivity(Intent(this@MemberEditorActivity, MembersActivity::class.java))
+            finish()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

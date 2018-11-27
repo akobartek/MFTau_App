@@ -48,14 +48,16 @@
         </activity>
         <activity
             android:name=".view.activities.MembersActivity"
-            android:label="@string/members">
+            android:label="@string/members"
+            android:launchMode="singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MainActivity" />
         </activity>
         <activity
             android:name=".view.activities.MeetingsActivity"
-            android:label="@string/meetings">
+            android:label="@string/meetings"
+            android:launchMode="singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activities.MainActivity" />

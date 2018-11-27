@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebViewClient
@@ -41,5 +42,10 @@ class WebsiteActivity : AppCompatActivity() {
             }
         }
         webView.loadUrl(urlAddress)
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this@WebsiteActivity, MainActivity::class.java))
+        finish()
     }
 }

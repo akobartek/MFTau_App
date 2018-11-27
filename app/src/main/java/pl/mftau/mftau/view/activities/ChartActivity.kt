@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +70,11 @@ class ChartActivity : AppCompatActivity() {
         })
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@ChartActivity, MeetingsActivity::class.java))
+        finish()
+    }
+
     private fun setPresence() {
         mChartViewModel.setPresence()
         setDataToChart()
@@ -88,8 +94,7 @@ class ChartActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@ChartActivity)
-                finish()
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

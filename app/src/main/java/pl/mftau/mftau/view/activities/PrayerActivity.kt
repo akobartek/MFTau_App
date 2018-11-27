@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -62,7 +63,8 @@ class PrayerActivity : AppCompatActivity() {
                 }
                 activityStatus.third -> {
                     if (activityStatus.second == -1) {
-                        NavUtils.navigateUpFromSameTask(this@PrayerActivity)
+                        startActivity(Intent(this@PrayerActivity, MainActivity::class.java))
+                        finish()
                     } else {
                         title = getString(R.string.prayer)
                         prayerScrollView.animate()

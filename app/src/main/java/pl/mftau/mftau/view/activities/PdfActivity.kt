@@ -1,10 +1,12 @@
 package pl.mftau.mftau.view.activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.NavUtils
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_pdf.*
 import pl.mftau.mftau.R
@@ -37,6 +39,11 @@ class PdfActivity : AppCompatActivity() {
         loadPdfFile()
 
         scrollUpBtn.setOnClickListener { loadPdfFile() }
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this@PdfActivity, MainActivity::class.java))
+        finish()
     }
 
     private fun loadPdfFile() {

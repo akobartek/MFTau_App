@@ -88,6 +88,11 @@ class RetreatActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@RetreatActivity, MainActivity::class.java))
+        finish()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -103,7 +108,7 @@ class RetreatActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@RetreatActivity)
+                onBackPressed()
                 true
             }
             else -> return super.onOptionsItemSelected(item)

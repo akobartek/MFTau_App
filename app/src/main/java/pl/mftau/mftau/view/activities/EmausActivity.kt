@@ -1,6 +1,7 @@
 package pl.mftau.mftau.view.activities
 
 import android.animation.Animator
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -81,6 +82,11 @@ class EmausActivity : AppCompatActivity() {
         setOnClickListeners()
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@EmausActivity, MeetingsActivity::class.java))
+        finish()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_emaus, menu)
         return super.onCreateOptionsMenu(menu)
@@ -119,7 +125,7 @@ class EmausActivity : AppCompatActivity() {
                 true
             }
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@EmausActivity)
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

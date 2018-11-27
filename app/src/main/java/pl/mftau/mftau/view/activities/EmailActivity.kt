@@ -62,10 +62,15 @@ class EmailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@EmailActivity, MainActivity::class.java))
+        finish()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@EmailActivity)
+                onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)

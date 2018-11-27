@@ -1,16 +1,15 @@
 package pl.mftau.mftau.view.activities
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.app.NavUtils
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_breviary.*
 import android.os.Build
 import android.view.View
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
@@ -52,7 +51,8 @@ class BreviaryActivity : AppCompatActivity() {
         mBreviaryViewModel.getActivityStatus().observe(this@BreviaryActivity, Observer { activityStatus ->
             when {
                 activityStatus.first -> {
-                    breviaryText.loadData(mBreviaryViewModel.getBreviary(), "text/html", "UTF-8")
+                    breviaryText.loadDataWithBaseURL(null, mBreviaryViewModel.getBreviary(),
+                            "text/html", "UTF-8", null)
                     breviaryText.visibility = View.VISIBLE
                     breviaryText.scrollTo(0, 0)
                     breviaryText.animate().alpha(1f).duration = animationDuration
@@ -60,7 +60,8 @@ class BreviaryActivity : AppCompatActivity() {
                 }
                 activityStatus.third -> {
                     if (activityStatus.second == -1) {
-                        NavUtils.navigateUpFromSameTask(this@BreviaryActivity)
+                        startActivity(Intent(this@BreviaryActivity, MainActivity::class.java))
+                        finish()
                     } else {
                         title = getString(R.string.breviary)
                         breviaryText.animate()

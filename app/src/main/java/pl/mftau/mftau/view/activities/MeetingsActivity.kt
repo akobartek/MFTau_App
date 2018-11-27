@@ -46,6 +46,11 @@ class MeetingsActivity : AppCompatActivity() {
         addMeetingBtn.setOnClickListener { startActivity(Intent(this@MeetingsActivity, MeetingEditorActivity::class.java)) }
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this@MeetingsActivity, MainActivity::class.java))
+        finish()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_meetings, menu)
         return super.onCreateOptionsMenu(menu)
@@ -62,7 +67,7 @@ class MeetingsActivity : AppCompatActivity() {
                 true
             }
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@MeetingsActivity)
+                onBackPressed()
                 true
             }
             else -> return super.onOptionsItemSelected(item)

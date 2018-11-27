@@ -1,6 +1,7 @@
 package pl.mftau.mftau.view.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +61,11 @@ class LoginActivity : AppCompatActivity() {
 
         forgotPasswordTV.text = mLoginViewModel.createSpannableString(forgotPasswordTV.text.toString())
         createAccountTV.text = mLoginViewModel.createSpannableString(createAccountTV.text.toString())
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
     private fun setOnClickListeners() {
@@ -159,7 +165,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this@LoginActivity)
+                onBackPressed()
                 true
             }
             else -> return super.onOptionsItemSelected(item)
