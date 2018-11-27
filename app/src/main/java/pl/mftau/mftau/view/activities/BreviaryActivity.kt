@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_breviary.*
 import android.os.Build
 import android.view.View
-import android.webkit.WebView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager

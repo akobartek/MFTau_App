@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.core.app.NavUtils
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_email.*

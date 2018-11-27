@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.core.app.NavUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager

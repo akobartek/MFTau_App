@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "847727658179",
+    "firebase_url": "https://mf-tau.firebaseio.com",
+    "project_id": "mf-tau",
+    "storage_bucket": "mf-tau.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847727658179:android:988e3061dc1e1d10",
+        "android_client_info": {
+          "package_name": "pl.mftau.mftau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847727658179-qd2qkmeohb1klrseseu64hiculf9d16u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.mftau.mftau",
+            "certificate_hash": "d9cd8de582d20009f9d247fba6f0da8bad949fb6"
+          }
+        },
+        {
+          "client_id": "847727658179-otammafmt0h957t1buup4v8ie13qb20r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.mftau.mftau",
+            "certificate_hash": "4b3eefa7acb1b60b08539818953e807f8e2d6458"
+          }
+        },
+        {
+          "client_id": "847727658179-o8p37ivce05tmodfd7s7mnkvrurcjjc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDihfSltw_NB_LdjBN3jMnbK62lOH7QrsM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847727658179-o8p37ivce05tmodfd7s7mnkvrurcjjc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

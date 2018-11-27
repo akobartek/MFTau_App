@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.app.NavUtils
 import androidx.preference.PreferenceManager
 import kotlinx.android.synthetic.main.activity_pdf.*
 import pl.mftau.mftau.R

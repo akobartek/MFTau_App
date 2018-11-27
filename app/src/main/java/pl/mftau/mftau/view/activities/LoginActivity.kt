@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NavUtils
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar

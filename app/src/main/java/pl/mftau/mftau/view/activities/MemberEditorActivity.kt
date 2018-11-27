@@ -19,7 +19,6 @@ import android.app.Activity
 import android.content.Context
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
-import androidx.core.app.NavUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
