@@ -83,7 +83,7 @@ class EmausActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(this@EmausActivity, MeetingsActivity::class.java))
+        startActivity(Intent(this@EmausActivity, MembersActivity::class.java))
         finish()
     }
 
