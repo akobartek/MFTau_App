@@ -10,8 +10,8 @@ android {
         applicationId "pl.mftau.mftau"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.02"
+        versionCode 8
+        versionName "2.137"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
