@@ -114,6 +114,8 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
             } else {
+                if (isEmailOrPasswordNull(email, password)) return@setOnClickListener
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this@LoginActivity) { task ->
                             if (task.isSuccessful) {
@@ -140,6 +142,21 @@ class LoginActivity : AppCompatActivity() {
                         }
             }
         }
+    }
+
+    private fun isEmailOrPasswordNull(email: String, password: String): Boolean {
+        var isNull = false
+
+        if (!mLoginViewModel.isEmailValid(email)) {
+            emailET.error = getString(R.string.email_error)
+            isNull = true
+        }
+        if (password.isEmpty()) {
+            passwordET.error = getString(R.string.password_error_empty)
+            isNull = true
+        }
+
+        return isNull
     }
 
     private fun isEmailAndPasswordValid(email: String, password: String): Boolean {

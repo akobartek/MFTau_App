@@ -22,11 +22,11 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
         return spannable
     }
 
-    fun isEmailValid(email: String): Boolean {
+    fun isEmailValid(email: String?): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    fun isValidPassword(password: String): Boolean {
+    fun isValidPassword(password: String?): Boolean {
         val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})"
         val pattern = Pattern.compile(passwordRegex)
         val matcher = pattern.matcher(password)

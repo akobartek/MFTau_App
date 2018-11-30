@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- BASIC STRINGS -->
     <string name="statute">Statut</string>
     <string name="prayer">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
@@ -17,6 +18,7 @@
     <string name="ask_for_pray">Poproś o modlitwę</string>
     <string name="report_error">Zgłoś błąd</string>
 
+    <!-- EMAIL STRINGS -->
     <string name="send_mail">Wyślij maila…</string>
     <string name="send_mail_error">Nie znaleziono żadnego klienta mailowego!</string>
     <string name="email_name">Imię</string>
@@ -25,23 +27,22 @@
     <string name="empty_email_name_error">Podaj swoje imię!</string>
     <string name="empty_email_intention_error">Wpisz intencję!</string>
 
+    <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
     <string name="password">Hasło</string>
     <string name="forgot_password">Nie pamiętasz hasła?</string>
     <string name="create_account">Utwórz konto</string>
     <string name="email_error">Nieprawidłowy adres mailowy.</string>
+    <string name="password_error_empty">Podaj hasło!</string>
     <string name="password_error_too_short">Hasło musi mieć co najmniej 6 znaków.</string>
     <string name="password_error_wrong">Hasło musi składać się z małych i dużych liter oraz cyfr.</string>
-
     <string name="send">Wyślij</string>
     <string name="cancel">Anuluj</string>
     <string name="message_sent">Wysłano wiadomość</string>
-
     <string name="sign_up_error">Błąd w trakcie rejestracji, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
     <string name="sign_up_existing_user_error">Istnieje już konto na ten adres!</string>
     <string name="sign_up_successful_dialog_title">Zarejestrowano pomyślnie</string>
     <string name="sign_up_successful_dialog_message">Aby korzystać z konta musisz zatwierdzić je poprzez kliknięcie linku w wiadomości na mailu.</string>
-
     <string name="signed_in">Zalogowano</string>
     <string name="sign_in_no_user_error">Nie znaleziono konta powiązanego z tym adresem!</string>
     <string name="sign_in_wrong_password_error">Wpisano złe hasło!</string>
@@ -49,7 +50,6 @@
     <string name="verify_email_dialog_title">Weryfikacja maila</string>
     <string name="verify_email_dialog_message">Aby korzystać z konta musisz zatwierdzić adres mailowy.</string>
     <string name="verify_email_send_again">Ponów wiadomość</string>
-
     <string name="reset_password_dialog_title">Resetowanie hasła</string>
     <string name="reset_password_dialog_message">Wpisz adres mailowy:</string>
     <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
