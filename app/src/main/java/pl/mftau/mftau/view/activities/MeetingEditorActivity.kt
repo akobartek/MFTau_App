@@ -300,5 +300,6 @@ class MeetingEditorActivity : AppCompatActivity() {
     private val myDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
         mMeetingEditorViewModel.date = SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(dateString)
+        dateText.text = dateString
     }
 }
