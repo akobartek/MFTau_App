@@ -18,6 +18,8 @@ import pl.mftau.mftau.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    // TODO (app) -> CHANGE ALL !! TO ?
+
     companion object {
         const val pdfActivityExtra = "pdf"
         const val songBookExtraString = "songBook"

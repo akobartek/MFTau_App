@@ -15,13 +15,14 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
 
 class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartViewHolder>() {
 
-    private var mMemberList = listOf<Member>()
-    private var mPresence = HashMap<String, Array<Int>>()
-    private var mNumberOfMeetings = arrayOf(0, 0, 0)
+    private var memberList = listOf<Member>()
+    private var presence = HashMap<String, Array<Int>>()
+    private var numberOfMeetings = arrayOfNulls<Int>(3)
     private var isNightMode = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartViewHolder {
@@ -31,14 +32,14 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
     }
 
     override fun onBindViewHolder(holder: ChartViewHolder, position: Int) =
-            holder.bindView(mMemberList[position])
+            holder.bindView(memberList[position])
 
-    override fun getItemCount(): Int = mMemberList.size
+    override fun getItemCount(): Int = memberList.size
 
-    fun setLists(memberList: List<Member>, presence: HashMap<String, Array<Int>>, numberOfMeetings: Array<Int>, isNightMode: Boolean) {
-        mMemberList = memberList
-        mPresence = presence
-        mNumberOfMeetings = numberOfMeetings
+    fun setLists(memberList: List<Member>, presence: HashMap<String, Array<Int>>, numberOfMeetings: Array<Int?>, isNightMode: Boolean) {
+        this.memberList = memberList
+        this.presence = presence
+        this.numberOfMeetings = numberOfMeetings
         this.isNightMode = isNightMode
         notifyDataSetChanged()
     }
@@ -58,11 +59,11 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
         )
 
         fun bindView(member: Member) {
-            loadChart(member.id)
             itemView.tag = member.id
             itemView.presenceMemberName.text = member.name
 
             Member.loadImage(itemView.presenceMemberPhoto, member)
+            loadChart(member.id)
         }
 
         fun reloadChart() {
@@ -104,7 +105,6 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
                 legendEntry.formColor = colors[i]
                 legendEntries.add(legendEntry)
             }
-
             val legend = itemView.presenceMemberChart.legend
             legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
@@ -117,41 +117,46 @@ class ChartRecyclerAdapter : RecyclerView.Adapter<ChartRecyclerAdapter.ChartView
             val values = arrayListOf<BarEntry>()
             val dataSet: BarDataSet
 
-            if (mNumberOfMeetings[0] > 0)
-                values.add(BarEntry(0f, (mPresence[id]!![0].toFloat()) / mNumberOfMeetings[0] * 100))
+            if (numberOfMeetings[0]!! > 0)
+                values.add(BarEntry(0f, (presence[id]!![0].toFloat()) / numberOfMeetings[0]!! * 100))
             else
                 values.add(BarEntry(0f, 0f))
 
-            if (mNumberOfMeetings[1] > 0)
-                values.add(BarEntry(1f, (mPresence[id]!![1].toFloat()) / mNumberOfMeetings[1] * 100))
+            if (numberOfMeetings[1]!! > 0)
+                values.add(BarEntry(1f, (presence[id]!![1].toFloat()) / numberOfMeetings[1]!! * 100))
             else
                 values.add(BarEntry(1f, 0f))
 
-            if (mNumberOfMeetings[2] > 0)
-                values.add(BarEntry(2f, (mPresence[id]!![2].toFloat()) / mNumberOfMeetings[2] * 100))
+            if (numberOfMeetings[2]!! > 0)
+                values.add(BarEntry(2f, (presence[id]!![2].toFloat()) / numberOfMeetings[2]!! * 100))
             else
                 values.add(BarEntry(2f, 0f))
 
             if (itemView.presenceMemberChart.data != null && itemView.presenceMemberChart.data.dataSetCount > 0) {
                 dataSet = itemView.presenceMemberChart.data.getDataSetByIndex(0) as BarDataSet
                 dataSet.values = values
+                itemView.presenceMemberChart.data.setValueTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
                 itemView.presenceMemberChart.data.notifyDataChanged()
                 itemView.presenceMemberChart.notifyDataSetChanged()
                 itemView.presenceMemberChart.invalidate()
             } else {
                 dataSet = BarDataSet(values, itemView.context.getString(R.string.meetings))
                 dataSet.setDrawIcons(false)
+                dataSet.setColors(colors[0], colors[1], colors[2])
+                dataSet.values = values
 
-                val barData = BarData(dataSet)
+                val sets = arrayListOf<IBarDataSet>()
+                sets.add(dataSet)
+
+                val barData = BarData(sets)
                 barData.setValueFormatter(PercentFormatter())
                 barData.setValueTextSize(10f)
                 barData.barWidth = 0.6f
                 itemView.presenceMemberChart.data = barData
+                itemView.presenceMemberChart.data.setValueTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
                 itemView.presenceMemberChart.setFitBars(true)
 
-                dataSet.setColors(Color.rgb(104, 241, 175),
-                        Color.rgb(164, 228, 251),
-                        Color.rgb(242, 247, 158))
+                itemView.presenceMemberChart.data.notifyDataChanged()
                 itemView.presenceMemberChart.notifyDataSetChanged()
                 itemView.presenceMemberChart.invalidate()
             }

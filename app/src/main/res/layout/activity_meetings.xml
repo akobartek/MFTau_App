@@ -32,8 +32,9 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="?attr/colorText"
-            app:tabIndicatorColor="?attr/colorText" />
+            app:tabIndicatorColor="?attr/colorText"
+            app:tabMode="fixed"
+            app:tabTextColor="?attr/colorText" />
     </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

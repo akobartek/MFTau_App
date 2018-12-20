@@ -123,7 +123,7 @@ class LoginActivity : AppCompatActivity() {
                                     showVerifyEmailDialog()
                                 } else {
                                     Toast.makeText(this@LoginActivity, R.string.signed_in, Toast.LENGTH_SHORT).show()
-                                    finish()
+                                    onBackPressed()
                                 }
                             } else {
                                 Log.d("SignInFailed", task.exception!!.toString())

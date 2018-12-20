@@ -75,8 +75,10 @@ class ChartActivity : AppCompatActivity() {
     }
 
     private fun setPresence() {
-        mChartViewModel.setPresence()
-        setDataToChart()
+        mChartViewModel.getPresence().observe(this@ChartActivity, Observer {
+            if (!mChartViewModel.numberOfMeetings.contains(null))
+                setDataToChart()
+        })
     }
 
     private fun setDataToChart() {
@@ -86,8 +88,6 @@ class ChartActivity : AppCompatActivity() {
         mAdapter.setLists(mChartViewModel.members!!, mChartViewModel.presence, mChartViewModel.numberOfMeetings, isNightMode)
         chartRecyclerView.adapter = mAdapter
         mLoadingDialog.dismiss()
-        chartRecyclerView.scrollToPosition(mChartViewModel.members!!.size - 1)
-        chartRecyclerView.smoothScrollToPosition(0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
