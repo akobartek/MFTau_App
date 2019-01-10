@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackground"
-    android:orientation="vertical">
+    tools:context=".view.fragments.MeetingsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/meetingsRecyclerView"
@@ -23,6 +23,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:indeterminateTint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

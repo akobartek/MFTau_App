@@ -17,6 +17,10 @@
     <string name="settings">Ustawienia</string>
     <string name="ask_for_pray">Poproś o modlitwę</string>
     <string name="report_error">Zgłoś błąd</string>
+    <string name="no_internet_title">Brak Internetu</string>
+    <string name="no_internet_reconnect_message">Wystąpił problem z połączeniem internetowym, chcesz spróbować ponownie?</string>
+    <string name="no_internet_data_message">Brak dostępu do Internetu, wyświetlane dane mogą być nieaktualne!</string>
+    <string name="try_again">Spróbuj</string>
 
     <!-- EMAIL STRINGS -->
     <string name="send_mail">Wyślij maila…</string>
@@ -84,6 +88,9 @@
     <string name="retreat_price">Cena</string>
     <string name="begin">Początek</string>
     <string name="end">Koniec</string>
+    <string name="for_over_15years">Dla wszystkich chętnych pow. 15 r.ż.</string>
+    <string name="for_members">Dla członków MF Tau</string>
+    <string name="for_responsible">Dla odpowiedzialnych MF Tau</string>
     <string name="delete_retreat">Usuń rekolekcje</string>
     <string name="retreat_delete_dialog_msg">Usunąć te rekolekcje?</string>
     <string name="empty_retreat_name_error">Uzupełnij nazwę rekolekcji!</string>
@@ -124,7 +131,18 @@
     <string name="check_presence_dialog_msg">Chcesz teraz sprawdzić obecność na spotkaniu?</string>
     <string name="check_presence">Sprawdź obecność</string>
     <string name="show_presence">Pokaż obecności</string>
+    <string name="justify_absence">Usprawiedliwianie nieobecności</string>
+    <string name="save">Zapisz</string>
+    <string name="absence_dialog_title">%s - usprawiedliwienie</string>
+    <string name="absence_dialog_message">Podaj powód nieobecności:</string>
+    <string name="reason">Powód</string>
+    <string name="reason_empty_error">Powód nie może być pusty!</string>
     <string name="presence">Obecności</string>
+    <string name="presence_list_title">%s - obecności</string>
+    <string name="present">Obecność</string>
+    <string name="justified">Usprawiedliwienie</string>
+    <string name="absent">Nieobecność</string>
+    <string name="reason_for_absence">Powód nieobecności: %s</string>
     <string name="delete_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
     <string name="delete_meetings">Usuń wszystkie spotkania</string>
     <string name="delete_meetings_successfully">Usunięto wszystkie spotkania!</string>
@@ -152,7 +170,7 @@
     <string name="member_add_error">Błąd w trakcie zapisywania osoby!</string>
     <string name="member_update_error">Błąd w trakcie aktualizacji danych!</string>
     <string name="member_photo_error">Błąd w trakcie zapisywania zdjęcia!</string>
-    <string name="uploading">Zapisywanie…</string>
+    <string name="loading">Ładowanie…</string>
     <string name="unsaved_changes_dialog_msg">Odrzucić wprowadzone zmiany?</string>
     <string name="discard">Odrzuć</string>
     <string name="keep_editing">Pozostań</string>
@@ -173,5 +191,4 @@
     <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
     <string name="copy_draws">Skopiuj losowania</string>
     <string name="copied_draws">Skopiowano do schowka!</string>
-
 </resources>

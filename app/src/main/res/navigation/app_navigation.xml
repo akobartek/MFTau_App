@@ -1,5 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/app_navigation">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@+id/mainFragment">
 
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="pl.mftau.mftau.view.fragments.MainFragment"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/showPdfFragment"
+            app:destination="@+id/pdfFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showListFragment"
+            app:destination="@+id/listFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showLoginFragment"
+            app:destination="@+id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showPreferenceFragment"
+            app:destination="@+id/preferencesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showWebsiteFragment"
+            app:destination="@+id/websiteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showEmailFragment"
+            app:destination="@+id/emailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showMembersFragment"
+            app:destination="@+id/membersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showMeetingsFragment"
+            app:destination="@+id/meetingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showRetreatsFragment"
+            app:destination="@+id/retreatsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pdfFragment"
+        android:name="pl.mftau.mftau.view.fragments.PdfFragment"
+        tools:layout="@layout/fragment_pdf">
+
+        <argument
+            android:name="pdf"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="pl.mftau.mftau.view.fragments.ListFragment"
+        tools:layout="@layout/fragment_list">
+
+        <argument
+            android:name="listType"
+            app:argType="string" />
+        <action
+            android:id="@+id/showBreviaryFragment"
+            app:destination="@+id/breviaryFragment"
+            app:enterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/showPrayerFragment"
+            app:destination="@+id/prayerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/breviaryFragment"
+        android:name="pl.mftau.mftau.view.fragments.BreviaryFragment"
+        tools:layout="@layout/fragment_breviary">
+
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/prayerFragment"
+        android:name="pl.mftau.mftau.view.fragments.PrayerFragment"
+        tools:layout="@layout/fragment_prayer">
+
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="pl.mftau.mftau.view.fragments.LoginFragment"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/websiteFragment"
+        android:name="pl.mftau.mftau.view.fragments.WebsiteFragment"
+        tools:layout="@layout/fragment_website" />
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:name="pl.mftau.mftau.view.fragments.PreferenceFragment" />
+
+    <fragment
+        android:id="@+id/emailFragment"
+        android:name="pl.mftau.mftau.view.fragments.EmailFragment"
+        tools:layout="@layout/fragment_email">
+
+        <argument
+            android:name="emailType"
+            app:argType="string" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/retreatsFragment"
+        android:name="pl.mftau.mftau.view.fragments.RetreatsFragment"
+        tools:layout="@layout/fragment_retreats">
+
+        <action
+            android:id="@+id/showDetailsFragment"
+            app:destination="@+id/retreatDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showEditorFragment"
+            app:destination="@+id/retreatEditorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/retreatDetailsFragment"
+        android:name="pl.mftau.mftau.view.fragments.RetreatDetailsFragment"
+        tools:layout="@layout/fragment_retreat_details">
+
+        <argument
+            android:name="retreat"
+            app:argType="pl.mftau.mftau.model.Retreat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/retreatEditorFragment"
+        android:name="pl.mftau.mftau.view.fragments.RetreatEditorFragment"
+        tools:layout="@layout/fragment_retreat_editor">
+
+        <argument
+            android:name="retreat"
+            app:argType="pl.mftau.mftau.model.Retreat"
+            app:nullable="true" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/membersFragment"
+        android:name="pl.mftau.mftau.view.fragments.MembersFragment"
+        tools:layout="@layout/fragment_members">
+
+        <action
+            android:id="@+id/showEmausFragment"
+            app:destination="@+id/emausFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showMemberEditorFragment"
+            app:destination="@+id/memberEditorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/emausFragment"
+        android:name="pl.mftau.mftau.view.fragments.EmausFragment"
+        tools:layout="@layout/fragment_emaus" />
+
+    <fragment
+        android:id="@+id/memberEditorFragment"
+        android:name="pl.mftau.mftau.view.fragments.MemberEditorFragment"
+        tools:layout="@layout/fragment_member_editor">
+
+        <argument
+            android:name="member"
+            app:argType="pl.mftau.mftau.model.Member"
+            app:nullable="true" />
+        <action
+            android:id="@+id/showPresenceDetailsFragment"
+            app:destination="@+id/presenceDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/meetingsFragment"
+        android:name="pl.mftau.mftau.view.fragments.MeetingsFragment"
+        tools:layout="@layout/fragment_meetings">
+
+        <action
+            android:id="@+id/showPresenceListFragment"
+            app:destination="@+id/presenceListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showMeetingEditorFragment"
+            app:destination="@+id/meetingEditorFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/showPresenceCheckFragment"
+            app:destination="@+id/presenceCheckFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/presenceListFragment"
+        android:name="pl.mftau.mftau.view.fragments.PresenceListFragment"
+        tools:layout="@layout/fragment_presence_list">
+
+        <action
+            android:id="@+id/showPresenceDetailsFragment"
+            app:destination="@+id/presenceDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/meetingEditorFragment"
+        android:name="pl.mftau.mftau.view.fragments.MeetingEditorFragment"
+        tools:layout="@layout/fragment_meeting_editor">
+
+        <argument
+            android:name="meeting"
+            app:argType="pl.mftau.mftau.model.Meeting"
+            app:nullable="true" />
+        <action
+            android:id="@+id/showPresenceCheckFragment"
+            app:destination="@+id/presenceCheckFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/presenceCheckFragment"
+        android:name="pl.mftau.mftau.view.fragments.PresenceCheckFragment"
+        tools:layout="@layout/fragment_presence_check">
+
+        <argument
+            android:name="meeting"
+            app:argType="pl.mftau.mftau.model.Meeting" />
+        <argument
+            android:name="isMeetingNew"
+            app:argType="integer" />
+        <action
+            android:id="@+id/moveBackToMeetingsList"
+            app:popUpTo="@+id/meetingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/presenceDetailsFragment"
+        android:name="pl.mftau.mftau.view.fragments.PresenceDetailsFragment"
+        tools:layout="@layout/fragment_presence_details">
+
+        <argument
+            android:name="member"
+            app:argType="pl.mftau.mftau.model.Member" />
+    </fragment>
 </navigation>

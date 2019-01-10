@@ -12,6 +12,7 @@
         <item name="colorBackground">#FFFFFF</item>
         <item name="colorListItemBackground">#FFFFFF</item>
         <item name="logoFull">@drawable/logo_full</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="alertDialogTheme">@style/DialogTheme</item>
     </style>
@@ -28,15 +29,13 @@
         <item name="colorBackground">#28292e</item>
         <item name="colorListItemBackground">#232428</item>
         <item name="logoFull">@drawable/logo_full_white</item>
+        <item name="colorControlNormal">#FFFFFF</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
         <item name="alertDialogTheme">@style/DialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/DialogTheme</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearance</item>
-    </style>
-
-    <style name="PreferenceFragmentDarkStyle" parent="AppTheme.Dark">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:itemBackground">#232428</item>
         <item name="android:textColorPrimary">#FFFFFF</item>
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="android:textColorTertiary">#FFFFFF</item>
@@ -58,6 +57,9 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
 
     <style name="MainMenuButtons">
         <item name="android:layout_width">wrap_content</item>

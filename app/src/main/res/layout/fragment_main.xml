@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
+    tools:context=".view.fragments.MainFragment">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/community_logo"
+        android:src="?attr/logoFull"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".75" />
+
+    <TextView
+        android:id="@+id/songBook"
+        style="@style/MainMenuButtons"
+        android:layout_marginEnd="24dp"
+        android:drawableTop="@drawable/ic_songbook"
+        android:text="@string/song_book"
+        app:layout_constraintEnd_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/prayerBook"
+        style="@style/MainMenuButtons"
+        android:drawableTop="@drawable/ic_pray"
+        android:text="@string/prayer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/statute"
+        style="@style/MainMenuButtons"
+        android:layout_marginStart="24dp"
+        android:drawableTop="@drawable/ic_statute"
+        android:text="@string/statute"
+        app:layout_constraintStart_toEndOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/breviary"
+        style="@style/MainMenuButtons"
+        android:layout_marginEnd="12dp"
+        android:drawableTop="@drawable/ic_breviary"
+        android:text="@string/breviary"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/songBook" />
+
+    <TextView
+        android:id="@+id/website"
+        style="@style/MainMenuButtons"
+        android:layout_marginStart="12dp"
+        android:drawableTop="@drawable/ic_website"
+        android:text="@string/mftau_website"
+        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/songBook" />
+
+    <TextView
+        android:id="@+id/members"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:drawableTop="@drawable/ic_people"
+        android:text="@string/members"
+        app:layout_constraintEnd_toEndOf="@+id/breviary"
+        app:layout_constraintStart_toStartOf="@+id/breviary"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <TextView
+        android:id="@+id/meetings"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:drawableTop="@drawable/ic_meeting"
+        android:text="@string/meetings"
+        app:layout_constraintEnd_toEndOf="@+id/website"
+        app:layout_constraintStart_toStartOf="@+id/website"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <TextView
+        android:id="@+id/retreat"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:drawableTop="@drawable/ic_retreat"
+        android:text="@string/retreat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <ImageView
+        android:id="@+id/menuBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/menu_description"
+        android:padding="20dp"
+        android:src="@drawable/ic_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

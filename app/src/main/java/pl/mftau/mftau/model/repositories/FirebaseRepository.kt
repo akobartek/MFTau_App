@@ -15,6 +15,7 @@ import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
+import pl.mftau.mftau.view.fragments.PresenceListFragment
 import java.io.InputStream
 
 class FirebaseRepository(val app: Application) {
@@ -23,7 +24,7 @@ class FirebaseRepository(val app: Application) {
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mStorageRef = FirebaseStorage.getInstance().reference
 
-
+    // region Retreats
     /**
      * Retreats methods.
      */
@@ -51,7 +52,6 @@ class FirebaseRepository(val app: Application) {
                 .add(retreatValues)
                 .addOnSuccessListener {
                     Toast.makeText(activity, activity.getString(R.string.retreat_added), Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
                 .addOnFailureListener {
                     Toast.makeText(activity, activity.getString(R.string.retreat_add_error), Toast.LENGTH_SHORT).show()
@@ -64,7 +64,6 @@ class FirebaseRepository(val app: Application) {
                 .set(retreatValues)
                 .addOnSuccessListener {
                     Toast.makeText(activity, activity.getString(R.string.retreat_updated), Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
                 .addOnFailureListener {
                     Toast.makeText(activity, activity.getString(R.string.retreat_update_error), Toast.LENGTH_SHORT).show()
@@ -84,8 +83,9 @@ class FirebaseRepository(val app: Application) {
                         Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
                 }
     }
+    // endregion Retreats
 
-
+    // region Members
     /**
      * Members methods.
      */
@@ -112,6 +112,26 @@ class FirebaseRepository(val app: Application) {
         return mutableLiveData
     }
 
+    fun getMemberById(memberId: String): MutableLiveData<Member> {
+        val mutableLiveData = MutableLiveData<Member>()
+        mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                .collection(FirestoreUtils.firestoreCollectionMembers)
+                .document(memberId)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (firebaseFirestoreException != null) {
+                        Log.e("FirebaseRepository", firebaseFirestoreException.toString())
+                        return@addSnapshotListener
+                    }
+
+                    val member = querySnapshot!!.toObject(Member::class.java)
+                    member?.id = memberId
+                    member?.isResponsible = querySnapshot[FirestoreUtils.firestoreKeyIsResponsible] as Boolean
+                    mutableLiveData.value = member
+                }
+        return mutableLiveData
+    }
+
     fun addMember(activity: Activity, memberValues: HashMap<String, Any>, filePath: InputStream?) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
                 .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
@@ -126,7 +146,6 @@ class FirebaseRepository(val app: Application) {
                         putPhoto(activity, documentReference.id, filePath, dialog)
                     } else {
                         Toast.makeText(activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT).show()
-                        activity.finish()
                     }
                 }
                 .addOnFailureListener {
@@ -173,7 +192,6 @@ class FirebaseRepository(val app: Application) {
                                 }
                     } else {
                         Toast.makeText(activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT).show()
-                        activity.finish()
                     }
                 }
                 .addOnFailureListener {
@@ -188,12 +206,10 @@ class FirebaseRepository(val app: Application) {
                 .addOnSuccessListener {
                     dialog.dismiss()
                     Toast.makeText(activity, activity.getString(R.string.member_with_photo_saved), Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
                 .addOnFailureListener {
                     dialog.dismiss()
                     Toast.makeText(activity, activity.getString(R.string.member_photo_error), Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
     }
 
@@ -214,8 +230,9 @@ class FirebaseRepository(val app: Application) {
                     Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
                 }
     }
+    //endregion Members
 
-
+    //region Meetings
     /**
      * Meetings methods.
      */
@@ -230,7 +247,7 @@ class FirebaseRepository(val app: Application) {
                 .orderBy(FirestoreUtils.firestoreKeyDate, Query.Direction.ASCENDING)
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     if (firebaseFirestoreException != null) {
-                        Log.e("MeetingsFragment", firebaseFirestoreException.toString())
+                        Log.e("MeetingsListFragment", firebaseFirestoreException.toString())
                         return@addSnapshotListener
                     }
 
@@ -243,31 +260,66 @@ class FirebaseRepository(val app: Application) {
         return mutableLiveData
     }
 
-    fun addMeeting(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>, attendanceList: ArrayList<String>?) {
+    fun getMeetingById(meetingId: String, meetingType: Int): MutableLiveData<Meeting> {
+        val mutableLiveData = MutableLiveData<Meeting>()
+        mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                .collection(FirestoreUtils.firestoreCollectionMeetings)
+                .document(FirestoreUtils.meetingTypes[meetingType])
+                .collection(FirestoreUtils.firestoreCollectionMeetings)
+                .document(meetingId)
+                .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    if (firebaseFirestoreException != null) {
+                        Log.e("FirebaseRepository", firebaseFirestoreException.toString())
+                        return@addSnapshotListener
+                    }
+
+                    val meeting = querySnapshot!!.toObject(Meeting::class.java)
+                    meeting?.id = meetingId
+                    mutableLiveData.value = meeting
+                }
+        return mutableLiveData
+    }
+
+    fun addMeeting(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
                 .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .document(FirestoreUtils.meetingTypes[meetingType])
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .add(meetingValues)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener {
                     Toast.makeText(activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT).show()
-
-                    if (attendanceList != null) {
-                        val mNewMeetingId = documentReference.id
-                        mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                                .collection(FirestoreUtils.firestoreCollectionMeetings)
-                                .document(FirestoreUtils.meetingTypes[meetingType])
-                                .collection(FirestoreUtils.firestoreCollectionMeetings)
-                                .document(mNewMeetingId)
-                                .update(FirestoreUtils.firestoreKeyAttendanceList, attendanceList)
-                    }
                 }
                 .addOnFailureListener {
                     Toast.makeText(activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT).show()
                 }
-        activity.finish()
+    }
+
+    fun addMeetingWithAttendanceList(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) {
+        mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                .collection(FirestoreUtils.firestoreCollectionMeetings)
+                .document(FirestoreUtils.meetingTypes[meetingType])
+                .collection(FirestoreUtils.firestoreCollectionMeetings)
+                .add(meetingValues)
+                .addOnSuccessListener {
+                    Toast.makeText(activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT).show()
+
+                    val mNewMeetingId = it.id
+                    val meetingDocument = mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                            .collection(FirestoreUtils.firestoreCollectionMeetings)
+                            .document(FirestoreUtils.meetingTypes[meetingType])
+                            .collection(FirestoreUtils.firestoreCollectionMeetings)
+                            .document(mNewMeetingId)
+
+                    meetingDocument.update(FirestoreUtils.firestoreKeyAttendanceList, meetingValues[FirestoreUtils.firestoreKeyAttendanceList])
+                    meetingDocument.update(FirestoreUtils.firestoreKeyAbsenceList, meetingValues[FirestoreUtils.firestoreKeyAbsenceList])
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT).show()
+                }
     }
 
     fun updateMeeting(activity: Activity, meetingId: String, meetingType: Int, meetingValues: HashMap<String, Any>) {
@@ -280,21 +332,29 @@ class FirebaseRepository(val app: Application) {
                 .set(meetingValues)
                 .addOnSuccessListener {
                     Toast.makeText(activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT).show()
-                    activity.finish()
                 }
                 .addOnFailureListener {
                     Toast.makeText(activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT).show()
                 }
     }
 
-    fun updateAttendanceList(meetingId: String, meetingType: Int, attendanceList: ArrayList<String>) {
-        mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+    fun updateAttendanceList(activity: Activity, meetingId: String, meetingType: Int,
+                             attendanceList: ArrayList<String>, absenceList: HashMap<String, String>) {
+        val meetingDocument = mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
                 .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .document(FirestoreUtils.meetingTypes[meetingType])
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .document(meetingId)
-                .update(FirestoreUtils.firestoreKeyAttendanceList, attendanceList)
+
+        meetingDocument.update(FirestoreUtils.firestoreKeyAttendanceList, attendanceList)
+        meetingDocument.update(FirestoreUtils.firestoreKeyAbsenceList, absenceList)
+                .addOnSuccessListener {
+                    Toast.makeText(activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT).show()
+                }
     }
 
     fun deleteMeeting(activity: Activity, meetingId: String, meetingType: Int) {
@@ -338,4 +398,32 @@ class FirebaseRepository(val app: Application) {
                     }
         }
     }
+
+    fun getPresence(presence: HashMap<String, Array<Int>>): MutableLiveData<HashMap<String, Array<Int>>> {
+        val mutableLiveData = MutableLiveData<HashMap<String, Array<Int>>>()
+        for (i in 0 until FirestoreUtils.meetingTypes.size) {
+            val meetingType = FirestoreUtils.meetingTypes[i]
+            mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                    .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                    .collection(FirestoreUtils.firestoreCollectionMeetings)
+                    .document(meetingType)
+                    .collection(FirestoreUtils.firestoreCollectionMeetings)
+                    .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                        if (firebaseFirestoreException != null) {
+                            Log.e("ChartViewModel", firebaseFirestoreException.toString())
+                            return@addSnapshotListener
+                        }
+
+                        PresenceListFragment.numberOfMeetings[i] = querySnapshot!!.size()
+                        querySnapshot.forEach { queryDocumentSnapshot ->
+                            (queryDocumentSnapshot[FirestoreUtils.firestoreKeyAttendanceList] as ArrayList<*>).forEach {
+                                presence[it]!![i] = presence[it]!![i] + 1
+                            }
+                        }
+                        mutableLiveData.value = presence
+                    }
+        }
+        return mutableLiveData
+    }
+    // endregion Meetings
 }

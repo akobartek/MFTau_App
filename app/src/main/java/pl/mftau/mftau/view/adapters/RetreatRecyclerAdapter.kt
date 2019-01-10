@@ -1,22 +1,21 @@
 package pl.mftau.mftau.view.adapters
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_retreat.view.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.view.activities.RetreatDetailsActivity
 import pl.mftau.mftau.model.Retreat
-import pl.mftau.mftau.view.activities.RetreatEditActivity
+import pl.mftau.mftau.view.fragments.RetreatsFragmentDirections
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RetreatRecyclerAdapter(var userType: Int, val activity: Activity)
+class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment)
     : RecyclerView.Adapter<RetreatRecyclerAdapter.RetreatViewHolder>() {
 
     private var mRetreats = listOf<Retreat>()
@@ -48,15 +47,10 @@ class RetreatRecyclerAdapter(var userType: Int, val activity: Activity)
                     getDateFormatted(retreat.endDate.toDate())
 
             itemView.setOnClickListener {
-
-                val intent =
-                        if (userType != MainViewModel.USER_TYPE_ADMIN)
-                            Intent(itemView.context, RetreatDetailsActivity::class.java)
-                        else
-                            Intent(itemView.context, RetreatEditActivity::class.java)
-                intent.putExtra("retreat", retreat)
-                intent.putExtra("userType", userType)
-                activity.startActivityForResult(intent, 2137)
+                if (userType != MainViewModel.USER_TYPE_ADMIN)
+                    fragment.findNavController().navigate(RetreatsFragmentDirections.showDetailsFragment(retreat))
+                else
+                    fragment.findNavController().navigate(RetreatsFragmentDirections.showEditorFragment(retreat))
             }
         }
     }

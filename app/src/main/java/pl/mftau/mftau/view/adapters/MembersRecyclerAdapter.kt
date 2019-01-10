@@ -1,14 +1,14 @@
 package pl.mftau.mftau.view.adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemMemberBinding
 import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.view.activities.MemberEditorActivity
+import pl.mftau.mftau.view.fragments.MembersFragmentDirections
 
 class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.MembersViewHolder>() {
 
@@ -20,9 +20,7 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.binding.member = mMembersList[position]
         holder.binding.root.setOnClickListener {
-            val intent = Intent(it.context, MemberEditorActivity::class.java)
-            intent.putExtra("member", mMembersList[position])
-            it.context.startActivity(intent)
+            it.findNavController().navigate(MembersFragmentDirections.showMemberEditorFragment(mMembersList[position]))
         }
     }
 

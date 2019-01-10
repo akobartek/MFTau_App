@@ -14,6 +14,7 @@ object FirestoreUtils {
     const val firestoreKeyRegisterLimitDate = "registerLimitDate"
     const val firestoreKeyAddress = "address"
     const val firestoreKeyPrice = "price"
+    const val firestoreKeyRetreatType = "retreatType"
     const val firestoreKeyAdvancePayment = "advancePayment"
 
     const val firestoreCollectionCities = "cities"
@@ -27,6 +28,7 @@ object FirestoreUtils {
     const val firestoreKeyDate = "date"
     const val firestoreKeyMeetingType = "meetingType"
     const val firestoreKeyAttendanceList = "attendanceList"
+    const val firestoreKeyAbsenceList = "absenceList"
 
     val meetingTypes = arrayOf(
             "formation", "prayerful", "other"

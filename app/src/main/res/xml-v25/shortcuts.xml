@@ -8,10 +8,10 @@
         android:shortcutShortLabel="@string/song_book">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="pl.mftau.mftau.view.activities.PdfActivity"
+            android:targetClass="pl.mftau.mftau.view.activities.MainActivity"
             android:targetPackage="pl.mftau.mftau">
             <extra
-                android:name="pdf"
+                android:name="shortcut"
                 android:value="songBook" />
         </intent>
     </shortcut>
@@ -23,7 +23,11 @@
         android:shortcutShortLabel="@string/breviary">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="pl.mftau.mftau.view.activities.BreviaryActivity"
-            android:targetPackage="pl.mftau.mftau" />
+            android:targetClass="pl.mftau.mftau.view.activities.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="breviary" />
+        </intent>
     </shortcut>
 </shortcuts>

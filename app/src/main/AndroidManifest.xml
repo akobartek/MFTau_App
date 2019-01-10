@@ -4,6 +4,7 @@
     package="pl.mftau.mftau">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
@@ -18,6 +19,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".view.activities.MainActivity"
+            android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -29,110 +31,6 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-        </activity>
-        <activity android:name=".view.activities.WebsiteActivity" />
-        <activity android:name=".view.activities.PdfActivity" />
-        <activity
-            android:name=".view.activities.BreviaryActivity"
-            android:label="@string/breviary">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.LoginActivity"
-            android:label="">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.MembersActivity"
-            android:label="@string/members"
-            android:launchMode="singleInstance">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.MeetingsActivity"
-            android:label="@string/meetings"
-            android:launchMode="singleInstance">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.MeetingEditorActivity"
-            android:label="@string/add_meeting"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MeetingsActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.MemberEditorActivity"
-            android:label="@string/add_member"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MembersActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.PrayerActivity"
-            android:label="@string/prayer">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.ChartActivity"
-            android:label="@string/presence">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MeetingsActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.EmausActivity"
-            android:label="@string/emauses">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MembersActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.PreferenceActivity"
-            android:label="@string/preferences">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.EmailActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.RetreatActivity"
-            android:label="@string/retreat">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.RetreatDetailsActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.RetreatActivity" />
-        </activity>
-        <activity
-            android:name=".view.activities.RetreatEditActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activities.RetreatActivity" />
         </activity>
     </application>
 

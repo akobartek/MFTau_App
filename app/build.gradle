@@ -11,8 +11,8 @@ android {
         applicationId "pl.mftau.mftau"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 11
-        versionName "2.22"
+        versionCode 12
+        versionName "2.24"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,16 +32,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "com.google.android.material:material:1.1.0-alpha02"
 
     // ConstraintLayout
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
-    kapt 'com.android.databinding:compiler:3.2.0-alpha10'
+    kapt "com.android.databinding:compiler:3.2.0-alpha10"
 
     // Preferences
     implementation "androidx.preference:preference:1.0.0"
@@ -56,26 +56,32 @@ dependencies {
     kapt "androidx.room:room-compiler:2.1.0-alpha03"
 
     // Firebase dependencies
-    implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
-    implementation 'com.google.firebase:firebase-firestore:17.1.4'
-    implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.firebaseui:firebase-ui-storage:3.2.1'
+    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-auth:16.1.0"
+    implementation "com.google.firebase:firebase-firestore:17.1.5"
+    implementation "com.google.firebase:firebase-storage:16.0.5"
+    implementation "com.firebaseui:firebase-ui-storage:3.2.1"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation "com.github.bumptech.glide:glide:4.8.0"
+    kapt "com.github.bumptech.glide:compiler:4.8.0"
 
     // PDFViewer library
-    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
+    implementation "com.github.barteksc:android-pdf-viewer:3.1.0-beta.1"
 
     // Chart library
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0-alpha"
+
+    // SwipeRevealLayout library
+    implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
+
+    // JSoup library
+    implementation "org.jsoup:jsoup:1.11.3"
 
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
 }
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"

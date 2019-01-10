@@ -15,4 +15,5 @@ data class Retreat(var id: String = "",
                    var city: String = "",
                    var address: String = "",
                    var price: Int = 0,
+                   var retreatType: Int = 0,
                    var advancePayment: Boolean = false) : Parcelable

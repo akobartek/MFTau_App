@@ -1,34 +1,39 @@
 package pl.mftau.mftau.view.activities
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Color
+import android.net.ConnectivityManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
-import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.FirestoreUtils
+import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.Retreat
+import pl.mftau.mftau.utils.PrayerUtils
+import pl.mftau.mftau.view.fragments.*
 import pl.mftau.mftau.viewmodel.MainViewModel
 
+
 class MainActivity : AppCompatActivity() {
-
-    // TODO (app) -> CHANGE ALL !! TO ?
-
-    companion object {
-        const val pdfActivityExtra = "pdf"
-        const val songBookExtraString = "songBook"
-        const val statuteExtraString = "statute"
-    }
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mMainViewModel: MainViewModel
     private var isNightMode = false
+    private var currentFragmentId = 0
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
@@ -42,16 +47,71 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(mainToolbar)
 
         if (!isNightMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.statusBarColor = Color.WHITE
         }
 
+        val navController = (navHostFragment as NavHostFragment? ?: return).navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
         mAuth = FirebaseAuth.getInstance()
         mMainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
+        mMainViewModel.isNightMode = isNightMode
 
-        setOnClickListeners()
+        navController.addOnDestinationChangedListener { _, destination, arguments ->
+            currentFragmentId = destination.id
+
+            when (destination.id) {
+                R.id.mainFragment, R.id.pdfFragment, R.id.websiteFragment -> {
+                    supportActionBar?.hide()
+                }
+                else -> {
+                    supportActionBar?.show()
+                }
+            }
+            title = when (destination.id) {
+                R.id.mainFragment -> getString(R.string.app_name)
+                R.id.listFragment -> when {
+                    arguments!!["listType"] as String == "breviary" -> getString(R.string.breviary)
+                    arguments["listType"] as String == "prayer" -> getString(R.string.prayer)
+                    else -> ""
+                }
+                R.id.breviaryFragment -> resources.getStringArray(R.array.breviary_list)[arguments!!["position"] as Int]
+                R.id.prayerFragment -> PrayerUtils.prayerNames[arguments!!["position"] as Int]
+                R.id.emailFragment -> when {
+                    arguments!!["emailType"] as String == "pray" -> getString(R.string.ask_for_pray)
+                    arguments["emailType"] as String == "error" -> getString(R.string.report_error)
+                    else -> ""
+                }
+                R.id.preferencesFragment -> getString(R.string.preferences)
+                R.id.loginFragment -> ""
+                R.id.membersFragment -> getString(R.string.members)
+                R.id.emausFragment -> getString(R.string.emauses)
+                R.id.memberEditorFragment -> if (arguments!!["member"] == null) getString(R.string.add_member) else getString(R.string.edit_member)
+                R.id.meetingsFragment -> getString(R.string.meetings)
+                R.id.meetingEditorFragment -> if (arguments!!["meeting"] == null) getString(R.string.add_meeting) else getString(R.string.edit_meeting)
+                R.id.presenceCheckFragment -> getString(R.string.check_presence)
+                R.id.presenceListFragment -> getString(R.string.presence)
+                R.id.retreatsFragment -> getString(R.string.retreat)
+                R.id.retreatEditorFragment -> if (arguments!!["retreat"] == null) getString(R.string.add_retreat) else getString(R.string.edit_retreat)
+                R.id.retreatDetailsFragment -> (arguments!!["retreat"] as Retreat).name
+                R.id.presenceDetailsFragment -> getString(R.string.presence_list_title, (arguments!!["member"] as Member).name)
+                else -> getString(R.string.app_name)
+            }
+            when (destination.id) {
+                R.id.membersFragment, R.id.meetingsFragment, R.id.retreatsFragment, R.id.presenceDetailsFragment ->
+                    checkNetworkConnection()
+            }
+        }
+
+        if (intent.getStringExtra("shortcut") == "songBook")
+            findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
+        else if (intent.getStringExtra("shortcut") == "breviary")
+            findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
     }
 
     override fun onResume() {
@@ -60,196 +120,64 @@ class MainActivity : AppCompatActivity() {
                         .getBoolean(getString(R.string.night_mode_key), false)) {
             recreate()
         }
+    }
 
-        if (mAuth.currentUser != null && mAuth.currentUser!!.isEmailVerified) {
-            FirebaseFirestore.getInstance().collection(FirestoreUtils.firestoreCollectionUsers)
-                    .document(FirebaseAuth.getInstance().currentUser!!.uid)
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            when {
-                                (task.result!!.get(FirestoreUtils.firestoreKeyIsAdmin) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_ADMIN)
-                                    mMainViewModel.currentUserType = MainViewModel.USER_TYPE_ADMIN
-                                }
-                                (task.result!!.get(FirestoreUtils.firestoreKeyIsLeader) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_LEADER)
-                                    mMainViewModel.currentUserType = MainViewModel.USER_TYPE_LEADER
-                                }
-                                (task.result!!.get(FirestoreUtils.firestoreKeyIsMember) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_MEMBER)
-                                    mMainViewModel.currentUserType = MainViewModel.USER_TYPE_MEMBER
-                                }
-                                else -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_NONE)
-                                    mMainViewModel.currentUserType = MainViewModel.USER_TYPE_NONE
-                                }
-                            }
-                        }
-                    }
-        } else {
-            showUIChanges(MainViewModel.USER_TYPE_NONE)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(findNavController(R.id.navHostFragment))
+                || super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        when (currentFragmentId) {
+            R.id.mainFragment -> super.onBackPressed()
+            R.id.websiteFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                    .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
+            else -> onSupportNavigateUp()
         }
     }
 
-    private fun showUIChanges(userType: Int) {
-        when (userType) {
-            MainViewModel.USER_TYPE_ADMIN -> {
-                showAdminUI(true)
-            }
-            MainViewModel.USER_TYPE_LEADER -> {
-                showLeaderUI(true)
-            }
-            MainViewModel.USER_TYPE_MEMBER -> {
-                showNormalUserUI(true)
-            }
-            MainViewModel.USER_TYPE_NONE -> {
-                showAdminUI(false)
-                showLeaderUI(false)
-                showNormalUserUI(false)
-            }
+    override fun onSupportNavigateUp(): Boolean {
+        return if ((currentFragmentId == R.id.memberEditorFragment && MemberEditorFragment.personHasChanged)
+                || (currentFragmentId == R.id.meetingEditorFragment && MeetingEditorFragment.meetingHasChanged)
+                || (currentFragmentId == R.id.retreatEditorFragment && RetreatEditorFragment.retreatHasChanged)
+                || (currentFragmentId == R.id.presenceCheckFragment && PresenceCheckFragment.listHasChanged)) {
+            showUnsavedChangesDialog()
+            true
+        } else if (currentFragmentId == R.id.presenceCheckFragment) {
+            findNavController(R.id.navHostFragment).navigate(R.id.moveBackToMeetingsList)
+            true
+        } else findNavController(R.id.navHostFragment).navigateUp()
+    }
+
+    private fun checkNetworkConnection() {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
+
+        if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected)) {
+            showNoInternetDialog()
         }
     }
 
-    private fun showAdminUI(isLogged: Boolean) {
-        retreat.isClickable = isLogged
-
-        if (isLogged && retreat.alpha == 0f) {
-            retreat.animate()
-                    .alpha(1f)
-                    .withStartAction {
-                        members.visibility = View.INVISIBLE
-                        meetings.visibility = View.INVISIBLE
-                        retreat.visibility = View.VISIBLE
+    private fun showNoInternetDialog() =
+            AlertDialog.Builder(this@MainActivity)
+                    .setTitle(R.string.no_internet_title)
+                    .setMessage(R.string.no_internet_data_message)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.ok) { dialog, _ ->
+                        dialog.dismiss()
                     }
-                    .duration = 333
-        } else if (!isLogged && retreat.alpha == 1f) {
-            retreat.animate()
-                    .alpha(0f)
-                    .duration = 333
-        }
-    }
+                    .create()
+                    .show()
 
-    private fun showLeaderUI(isLogged: Boolean) {
-        members.isClickable = isLogged
-        meetings.isClickable = isLogged
-
-        if (isLogged && members.alpha == 0f) {
-            members.animate()
-                    .alpha(1f)
-                    .withStartAction {
-                        retreat.visibility = View.INVISIBLE
-                        members.visibility = View.VISIBLE
-                        meetings.visibility = View.VISIBLE
+    private fun showUnsavedChangesDialog() =
+            AlertDialog.Builder(this@MainActivity)
+                    .setMessage(R.string.unsaved_changes_dialog_msg)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.discard) { dialog, _ ->
+                        dialog.dismiss()
+                        findNavController(R.id.navHostFragment).navigateUp()
                     }
-                    .duration = 333
-            meetings.animate()
-                    .alpha(1f)
-                    .duration = 333
-        } else if (!isLogged && members.alpha == 1f) {
-            members.animate()
-                    .alpha(0f)
-                    .duration = 333
-            meetings.animate()
-                    .alpha(0f)
-                    .duration = 333
-        }
-    }
-
-    private fun showNormalUserUI(isLogged: Boolean) {
-        retreat.isClickable = isLogged
-
-        if (isLogged && retreat.alpha == 0f) {
-            retreat.animate()
-                    .alpha(1f)
-                    .withStartAction {
-                        members.visibility = View.INVISIBLE
-                        meetings.visibility = View.INVISIBLE
-                        retreat.visibility = View.VISIBLE
-                    }
-                    .duration = 333
-        } else if (!isLogged && retreat.alpha == 1f) {
-            retreat.animate()
-                    .alpha(0f)
-                    .duration = 333
-        }
-    }
-
-    private fun setOnClickListeners() {
-        menuBtn.setOnClickListener {
-            val popupMenu = PopupMenu(this@MainActivity, menuBtn)
-
-            if (FirebaseAuth.getInstance().currentUser != null)
-                popupMenu.menuInflater.inflate(R.menu.menu_main_out, popupMenu.menu)
-            else
-                popupMenu.menuInflater.inflate(R.menu.menu_main_in, popupMenu.menu)
-
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_sign_in -> {
-                        startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                        true
-                    }
-                    R.id.action_sign_out -> {
-                        FirebaseAuth.getInstance().signOut()
-                        showUIChanges(MainViewModel.USER_TYPE_NONE)
-                        true
-                    }
-                    R.id.action_settings -> {
-                        startActivity(Intent(this@MainActivity, PreferenceActivity::class.java))
-                        true
-                    }
-                    R.id.action_ask_for_pray -> {
-                        val intent = Intent(this@MainActivity, EmailActivity::class.java)
-                        intent.putExtra("email", "pray")
-                        startActivity(intent)
-                        true
-                    }
-                    R.id.action_report_error -> {
-                        val intent = Intent(this@MainActivity, EmailActivity::class.java)
-                        intent.putExtra("email", "error")
-                        startActivity(intent)
-                        true
-                    }
-                    else -> true
-                }
-            }
-            popupMenu.show()
-        }
-
-        songBook.setOnClickListener {
-            startActivity(Intent(this@MainActivity, PdfActivity::class.java)
-                    .putExtra(pdfActivityExtra, songBookExtraString))
-        }
-
-        breviary.setOnClickListener {
-            startActivity(Intent(this@MainActivity, BreviaryActivity::class.java))
-        }
-
-        statute.setOnClickListener {
-            startActivity(Intent(this@MainActivity, PdfActivity::class.java)
-                    .putExtra(pdfActivityExtra, statuteExtraString))
-        }
-
-        members.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MembersActivity::class.java))
-        }
-
-        meetings.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MeetingsActivity::class.java))
-        }
-
-        retreat.setOnClickListener {
-            startActivity(Intent(this@MainActivity, RetreatActivity::class.java)
-                    .putExtra("userType", mMainViewModel.currentUserType))
-        }
-
-        prayerBook.setOnClickListener {
-            startActivity(Intent(this@MainActivity, PrayerActivity::class.java))
-        }
-
-        website.setOnClickListener {
-            startActivity(Intent(this@MainActivity, WebsiteActivity::class.java))
-        }
-    }
+                    .setNegativeButton(R.string.keep_editing) { dialog, _ -> dialog.dismiss() }
+                    .create()
+                    .show()
 }

@@ -15,6 +15,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
-        android:text="@string/uploading"
-        android:textColor="?attr/colorPrimary" />
+        android:text="@string/loading" />
 </LinearLayout>

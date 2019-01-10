@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="meetingType1_color1">#64ff11</color>
+    <color name="meetingType1_color2">#4cc10d</color>
+    <color name="meetingType1_color3">#378c09</color>
+    <color name="meetingType2_color1">#2d7eff</color>
+    <color name="meetingType2_color2">#205ec1</color>
+    <color name="meetingType2_color3">#154187</color>
+    <color name="meetingType3_color1">#ff5b5b</color>
+    <color name="meetingType3_color2">#c64545</color>
+    <color name="meetingType3_color3">#993535</color>
+    <color name="black">#000000</color>
 </resources>
