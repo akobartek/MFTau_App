@@ -34,6 +34,7 @@
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
     <string name="password">Hasło</string>
+    <string name="back_to_sign_in">Powrót do logowania</string>
     <string name="forgot_password">Nie pamiętasz hasła?</string>
     <string name="create_account">Utwórz konto</string>
     <string name="email_error">Nieprawidłowy adres mailowy.</string>

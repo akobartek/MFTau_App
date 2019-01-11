@@ -204,6 +204,15 @@
                             <option name="y" value="-273" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="showPresenceDetailsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>

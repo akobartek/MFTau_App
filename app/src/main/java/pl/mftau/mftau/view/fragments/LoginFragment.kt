@@ -49,25 +49,22 @@ class LoginFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        view?.forgotPasswordTV?.setOnClickListener {
-            showResetPasswordDialog()
-        }
+        view?.forgotPasswordTV?.setOnClickListener { showResetPasswordDialog() }
 
-        view?.createAccountTV?.setOnClickListener {
-            isSigningUp = true
-            view!!.loginBtn.text = getString(R.string.sign_up)
-            view!!.forgotPasswordTV.animate().alpha(0f).duration = 300
-            view!!.createAccountTV.animate().alpha(0f).duration = 300
-            view!!.emailET.error = null
-            view!!.passwordET.error = null
-        }
+        view?.backToSignInTV?.setOnClickListener { setSignUpViewVisible(false) }
+
+        view?.createAccountTV?.setOnClickListener { setSignUpViewVisible(true) }
 
         view?.loginBtn?.setOnClickListener {
+            view!!.loginBtn.isEnabled = false
             val email = view!!.emailET.text.toString().trim()
             val password = view!!.passwordET.text.toString().trim()
 
             if (isSigningUp) {
-                if (!isEmailAndPasswordValid(email, password)) return@setOnClickListener
+                if (!isEmailAndPasswordValid(email, password)) {
+                    view!!.loginBtn.isEnabled = true
+                    return@setOnClickListener
+                }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(activity!!) { task ->
@@ -79,11 +76,7 @@ class LoginFragment : Fragment() {
                                         .set(mViewModel.createUserValues(email))
 
                                 mAuth.signOut()
-                                isSigningUp = false
-                                view!!.loginBtn.text = getString(R.string.sign_in)
-                                view!!.forgotPasswordTV.animate().alpha(1f).duration = 300
-                                view!!.createAccountTV.animate().alpha(1f).duration = 300
-
+                                setSignUpViewVisible(false)
                                 showSignupSuccessfulDialog()
                             } else {
                                 Log.d("SignUpFailed", task.exception!!.toString())
@@ -93,15 +86,20 @@ class LoginFragment : Fragment() {
                                 } else
                                     Snackbar.make(view!!.loginLayout, R.string.sign_up_error, Snackbar.LENGTH_LONG).show()
                             }
+                            view!!.loginBtn.isEnabled = true
                         }
             } else {
-                if (isEmailOrPasswordNull(email, password)) return@setOnClickListener
+                if (isEmailOrPasswordNull(email, password)) {
+                    view!!.loginBtn.isEnabled = true
+                    return@setOnClickListener
+                }
 
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(activity!!) { task ->
                             if (task.isSuccessful) {
                                 if (!mAuth.currentUser!!.isEmailVerified) {
                                     showVerifyEmailDialog()
+                                    view!!.loginBtn.isEnabled = true
                                 } else {
                                     Toast.makeText(context, R.string.signed_in, Toast.LENGTH_SHORT).show()
                                     findNavController().navigateUp()
@@ -119,6 +117,7 @@ class LoginFragment : Fragment() {
                                     }
                                     else -> Snackbar.make(view!!.loginLayout, R.string.sign_in_error, Snackbar.LENGTH_LONG).show()
                                 }
+                                view!!.loginBtn.isEnabled = true
                             }
                         }
             }
@@ -132,6 +131,50 @@ class LoginFragment : Fragment() {
             (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
                     .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
         }
+    }
+
+    private fun setSignUpViewVisible(boolean: Boolean) {
+        isSigningUp = boolean
+        if (boolean) {
+            view!!.loginBtn.text = getString(R.string.sign_up)
+            view!!.forgotPasswordTV.animate()
+                    .alpha(0f)
+                    .withEndAction { view!!.forgotPasswordTV.visibility = View.INVISIBLE }
+                    .duration = 300
+            view!!.createAccountTV.animate()
+                    .alpha(0f)
+                    .withEndAction { view!!.createAccountTV.visibility = View.INVISIBLE }
+                    .duration = 300
+            view!!.backToSignInTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        view!!.backToSignInTV.visibility = View.VISIBLE
+                        view!!.backToSignInTV.alpha = 0f
+                    }
+                    .duration = 300
+        } else {
+            view!!.loginBtn.text = getString(R.string.sign_in)
+            view!!.forgotPasswordTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        view!!.forgotPasswordTV.visibility = View.VISIBLE
+                        view!!.forgotPasswordTV.alpha = 0f
+                    }
+                    .duration = 300
+            view!!.createAccountTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        view!!.createAccountTV.visibility = View.VISIBLE
+                        view!!.createAccountTV.alpha = 0f
+                    }
+                    .duration = 300
+            view!!.backToSignInTV.animate()
+                    .alpha(0f)
+                    .withEndAction { view!!.backToSignInTV.visibility = View.INVISIBLE }
+                    .duration = 300
+        }
+        view!!.emailET.error = null
+        view!!.passwordET.error = null
     }
 
     private fun isEmailOrPasswordNull(email: String, password: String): Boolean {
@@ -172,6 +215,7 @@ class LoginFragment : Fragment() {
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                     dialog?.dismiss()
+                    setSignUpViewVisible(false)
                 }
                 .create()
                 .show()
@@ -181,6 +225,7 @@ class LoginFragment : Fragment() {
         AlertDialog.Builder(context!!)
                 .setTitle(R.string.verify_email_dialog_title)
                 .setMessage(R.string.verify_email_dialog_message)
+                .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                     dialog?.dismiss()
                     mAuth.signOut()
@@ -203,6 +248,7 @@ class LoginFragment : Fragment() {
                 .setTitle(R.string.reset_password_dialog_title)
                 .setMessage(R.string.reset_password_dialog_message)
                 .setView(dialogView)
+                .setCancelable(false)
                 .setPositiveButton(getString(R.string.send), null)
                 .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
                 .create()

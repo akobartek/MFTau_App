@@ -37,6 +37,7 @@
     <string name="password">Password</string>
     <string name="email_ending" translatable="false">\@mftau.pl</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="back_to_sign_in">Return to sign in</string>
     <string name="create_account">Create account</string>
     <string name="email_error">Incorrect email address.</string>
     <string name="password_error_empty">Password cannot be empty!</string>

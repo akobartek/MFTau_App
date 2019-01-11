@@ -162,7 +162,6 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this@MainActivity)
                     .setTitle(R.string.no_internet_title)
                     .setMessage(R.string.no_internet_data_message)
-                    .setCancelable(false)
                     .setPositiveButton(R.string.ok) { dialog, _ ->
                         dialog.dismiss()
                     }

@@ -65,13 +65,19 @@ class MemberEditorFragment : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        if (mMember == null)
+        if (mMember == null) {
+            menu?.findItem(R.id.action_show_presence)?.isVisible = false
             menu?.findItem(R.id.action_delete_member)?.isVisible = false
+        }
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
+            R.id.action_show_presence -> {
+                findNavController().navigate(MemberEditorFragmentDirections.showPresenceDetailsFragment(mMember!!))
+                true
+            }
             R.id.action_delete_member -> {
                 showDeleteConfirmationDialog()
                 true
