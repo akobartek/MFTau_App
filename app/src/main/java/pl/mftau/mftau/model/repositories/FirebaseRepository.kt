@@ -141,6 +141,7 @@ class FirebaseRepository(val app: Application) {
                     if (filePath != null) {
                         val dialog = AlertDialog.Builder(activity)
                                 .setView(R.layout.dialog_loading)
+                                .setCancelable(false)
                                 .create()
                         dialog.show()
                         putPhoto(activity, documentReference.id, filePath, dialog)
@@ -156,6 +157,7 @@ class FirebaseRepository(val app: Application) {
     fun updateMemberPhoto(activity: Activity, memberId: String, filePath: InputStream?) {
         val dialog = AlertDialog.Builder(activity)
                 .setView(R.layout.dialog_loading)
+                .setCancelable(false)
                 .create()
         dialog.show()
 
@@ -179,6 +181,7 @@ class FirebaseRepository(val app: Application) {
                     if (filePath != null) {
                         val dialog = AlertDialog.Builder(activity)
                                 .setView(R.layout.dialog_loading)
+                                .setCancelable(false)
                                 .create()
                         dialog.show()
 

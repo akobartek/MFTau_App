@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_emaus.view.*
+import pl.mftau.mftau.BuildConfig
 import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.MemberEntity
 import pl.mftau.mftau.view.adapters.EmausRecyclerAdapter
@@ -27,7 +28,7 @@ class EmausFragment : Fragment() {
     private lateinit var mAdapter: EmausRecyclerAdapter
 
     var members: List<MemberEntity>? = null
-    var draws: List<String>? = null
+    private var draws: List<String>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -60,6 +61,9 @@ class EmausFragment : Fragment() {
                 view.drawsEmptyView.visibility = View.VISIBLE
                 view.drawsRecyclerView.visibility = View.INVISIBLE
                 view.oddPerson.visibility = View.INVISIBLE
+
+                if (BuildConfig.DEBUG)
+                    mViewModel.insertOldDraws()
             } else {
                 draws = allDraws.toString()
                         .replace("[", "")
@@ -73,25 +77,25 @@ class EmausFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_emaus, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_emaus, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         if (draws.isNullOrEmpty()) {
-            menu?.findItem(R.id.action_delete_last_draw)?.isVisible = false
-            menu?.findItem(R.id.action_reset_draws)?.isVisible = false
-            menu?.findItem(R.id.action_copy_draws)?.isVisible = false
+            menu.findItem(R.id.action_delete_last_draw)?.isVisible = false
+            menu.findItem(R.id.action_reset_draws)?.isVisible = false
+            menu.findItem(R.id.action_copy_draws)?.isVisible = false
         } else {
-            menu?.findItem(R.id.action_delete_last_draw)?.isVisible = true
-            menu?.findItem(R.id.action_reset_draws)?.isVisible = true
-            menu?.findItem(R.id.action_copy_draws)?.isVisible = true
+            menu.findItem(R.id.action_delete_last_draw)?.isVisible = true
+            menu.findItem(R.id.action_reset_draws)?.isVisible = true
+            menu.findItem(R.id.action_copy_draws)?.isVisible = true
         }
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_copy_draws -> {
                 mViewModel.copyDrawsToClipboard(members, draws)
                 Snackbar.make(view!!.emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG).show()
@@ -258,7 +262,7 @@ class EmausFragment : Fragment() {
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes) { dialog, _ ->
                         dialog.dismiss()
-                        mViewModel.deleteLastDrawInDatabase()
+                        mViewModel.deleteLastDrawInDatabase(members, draws)
                         activity?.recreate()
                     }
                     .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }

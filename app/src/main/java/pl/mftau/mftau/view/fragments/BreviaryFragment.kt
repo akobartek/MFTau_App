@@ -29,16 +29,26 @@ class BreviaryFragment : Fragment() {
 
         activity?.let {
             mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
-            if (mViewModel.wasBreviaryLoaded(BreviaryFragmentArgs.fromBundle(arguments!!).position))
-                loadBreviary()
-            else
-                checkNetworkConnection()
+
+            if (savedInstanceState != null) view.breviaryText.restoreState(savedInstanceState)
+            else {
+                if (mViewModel.wasBreviaryLoaded(BreviaryFragmentArgs.fromBundle(arguments!!).position))
+                    loadBreviary()
+                else
+                    checkNetworkConnection()
+            }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        view?.breviaryText?.saveState(outState)
     }
 
     private fun loadBreviary() {
         val loadingDialog = AlertDialog.Builder(activity!!)
                 .setView(R.layout.dialog_loading)
+                .setCancelable(false)
                 .create()
         loadingDialog.show()
         mViewModel.loadBreviaryHtml(

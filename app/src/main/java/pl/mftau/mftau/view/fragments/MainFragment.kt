@@ -144,84 +144,34 @@ class MainFragment : Fragment() {
 
     private fun showUIChanges(userType: Int) {
         when (userType) {
-            MainViewModel.USER_TYPE_ADMIN -> {
-                showAdminUI(true)
+            MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
+                view?.members?.isClickable = false
+                view?.meetings?.isClickable = false
+                view?.retreat?.isClickable = true
+
+                view?.members?.visibility = View.INVISIBLE
+                view?.meetings?.visibility = View.INVISIBLE
+                view?.retreat?.visibility = View.VISIBLE
             }
             MainViewModel.USER_TYPE_LEADER -> {
-                showLeaderUI(true)
-            }
-            MainViewModel.USER_TYPE_MEMBER -> {
-                showNormalUserUI(true)
+                view?.members?.isClickable = true
+                view?.meetings?.isClickable = true
+                view?.retreat?.isClickable = false
+
+                view?.members?.visibility = View.VISIBLE
+                view?.meetings?.visibility = View.VISIBLE
+                view?.retreat?.visibility = View.INVISIBLE
             }
             MainViewModel.USER_TYPE_NONE -> {
-                showAdminUI(false)
-                showLeaderUI(false)
-                showNormalUserUI(false)
+                view?.members?.isClickable = false
+                view?.meetings?.isClickable = false
+                view?.retreat?.isClickable = false
+
+                view?.members?.visibility = View.INVISIBLE
+                view?.meetings?.visibility = View.INVISIBLE
+                view?.retreat?.visibility = View.INVISIBLE
+
             }
-        }
-    }
-
-    private fun showAdminUI(isLogged: Boolean) {
-        view?.retreat?.isClickable = isLogged
-
-        if (isLogged && view?.retreat?.alpha == 0f) {
-            view?.retreat?.animate()
-                    ?.alpha(1f)
-                    ?.withStartAction {
-                        view?.members?.visibility = View.INVISIBLE
-                        view?.meetings?.visibility = View.INVISIBLE
-                        view?.retreat?.visibility = View.VISIBLE
-                    }
-                    ?.duration = 333
-        } else if (!isLogged && view?.retreat?.alpha == 1f) {
-            view?.retreat?.animate()
-                    ?.alpha(0f)
-                    ?.duration = 333
-        }
-    }
-
-    private fun showLeaderUI(isLogged: Boolean) {
-        view?.members?.isClickable = isLogged
-        view?.meetings?.isClickable = isLogged
-
-        if (isLogged && view?.members?.alpha == 0f) {
-            view?.members?.animate()
-                    ?.alpha(1f)
-                    ?.withStartAction {
-                        view?.retreat?.visibility = View.INVISIBLE
-                        view?.members?.visibility = View.VISIBLE
-                        view?.meetings?.visibility = View.VISIBLE
-                    }
-                    ?.duration = 333
-            view?.meetings?.animate()
-                    ?.alpha(1f)
-                    ?.duration = 333
-        } else if (!isLogged && view?.members?.alpha == 1f) {
-            view?.members?.animate()
-                    ?.alpha(0f)
-                    ?.duration = 333
-            view?.meetings?.animate()
-                    ?.alpha(0f)
-                    ?.duration = 333
-        }
-    }
-
-    private fun showNormalUserUI(isLogged: Boolean) {
-        view?.retreat?.isClickable = isLogged
-
-        if (isLogged && view?.retreat?.alpha == 0f) {
-            view?.retreat?.animate()
-                    ?.alpha(1f)
-                    ?.withStartAction {
-                        view?.members?.visibility = View.INVISIBLE
-                        view?.meetings?.visibility = View.INVISIBLE
-                        view?.retreat?.visibility = View.VISIBLE
-                    }
-                    ?.duration = 333
-        } else if (!isLogged && view?.retreat?.alpha == 1f) {
-            view?.retreat?.animate()
-                    ?.alpha(0f)
-                    ?.duration = 333
         }
     }
 }

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import pl.mftau.mftau.R
@@ -38,8 +37,6 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     // region General values
     private val mFirebaseRepository = FirebaseRepository(app)
     private val mEmausRepository = EmausRepository(app)
-    private val mAuth = FirebaseAuth.getInstance()
-    private val mFirestore = FirebaseFirestore.getInstance()
 
     companion object {
         const val USER_TYPE_ADMIN = 3
@@ -110,13 +107,12 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             if (!wasBreviaryLoaded(type)) {
                 val buildUrlPair = buildUrl(type)
                 val document = try {
-                    Jsoup.connect(buildUrlPair.first).get()
+                    Jsoup.connect(buildUrlPair.first).timeout(30000).get()
                 } catch (exc: HttpStatusException) {
-                    Jsoup.connect(buildUrlPair.second).get()
+                    Jsoup.connect(buildUrlPair.second).timeout(30000).get()
                 }
                 breviaryHtml[type] = document.select("table").last { it.outerHtml().contains("Psalm ") }
-                        .outerHtml()
-                        .replace("red", "brown")
+                        .html()
 
                 updateBreviaryHtml(type)
             }
@@ -152,6 +148,9 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         try {
             if (breviaryHtml[type] != null) {
                 breviaryHtml[type] = breviaryHtml[type]!!
+                        .replace("<tr><td colspan=2 width=490 class=ww>\n", "")
+                        .replace("color=\"red\">", "color=\"brown\">")
+                        .replace("color:red", "color:brown")
                         .replace("<img src=\"../../images/dot.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
                         .replace("<img src=\"../../images/dot4.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
                         .replace("align=\"center\"", "")
@@ -174,7 +173,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                         .replace("<a href=\"../../appendix/akt.php3\" title=\"Formuły aktu pokuty\" onmouseover=\"t('Formuły aktu pokuty');return true\" style=\"font-family:tahoma;\">formuł aktu pokuty.</a>", "formuł aktu pokuty.")
                         .replace("ROZWAŻANIE", "")
                         .replace("KOMENTARZ I MP3", "")
-                        .replace("<div align=\"center\"><span style=\"color:red\">wybierz:</span>", "")
+                        .replace("KOMENTARZ", "")
+                        .replace("<div align=\"center\"><span style=\"color:brown\">wybierz:</span>", "")
                         .replace("wariant I", "")
                         .replace("|", "")
                         .replace("wariant II", "")
@@ -240,7 +240,52 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     private fun insertDrawToDatabase(draw: DrawEntity) = mEmausRepository.insertDraw(draw)
 
-    fun deleteLastDrawInDatabase() = mEmausRepository.deleteLastDraw()
+    fun insertOldDraws() {
+        val listOfDraws = arrayListOf<String>()
+        listOfDraws.add("E3cfodkfDGTJrpBGwmYU+bwd5RmlbRx9qkfxgmPqq")
+        listOfDraws.add("eKLwsVkwDLi05RA23VWq+gnIoYLeJKRsDsNWMqxjG")
+        listOfDraws.add("mQm1R5sj6KW9moZ96Cds+FmKbvHPXaOOno54QhXwf")
+        listOfDraws.add("GavDKvtw9XzeXqj6ls9S+wtAFPm7Y0rXU2CQo6tRs")
+        listOfDraws.add("BNu5hc2NqWPwMLCdAvM6+CwHmZ3qHnhzLK2XothF7")
+        listOfDraws.add("94UclZJ7Tu585JO1Xqzv+OlSwGiNGcEryGDPmG9ei")
+        listOfDraws.add("f7sXdHEv8ufc5A0LOiX6+XroxwZ5GUy97fSfkClJm")
+        listOfDraws.add("7it7HxqyxiAA6r7AfrFj+D0XnGdqIue9ONEre93kj")
+        listOfDraws.add("I41tB8uVHwzF9ZEMLHOB+ncWCtxgyKedoZfJbpBHG")
+        listOfDraws.add("Yeapcz9xEyjiXpUmujuQ+hOXynk7XQkLjIU3Syjef")
+        listOfDraws.add("DmMs7jUmDzVWwLgWRXx9+EXTh9lJkpUpif9jwPD1V")
+        var draw = DrawEntity(numberOfDraw = 1, draws = listOfDraws.toList(),
+                drawDate = Calendar.getInstance().time, oddPersonId = "Ega4k0CfQyhE1q6RpwUH")
+        insertDrawToDatabase(draw)
+
+        val listOfDraws2 = arrayListOf<String>()
+        listOfDraws2.add("Yeapcz9xEyjiXpUmujuQ+gnIoYLeJKRsDsNWMqxjG")
+        listOfDraws2.add("7it7HxqyxiAA6r7AfrFj+BNu5hc2NqWPwMLCdAvM6")
+        listOfDraws2.add("94UclZJ7Tu585JO1Xqzv+EXTh9lJkpUpif9jwPD1V")
+        listOfDraws2.add("hOXynk7XQkLjIU3Syjef+eKLwsVkwDLi05RA23VWq")
+        listOfDraws2.add("XroxwZ5GUy97fSfkClJm+GavDKvtw9XzeXqj6ls9S")
+        listOfDraws2.add("f7sXdHEv8ufc5A0LOiX6+DmMs7jUmDzVWwLgWRXx9")
+        listOfDraws2.add("mQm1R5sj6KW9moZ96Cds+Ega4k0CfQyhE1q6RpwUH")
+        listOfDraws2.add("D0XnGdqIue9ONEre93kj+wtAFPm7Y0rXU2CQo6tRs")
+        listOfDraws2.add("ncWCtxgyKedoZfJbpBHG+E3cfodkfDGTJrpBGwmYU")
+        listOfDraws2.add("CwHmZ3qHnhzLK2XothF7+bwd5RmlbRx9qkfxgmPqq")
+        listOfDraws2.add("I41tB8uVHwzF9ZEMLHOB+FmKbvHPXaOOno54QhXwf")
+        draw = DrawEntity(numberOfDraw = 2, draws = listOfDraws2.toList(),
+                drawDate = Calendar.getInstance().time, oddPersonId = "OlSwGiNGcEryGDPmG9ei")
+        insertDrawToDatabase(draw)
+    }
+
+    fun deleteLastDrawInDatabase(members: List<MemberEntity>?, draws: List<String>?) {
+        mEmausRepository.deleteLastDraw()
+        if (members != null && draws != null) {
+            draws.forEach { draw ->
+                members.single { it.id == draw.substring(0, draw.indexOf("+")) }
+                        .drawsList.remove(draw.substring(draw.indexOf("+") + 1, draw.length))
+                members.single { it.id == draw.substring(draw.indexOf("+") + 1, draw.length) }
+                        .drawsList.remove(draw.substring(0, draw.indexOf("+")))
+            }
+            updateMembersListsInDatabase(members)
+        }
+    }
 
     fun deleteAllDrawsInDatabase(members: List<MemberEntity>?) {
         mEmausRepository.deleteAllDraws()
@@ -249,7 +294,6 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             updateMembersListsInDatabase(members)
         }
     }
-
 
     fun startDraw(members: List<MemberEntity>?, numberOfTry: Int = 0): Boolean {
         Log.d("startDraw", "Executing startDraw method.")

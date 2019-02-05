@@ -3,7 +3,6 @@ package pl.mftau.mftau.model
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import kotlinx.android.parcel.Parcelize
-import java.text.SimpleDateFormat
 import java.util.*
 
 @Parcelize

@@ -86,20 +86,20 @@ class RetreatEditorFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_retreat_edit, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_retreat_edit, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         if (mRetreat == null) {
-            menu?.findItem(R.id.action_save_to_calendar)?.isVisible = false
-            menu?.findItem(R.id.action_delete_retreat)?.isVisible = false
+            menu.findItem(R.id.action_save_to_calendar)?.isVisible = false
+            menu.findItem(R.id.action_delete_retreat)?.isVisible = false
         }
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_save_to_calendar -> {
                 if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
                     showSaveToCalendarDialog()

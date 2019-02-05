@@ -57,7 +57,7 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
                 PresenceCheckFragment.listHasChanged = true
             }
 
-            itemView.setOnClickListener {
+            itemView.itemLayout.setOnClickListener {
                 itemView.isPresentCheckBox.isChecked = !itemView.isPresentCheckBox.isChecked
                 if (itemView.isPresentCheckBox.isChecked) {
                     if (!attendanceList.contains(member.id)) {
@@ -90,7 +90,7 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
                     .create()
 
             dialog.setOnShowListener {
-                (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     val reason = dialogView.absenceReasonET.text.toString().trim()
                     if (reason.isEmpty()) {
                         dialogView.absenceReasonET.error = itemView.context.getString(R.string.reason_empty_error)

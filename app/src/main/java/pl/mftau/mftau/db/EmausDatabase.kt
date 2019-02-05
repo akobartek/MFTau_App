@@ -31,9 +31,5 @@ abstract class EmausDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
 }

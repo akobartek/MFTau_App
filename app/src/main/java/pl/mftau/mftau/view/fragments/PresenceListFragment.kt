@@ -46,6 +46,7 @@ class PresenceListFragment : Fragment() {
 
         mLoadingDialog = AlertDialog.Builder(view.context)
                 .setView(R.layout.dialog_loading)
+                .setCancelable(false)
                 .create()
         mLoadingDialog.show()
 

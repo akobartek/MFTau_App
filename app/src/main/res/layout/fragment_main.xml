@@ -75,10 +75,10 @@
     <TextView
         android:id="@+id/members"
         style="@style/MainMenuButtons"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_people"
         android:text="@string/members"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/breviary"
         app:layout_constraintStart_toStartOf="@+id/breviary"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />
@@ -86,10 +86,10 @@
     <TextView
         android:id="@+id/meetings"
         style="@style/MainMenuButtons"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_meeting"
         android:text="@string/meetings"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/website"
         app:layout_constraintStart_toStartOf="@+id/website"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />
@@ -97,10 +97,10 @@
     <TextView
         android:id="@+id/retreat"
         style="@style/MainMenuButtons"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_retreat"
         android:text="@string/retreat"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />

@@ -55,12 +55,12 @@ class RetreatDetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_retreat_details, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_retreat_details, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_show_map -> {
                 val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode("${mRetreat.address} ${mRetreat.city}"))
                 val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
@@ -93,7 +93,7 @@ class RetreatDetailsFragment : Fragment() {
                 .create()
 
         dialog.setOnShowListener {
-            (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (dialogView.registerNameET.text.isNullOrBlank()) {
                     dialogView.registerNameET.error = getString(R.string.empty_name_error)
                     return@setOnClickListener

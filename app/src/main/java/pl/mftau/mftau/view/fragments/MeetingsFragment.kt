@@ -41,12 +41,12 @@ class MeetingsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_meetings, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_meetings, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_show_presence -> {
                 findNavController().navigate(MeetingsFragmentDirections.showPresenceListFragment())
                 true

@@ -76,10 +76,10 @@
         android:id="@+id/members"
         style="@style/MainMenuButtons"
         android:layout_marginEnd="12dp"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_people"
         android:text="@string/members"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
 
@@ -87,20 +87,20 @@
         android:id="@+id/meetings"
         style="@style/MainMenuButtons"
         android:layout_marginStart="12dp"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_meeting"
         android:text="@string/meetings"
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
 
     <TextView
         android:id="@+id/retreat"
         style="@style/MainMenuButtons"
-        android:alpha="0"
         android:clickable="false"
         android:drawableTop="@drawable/ic_retreat"
         android:text="@string/retreat"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />

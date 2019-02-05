@@ -71,20 +71,20 @@ class MeetingEditorFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.menu_meeting_edit, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_meeting_edit, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         if (mMeeting == null) {
-            menu?.findItem(R.id.action_delete_meeting)?.isVisible = false
-            menu?.findItem(R.id.action_check_presence)?.isVisible = false
+            menu.findItem(R.id.action_delete_meeting)?.isVisible = false
+            menu.findItem(R.id.action_check_presence)?.isVisible = false
         }
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_check_presence -> {
                 findNavController().navigate(MeetingEditorFragmentDirections
                         .showPresenceCheckFragment(mMeeting!!, 0))

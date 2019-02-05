@@ -254,7 +254,7 @@ class LoginFragment : Fragment() {
                 .create()
 
         dialog.setOnShowListener {
-            (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val email = dialogView.resetPasswordET.text.toString().trim()
                 if (!mViewModel.isEmailValid(email)) {
                     dialogView.resetPasswordET.error = getString(R.string.email_error)

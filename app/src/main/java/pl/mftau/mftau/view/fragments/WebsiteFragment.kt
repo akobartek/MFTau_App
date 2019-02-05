@@ -37,7 +37,14 @@ class WebsiteFragment : Fragment() {
                 super.onPageCommitVisible(webView, url)
             }
         }
-        view.webView.loadUrl(urlAddress)
+
+        if (savedInstanceState != null) view.webView.restoreState(savedInstanceState)
+        else view.webView.loadUrl(urlAddress)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        view?.webView?.saveState(outState)
     }
 
     fun onBackPressed() {
