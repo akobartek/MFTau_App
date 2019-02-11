@@ -71,9 +71,8 @@ class MeetingEditorFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_meeting_edit, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_meeting_edit, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (mMeeting == null) {
@@ -83,19 +82,17 @@ class MeetingEditorFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_check_presence -> {
-                findNavController().navigate(MeetingEditorFragmentDirections
-                        .showPresenceCheckFragment(mMeeting!!, 0))
-                true
-            }
-            R.id.action_delete_meeting -> {
-                showDeleteConfirmationDialog()
-                true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_check_presence -> {
+            findNavController().navigate(MeetingEditorFragmentDirections
+                    .showPresenceCheckFragment(mMeeting!!, 0))
+            true
         }
+        R.id.action_delete_meeting -> {
+            showDeleteConfirmationDialog()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setOnClickListeners() {
@@ -104,8 +101,10 @@ class MeetingEditorFragment : Fragment() {
             meetingValues[FirestoreUtils.firestoreKeyName] = view!!.meetingNameET.text.toString().trim()
             meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
             meetingValues[FirestoreUtils.firestoreKeyMeetingType] = view!!.meetingTypeSpinner.selectedItemPosition
-            meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mMeeting?.attendanceList ?: arrayListOf<String>()
-            meetingValues[FirestoreUtils.firestoreKeyAbsenceList] = mMeeting?.absenceList ?: HashMap<String, String>()
+            meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mMeeting?.attendanceList
+                    ?: arrayListOf<String>()
+            meetingValues[FirestoreUtils.firestoreKeyAbsenceList] = mMeeting?.absenceList
+                    ?: HashMap<String, String>()
 
             if (view!!.meetingNameET.text.isNullOrBlank()) {
                 view!!.meetingNameET.error = getString(R.string.empty_meeting_name_error)

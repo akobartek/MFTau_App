@@ -6,6 +6,7 @@
     <string name="prayer">Prayer</string>
     <string name="song_book">Song book</string>
     <string name="breviary">Breviary</string>
+    <string name="gospel">Gospel</string>
     <string name="members">Members</string>
     <string name="meetings">Meetings</string>
     <string name="retreat">Retreats</string>
@@ -77,6 +78,10 @@
     <string name="midafternoon_prayer">Midafternoon Prayer</string>
     <string name="evening_prayer">Evening Prayer</string>
     <string name="night_prayer">Night Prayer</string>
+
+    <!-- GOSPEL STRINGS -->
+    <string name="gospel_for_today">Gospel for today</string>
+    <string name="listen_gospel">Listen to the Gospel</string>
 
     <!-- RETREAT STRINGS -->
     <string name="empty_retreat_list">There are no retreats saved!</string>

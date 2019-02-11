@@ -67,17 +67,14 @@ class MembersFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_members, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_members, menu)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_emauses -> {
-                findNavController().navigate(MembersFragmentDirections.showEmausFragment())
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_emauses -> {
+            findNavController().navigate(MembersFragmentDirections.showEmausFragment())
+            true
         }
+        else -> super.onOptionsItemSelected(item)
     }
 }

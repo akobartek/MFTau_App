@@ -25,6 +25,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
+            android:id="@+id/showGospelFragment"
+            app:destination="@+id/gospelFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/showLoginFragment"
             app:destination="@+id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -124,6 +131,11 @@
             android:name="position"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/gospelFragment"
+        android:name="pl.mftau.mftau.view.fragments.GospelFragment"
+        tools:layout="@layout/fragment_gospel" />
 
     <fragment
         android:id="@+id/loginFragment"

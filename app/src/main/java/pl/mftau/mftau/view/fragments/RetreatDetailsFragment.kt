@@ -55,28 +55,25 @@ class RetreatDetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_retreat_details, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_retreat_details, menu)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_show_map -> {
-                val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode("${mRetreat.address} ${mRetreat.city}"))
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                startActivity(mapIntent)
-                true
-            }
-            R.id.action_save_to_calendar -> {
-                if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
-                    showSaveToCalendarDialog()
-                else
-                    PermissionUtils.requestCalendarReadWritePermission(activity!!)
-                true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_show_map -> {
+            val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode("${mRetreat.address} ${mRetreat.city}"))
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+            true
         }
+        R.id.action_save_to_calendar -> {
+            if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
+                showSaveToCalendarDialog()
+            else
+                PermissionUtils.requestCalendarReadWritePermission(activity!!)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("InflateParams")

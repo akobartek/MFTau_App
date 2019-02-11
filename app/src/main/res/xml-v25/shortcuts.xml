@@ -30,4 +30,19 @@
                 android:value="breviary" />
         </intent>
     </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_gospel"
+        android:shortcutId="shortcut_gospel"
+        android:shortcutShortLabel="@string/gospel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="pl.mftau.mftau.view.activities.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="gospel" />
+        </intent>
+    </shortcut>
 </shortcuts>

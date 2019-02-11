@@ -1,6 +1,7 @@
 package pl.mftau.mftau.view.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,10 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
 import pl.mftau.mftau.viewmodel.MainViewModel
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 
 class MainFragment : Fragment() {
 
@@ -117,6 +122,10 @@ class MainFragment : Fragment() {
             findNavController().navigate(MainFragmentDirections.showListFragment("breviary"))
         }
 
+        view?.gospel?.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.showGospelFragment())
+        }
+
         view?.statute?.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.showPdfFragment("statute"))
         }
@@ -138,7 +147,15 @@ class MainFragment : Fragment() {
         }
 
         view?.website?.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.showWebsiteFragment())
+            if (context!!.isChromeCustomTabsSupported()) {
+                CustomTabsIntent.Builder().apply {
+                    val color = if (mViewModel.isNightMode) Color.parseColor("#28292e") else Color.WHITE
+                    setToolbarColor(color)
+                    setSecondaryToolbarColor(color)
+                }.build().launchUrl(context, Uri.parse("http://mftau.pl/"))
+            } else {
+                findNavController().navigate(MainFragmentDirections.showWebsiteFragment())
+            }
         }
     }
 
@@ -174,4 +191,11 @@ class MainFragment : Fragment() {
             }
         }
     }
+}
+
+private fun Context.isChromeCustomTabsSupported(): Boolean {
+    val serviceIntent = Intent("android.support.customtabs.action.CustomTabsService")
+    serviceIntent.setPackage("com.android.chrome")
+    val resolveInfos = packageManager.queryIntentServices(serviceIntent, 0)
+    return !(resolveInfos == null || resolveInfos.isEmpty())
 }

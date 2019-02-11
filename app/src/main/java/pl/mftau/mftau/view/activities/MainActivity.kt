@@ -16,6 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.preference.PreferenceManager
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.mftau.mftau.R
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(mainToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         if (!isNightMode && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -58,9 +60,14 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        mAuth = FirebaseAuth.getInstance()
         mMainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
         mMainViewModel.isNightMode = isNightMode
+
+        mAuth = FirebaseAuth.getInstance()
+        if (mAuth.currentUser != null) {
+            Crashlytics.setUserIdentifier(mAuth.currentUser!!.uid)
+            Crashlytics.setUserEmail(mAuth.currentUser!!.email)
+        }
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             currentFragmentId = destination.id
@@ -73,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     supportActionBar?.show()
                 }
             }
-            title = when (destination.id) {
+            mainToolbarTitle.text = when (destination.id) {
                 R.id.mainFragment -> getString(R.string.app_name)
                 R.id.listFragment -> when {
                     arguments!!["listType"] as String == "breviary" -> getString(R.string.breviary)
@@ -82,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.breviaryFragment -> resources.getStringArray(R.array.breviary_list)[arguments!!["position"] as Int]
                 R.id.prayerFragment -> PrayerUtils.prayerNames[arguments!!["position"] as Int]
+                R.id.gospelFragment -> getString(R.string.gospel_for_today)
                 R.id.emailFragment -> when {
                     arguments!!["emailType"] as String == "pray" -> getString(R.string.ask_for_pray)
                     arguments["emailType"] as String == "error" -> getString(R.string.report_error)
@@ -108,10 +116,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (intent.getStringExtra("shortcut") == "songBook")
-            findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
-        else if (intent.getStringExtra("shortcut") == "breviary")
-            findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
+        when (intent.getStringExtra("shortcut")) {
+            "songBook" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
+            "breviary" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
+            "gospel" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showGospelFragment())
+        }
     }
 
     override fun onResume() {

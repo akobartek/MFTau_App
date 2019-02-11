@@ -60,9 +60,8 @@ class MemberEditorFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_member_edit, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_member_edit, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (mMember == null) {
@@ -72,18 +71,16 @@ class MemberEditorFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_show_presence -> {
-                findNavController().navigate(MemberEditorFragmentDirections.showPresenceDetailsFragment(mMember!!))
-                true
-            }
-            R.id.action_delete_member -> {
-                showDeleteConfirmationDialog()
-                true
-            }
-            else -> return super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_show_presence -> {
+            findNavController().navigate(MemberEditorFragmentDirections.showPresenceDetailsFragment(mMember!!))
+            true
         }
+        R.id.action_delete_member -> {
+            showDeleteConfirmationDialog()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

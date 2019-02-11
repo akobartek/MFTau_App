@@ -1,6 +1,5 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -30,12 +29,10 @@ class BreviaryFragment : Fragment() {
         activity?.let {
             mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
 
-            if (savedInstanceState != null) view.breviaryText.restoreState(savedInstanceState)
-            else {
-                if (mViewModel.wasBreviaryLoaded(BreviaryFragmentArgs.fromBundle(arguments!!).position))
-                    loadBreviary()
-                else
-                    checkNetworkConnection()
+            when {
+                savedInstanceState != null -> view.breviaryText.restoreState(savedInstanceState)
+                mViewModel.wasBreviaryLoaded(BreviaryFragmentArgs.fromBundle(arguments!!).position) -> loadBreviary()
+                else -> checkNetworkConnection()
             }
         }
     }
@@ -48,7 +45,7 @@ class BreviaryFragment : Fragment() {
     private fun loadBreviary() {
         val loadingDialog = AlertDialog.Builder(activity!!)
                 .setView(R.layout.dialog_loading)
-                .setCancelable(false)
+                .setOnCancelListener { findNavController().navigateUp() }
                 .create()
         loadingDialog.show()
         mViewModel.loadBreviaryHtml(

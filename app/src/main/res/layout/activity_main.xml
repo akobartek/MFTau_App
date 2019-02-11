@@ -12,7 +12,19 @@
         android:id="@+id/mainToolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:titleTextColor="?attr/colorText" />
+        app:titleTextColor="?attr/colorText">
+
+        <TextView
+            android:id="@+id/mainToolbarTitle"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/mffont"
+            android:maxLines="2"
+            android:textColor="?attr/colorText"
+            android:textSize="24sp" />
+    </androidx.appcompat.widget.Toolbar>
 
     <fragment
         android:id="@+id/navHostFragment"

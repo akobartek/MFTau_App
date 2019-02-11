@@ -4,6 +4,7 @@
     <string name="statute">Statut</string>
     <string name="prayer">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
+    <string name="gospel">Ewangelia</string>
     <string name="song_book">Śpiewnik</string>
     <string name="members">Członkowie</string>
     <string name="meetings">Spotkania</string>
@@ -73,6 +74,10 @@
     <string name="midafternoon_prayer">Modlitwa popołudniowa</string>
     <string name="evening_prayer">Nieszpory</string>
     <string name="night_prayer">Kompleta</string>
+
+    <!-- GOSPEL STRINGS -->
+    <string name="gospel_for_today">Ewangelia na dziś</string>
+    <string name="listen_gospel">Słuchaj Ewangelii</string>
 
     <!-- RETREAT STRINGS -->
     <string name="empty_retreat_list">Nie dodano jeszcze żadnych rekolekcji!</string>

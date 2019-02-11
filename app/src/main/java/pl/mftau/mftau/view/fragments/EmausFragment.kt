@@ -77,9 +77,8 @@ class EmausFragment : Fragment() {
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_emaus, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+            inflater.inflate(R.menu.menu_emaus, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (draws.isNullOrEmpty()) {
@@ -94,27 +93,25 @@ class EmausFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_copy_draws -> {
-                mViewModel.copyDrawsToClipboard(members, draws)
-                Snackbar.make(view!!.emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG).show()
-                true
-            }
-            R.id.action_reload_members -> {
-                loadMembersFromFirebase()
-                true
-            }
-            R.id.action_delete_last_draw -> {
-                showDeleteLastDrawDialog()
-                true
-            }
-            R.id.action_reset_draws -> {
-                showResetDrawsDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_copy_draws -> {
+            mViewModel.copyDrawsToClipboard(members, draws)
+            Snackbar.make(view!!.emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG).show()
+            true
         }
+        R.id.action_reload_members -> {
+            loadMembersFromFirebase()
+            true
+        }
+        R.id.action_delete_last_draw -> {
+            showDeleteLastDrawDialog()
+            true
+        }
+        R.id.action_reset_draws -> {
+            showResetDrawsDialog()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setupRecyclerView() {

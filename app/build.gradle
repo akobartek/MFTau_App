@@ -4,6 +4,7 @@ apply plugin: "kotlin-kapt"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "com.google.gms.google-services"
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: "io.fabric"
 
 android {
     compileSdkVersion 28
@@ -61,6 +62,7 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:18.0.0"
     implementation "com.google.firebase:firebase-storage:16.0.5"
     implementation "com.firebaseui:firebase-ui-storage:3.2.1"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.9.9"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:4.8.0"
@@ -77,6 +79,9 @@ dependencies {
 
     // JSoup library
     implementation "org.jsoup:jsoup:1.11.3"
+
+    // Chrome Custom Tabs
+    implementation "androidx.browser:browser:1.0.0"
 
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"

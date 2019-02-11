@@ -105,7 +105,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     fun loadBreviaryHtml(type: Int, loadingDialog: AlertDialog, webView: WebView, activity: Activity) {
         Thread(Runnable {
             if (!wasBreviaryLoaded(type)) {
-                val buildUrlPair = buildUrl(type)
+                val buildUrlPair = buildBreviaryUrl(type)
                 val document = try {
                     Jsoup.connect(buildUrlPair.first).timeout(30000).get()
                 } catch (exc: HttpStatusException) {
@@ -128,7 +128,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         }).start()
     }
 
-    private fun buildUrl(type: Int): Pair<String, String> {
+    private fun buildBreviaryUrl(type: Int): Pair<String, String> {
         val breviaryUrlTypes = arrayOf("wezw", /*"godzczyt",*/ "jutrznia", "modlitwa1",
                 "modlitwa2", "modlitwa3", "nieszpory", "kompleta")
         val romanMonths = arrayOf("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
@@ -166,6 +166,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                         .replace(" znajdziesz tutaj propozycję melodii oraz plik mp3 z jej wykonaniem.", "")
                         .replace(" znajdziesz tutaj link do papieskiej katechezy na temat tego psalmu.", "")
                         .replace(" znajdziesz tutaj link do papieskiej katechezy na temat tej pieśni.", "")
+                        .replace(" znajdziesz tutaj propozycje melodii Wezwania oraz przykładowe pliki mp3.", "")
                         .replace("<a href=\"../../appendix/formula.php3\" style=\"font-family:tahoma;\" title=\"Formuły wprowadzenia do Modlitwy Pańskiej\" onmouseover=\"t('Formuły wprowadzenia do Modlitwy Pańskiej');return true\">formułą.</a>", "formułą")
                         .replace("<a href=\"../../appendix/blog.php3\" style=\"font-family:tahoma;\" title=\"Inne formuły błogosławieństw\" onmouseover=\"t('Inne formuły błogosławieństw');return true\">błogosławieństwa.</a>", "błogosławieństwa")
                         .replace("<a href=\"../../appendix/blog.php3\" title=\"Inne formuły błogosławieństw\" style=\"font-family:tahoma;\" onmouseover=\"t('Inne formuły błogosławieństw');return true\">błogosławieństwa.</a>", "błogosławieństwa")
@@ -201,6 +202,62 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     }
     // endregion BreviaryFragment
 
+    // region GospelFragment
+    private var gospelHtml: String? = null
+
+    fun wasGospelLoaded(): Boolean = gospelHtml != null
+
+    fun loadGospelHtml(loadingDialog: AlertDialog, webView: WebView, activity: Activity) {
+        Thread(Runnable {
+            if (!wasGospelLoaded()) {
+                val document = Jsoup.connect(buildGospelUrl()).timeout(30000).get()
+                var counter = 3
+                while (gospelHtml == null) {
+                    val elementHtml = document.getElementById("tabnowy0$counter").html()
+                    if (elementHtml.contains("Słowa Ewangelii według")) gospelHtml = elementHtml
+                    else ++counter
+                }
+            }
+
+            activity.runOnUiThread {
+                loadingDialog.hide()
+                webView.loadDataWithBaseURL(null, checkGospelNightMode(),
+                        "text/html", "UTF-8", null)
+                webView.visibility = View.VISIBLE
+                webView.scrollTo(0, 0)
+                webView.animate().alpha(1f).duration = 444L
+            }
+        }).start()
+    }
+
+    fun getGospelHtml(): String = gospelHtml!!
+
+    private fun buildGospelUrl(): String {
+        val calendar = Calendar.getInstance()
+        val dayInt = calendar.get(Calendar.DAY_OF_MONTH)
+        val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
+        val monthInt = calendar.get(Calendar.MONTH) + 1
+        val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
+        val year = calendar.get(Calendar.YEAR).toString()
+
+        return "http://niezbednik.niedziela.pl/liturgia/$year-$month-$day/"
+    }
+
+    private fun checkGospelNightMode(): String? {
+        return if (isNightMode) {
+            val result = "<html><head>" +
+                    "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
+                    "</style></head>" +
+                    "<body>" +
+                    gospelHtml +
+                    "</body></html>"
+            result.replace("black", "white")
+        } else {
+            gospelHtml
+        }
+    }
+    // endregion GospelFragment
+
     // region Members Module
     fun getAllMembers(): LiveData<List<Member>> = mFirebaseRepository.getAllMembers()
 
@@ -218,7 +275,6 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun deleteMember(activity: Activity, memberId: String) =
             mFirebaseRepository.deleteMember(activity, memberId)
-
     // endregion Members Module
 
     // region Emauses

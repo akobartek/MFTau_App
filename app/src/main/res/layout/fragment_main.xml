@@ -57,41 +57,50 @@
     <TextView
         android:id="@+id/breviary"
         style="@style/MainMenuButtons"
-        android:layout_marginEnd="12dp"
         android:drawableTop="@drawable/ic_breviary"
         android:text="@string/breviary"
-        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
+        app:layout_constraintEnd_toEndOf="@+id/songBook"
+        app:layout_constraintStart_toStartOf="@+id/songBook"
         app:layout_constraintTop_toBottomOf="@+id/songBook" />
+
+    <TextView
+        android:id="@+id/gospel"
+        style="@style/MainMenuButtons"
+        android:drawableTop="@drawable/ic_gospel"
+        android:text="@string/gospel"
+        app:layout_constraintEnd_toEndOf="@+id/prayerBook"
+        app:layout_constraintStart_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/prayerBook" />
 
     <TextView
         android:id="@+id/website"
         style="@style/MainMenuButtons"
-        android:layout_marginStart="12dp"
         android:drawableTop="@drawable/ic_website"
         android:text="@string/mftau_website"
-        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/songBook" />
+        app:layout_constraintEnd_toEndOf="@+id/statute"
+        app:layout_constraintStart_toStartOf="@+id/statute"
+        app:layout_constraintTop_toBottomOf="@+id/statute" />
 
     <TextView
         android:id="@+id/members"
         style="@style/MainMenuButtons"
+        android:layout_marginEnd="12dp"
         android:clickable="false"
         android:drawableTop="@drawable/ic_people"
         android:text="@string/members"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/breviary"
-        app:layout_constraintStart_toStartOf="@+id/breviary"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />
 
     <TextView
         android:id="@+id/meetings"
         style="@style/MainMenuButtons"
+        android:layout_marginStart="12dp"
         android:clickable="false"
         android:drawableTop="@drawable/ic_meeting"
         android:text="@string/meetings"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/website"
-        app:layout_constraintStart_toStartOf="@+id/website"
+        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@+id/breviary" />
 
     <TextView
