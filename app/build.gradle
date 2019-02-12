@@ -39,14 +39,22 @@ dependencies {
     // ConstraintLayout
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
 
+    // Preferences
+    implementation "androidx.preference:preference:1.0.0"
+    implementation "androidx.legacy:legacy-preference-v14:1.0.0"
+
+    // Chrome Custom Tabs
+    implementation "androidx.browser:browser:1.0.0"
+
+    // Slices
+    implementation "androidx.slice:slice-builders-ktx:1.0.0-alpha6"
+    implementation "androidx.slice:slice-core:1.0.0"
+    implementation "androidx.annotation:annotation:1.0.1"
+
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
-
-    // Preferences
-    implementation "androidx.preference:preference:1.0.0"
-    implementation "androidx.legacy:legacy-preference-v14:1.0.0"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta01"
@@ -79,9 +87,6 @@ dependencies {
 
     // JSoup library
     implementation "org.jsoup:jsoup:1.11.3"
-
-    // Chrome Custom Tabs
-    implementation "androidx.browser:browser:1.0.0"
 
 
     implementation "androidx.legacy:legacy-support-v4:1.0.0"

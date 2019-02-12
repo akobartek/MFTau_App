@@ -117,10 +117,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         when (intent.getStringExtra("shortcut")) {
-            "songBook" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
-            "breviary" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
-            "gospel" -> findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showGospelFragment())
+            "songBook" -> {
+                intent.putExtra("shortcut", "")
+                findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
+            }
+            "breviary" -> {
+                intent.putExtra("shortcut", "")
+                findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
+            }
+            "gospel" -> {
+                intent.putExtra("shortcut", "")
+                findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showGospelFragment())
+            }
         }
+
+//        if (intent.action != null && intent.action == SearchIntents.ACTION_SEARCH) {
+//            when (intent.getStringExtra(SearchManager.QUERY)) {
+//                "brewiarz", "breviary" -> {
+//                    intent.action = null
+//                    findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
+//                }
+//                "śpiewnik" -> {
+//                    intent.action = null
+//                    findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
+//                }
+//                else -> Log.d("Search query: ", intent.getStringExtra(SearchManager.QUERY))
+//            }
+//        }
     }
 
     override fun onResume() {

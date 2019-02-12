@@ -24,6 +24,9 @@
     <string name="no_internet_data_message">No network access, the displayed data may be out of date!</string>
     <string name="try_again">Try again</string>
 
+    <!-- SLICE STRINGS -->
+    <string name="slice_breviary_subtitle">Open breviary in MF Tau app</string>
+
     <!-- EMAIL STRINGS -->
     <string name="send_mail">Send mail…</string>
     <string name="send_mail_error">There is no email client installed!</string>

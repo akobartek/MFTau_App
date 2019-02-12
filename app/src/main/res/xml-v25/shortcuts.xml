@@ -3,7 +3,22 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_songbook"
+        android:icon="@drawable/shortcut_ic_gospel"
+        android:shortcutId="shortcut_gospel"
+        android:shortcutShortLabel="@string/gospel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="pl.mftau.mftau.view.activities.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="gospel" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_ic_songbook"
         android:shortcutId="shortcut_songbook"
         android:shortcutShortLabel="@string/song_book">
         <intent
@@ -18,7 +33,7 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_breviary"
+        android:icon="@drawable/shortcut_ic_breviary"
         android:shortcutId="shortcut_breviary"
         android:shortcutShortLabel="@string/breviary">
         <intent
@@ -28,21 +43,6 @@
             <extra
                 android:name="shortcut"
                 android:value="breviary" />
-        </intent>
-    </shortcut>
-
-    <shortcut
-        android:enabled="true"
-        android:icon="@drawable/ic_gospel"
-        android:shortcutId="shortcut_gospel"
-        android:shortcutShortLabel="@string/gospel">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="pl.mftau.mftau.view.activities.MainActivity"
-            android:targetPackage="pl.mftau.mftau">
-            <extra
-                android:name="shortcut"
-                android:value="gospel" />
         </intent>
     </shortcut>
 </shortcuts>

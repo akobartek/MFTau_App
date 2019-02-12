@@ -23,6 +23,9 @@
     <string name="no_internet_data_message">Brak dostępu do Internetu, wyświetlane dane mogą być nieaktualne!</string>
     <string name="try_again">Spróbuj</string>
 
+    <!-- SLICE STRINGS -->
+    <string name="slice_breviary_subtitle">Otwórz brewiarz w aplikacji MF Tau</string>
+
     <!-- EMAIL STRINGS -->
     <string name="send_mail">Wyślij maila…</string>
     <string name="send_mail_error">Nie znaleziono żadnego klienta mailowego!</string>
