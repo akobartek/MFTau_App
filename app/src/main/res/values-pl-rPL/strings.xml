@@ -34,6 +34,9 @@
     <string name="error_description">Opis problemu</string>
     <string name="empty_email_name_error">Podaj swoje imię!</string>
     <string name="empty_email_intention_error">Wpisz intencję!</string>
+    <string name="rodo_srodo">Oświadczam, iż zapoznałem(-am) się z zasadami ochrony danych osobowych i akceptuję je.</string>
+    <string name="privacy_policy">zasadami ochrony danych osobowych</string>
+    <string name="rodo_dialog_message">Aby wysłać wiadomość musisz zaakceptować zasady ochrony danych osobowych!</string>
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>

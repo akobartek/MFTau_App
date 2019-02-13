@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.dialog_reset_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
+import pl.mftau.mftau.utils.createUnderlinedString
 import pl.mftau.mftau.viewmodel.MainViewModel
 
 class LoginFragment : Fragment() {
@@ -44,8 +45,8 @@ class LoginFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         setOnClickListeners()
 
-        view.forgotPasswordTV.text = mViewModel.createUnderlinedString(view.forgotPasswordTV.text.toString())
-        view.createAccountTV.text = mViewModel.createUnderlinedString(view.createAccountTV.text.toString())
+        view.forgotPasswordTV.text = view.forgotPasswordTV.text.toString().createUnderlinedString()
+        view.createAccountTV.text = view.createAccountTV.text.toString().createUnderlinedString()
     }
 
     private fun setOnClickListeners() {

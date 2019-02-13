@@ -1,7 +1,6 @@
 package pl.mftau.mftau.view.fragments
 
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,8 +17,8 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
+import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 import pl.mftau.mftau.viewmodel.MainViewModel
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
@@ -154,7 +153,7 @@ class MainFragment : Fragment() {
                     setSecondaryToolbarColor(color)
                 }.build().launchUrl(context, Uri.parse("http://mftau.pl/"))
             } else {
-                findNavController().navigate(MainFragmentDirections.showWebsiteFragment())
+                findNavController().navigate(MainFragmentDirections.showWebsiteFragment("http://mftau.pl/"))
             }
         }
     }
@@ -162,40 +161,29 @@ class MainFragment : Fragment() {
     private fun showUIChanges(userType: Int) {
         when (userType) {
             MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
-                view?.members?.isClickable = false
-                view?.meetings?.isClickable = false
-                view?.retreat?.isClickable = true
-
-                view?.members?.visibility = View.INVISIBLE
-                view?.meetings?.visibility = View.INVISIBLE
-                view?.retreat?.visibility = View.VISIBLE
+                hideViews(view?.members, view?.meetings)
+                showViews(view?.retreat)
             }
             MainViewModel.USER_TYPE_LEADER -> {
-                view?.members?.isClickable = true
-                view?.meetings?.isClickable = true
-                view?.retreat?.isClickable = false
-
-                view?.members?.visibility = View.VISIBLE
-                view?.meetings?.visibility = View.VISIBLE
-                view?.retreat?.visibility = View.INVISIBLE
+                showViews(view?.members, view?.meetings, view?.retreat)
             }
             MainViewModel.USER_TYPE_NONE -> {
-                view?.members?.isClickable = false
-                view?.meetings?.isClickable = false
-                view?.retreat?.isClickable = false
-
-                view?.members?.visibility = View.INVISIBLE
-                view?.meetings?.visibility = View.INVISIBLE
-                view?.retreat?.visibility = View.INVISIBLE
-
+                hideViews(view?.members, view?.meetings, view?.retreat)
             }
         }
     }
-}
 
-private fun Context.isChromeCustomTabsSupported(): Boolean {
-    val serviceIntent = Intent("android.support.customtabs.action.CustomTabsService")
-    serviceIntent.setPackage("com.android.chrome")
-    val resolveInfos = packageManager.queryIntentServices(serviceIntent, 0)
-    return !(resolveInfos == null || resolveInfos.isEmpty())
+    private fun showViews(vararg viewsToShow: View?) {
+        viewsToShow.forEach {
+            if (it?.alpha == 0f) it.animate().alpha(1f).duration = 333
+            it?.isClickable = true
+        }
+    }
+
+    private fun hideViews(vararg viewsToHide: View?) {
+        viewsToHide.forEach {
+            it?.isClickable = false
+            if (it?.alpha == 1f) it.animate().alpha(0f).duration = 333
+        }
+    }
 }

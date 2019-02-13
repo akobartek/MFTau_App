@@ -23,7 +23,8 @@ class WebsiteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val urlAddress = "http://mftau.pl/"
+
+        val urlAddress = WebsiteFragmentArgs.fromBundle(arguments!!).websiteAddress
         view.webView.settings.javaScriptEnabled = true
         view.webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(webView: WebView, url: String, favicon: Bitmap?) {

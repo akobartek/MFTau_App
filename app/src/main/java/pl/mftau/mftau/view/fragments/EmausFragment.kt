@@ -62,8 +62,8 @@ class EmausFragment : Fragment() {
                 view.drawsRecyclerView.visibility = View.INVISIBLE
                 view.oddPerson.visibility = View.INVISIBLE
 
-                if (BuildConfig.DEBUG)
-                    mViewModel.insertOldDraws()
+//                if (BuildConfig.DEBUG)
+//                    mViewModel.insertOldDraws()
             } else {
                 draws = allDraws.toString()
                         .replace("[", "")

@@ -5,8 +5,6 @@ import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
@@ -55,12 +53,6 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     private val adminAddresses = arrayOf(
             "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
     )
-
-    fun createUnderlinedString(string: String): SpannableString {
-        val spannable = SpannableString(string)
-        spannable.setSpan(UnderlineSpan(), 0, string.length, 0)
-        return spannable
-    }
 
     fun isEmailValid(email: String?): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

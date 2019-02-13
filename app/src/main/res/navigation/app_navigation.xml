@@ -145,7 +145,12 @@
     <fragment
         android:id="@+id/websiteFragment"
         android:name="pl.mftau.mftau.view.fragments.WebsiteFragment"
-        tools:layout="@layout/fragment_website" />
+        tools:layout="@layout/fragment_website">
+
+        <argument
+            android:name="websiteAddress"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/preferencesFragment"

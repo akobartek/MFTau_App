@@ -71,7 +71,7 @@
             android:backgroundTint="?attr/colorAccent"
             android:hint="@string/intention"
             android:inputType="textMultiLine|textCapSentences"
-            android:maxLines="10"
+            android:maxLines="8"
             android:textColor="?attr/colorAccent" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,5 +84,29 @@
         android:src="@drawable/ic_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <CheckBox
+        android:id="@+id/rodoCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:layout_marginStart="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/privacyPolicyTV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/privacyPolicyTV" />
+
+    <TextView
+        android:id="@+id/privacyPolicyTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/rodo_srodo"
+        android:textColor="?attr/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/rodoCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/emailIntentionInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

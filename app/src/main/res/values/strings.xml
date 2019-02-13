@@ -35,6 +35,9 @@
     <string name="error_description">Error description</string>
     <string name="empty_email_name_error">Name cannot be empty!</string>
     <string name="empty_email_intention_error">Intention cannot be empty!</string>
+    <string name="rodo_srodo">I declare that I have read and accepted the privacy policy.</string>
+    <string name="privacy_policy">privacy policy</string>
+    <string name="rodo_dialog_message">If you want to send message, you have to accept the privacy policy first!</string>
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>

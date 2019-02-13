@@ -49,6 +49,7 @@ class GospelFragment : Fragment() {
         mTextToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
             if (status == TextToSpeech.SUCCESS) {
                 val result = mTextToSpeech.setLanguage(Locale.getDefault())
+                mTextToSpeech.setSpeechRate(0.9f)
 
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
                     Toast.makeText(context, "Language not supported", Toast.LENGTH_SHORT).show()
@@ -135,6 +136,7 @@ class GospelFragment : Fragment() {
                     .replace("<br>", "")
                     .replace("<strong>", "")
                     .replace("</strong>", "")
+                    .replace(":", ".")
 
             val list = mGospel!!.split("; ").toMutableList()
             val stringBuilder = StringBuilder()
