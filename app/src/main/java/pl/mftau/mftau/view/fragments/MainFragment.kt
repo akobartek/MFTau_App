@@ -95,8 +95,7 @@ class MainFragment : Fragment() {
                         true
                     }
                     R.id.action_settings -> {
-                        val showPreferenceFragment = MainFragmentDirections.showPreferenceFragment()
-                        findNavController().navigate(showPreferenceFragment)
+                        findNavController().navigate(MainFragmentDirections.showPreferenceFragment())
                         true
                     }
                     R.id.action_ask_for_pray -> {
