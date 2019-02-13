@@ -205,7 +205,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                 val document = Jsoup.connect(buildGospelUrl()).timeout(30000).get()
                 var counter = 3
                 while (gospelHtml == null) {
-                    val elementHtml = document.getElementById("tabnowy0$counter").html()
+                    val elementHtml = document.getElementById("tabnowy0$counter")?.html()
+                            ?: document.getElementById("tabstary0$counter").html()
                     if (elementHtml.contains("Słowa Ewangelii według")) gospelHtml = elementHtml
                     else ++counter
                 }
