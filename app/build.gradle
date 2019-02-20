@@ -12,8 +12,8 @@ android {
         applicationId "pl.mftau.mftau"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 17
-        versionName "3.03"
+        versionCode 18
+        versionName "3.04"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -57,8 +57,8 @@ dependencies {
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
 
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta01"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-beta01"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-beta02"
 
     // Room database
     implementation "androidx.room:room-runtime:2.1.0-alpha04"

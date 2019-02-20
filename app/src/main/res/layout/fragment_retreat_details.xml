@@ -7,14 +7,11 @@
     android:background="?attr/colorBackground"
     tools:context=".view.fragments.RetreatDetailsFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?attr/colorBackground"
         android:fillViewport="true"
-        android:paddingBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +20,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/retreatsEditLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nameInputLayout"

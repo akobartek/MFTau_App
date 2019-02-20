@@ -13,6 +13,7 @@ data class Meeting(var id: String = "",
                    var name: String = "",
                    var meetingType: Int = 0,
                    var date: Timestamp = Timestamp(Date()),
+                   var notes: String = "",
                    var attendanceList: ArrayList<String> = arrayListOf(),
                    var absenceList: HashMap<String, String> = HashMap()) : Parcelable {
 

@@ -131,6 +131,7 @@
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">There are no meetings saved!</string>
     <string name="meeting_name">Name</string>
+    <string name="notes">Notes</string>
     <string name="formation">Formation</string>
     <string name="prayerful">Prayer</string>
     <string name="other">Other</string>

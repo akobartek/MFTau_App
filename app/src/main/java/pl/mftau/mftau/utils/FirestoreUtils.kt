@@ -25,6 +25,7 @@ object FirestoreUtils {
     const val firestoreKeyIsResponsible = "isResponsible"
 
     const val firestoreCollectionMeetings = "meetings"
+    const val firestoreKeyNotes = "notes"
     const val firestoreKeyDate = "date"
     const val firestoreKeyMeetingType = "meetingType"
     const val firestoreKeyAttendanceList = "attendanceList"

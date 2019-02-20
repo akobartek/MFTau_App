@@ -62,6 +62,7 @@ class MeetingEditorFragment : Fragment() {
             mMeeting?.let {
                 view.meetingNameET.setText(it.name)
                 view.meetingTypeSpinner.setSelection(it.meetingType)
+                view.meetingNotesET.setText(it.notes)
                 mMeetingDate = it.date.toDate()
             }
             activity?.invalidateOptionsMenu()
@@ -99,6 +100,7 @@ class MeetingEditorFragment : Fragment() {
         view?.saveMeetingBtn?.setOnClickListener {
             val meetingValues = HashMap<String, Any>()
             meetingValues[FirestoreUtils.firestoreKeyName] = view!!.meetingNameET.text.toString().trim()
+            meetingValues[FirestoreUtils.firestoreKeyNotes] = view!!.meetingNotesET.text.toString().trim()
             meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
             meetingValues[FirestoreUtils.firestoreKeyMeetingType] = view!!.meetingTypeSpinner.selectedItemPosition
             meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mMeeting?.attendanceList
@@ -116,6 +118,7 @@ class MeetingEditorFragment : Fragment() {
             } else {
                 if (!(meetingValues[FirestoreUtils.firestoreKeyDate] == mMeeting!!.date
                                 && meetingValues[FirestoreUtils.firestoreKeyName] == mMeeting!!.name
+                                && meetingValues[FirestoreUtils.firestoreKeyNotes] == mMeeting!!.notes
                                 && meetingValues[FirestoreUtils.firestoreKeyMeetingType] == mMeeting!!.meetingType)) {
                     mViewModel.updateMeeting(activity!!, mMeeting!!.id,
                             meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues)
@@ -130,6 +133,7 @@ class MeetingEditorFragment : Fragment() {
         view?.addMeetingLayout?.setOnClickListener(mHideKeyboardClickListener)
 
         view?.meetingNameET?.setOnTouchListener(mTouchListener)
+        view?.meetingNotesET?.setOnTouchListener(mTouchListener)
         view?.meetingTypeSpinner?.setOnTouchListener(mTouchListener)
         view?.setDateIcon?.setOnTouchListener(mTouchListener)
         view?.dateText?.setOnTouchListener(mTouchListener)

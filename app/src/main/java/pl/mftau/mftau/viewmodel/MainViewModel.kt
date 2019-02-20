@@ -106,6 +106,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                 breviaryHtml[type] = document.select("table").last { it.outerHtml().contains("Psalm ") }
                         .html()
 
+                Log.d("xDDD", breviaryHtml[type])
+
                 updateBreviaryHtml(type)
             }
 
@@ -139,12 +141,18 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     private fun updateBreviaryHtml(type: Int) {
         try {
             if (breviaryHtml[type] != null) {
+
+                for (i in 1..(if (type == 0) 2 else 5))
+                    breviaryHtml[type] = breviaryHtml[type]!!.replaceFirst("class=\"c\"", "class=\"xD\"")
+
                 breviaryHtml[type] = breviaryHtml[type]!!
                         .replace("<tr><td colspan=2 width=490 class=ww>\n", "")
                         .replace("color=\"red\">", "color=\"brown\">")
                         .replace("color:red", "color:brown")
+                        .replace("</a> - ", "</a>")
                         .replace("<img src=\"../../images/dot.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
                         .replace("<img src=\"../../images/dot4.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
+                        .replace("<img src=\"../../images/dot4.gif\" width=\"15\" height=\"9\" border=\"0\" alt=\"\">", "")
                         .replace("align=\"center\"", "")
                         .replace("class=\"b\"", "style=\"text-indent:12pt\"")
                         .replace("class=\"c\"", "style=\"text-indent:16pt\"")
@@ -164,6 +172,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                         .replace("<a href=\"../../appendix/blog.php3\" title=\"Inne formuły błogosławieństw\" style=\"font-family:tahoma;\" onmouseover=\"t('Inne formuły błogosławieństw');return true\">błogosławieństwa.</a>", "błogosławieństwa")
                         .replace("<a href=\"../../appendix/prosby.php3\" onmouseover=\"t('Krótsza forma próśb w Nieszporach');return true\" style=\"font-family:tahoma;\" title=\"Krótsza forma próśb w Nieszporach\">krótszej formy próśb.</a>", "krótszej formy próśb")
                         .replace("<a href=\"../../appendix/akt.php3\" title=\"Formuły aktu pokuty\" onmouseover=\"t('Formuły aktu pokuty');return true\" style=\"font-family:tahoma;\">formuł aktu pokuty.</a>", "formuł aktu pokuty.")
+                        .replace("<a href=\"../../appendix/dod.php3#pol\" title=\"Psalmodia dodatkowa\" style=\"font-size:8pt\" onmouseover=\"t('Psalmodia dodatkowa');return true\">psalmodię dodatkową.</a>", "psalmodię dodatkową.")
+                        .replace("<a href=\"../../appendix/dod.php3#popol\" title=\"Psalmodia dodatkowa\" style=\"font-size:8pt\" onmouseover=\"t('Psalmodia dodatkowa');return true\">psalmodię dodatkową.</a>", "psalmodię dodatkową.")
                         .replace("ROZWAŻANIE", "")
                         .replace("KOMENTARZ I MP3", "")
                         .replace("KOMENTARZ", "")

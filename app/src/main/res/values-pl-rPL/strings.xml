@@ -126,6 +126,7 @@
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
     <string name="meeting_name">Nazwa spotkania</string>
+    <string name="notes">Notatki</string>
     <string name="formation">Formacyjne</string>
     <string name="prayerful">Modlitewne</string>
     <string name="other">Inne</string>
