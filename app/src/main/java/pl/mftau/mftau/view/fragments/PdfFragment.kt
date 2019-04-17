@@ -38,7 +38,7 @@ class PdfFragment : Fragment() {
         when (PdfFragmentArgs.fromBundle(arguments!!).pdf) {
             "songBook" -> {
                 view!!.pdfView.fromAsset("spiewnik.pdf")
-                        .defaultPage(if (isBtnPressed) 2 else savedInstanceState?.getInt("page") ?: 2)
+                        .defaultPage(if (isBtnPressed) 4 else savedInstanceState?.getInt("page") ?: 4)
                         .nightMode(mViewModel?.isNightMode ?: false)
                         .load()
             }

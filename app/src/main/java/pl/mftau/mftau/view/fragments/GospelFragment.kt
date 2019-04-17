@@ -27,8 +27,10 @@ class GospelFragment : Fragment() {
     private var mGospel: String? = null
     private var mIsSpeaking: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_gospel, container, false)
     }
@@ -85,7 +87,7 @@ class GospelFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_gospel, menu)
+        inflater.inflate(R.menu.menu_gospel, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
@@ -117,11 +119,16 @@ class GospelFragment : Fragment() {
 
     private fun loadGospel() {
         val loadingDialog = AlertDialog.Builder(activity!!)
-                .setView(R.layout.dialog_loading)
-                .setOnCancelListener { findNavController().navigateUp() }
-                .create()
+            .setView(R.layout.dialog_loading)
+            .setOnCancelListener { findNavController().navigateUp() }
+            .create()
         loadingDialog.show()
-        mViewModel.loadGospelHtml(loadingDialog, view!!.gospelText, activity!!)
+        mViewModel.loadGospelHtml(
+            loadingDialog,
+            view!!.gospelText,
+            activity!!,
+            this@GospelFragment::showNoInternetDialog
+        )
     }
 
     private fun readGospel() {
@@ -131,16 +138,18 @@ class GospelFragment : Fragment() {
         if (mGospel == null) {
             mGospel = mViewModel.getGospelHtml()
             mGospel = mGospel!!.substring(mGospel!!.indexOf("<p>"), mGospel!!.length)
-                    .replace("<p>", "")
-                    .replace("</p>", "\n")
-                    .replace("<br>", "")
-                    .replace("<strong>", "")
-                    .replace("</strong>", "")
-                    .replace(":", ".")
+                .replace("<p>", "")
+                .replace("</p>", "\n")
+                .replace("<br>", "")
+                .replace("<strong>", "")
+                .replace("</strong>", "")
+                .replace(":", ".")
 
             val list = mGospel!!.split("; ").toMutableList()
             val stringBuilder = StringBuilder()
-            for (sentence in list) { stringBuilder.append(sentence.capitalize()).append(". ") }
+            for (sentence in list) {
+                stringBuilder.append(sentence.capitalize()).append(". ")
+            }
             mGospel = stringBuilder.toString().trim()
             mGospel = mGospel!!.substring(0, mGospel!!.length - 1)
         }
@@ -151,20 +160,20 @@ class GospelFragment : Fragment() {
     }
 
     private fun showNoInternetDialog() =
-            AlertDialog.Builder(context!!)
-                    .setTitle(R.string.no_internet_title)
-                    .setMessage(R.string.no_internet_reconnect_message)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.try_again) { dialog, _ ->
-                        dialog.dismiss()
-                        checkNetworkConnection()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.dismiss()
-                        findNavController().navigateUp()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.no_internet_title)
+            .setMessage(R.string.no_internet_reconnect_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.try_again) { dialog, _ ->
+                dialog.dismiss()
+                checkNetworkConnection()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                findNavController().navigateUp()
+            }
+            .create()
+            .show()
 
     private fun checkNetworkConnection() {
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

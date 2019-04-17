@@ -18,8 +18,7 @@ class BreviaryFragment : Fragment() {
 
     private lateinit var mViewModel: MainViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_breviary, container, false)
     }
 
@@ -44,33 +43,34 @@ class BreviaryFragment : Fragment() {
 
     private fun loadBreviary() {
         val loadingDialog = AlertDialog.Builder(activity!!)
-                .setView(R.layout.dialog_loading)
-                .setOnCancelListener { findNavController().navigateUp() }
-                .create()
+            .setView(R.layout.dialog_loading)
+            .setOnCancelListener { findNavController().navigateUp() }
+            .create()
         loadingDialog.show()
         mViewModel.loadBreviaryHtml(
-                BreviaryFragmentArgs.fromBundle(arguments!!).position,
-                loadingDialog,
-                view!!.breviaryText,
-                activity!!
+            BreviaryFragmentArgs.fromBundle(arguments!!).position,
+            loadingDialog,
+            view!!.breviaryText,
+            activity!!,
+            this@BreviaryFragment::showNoInternetDialog
         )
     }
 
-    private fun showNoInternetDialog() =
-            AlertDialog.Builder(context!!)
-                    .setTitle(R.string.no_internet_title)
-                    .setMessage(R.string.no_internet_reconnect_message)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.try_again) { dialog, _ ->
-                        dialog.dismiss()
-                        checkNetworkConnection()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ ->
-                        dialog.dismiss()
-                        findNavController().navigateUp()
-                    }
-                    .create()
-                    .show()
+    fun showNoInternetDialog() =
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.no_internet_title)
+            .setMessage(R.string.no_internet_reconnect_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.try_again) { dialog, _ ->
+                dialog.dismiss()
+                checkNetworkConnection()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.dismiss()
+                findNavController().navigateUp()
+            }
+            .create()
+            .show()
 
     private fun checkNetworkConnection() {
         val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?

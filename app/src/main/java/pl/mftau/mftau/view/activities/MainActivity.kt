@@ -73,12 +73,8 @@ class MainActivity : AppCompatActivity() {
             currentFragmentId = destination.id
 
             when (destination.id) {
-                R.id.mainFragment, R.id.pdfFragment, R.id.websiteFragment -> {
-                    supportActionBar?.hide()
-                }
-                else -> {
-                    supportActionBar?.show()
-                }
+                R.id.mainFragment, R.id.pdfFragment, R.id.websiteFragment -> supportActionBar?.hide()
+                else -> supportActionBar?.show()
             }
             mainToolbarTitle.text = when (destination.id) {
                 R.id.mainFragment -> getString(R.string.app_name)

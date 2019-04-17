@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="?attr/colorText"
             app:tabMode="fixed"
+            app:tabTextAppearance="@style/TextAppearance.MFTau.Tab"
             app:tabTextColor="?attr/colorText" />
     </androidx.viewpager.widget.ViewPager>
 </FrameLayout>
