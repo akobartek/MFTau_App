@@ -23,8 +23,6 @@ import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.model.repositories.EmausRepository
 import pl.mftau.mftau.model.repositories.FirebaseRepository
 import pl.mftau.mftau.utils.FirestoreUtils
-import pl.mftau.mftau.view.fragments.BreviaryFragment
-import pl.mftau.mftau.view.fragments.GospelFragment
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -96,7 +94,13 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun wasBreviaryLoaded(type: Int): Boolean = breviaryHtml[type] != null
 
-    fun loadBreviaryHtml(type: Int, loadingDialog: AlertDialog, webView: WebView, activity: Activity, showDialog: () -> Unit) {
+    fun loadBreviaryHtml(
+        type: Int,
+        loadingDialog: AlertDialog,
+        webView: WebView,
+        activity: Activity,
+        showDialog: () -> Unit
+    ) {
         Thread(Runnable {
             try {
                 if (!wasBreviaryLoaded(type)) {
@@ -153,10 +157,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
         val url1 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month/${breviaryUrlTypes[type]}.php3"
         val url2 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}p/${breviaryUrlTypes[type]}.php3"
-        val url3 =
-            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-1/${breviaryUrlTypes[type]}.php3"
-        val url4 =
-            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-2/${breviaryUrlTypes[type]}.php3"
+        val url3 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-1/${breviaryUrlTypes[type]}.php3"
+        val url4 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-2/${breviaryUrlTypes[type]}.php3"
         return arrayOf(url1, url2, url3, url4)
     }
 
