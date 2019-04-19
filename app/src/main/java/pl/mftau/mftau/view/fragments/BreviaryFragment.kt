@@ -56,7 +56,7 @@ class BreviaryFragment : Fragment() {
         )
     }
 
-    fun showNoInternetDialog() =
+    private fun showNoInternetDialog() =
         AlertDialog.Builder(context!!)
             .setTitle(R.string.no_internet_title)
             .setMessage(R.string.no_internet_reconnect_message)

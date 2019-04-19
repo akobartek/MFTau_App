@@ -137,7 +137,11 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     webView.animate().alpha(1f).duration = 444L
                 }
             } catch (exc: Exception) {
-                showDialog()
+                Log.e("loadBreviaryHtml", exc.toString())
+                activity.runOnUiThread {
+                    loadingDialog.hide()
+                    showDialog()
+                }
             }
         }).start()
     }
@@ -157,8 +161,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
         val url1 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month/${breviaryUrlTypes[type]}.php3"
         val url2 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}p/${breviaryUrlTypes[type]}.php3"
-        val url3 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-1/${breviaryUrlTypes[type]}.php3"
-        val url4 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}-2/${breviaryUrlTypes[type]}.php3"
+        val url3 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-1/${breviaryUrlTypes[type]}.php3"
+        val url4 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-2/${breviaryUrlTypes[type]}.php3"
         return arrayOf(url1, url2, url3, url4)
     }
 
@@ -263,7 +267,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     while (gospelHtml == null) {
                         val elementHtml = document.getElementById("tabnowy0$counter")?.html()
                             ?: document.getElementById("tabstary0$counter").html()
-                        if (elementHtml.contains("Słowa Ewangelii według")) gospelHtml = elementHtml
+                        if (elementHtml.contains("Ewangelia (")) gospelHtml = elementHtml
                         else ++counter
                     }
                 }
@@ -279,7 +283,11 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     webView.animate().alpha(1f).duration = 444L
                 }
             } catch (exc: Exception) {
-                showDialog()
+                exc.printStackTrace()
+                activity.runOnUiThread {
+                    loadingDialog.hide()
+                    showDialog()
+                }
             }
         }).start()
     }
