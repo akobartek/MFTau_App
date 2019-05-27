@@ -34,10 +34,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "com.google.android.material:material:1.1.0-alpha05"
+    implementation "com.google.android.material:material:1.1.0-alpha06"
 
     // ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-alpha4"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
 
     // Preferences
     implementation "androidx.preference:preference:1.0.0"
@@ -61,16 +61,16 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
 
     // Room database
-    implementation "androidx.room:room-runtime:2.1.0-alpha06"
-    kapt "androidx.room:room-compiler:2.1.0-alpha06"
+    implementation "androidx.room:room-runtime:2.1.0-beta01"
+    kapt "androidx.room:room-compiler:2.1.0-beta01"
 
     // Firebase dependencies
-    implementation "com.google.firebase:firebase-core:16.0.8"
-    implementation "com.google.firebase:firebase-auth:16.2.1"
-    implementation "com.google.firebase:firebase-firestore:18.2.0"
-    implementation "com.google.firebase:firebase-storage:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-auth:17.0.0"
+    implementation "com.google.firebase:firebase-firestore:19.0.0"
+    implementation "com.google.firebase:firebase-storage:17.0.0"
     implementation "com.firebaseui:firebase-ui-storage:3.2.1"
-    implementation "com.crashlytics.sdk.android:crashlytics:2.9.9"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:4.8.0"
