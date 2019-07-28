@@ -32,6 +32,6 @@ object FirestoreUtils {
     const val firestoreKeyAbsenceList = "absenceList"
 
     val meetingTypes = arrayOf(
-            "formation", "prayerful", "other"
+        "formation", "prayerful", "other"
     )
 }

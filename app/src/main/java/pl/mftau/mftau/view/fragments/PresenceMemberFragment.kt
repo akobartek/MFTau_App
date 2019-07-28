@@ -45,17 +45,15 @@ class PresenceMemberFragment : Fragment() {
     private var mNumberOfMeetings = 0
     private var mMeetingType = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_presence_member, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_presence_member, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let { mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
         arguments?.let {
-            mMember = it.getParcelable("member") as Member
+            mMember = it.getParcelable("member")!!
             mMeetingType = it.getInt("meetingType")
         }
         mAdapter = PresenceMeetingRecyclerAdapter()
@@ -112,29 +110,39 @@ class PresenceMemberFragment : Fragment() {
     private fun setDataToChart() {
         val values = ArrayList<PieEntry>()
         if (mPresenceList.size > 0)
-            values.add(PieEntry(mPresenceList.size.toFloat() / mNumberOfMeetings,
-                    getString(R.string.present)))
+            values.add(PieEntry(mPresenceList.size.toFloat() / mNumberOfMeetings, getString(R.string.present)))
         if (mAbsenceList.size > 0)
-            values.add(PieEntry(mAbsenceList.size.toFloat() / mNumberOfMeetings,
-                    getString(R.string.justified)))
+            values.add(
+                PieEntry(mAbsenceList.size.toFloat() / mNumberOfMeetings, getString(R.string.justified))
+            )
         if (mNumberOfMeetings > mPresenceList.size + mAbsenceList.size)
-            values.add(PieEntry((mNumberOfMeetings - mPresenceList.size - mAbsenceList.size).toFloat() / mNumberOfMeetings,
-                    getString(R.string.absent)))
+            values.add(
+                PieEntry(
+                    (mNumberOfMeetings - mPresenceList.size - mAbsenceList.size).toFloat() / mNumberOfMeetings,
+                    getString(R.string.absent)
+                )
+            )
 
         val dataSet = PieDataSet(values, "")
         dataSet.sliceSpace = 3f
         dataSet.selectionShift = 5f
 
         when (mMeetingType) {
-            0 -> dataSet.setColors(ContextCompat.getColor(context!!, R.color.meetingType1_color1),
-                    ContextCompat.getColor(context!!, R.color.meetingType1_color2),
-                    ContextCompat.getColor(context!!, R.color.meetingType1_color3))
-            1 -> dataSet.setColors(ContextCompat.getColor(context!!, R.color.meetingType2_color1),
-                    ContextCompat.getColor(context!!, R.color.meetingType2_color2),
-                    ContextCompat.getColor(context!!, R.color.meetingType2_color3))
-            2 -> dataSet.setColors(ContextCompat.getColor(context!!, R.color.meetingType3_color1),
-                    ContextCompat.getColor(context!!, R.color.meetingType3_color2),
-                    ContextCompat.getColor(context!!, R.color.meetingType3_color3))
+            0 -> dataSet.setColors(
+                ContextCompat.getColor(context!!, R.color.meetingType1_color1),
+                ContextCompat.getColor(context!!, R.color.meetingType1_color2),
+                ContextCompat.getColor(context!!, R.color.meetingType1_color3)
+            )
+            1 -> dataSet.setColors(
+                ContextCompat.getColor(context!!, R.color.meetingType2_color1),
+                ContextCompat.getColor(context!!, R.color.meetingType2_color2),
+                ContextCompat.getColor(context!!, R.color.meetingType2_color3)
+            )
+            2 -> dataSet.setColors(
+                ContextCompat.getColor(context!!, R.color.meetingType3_color1),
+                ContextCompat.getColor(context!!, R.color.meetingType3_color2),
+                ContextCompat.getColor(context!!, R.color.meetingType3_color3)
+            )
         }
 
         dataSet.valueLinePart1OffsetPercentage = 80f

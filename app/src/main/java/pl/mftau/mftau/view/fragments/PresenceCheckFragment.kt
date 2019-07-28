@@ -30,8 +30,7 @@ class PresenceCheckFragment : Fragment() {
     private lateinit var mMeeting: Meeting
     private var mIsMeetingNew: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         listHasChanged = false
         return inflater.inflate(R.layout.fragment_presence_check, container, false)
     }
@@ -76,13 +75,16 @@ class PresenceCheckFragment : Fragment() {
         view.saveMeetingBtn.setOnClickListener {
             when (mIsMeetingNew) {
                 0 -> {
-                    mViewModel.updateAttendanceList(activity!!, mMeeting.id, mMeeting.meetingType,
-                            mAdapter.attendanceList, mAdapter.absenceList)
+                    mViewModel.updateAttendanceList(
+                        activity!!, mMeeting.id, mMeeting.meetingType,
+                        mAdapter.attendanceList, mAdapter.absenceList
+                    )
                     findNavController().navigateUp()
                 }
                 1 -> {
                     val meetingValues = HashMap<String, Any>()
                     meetingValues[FirestoreUtils.firestoreKeyName] = mMeeting.name
+                    meetingValues[FirestoreUtils.firestoreKeyNotes] = mMeeting.notes
                     meetingValues[FirestoreUtils.firestoreKeyDate] = mMeeting.date
                     meetingValues[FirestoreUtils.firestoreKeyMeetingType] = mMeeting.meetingType
                     meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mAdapter.attendanceList

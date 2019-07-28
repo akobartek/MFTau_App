@@ -24,8 +24,7 @@ class RetreatDetailsFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mRetreat: Retreat
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_retreat_details, container, false)
     }
@@ -56,7 +55,7 @@ class RetreatDetailsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_retreat_details, menu)
+        inflater.inflate(R.menu.menu_retreat_details, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_show_map -> {
@@ -81,13 +80,13 @@ class RetreatDetailsFragment : Fragment() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_retreat_register, null)
 
         val dialog = AlertDialog.Builder(context!!)
-                .setTitle(R.string.retreat_register_title)
-                .setMessage(R.string.retreat_register_msg)
-                .setView(dialogView)
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.send), null)
-                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-                .create()
+            .setTitle(R.string.retreat_register_title)
+            .setMessage(R.string.retreat_register_msg)
+            .setView(dialogView)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.send), null)
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .create()
 
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
@@ -107,27 +106,28 @@ class RetreatDetailsFragment : Fragment() {
     }
 
     private fun showAdvancePaymentDialog(name: String) =
-            AlertDialog.Builder(context!!)
-                    .setTitle(R.string.advance_payment_title)
-                    .setMessage(R.string.advance_payment_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                        dialog.dismiss()
-                        sendRegisterEmail(name)
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.advance_payment_title)
+            .setMessage(R.string.advance_payment_msg)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                dialog.dismiss()
+                sendRegisterEmail(name)
+            }
+            .create()
+            .show()
 
     private fun sendRegisterEmail(name: String) {
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "message/rfc822"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("rada@mftau.pl"))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT,
-                "<MF Tau App> Zapisy na rekolekcje ${mRetreat.name}")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Pokój i dobro!\n" +
-                "Chciałbym zgłosić chęć uczestnictwa w rekolekcjach ${mRetreat.name}.\n\n" +
-                "Pozdrawiam,\n$name")
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "<MF Tau App> Zapisy na rekolekcje ${mRetreat.name}")
+        emailIntent.putExtra(
+            Intent.EXTRA_TEXT, "Pokój i dobro!\n" +
+                    "Chciałbym zgłosić chęć uczestnictwa w rekolekcjach ${mRetreat.name}.\n\n" +
+                    "Pozdrawiam,\n$name"
+        )
 
         try {
             startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
@@ -137,22 +137,22 @@ class RetreatDetailsFragment : Fragment() {
     }
 
     private fun showSaveToCalendarDialog() =
-            AlertDialog.Builder(context!!)
-                    .setTitle(R.string.save_to_calendar)
-                    .setMessage(R.string.save_to_calendar_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-                        dialog.dismiss()
-                        if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
-                            saveToCalendar()
-                        else
-                            PermissionUtils.requestCalendarReadWritePermission(activity!!)
-                    }
-                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.save_to_calendar)
+            .setMessage(R.string.save_to_calendar_msg)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                dialog.dismiss()
+                if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
+                    saveToCalendar()
+                else
+                    PermissionUtils.requestCalendarReadWritePermission(activity!!)
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
 
     private fun saveToCalendar() {
         val startMillis: Long = Calendar.getInstance().run {

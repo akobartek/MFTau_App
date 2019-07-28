@@ -1,9 +1,7 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.animation.Animator
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.animation.AnimationUtils
@@ -16,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_emaus.view.*
-import pl.mftau.mftau.BuildConfig
 import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.MemberEntity
 import pl.mftau.mftau.view.adapters.EmausRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
+import kotlin.math.hypot
 
 class EmausFragment : Fragment() {
 
@@ -30,8 +28,7 @@ class EmausFragment : Fragment() {
     var members: List<MemberEntity>? = null
     private var draws: List<String>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_emaus, container, false)
     }
@@ -43,7 +40,6 @@ class EmausFragment : Fragment() {
             mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
         }
         mAdapter = EmausRecyclerAdapter()
-
         setupRecyclerView()
 
         mViewModel.getAllMembersFromDatabase().observe(this, Observer { databaseList ->
@@ -54,21 +50,14 @@ class EmausFragment : Fragment() {
                 trySetAdapter()
             }
         })
-
         mViewModel.getLastDrawsFromDatabase().observe(this, Observer { allDraws ->
             if (allDraws.isNullOrEmpty()) {
                 draws = null
                 view.drawsEmptyView.visibility = View.VISIBLE
                 view.drawsRecyclerView.visibility = View.INVISIBLE
                 view.oddPerson.visibility = View.INVISIBLE
-
-//                if (BuildConfig.DEBUG)
-//                    mViewModel.insertOldDraws()
             } else {
-                draws = allDraws.toString()
-                        .replace("[", "")
-                        .replace("]", "")
-                        .split(",")
+                draws = allDraws.toString().replace("[", "").replace("]", "").split(",")
                 trySetAdapter()
             }
             activity?.invalidateOptionsMenu()
@@ -78,7 +67,7 @@ class EmausFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_emaus, menu)
+        inflater.inflate(R.menu.menu_emaus, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (draws.isNullOrEmpty()) {
@@ -143,10 +132,12 @@ class EmausFragment : Fragment() {
         // to get the center of FAB
         val centerX = view!!.startDrawBtn.x.toInt() + view!!.startDrawBtn.width / 2
         val centerY = view!!.startDrawBtn.y.toInt()
-        val finalRadius = Math.hypot(circularRevealView.width.toDouble(), circularRevealView.height.toDouble()).toFloat()
+        val finalRadius = hypot(circularRevealView.width.toDouble(), circularRevealView.height.toDouble()).toFloat()
         // starts the effect at centerX, center Y and covers final radius
-        val revealAnimator = ViewAnimationUtils.createCircularReveal(circularRevealView,
-                centerX, centerY, 0f, finalRadius)
+        val revealAnimator = ViewAnimationUtils.createCircularReveal(
+            circularRevealView,
+            centerX, centerY, 0f, finalRadius
+        )
         revealAnimator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {}
             override fun onAnimationEnd(p0: Animator?) {
@@ -168,12 +159,12 @@ class EmausFragment : Fragment() {
 
     private fun hideCircularReveal(circularRevealView: View?) {
         circularRevealView?.animate()
-                ?.alpha(0f)
-                ?.withEndAction {
-                    view?.startDrawBtn?.show()
-                    circularRevealView.visibility = View.INVISIBLE
-                }
-                ?.duration = 300
+            ?.alpha(0f)
+            ?.withEndAction {
+                view?.startDrawBtn?.show()
+                circularRevealView.visibility = View.INVISIBLE
+            }
+            ?.duration = 300
     }
 
     private fun trySetAdapter() {
@@ -183,7 +174,7 @@ class EmausFragment : Fragment() {
             val drawsWithMembers = arrayListOf<Pair<MemberEntity?, MemberEntity?>>()
             draws?.forEach { draw ->
                 drawsWithMembers.add(Pair(members!!.singleOrNull { it.id == draw.substring(0, draw.indexOf("+")) },
-                        members!!.singleOrNull { it.id == draw.substring(draw.indexOf("+") + 1, draw.length) }
+                    members!!.singleOrNull { it.id == draw.substring(draw.indexOf("+") + 1, draw.length) }
                 ))
             }
             mAdapter.setDraws(drawsWithMembers)
@@ -192,18 +183,17 @@ class EmausFragment : Fragment() {
 
             hideCircularReveal(view?.circularRevealView)
             view?.drawsRecyclerView?.layoutAnimation =
-                    AnimationUtils.loadLayoutAnimation(view?.drawsRecyclerView?.context, R.anim.layout_animation_fall_down)
+                AnimationUtils.loadLayoutAnimation(view?.drawsRecyclerView?.context, R.anim.layout_animation_fall_down)
             view?.drawsRecyclerView?.scheduleLayoutAnimation()
 
             val oddPersonId = mViewModel.getOddPersonId()
             if (oddPersonId != null && oddPersonId != "") {
                 val oddPersonName = mViewModel.getMemberNameByIdFromDatabase(oddPersonId)
-                Log.d("xDDD", "id = $oddPersonId, name = $oddPersonName")
                 val genderText =
-                        if (oddPersonName.substring(0, oddPersonName.indexOf(" ")).last() == 'a')
-                            getString(R.string.not_drawn_female)
-                        else
-                            getString(R.string.not_drawn_male)
+                    if (oddPersonName.substring(0, oddPersonName.indexOf(" ")).last() == 'a')
+                        getString(R.string.not_drawn_female)
+                    else
+                        getString(R.string.not_drawn_male)
                 val text = "$oddPersonName $genderText"
                 view?.oddPerson?.text = text
                 view?.oddPerson?.visibility = View.VISIBLE
@@ -227,11 +217,11 @@ class EmausFragment : Fragment() {
                 // Clear database from members that was deleted from Firebase.
                 if (members != null) {
                     mViewModel.deleteMembersInDatabase(
-                            members!!.filter { databaseMember ->
-                                firebaseList.singleOrNull { firebaseMember ->
-                                    databaseMember.id == firebaseMember.id
-                                } == null
-                            })
+                        members!!.filter { databaseMember ->
+                            firebaseList.singleOrNull { firebaseMember ->
+                                databaseMember.id == firebaseMember.id
+                            } == null
+                        })
                 }
             }
         })
@@ -241,52 +231,52 @@ class EmausFragment : Fragment() {
         hideCircularReveal(view?.circularRevealView)
 
         AlertDialog.Builder(context!!)
-                .setMessage(R.string.full_draws_msg)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes) { dialog, _ ->
-                    dialog.dismiss()
-                    mViewModel.deleteAllDrawsInDatabase(members)
-                    mViewModel.startDraw(members)
-                }
-                .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
-                .create()
-                .show()
+            .setMessage(R.string.full_draws_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteAllDrawsInDatabase(members)
+                mViewModel.startDraw(members)
+            }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
+            .create()
+            .show()
     }
 
     private fun showDeleteLastDrawDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.delete_last_draw_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.deleteLastDrawInDatabase(members, draws)
-                        activity?.recreate()
-                    }
-                    .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.delete_last_draw_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteLastDrawInDatabase(members, draws)
+                activity?.recreate()
+            }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
+            .create()
+            .show()
 
     private fun showResetDrawsDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.reset_draws_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.deleteAllDrawsInDatabase(members)
-                        activity?.recreate()
-                    }
-                    .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.reset_draws_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteAllDrawsInDatabase(members)
+                activity?.recreate()
+            }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog?.dismiss() }
+            .create()
+            .show()
 
     private fun showNoPeopleDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(getString(R.string.no_people_msg))
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
-                        dialog?.dismiss()
-                        findNavController().navigateUp()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(getString(R.string.no_people_msg))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                dialog?.dismiss()
+                findNavController().navigateUp()
+            }
+            .create()
+            .show()
 }

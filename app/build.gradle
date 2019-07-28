@@ -7,13 +7,13 @@ apply plugin: "androidx.navigation.safeargs"
 apply plugin: "io.fabric"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "pl.mftau.mftau"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 20
-        versionName "3.1.1"
+        targetSdkVersion 29
+        versionCode 21
+        versionName "3.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,16 +28,27 @@ android {
     dataBinding {
         enabled = true
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    packagingOptions {
+        exclude 'META-INF/atomicfu.kotlin_module'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "com.google.android.material:material:1.1.0-alpha06"
+    implementation "com.google.android.material:material:1.1.0-alpha08"
+
+    // Kotlin Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0"
 
     // ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta1"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
 
     // Preferences
     implementation "androidx.preference:preference:1.0.0"
@@ -49,11 +60,12 @@ dependencies {
     // Slices
     implementation "androidx.slice:slice-builders-ktx:1.0.0-alpha6"
     implementation "androidx.slice:slice-core:1.0.0"
-    implementation "androidx.annotation:annotation:1.0.2"
+    implementation "androidx.annotation:annotation:1.1.0"
 
     // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
-    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha02"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02"
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
 
     // Navigation
@@ -61,14 +73,15 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
 
     // Room database
-    implementation "androidx.room:room-runtime:2.1.0-beta01"
-    kapt "androidx.room:room-compiler:2.1.0-beta01"
+    implementation "androidx.room:room-runtime:2.1.0"
+    implementation "androidx.room:room-ktx:2.1.0"
+    kapt "androidx.room:room-compiler:2.1.0"
 
     // Firebase dependencies
-    implementation "com.google.firebase:firebase-core:16.0.9"
-    implementation "com.google.firebase:firebase-auth:17.0.0"
-    implementation "com.google.firebase:firebase-firestore:19.0.0"
-    implementation "com.google.firebase:firebase-storage:17.0.0"
+    implementation "com.google.firebase:firebase-core:17.0.1"
+    implementation "com.google.firebase:firebase-auth:18.1.0"
+    implementation "com.google.firebase:firebase-firestore:20.2.0"
+    implementation "com.google.firebase:firebase-storage:18.1.1"
     implementation "com.firebaseui:firebase-ui-storage:3.2.1"
     implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
 
@@ -80,7 +93,7 @@ dependencies {
     implementation "com.github.barteksc:android-pdf-viewer:3.1.0-beta.1"
 
     // Chart library
-    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0-alpha"
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
     // SwipeRevealLayout library
     implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
@@ -91,7 +104,7 @@ dependencies {
     // Tests
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     testImplementation "junit:junit:4.12"
-    androidTestImplementation "androidx.test:runner:1.1.1"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 }
 apply plugin: "com.google.gms.google-services"

@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.mftau.mftau.view.fragments.MeetingsListFragment
 
-class MeetingPagerAdapter(supportFragmentManager: FragmentManager, private val names: Array<String>)
-    : FragmentPagerAdapter(supportFragmentManager) {
+class MeetingPagerAdapter(supportFragmentManager: FragmentManager, private val names: Array<String>) :
+    FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment = MeetingsListFragment.newInstance(position)
 

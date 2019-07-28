@@ -15,7 +15,9 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
     private var mMembersList = listOf<Member>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder =
-            MembersViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_member, parent, false))
+        MembersViewHolder(
+            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_member, parent, false)
+        )
 
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.binding.member = mMembersList[position]

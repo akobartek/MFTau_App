@@ -28,10 +28,8 @@ class MainFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAuth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_main, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,30 +43,30 @@ class MainFragment : Fragment() {
         super.onResume()
         if (mAuth.currentUser != null && mAuth.currentUser!!.isEmailVerified) {
             FirebaseFirestore.getInstance().collection(firestoreCollectionUsers)
-                    .document(FirebaseAuth.getInstance().currentUser!!.uid)
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            when {
-                                (task.result?.get(firestoreKeyIsAdmin) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_ADMIN)
-                                    mViewModel.currentUserType = MainViewModel.USER_TYPE_ADMIN
-                                }
-                                (task.result?.get(firestoreKeyIsLeader) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_LEADER)
-                                    mViewModel.currentUserType = MainViewModel.USER_TYPE_LEADER
-                                }
-                                (task.result?.get(firestoreKeyIsMember) as Boolean) -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_MEMBER)
-                                    mViewModel.currentUserType = MainViewModel.USER_TYPE_MEMBER
-                                }
-                                else -> {
-                                    showUIChanges(MainViewModel.USER_TYPE_NONE)
-                                    mViewModel.currentUserType = MainViewModel.USER_TYPE_NONE
-                                }
+                .document(FirebaseAuth.getInstance().currentUser!!.uid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        when {
+                            (task.result?.get(firestoreKeyIsAdmin) as Boolean) -> {
+                                showUIChanges(MainViewModel.USER_TYPE_ADMIN)
+                                mViewModel.currentUserType = MainViewModel.USER_TYPE_ADMIN
+                            }
+                            (task.result?.get(firestoreKeyIsLeader) as Boolean) -> {
+                                showUIChanges(MainViewModel.USER_TYPE_LEADER)
+                                mViewModel.currentUserType = MainViewModel.USER_TYPE_LEADER
+                            }
+                            (task.result?.get(firestoreKeyIsMember) as Boolean) -> {
+                                showUIChanges(MainViewModel.USER_TYPE_MEMBER)
+                                mViewModel.currentUserType = MainViewModel.USER_TYPE_MEMBER
+                            }
+                            else -> {
+                                showUIChanges(MainViewModel.USER_TYPE_NONE)
+                                mViewModel.currentUserType = MainViewModel.USER_TYPE_NONE
                             }
                         }
                     }
+                }
         } else {
             showUIChanges(MainViewModel.USER_TYPE_NONE)
         }

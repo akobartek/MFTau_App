@@ -3,15 +3,15 @@
     <string name="app_name" translatable="false">MF Tau</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statute</string>
-    <string name="prayer">Prayer</string>
-    <string name="song_book">Song book</string>
+    <string name="prayer">Prayers</string>
+    <string name="song_book">Songbook</string>
     <string name="breviary">Breviary</string>
     <string name="gospel">Gospel</string>
     <string name="members">Members</string>
     <string name="meetings">Meetings</string>
     <string name="retreat">Retreats</string>
     <string name="community_logo">MF Tau community logo</string>
-    <string name="menu_description">Menu with options like log in or open settings.</string>
+    <string name="menu_description">Menu with options like sign in or open settings.</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_out">Sign out</string>
@@ -34,8 +34,8 @@
     <string name="email_name">Name</string>
     <string name="intention">Intention</string>
     <string name="error_description">Error description</string>
-    <string name="empty_email_name_error">Name cannot be empty!</string>
-    <string name="empty_email_intention_error">Intention cannot be empty!</string>
+    <string name="empty_email_name_error">Name can not be empty!</string>
+    <string name="empty_email_intention_error">Intention can not be empty!</string>
     <string name="rodo_srodo">I declare that I have read and accepted the privacy policy.</string>
     <string name="privacy_policy">privacy policy</string>
     <string name="rodo_dialog_message">If you want to send message, you have to accept the privacy policy first!</string>
@@ -48,7 +48,7 @@
     <string name="back_to_sign_in">Return to sign in</string>
     <string name="create_account">Create account</string>
     <string name="email_error">Incorrect email address.</string>
-    <string name="password_error_empty">Password cannot be empty!</string>
+    <string name="password_error_empty">Password can not be empty!</string>
     <string name="password_error_too_short">Password must contain at least 6 signs.</string>
     <string name="password_error_wrong">Password must contain upper/lowercase and number.</string>
     <string name="send">Send</string>
@@ -63,7 +63,7 @@
     <string name="sign_in_wrong_password_error">Wrong password entered!</string>
     <string name="sign_in_error">Sign in failed, please check connection and try again in few minutes!</string>
     <string name="verify_email_dialog_title">Verify email</string>
-    <string name="verify_email_dialog_message">In order to use you account, you must verify your account.</string>
+    <string name="verify_email_dialog_message">In order to use your account, you must verify your account.</string>
     <string name="verify_email_send_again">Send again</string>
     <string name="reset_password_dialog_title">Reset Password</string>
     <string name="reset_password_dialog_message">Enter the email address:</string>
@@ -110,9 +110,9 @@
     <string name="delete_retreat">Delete retreat</string>
     <string name="retreat_delete_dialog_msg">Do you want to delete this retreat?</string>
     <string name="pln" translatable="false">PLN</string>
-    <string name="empty_retreat_name_error">Name cannot be empty!</string>
-    <string name="empty_address_error">Address cannot be empty!</string>
-    <string name="empty_price_error">City cannot be empty!</string>
+    <string name="empty_retreat_name_error">Name can not be empty!</string>
+    <string name="empty_address_error">Address can not be empty!</string>
+    <string name="empty_price_error">City can not be empty!</string>
     <string name="show_on_map">Show on map</string>
     <string name="error_begin_date_later_than_end">End date have to be later than begin date!</string>
     <string name="error_retreat_has_taken_place">This retreat has already taken place!</string>
@@ -140,7 +140,7 @@
     <string name="add_meeting">Add meeting</string>
     <string name="edit_meeting">Edit meeting</string>
     <string name="delete_meeting">Delete meeting</string>
-    <string name="empty_meeting_name_error">Name cannot be empty!</string>
+    <string name="empty_meeting_name_error">Name can not be empty!</string>
     <string name="empty_meeting_date_error">You must to set date of meeting!</string>
     <string name="meeting_saved">Meeting saved successfully!</string>
     <string name="meeting_add_error">Error with saving meeting!</string>
@@ -154,7 +154,7 @@
     <string name="absence_dialog_title">%s - justification</string>
     <string name="absence_dialog_message">Give the reason for absence:</string>
     <string name="reason">Reason</string>
-    <string name="reason_empty_error">Reason cannot be empty!</string>
+    <string name="reason_empty_error">Reason can not be empty!</string>
     <string name="presence">Presence</string>
     <string name="presence_list_title">%s - presence</string>
     <string name="present">Present</string>
@@ -181,8 +181,8 @@
     <string name="add_member">Add member</string>
     <string name="edit_member">Edit member</string>
     <string name="delete_member">Delete member</string>
-    <string name="empty_name_error">Name cannot be empty!</string>
-    <string name="empty_city_error">City cannot be empty!</string>
+    <string name="empty_name_error">Name can not be empty!</string>
+    <string name="empty_city_error">City can not be empty!</string>
     <string name="member_with_photo_saved">Member and photo saved successfully!</string>
     <string name="member_added">Member saved successfully!</string>
     <string name="member_add_error">Error with saving member!</string>

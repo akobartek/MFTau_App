@@ -1,8 +1,6 @@
 package pl.mftau.mftau.view.fragments
 
-import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -15,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_gospel.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.utils.tryToRunFunctionOnInternet
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.lang.StringBuilder
 import java.util.*
@@ -27,10 +26,7 @@ class GospelFragment : Fragment() {
     private var mGospel: String? = null
     private var mIsSpeaking: Boolean = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_gospel, container, false)
     }
@@ -44,7 +40,7 @@ class GospelFragment : Fragment() {
             when {
                 savedInstanceState != null -> view.gospelText.restoreState(savedInstanceState)
                 mViewModel.wasGospelLoaded() -> loadGospel()
-                else -> checkNetworkConnection()
+                else -> activity?.tryToRunFunctionOnInternet { loadGospel() }
             }
         }
 
@@ -123,12 +119,7 @@ class GospelFragment : Fragment() {
             .setOnCancelListener { findNavController().navigateUp() }
             .create()
         loadingDialog.show()
-        mViewModel.loadGospelHtml(
-            loadingDialog,
-            view!!.gospelText,
-            activity!!,
-            this@GospelFragment::showNoInternetDialog
-        )
+        mViewModel.loadGospelHtml(loadingDialog, view!!.gospelText, activity!!)
     }
 
     private fun readGospel() {
@@ -157,32 +148,5 @@ class GospelFragment : Fragment() {
         mTextToSpeech.speak(mGospel, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
             putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UtteranceID")
         }, "UtteranceID")
-    }
-
-    private fun showNoInternetDialog() =
-        AlertDialog.Builder(context!!)
-            .setTitle(R.string.no_internet_title)
-            .setMessage(R.string.no_internet_reconnect_message)
-            .setCancelable(false)
-            .setPositiveButton(R.string.try_again) { dialog, _ ->
-                dialog.dismiss()
-                checkNetworkConnection()
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-                findNavController().navigateUp()
-            }
-            .create()
-            .show()
-
-    private fun checkNetworkConnection() {
-        val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
-
-        if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-            loadGospel()
-        } else {
-            showNoInternetDialog()
-        }
     }
 }

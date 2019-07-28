@@ -107,7 +107,7 @@
     <string name="retreat_delete_dialog_msg">Usunąć te rekolekcje?</string>
     <string name="empty_retreat_name_error">Uzupełnij nazwę rekolekcji!</string>
     <string name="empty_address_error">Uzupełnij adres!</string>
-    <string name="empty_price_error">Uzuepełnij cenę rekolekcji!</string>
+    <string name="empty_price_error">Uzupełnij cenę rekolekcji!</string>
     <string name="show_on_map">Pokaż na mapie</string>
     <string name="error_begin_date_later_than_end">Data końcowa musi być ustawiona później niż początkowa!</string>
     <string name="error_retreat_has_taken_place">Te rekolekcje już się odbyły!</string>
@@ -197,7 +197,7 @@
     <string name="no_people_msg">Musisz najpierw dodać członków do bazy!</string>
     <string name="empty_draw_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
     <string name="full_draws_msg">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>
-    <string name="reload_members">Odśwież członków</string>
+    <string name="reload_members">Odśwież dane członków</string>
     <string name="reset_draws">Wyczyść losowania</string>
     <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
     <string name="delete_last_draw">Usuń ostatnie losowanie</string>

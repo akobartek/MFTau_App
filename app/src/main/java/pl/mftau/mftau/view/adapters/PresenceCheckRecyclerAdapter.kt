@@ -19,10 +19,16 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
     var absenceList = HashMap<String, String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PresenceCheckViewHolder =
-            PresenceCheckViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_check, parent, false))
+        PresenceCheckViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_presence_check,
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: PresenceCheckViewHolder, position: Int) =
-            holder.bindView(mMembersList[position])
+        holder.bindView(mMembersList[position])
 
     override fun getItemCount(): Int = mMembersList.size
 
@@ -34,8 +40,8 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
     }
 
     inner class PresenceCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bindView(member: Member) {
+            itemView.swipeItemPresenceLayout.close(false)
             itemView.tag = member.id
             itemView.memberName.text = member.name
             itemView.isPresentCheckBox.setOnCheckedChangeListener(null)
@@ -81,13 +87,13 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
             dialogView.absenceReasonET.setText(absenceList[memberId])
 
             val dialog = AlertDialog.Builder(itemView.context)
-                    .setTitle(itemView.context.getString(R.string.absence_dialog_title, memberName))
-                    .setMessage(R.string.absence_dialog_message)
-                    .setView(dialogView)
-                    .setCancelable(false)
-                    .setPositiveButton(itemView.context.getString(R.string.save), null)
-                    .setNegativeButton(itemView.context.getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
-                    .create()
+                .setTitle(itemView.context.getString(R.string.absence_dialog_title, memberName))
+                .setMessage(R.string.absence_dialog_message)
+                .setView(dialogView)
+                .setCancelable(false)
+                .setPositiveButton(itemView.context.getString(R.string.save), null)
+                .setNegativeButton(itemView.context.getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
+                .create()
 
             dialog.setOnShowListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {

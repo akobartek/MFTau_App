@@ -20,7 +20,6 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import pl.mftau.mftau.view.fragments.PresenceListFragmentDirections
 
-
 class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAdapter.ChartViewHolder>() {
 
     private var memberList = listOf<Member>()
@@ -29,17 +28,22 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
     private var isNightMode = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartViewHolder {
-        val viewHolder = ChartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_show, parent, false))
+        val viewHolder =
+            ChartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_show, parent, false))
         viewHolder.reloadChart()
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ChartViewHolder, position: Int) =
-            holder.bindView(memberList[position])
+    override fun onBindViewHolder(holder: ChartViewHolder, position: Int) = holder.bindView(memberList[position])
 
     override fun getItemCount(): Int = memberList.size
 
-    fun setLists(memberList: List<Member>, presence: HashMap<String, Array<Int>>, numberOfMeetings: Array<Int?>, isNightMode: Boolean) {
+    fun setLists(
+        memberList: List<Member>,
+        presence: HashMap<String, Array<Int>>,
+        numberOfMeetings: Array<Int?>,
+        isNightMode: Boolean
+    ) {
         this.memberList = memberList
         this.presence = presence
         this.numberOfMeetings = numberOfMeetings
@@ -51,14 +55,15 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
     inner class ChartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val meetingTypeStrings = arrayOf(
-                itemView.context.getString(R.string.formation),
-                itemView.context.getString(R.string.prayerful),
-                itemView.context.getString(R.string.other)
+            itemView.context.getString(R.string.formation),
+            itemView.context.getString(R.string.prayerful),
+            itemView.context.getString(R.string.other)
         )
 
-        private val colors = arrayOf(ContextCompat.getColor(itemView.context, R.color.meetingType1_color1),
-                ContextCompat.getColor(itemView.context, R.color.meetingType2_color1),
-                ContextCompat.getColor(itemView.context, R.color.meetingType3_color1)
+        private val colors = arrayOf(
+            ContextCompat.getColor(itemView.context, R.color.meetingType1_color1),
+            ContextCompat.getColor(itemView.context, R.color.meetingType2_color1),
+            ContextCompat.getColor(itemView.context, R.color.meetingType3_color1)
         )
 
         fun bindView(member: Member) {

@@ -33,8 +33,7 @@ class MemberEditorFragment : Fragment() {
     private var mMember: Member? = null
     private var mFilePath: InputStream? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         personHasChanged = false
         return inflater.inflate(R.layout.fragment_member_editor, container, false)
@@ -61,7 +60,7 @@ class MemberEditorFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_member_edit, menu)
+        inflater.inflate(R.menu.menu_member_edit, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (mMember == null) {
@@ -89,9 +88,9 @@ class MemberEditorFragment : Fragment() {
             mFilePath = activity?.contentResolver?.openInputStream(data.data!!)
             try {
                 GlideApp.with(this)
-                        .load(data.data)
-                        .transform(CircleCrop())
-                        .into(view!!.addMemberPhoto)
+                    .load(data.data)
+                    .transform(CircleCrop())
+                    .into(view!!.addMemberPhoto)
                 personHasChanged = true
 
             } catch (exc: Exception) {
@@ -157,17 +156,17 @@ class MemberEditorFragment : Fragment() {
     }
 
     private fun showDeleteConfirmationDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.member_delete_dialog_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.delete) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.deleteMember(activity!!, mMember!!.id)
-                        findNavController().navigateUp()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.member_delete_dialog_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.delete) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteMember(activity!!, mMember!!.id)
+                findNavController().navigateUp()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
 
 
     private val mTouchListener = View.OnTouchListener { _, _ ->
@@ -176,6 +175,6 @@ class MemberEditorFragment : Fragment() {
     }
     private val mHideKeyboardClickListener = View.OnClickListener {
         (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+            .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
 }

@@ -15,16 +15,16 @@ import pl.mftau.mftau.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment)
-    : RecyclerView.Adapter<RetreatRecyclerAdapter.RetreatViewHolder>() {
+class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment) :
+    RecyclerView.Adapter<RetreatRecyclerAdapter.RetreatViewHolder>() {
 
     private var mRetreats = listOf<Retreat>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RetreatViewHolder =
-            RetreatViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_retreat, parent, false))
+        RetreatViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_retreat, parent, false))
 
     override fun onBindViewHolder(holder: RetreatViewHolder, position: Int) =
-            holder.bindView(mRetreats[position])
+        holder.bindView(mRetreats[position])
 
     override fun getItemCount(): Int = mRetreats.size
 
@@ -34,7 +34,7 @@ class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment)
     }
 
     fun getDateFormatted(date: Date): String =
-            SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
+        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
 
 
     inner class RetreatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

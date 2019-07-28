@@ -1,6 +1,5 @@
 package pl.mftau.mftau.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_breviary.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.viewmodel.MainViewModel
-import android.net.ConnectivityManager
+import pl.mftau.mftau.utils.tryToRunFunctionOnInternet
 
 class BreviaryFragment : Fragment() {
 
@@ -31,7 +30,7 @@ class BreviaryFragment : Fragment() {
             when {
                 savedInstanceState != null -> view.breviaryText.restoreState(savedInstanceState)
                 mViewModel.wasBreviaryLoaded(BreviaryFragmentArgs.fromBundle(arguments!!).position) -> loadBreviary()
-                else -> checkNetworkConnection()
+                else -> activity?.tryToRunFunctionOnInternet { loadBreviary() }
             }
         }
     }
@@ -51,35 +50,7 @@ class BreviaryFragment : Fragment() {
             BreviaryFragmentArgs.fromBundle(arguments!!).position,
             loadingDialog,
             view!!.breviaryText,
-            activity!!,
-            this@BreviaryFragment::showNoInternetDialog
+            activity!!
         )
-    }
-
-    private fun showNoInternetDialog() =
-        AlertDialog.Builder(context!!)
-            .setTitle(R.string.no_internet_title)
-            .setMessage(R.string.no_internet_reconnect_message)
-            .setCancelable(false)
-            .setPositiveButton(R.string.try_again) { dialog, _ ->
-                dialog.dismiss()
-                checkNetworkConnection()
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-                findNavController().navigateUp()
-            }
-            .create()
-            .show()
-
-    private fun checkNetworkConnection() {
-        val connectivityManager = activity!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
-
-        if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-            loadBreviary()
-        } else {
-            showNoInternetDialog()
-        }
     }
 }

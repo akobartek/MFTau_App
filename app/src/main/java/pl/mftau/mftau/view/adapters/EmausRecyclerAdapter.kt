@@ -18,10 +18,10 @@ class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausView
     private var mDraws = arrayListOf<Pair<MemberEntity?, MemberEntity?>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmausViewHolder =
-            EmausViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_emaus, parent, false))
+        EmausViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_emaus, parent, false))
 
     override fun onBindViewHolder(holder: EmausViewHolder, position: Int) =
-            holder.bindView(mDraws[position])
+        holder.bindView(mDraws[position])
 
     override fun getItemCount(): Int = mDraws.size
 
@@ -38,20 +38,20 @@ class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausView
 
             if ("example@mftau.pl" != FirebaseAuth.getInstance().currentUser!!.email!!) {
                 var storageReference = FirebaseStorage.getInstance()
-                        .reference.child("members/${pairOfMembers.first?.id}.jpg")
+                    .reference.child("members/${pairOfMembers.first?.id}.jpg")
                 GlideApp.with(itemView.context)
-                        .load(storageReference)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .into(itemView.drawFirstPicture)
+                    .load(storageReference)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(itemView.drawFirstPicture)
 
                 storageReference = FirebaseStorage.getInstance()
-                        .reference.child("/members/${pairOfMembers.second?.id}.jpg")
+                    .reference.child("/members/${pairOfMembers.second?.id}.jpg")
                 GlideApp.with(itemView.context)
-                        .load(storageReference)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .into(itemView.drawSecondPicture)
+                    .load(storageReference)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(itemView.drawSecondPicture)
             } else {
                 var randomNumber = Random.nextInt(100)
                 var address = if (pairOfMembers.first?.name?.last() == 'a')
@@ -60,11 +60,11 @@ class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausView
                     "https://randomuser.me/api/portraits/men/$randomNumber.jpg"
 
                 GlideApp.with(itemView.context)
-                        .load(address)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(itemView.drawFirstPicture)
+                    .load(address)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(itemView.drawFirstPicture)
 
                 randomNumber = Random.nextInt(100)
                 address = if (pairOfMembers.second?.name?.last() == 'a')
@@ -73,11 +73,11 @@ class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausView
                     "https://randomuser.me/api/portraits/men/$randomNumber.jpg"
 
                 GlideApp.with(itemView.context)
-                        .load(address)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(itemView.drawSecondPicture)
+                    .load(address)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(itemView.drawSecondPicture)
             }
         }
     }

@@ -11,7 +11,9 @@ import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.*
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import pl.mftau.mftau.R
@@ -23,7 +25,9 @@ import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.model.repositories.EmausRepository
 import pl.mftau.mftau.model.repositories.FirebaseRepository
 import pl.mftau.mftau.utils.FirestoreUtils
+import pl.mftau.mftau.utils.showNoInternetDialogWithTryAgain
 import java.io.InputStream
+import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -54,11 +58,9 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
     )
 
-    fun isEmailValid(email: String?): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+    fun isEmailValid(email: CharSequence): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
-    fun isValidPassword(password: String?): Boolean {
+    fun isValidPassword(password: CharSequence): Boolean {
         val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})"
         val pattern = Pattern.compile(passwordRegex)
         val matcher = pattern.matcher(password)
@@ -98,8 +100,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         type: Int,
         loadingDialog: AlertDialog,
         webView: WebView,
-        activity: Activity,
-        showDialog: () -> Unit
+        activity: Activity
     ) {
         Thread(Runnable {
             try {
@@ -121,8 +122,6 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     breviaryHtml[type] = document.select("table").last { it.outerHtml().contains("Psalm ") }
                         .html()
 
-                    Log.d("xDDD", breviaryHtml[type])
-
                     updateBreviaryHtml(type)
                 }
 
@@ -140,7 +139,9 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                 Log.e("loadBreviaryHtml", exc.toString())
                 activity.runOnUiThread {
                     loadingDialog.hide()
-                    showDialog()
+                    activity.showNoInternetDialogWithTryAgain {
+                        loadBreviaryHtml(type, loadingDialog, webView, activity)
+                    }
                 }
             }
         }).start()
@@ -258,7 +259,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun wasGospelLoaded(): Boolean = gospelHtml != null
 
-    fun loadGospelHtml(loadingDialog: AlertDialog, webView: WebView, activity: Activity, showDialog: () -> Unit) {
+    fun loadGospelHtml(loadingDialog: AlertDialog, webView: WebView, activity: Activity) {
         Thread(Runnable {
             try {
                 if (!wasGospelLoaded()) {
@@ -286,7 +287,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                 exc.printStackTrace()
                 activity.runOnUiThread {
                     loadingDialog.hide()
-                    showDialog()
+                    activity.showNoInternetDialogWithTryAgain { loadGospelHtml(loadingDialog, webView, activity) }
                 }
             }
         }).start()
@@ -340,26 +341,31 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     // endregion Members Module
 
     // region Emauses
-    fun getAllMembersFromDatabase(): LiveData<List<MemberEntity>> = mEmausRepository.getAllMembers()
+    fun getAllMembersFromDatabase() = mEmausRepository.getAllMembers()
 
     fun getAllMembersFromFirebase(): LiveData<List<Member>> = mFirebaseRepository.getAllMembers()
 
-    fun getLastDrawsFromDatabase(): LiveData<List<String>> = mEmausRepository.getLastDraws()
+    fun getLastDrawsFromDatabase() = mEmausRepository.getLastDraws()
 
-    fun getMemberNameByIdFromDatabase(id: String): String = mEmausRepository.getMemberNameById(id)
+    fun getMemberNameByIdFromDatabase(id: String): String =
+        runBlocking { withContext(Dispatchers.IO) { mEmausRepository.getMemberNameById(id) } }
 
-    fun insertMembersToDatabase(members: List<MemberEntity>) = mEmausRepository.insertMembers(members)
+    fun insertMembersToDatabase(members: List<MemberEntity>) =
+        viewModelScope.launch { mEmausRepository.insertMembers(members) }
 
-    fun getMaxNumberOfDraw(): Int = mEmausRepository.getMaxNumberOfDraw()
+    fun getMaxNumberOfDraw(): Int =
+        runBlocking { withContext(Dispatchers.IO) { mEmausRepository.getMaxNumberOfDraw() ?: 0 } }
 
-    private fun updateMembersListsInDatabase(members: List<MemberEntity>) = mEmausRepository.updateMembersLists(members)
+    fun deleteMembersInDatabase(members: List<MemberEntity>) =
+        viewModelScope.launch { mEmausRepository.deleteMembers(members) }
 
-    fun deleteMembersInDatabase(members: List<MemberEntity>) = mEmausRepository.deleteMembers(members)
+    private fun updateMembersListsInDatabase(members: List<MemberEntity>) =
+        viewModelScope.launch { mEmausRepository.updateMembersLists(members) }
 
-    private fun insertDrawToDatabase(draw: DrawEntity) = mEmausRepository.insertDraw(draw)
+    private fun insertDrawToDatabase(draw: DrawEntity) = viewModelScope.launch { mEmausRepository.insertDraw(draw) }
 
     fun deleteLastDrawInDatabase(members: List<MemberEntity>?, draws: List<String>?) {
-        mEmausRepository.deleteLastDraw()
+        viewModelScope.launch { mEmausRepository.deleteLastDraw() }
         if (members != null && draws != null) {
             draws.forEach { draw ->
                 members.single { it.id == draw.substring(0, draw.indexOf("+")) }
@@ -372,7 +378,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     fun deleteAllDrawsInDatabase(members: List<MemberEntity>?) {
-        mEmausRepository.deleteAllDraws()
+        viewModelScope.launch { mEmausRepository.deleteAllDraws() }
         if (members != null) {
             members.forEach { it.drawsList = arrayListOf() }
             updateMembersListsInDatabase(members)
@@ -472,10 +478,10 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         }
 
         (app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
-            .primaryClip = ClipData.newPlainText("emaus", textToCopy.toString())
+            .setPrimaryClip(ClipData.newPlainText("emaus", textToCopy.toString()))
     }
 
-    fun getOddPersonId(): String? = mEmausRepository.getOddPersonId()
+    fun getOddPersonId(): String? = runBlocking { withContext(Dispatchers.IO) { mEmausRepository.getOddPersonId() } }
     // endregion Emauses
 
     // region Meetings Module

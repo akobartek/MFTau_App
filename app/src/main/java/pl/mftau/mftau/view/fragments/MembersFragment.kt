@@ -21,8 +21,7 @@ class MembersFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: MembersRecyclerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_members, container, false)
     }
@@ -50,7 +49,7 @@ class MembersFragment : Fragment() {
 
         mViewModel.getAllMembers().observe(this, Observer { members ->
             view.membersRecyclerView.layoutAnimation =
-                    AnimationUtils.loadLayoutAnimation(view.membersRecyclerView.context, R.anim.layout_animation_fall_down)
+                AnimationUtils.loadLayoutAnimation(view.membersRecyclerView.context, R.anim.layout_animation_fall_down)
             mAdapter.setMemberList(members)
             view.membersRecyclerView.scheduleLayoutAnimation()
 
@@ -67,8 +66,7 @@ class MembersFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_members, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_members, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_emauses -> {

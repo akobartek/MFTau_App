@@ -36,10 +36,8 @@ class EmailFragment : Fragment() {
 
     private val emailAddresses = arrayOf("modlitwa@mftau.pl", "sokolowskijbartek@gmail.com")
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_email, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_email, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +59,7 @@ class EmailFragment : Fragment() {
         }
         view.emailLayout.setOnClickListener {
             (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
         }
 
 
@@ -95,14 +93,14 @@ class EmailFragment : Fragment() {
     }
 
     private fun showRodoDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.rodo_dialog_message)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.rodo_dialog_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
 
     private fun sendMail() {
         var isValid = true

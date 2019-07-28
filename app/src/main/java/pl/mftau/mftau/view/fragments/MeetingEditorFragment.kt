@@ -33,8 +33,7 @@ class MeetingEditorFragment : Fragment() {
     private var mMeeting: Meeting? = null
     private var mMeetingDate = Date()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         meetingHasChanged = false
         return inflater.inflate(R.layout.fragment_meeting_editor, container, false)
@@ -47,8 +46,8 @@ class MeetingEditorFragment : Fragment() {
             mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
         }
 
-        view.meetingTypeSpinner.adapter = object : ArrayAdapter<String>(view.context,
-                R.layout.item_spinner, resources.getStringArray(R.array.meeting_types)) {
+        view.meetingTypeSpinner.adapter = object :
+            ArrayAdapter<String>(view.context, R.layout.item_spinner, resources.getStringArray(R.array.meeting_types)) {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val dropDownView = super.getDropDownView(position, convertView, parent)
                 (dropDownView as TextView).setTextColor(Color.BLACK)
@@ -73,7 +72,7 @@ class MeetingEditorFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_meeting_edit, menu)
+        inflater.inflate(R.menu.menu_meeting_edit, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (mMeeting == null) {
@@ -85,8 +84,7 @@ class MeetingEditorFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_check_presence -> {
-            findNavController().navigate(MeetingEditorFragmentDirections
-                    .showPresenceCheckFragment(mMeeting!!, 0))
+            findNavController().navigate(MeetingEditorFragmentDirections.showPresenceCheckFragment(mMeeting!!, 0))
             true
         }
         R.id.action_delete_meeting -> {
@@ -103,10 +101,8 @@ class MeetingEditorFragment : Fragment() {
             meetingValues[FirestoreUtils.firestoreKeyNotes] = view!!.meetingNotesET.text.toString().trim()
             meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
             meetingValues[FirestoreUtils.firestoreKeyMeetingType] = view!!.meetingTypeSpinner.selectedItemPosition
-            meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mMeeting?.attendanceList
-                    ?: arrayListOf<String>()
-            meetingValues[FirestoreUtils.firestoreKeyAbsenceList] = mMeeting?.absenceList
-                    ?: HashMap<String, String>()
+            meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mMeeting?.attendanceList ?: arrayListOf<String>()
+            meetingValues[FirestoreUtils.firestoreKeyAbsenceList] = mMeeting?.absenceList ?: HashMap<String, String>()
 
             if (view!!.meetingNameET.text.isNullOrBlank()) {
                 view!!.meetingNameET.error = getString(R.string.empty_meeting_name_error)
@@ -117,11 +113,14 @@ class MeetingEditorFragment : Fragment() {
                 showCheckPresenceDialog(meetingValues)
             } else {
                 if (!(meetingValues[FirestoreUtils.firestoreKeyDate] == mMeeting!!.date
-                                && meetingValues[FirestoreUtils.firestoreKeyName] == mMeeting!!.name
-                                && meetingValues[FirestoreUtils.firestoreKeyNotes] == mMeeting!!.notes
-                                && meetingValues[FirestoreUtils.firestoreKeyMeetingType] == mMeeting!!.meetingType)) {
-                    mViewModel.updateMeeting(activity!!, mMeeting!!.id,
-                            meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues)
+                            && meetingValues[FirestoreUtils.firestoreKeyName] == mMeeting!!.name
+                            && meetingValues[FirestoreUtils.firestoreKeyNotes] == mMeeting!!.notes
+                            && meetingValues[FirestoreUtils.firestoreKeyMeetingType] == mMeeting!!.meetingType)
+                ) {
+                    mViewModel.updateMeeting(
+                        activity!!, mMeeting!!.id,
+                        meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues
+                    )
                 }
                 findNavController().navigateUp()
             }
@@ -140,40 +139,42 @@ class MeetingEditorFragment : Fragment() {
     }
 
     private fun showCheckPresenceDialog(meetingValues: HashMap<String, Any>) =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.check_presence_dialog_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { dialog, _ ->
-                        dialog.dismiss()
-                        mMeeting = Meeting(
-                                name = meetingValues[FirestoreUtils.firestoreKeyName] as String,
-                                meetingType = meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int,
-                                date = meetingValues[FirestoreUtils.firestoreKeyDate] as Timestamp
-                        )
-                        findNavController().navigate(MeetingEditorFragmentDirections
-                                .showPresenceCheckFragment(mMeeting!!, 1))
-                    }
-                    .setNegativeButton(R.string.no) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.addMeeting(activity!!,
-                                meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues)
-                        findNavController().navigateUp()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.check_presence_dialog_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                mMeeting = Meeting(
+                    name = meetingValues[FirestoreUtils.firestoreKeyName] as String,
+                    meetingType = meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int,
+                    date = meetingValues[FirestoreUtils.firestoreKeyDate] as Timestamp
+                )
+                findNavController().navigate(
+                    MeetingEditorFragmentDirections.showPresenceCheckFragment(mMeeting!!, 1)
+                )
+            }
+            .setNegativeButton(R.string.no) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.addMeeting(
+                    activity!!, meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues
+                )
+                findNavController().navigateUp()
+            }
+            .create()
+            .show()
 
     private fun showDeleteConfirmationDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.meeting_delete_dialog_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.delete) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.deleteMeeting(activity!!, mMeeting!!.id, mMeeting!!.meetingType)
-                        findNavController().navigateUp()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.meeting_delete_dialog_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.delete) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteMeeting(activity!!, mMeeting!!.id, mMeeting!!.meetingType)
+                findNavController().navigateUp()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
 
 
     private val mTouchListener = View.OnTouchListener { _, _ ->
@@ -182,21 +183,23 @@ class MeetingEditorFragment : Fragment() {
     }
     private val mHideKeyboardClickListener = View.OnClickListener {
         (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+            .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
     private val mDateClickListener = View.OnClickListener {
         (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+            .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
 
         val calendar = Calendar.getInstance()
         calendar.time = mMeetingDate
 
-        DatePickerDialog(context!!, myDateListener,
-                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        DatePickerDialog(
+            context!!, myDateListener,
+            calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
     private val myDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
-        mMeetingDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
+        mMeetingDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         view?.dateText?.text = dateString
     }
 }

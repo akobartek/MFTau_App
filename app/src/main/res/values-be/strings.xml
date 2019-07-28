@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BASIC STRINGS -->
+    <string name="statute">Статут</string>
+    <string name="prayer">Малітвы</string>
+    <string name="breviary">Брэвіярый</string>
+    <string name="gospel">Евангелле</string>
+    <string name="song_book">Песеннік</string>
+    <string name="members">Члены</string>
+    <string name="meetings">Сустрэчы</string>
+    <string name="retreat">Адступленне</string>
+    <string name="community_logo">Лагатып суполкі МФ Тау</string>
+    <string name="menu_description">Меню з такімі параметрамі, як увайсці або адкрыць налады.</string>
+    <string name="sign_in">Увайсці</string>
+    <string name="sign_up">Рэгістрацыя</string>
+    <string name="sign_out">Выйсці</string>
+    <string name="register">Рэгістрацыя</string>
+    <string name="settings">Налады</string>
+    <string name="ask_for_pray">Папрасі малітвы</string>
+    <string name="report_error">Паведаміць пра памылку</string>
+    <string name="no_internet_title">Няма Інтэрнэту</string>
+    <string name="no_internet_reconnect_message">Узнікла праблема з падключэннем да Інтэрнэту, вы хочаце паспрабаваць яшчэ раз?</string>
+    <string name="no_internet_data_message">Няма доступу ў Інтэрнэт, адлюстраваныя дадзеныя могуць састарэць!</string>
+    <string name="try_again">Спрабаваць</string>
+
+    <!-- SLICE STRINGS -->
+    <string name="slice_breviary_subtitle">Адкрыйце брэвіярый у прыкладанне MF Tau</string>
+
+    <!-- EMAIL STRINGS -->
+    <string name="send_mail">Адправіць ліст…</string>
+    <string name="send_mail_error">Не ўсталяваны кліент электроннай пошты!</string>
+    <string name="email_name">Імя</string>
+    <string name="intention">Намер</string>
+    <string name="error_description">Апісанне праблемы</string>
+    <string name="empty_email_name_error">Дайце сваё імя!</string>
+    <string name="empty_email_intention_error">Увядзіце намер!</string>
+    <string name="rodo_srodo">Я заяўляю, што прачытаў і прыняў прынцыпы абароны асабістых дадзеных.</string>
+    <string name="privacy_policy">прынцыпы абароны асабістых дадзеных</string>
+    <string name="rodo_dialog_message">Каб адправіць паведамленне, вы павінны прыняць правілы абароны асабістых дадзеных!</string>
+
+    <!-- LOGIN STRINGS -->
+    <string name="email">Адрас электроннай пошты</string>
+    <string name="password">Пароль</string>
+    <string name="back_to_sign_in">Назад да увайсці</string>
+    <string name="forgot_password">Забыліся пароль?</string>
+    <string name="create_account">Стварыць уліковы запіс</string>
+    <string name="email_error">Несапраўдны адрас электроннай пошты.</string>
+    <string name="password_error_empty">Увядзіце пароль!</string>
+    <string name="password_error_too_short">Пароль павінен быць не менш за 6 знакаў.</string>
+    <string name="password_error_wrong">Пароль павінен утрымліваць вялікія і малыя літары і лічбы.</string>
+    <string name="send">Паслаць</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="message_sent">Паведамленне адпраўлена</string>
+    <string name="sign_up_error">Памылка падчас рэгістрацыі, праверце злучэнне і паспрабуйце зноў праз некалькі хвілін!</string>
+    <string name="sign_up_existing_user_error">Для гэтага адраса ўжо ёсць уліковы запіс!</string>
+    <string name="sign_up_successful_dialog_title">Зарэгістраваны паспяхова</string>
+    <string name="sign_up_successful_dialog_message">Каб карыстацца ўліковым запісам, неабходна ўхваліць яго, перайшоўшы па спасылцы ў паведамленні электроннай пошты.</string>
+    <string name="signed_in">Уваход</string>
+    <string name="sign_in_no_user_error">Уліковы запіс, звязаны з гэтым адрасам, не знойдзены!</string>
+    <string name="sign_in_wrong_password_error">Уведзены няправільны пароль!</string>
+    <string name="sign_in_error">Памылка ўваходу, праверце злучэнне і паспрабуйце зноў праз некалькі хвілін!</string>
+    <string name="verify_email_dialog_title">Пацверджанне па электроннай пошце</string>
+    <string name="verify_email_dialog_message">Для таго, каб скарыстацца сваім уліковым запісам, неабходна зацвердзіць адрас электроннай пошты.</string>
+    <string name="verify_email_send_again">Адправіць яшчэ раз</string>
+    <string name="reset_password_dialog_title">Скід пароля</string>
+    <string name="reset_password_dialog_message">Увядзіце адрас электроннай пошты:</string>
+    <string name="reset_password_error">Не ўдалося скінуць, праверце злучэнне і правільнасць адрасу!</string>
+
+    <!-- PREFERENCES STRINGS -->
+    <string name="preferences">Налады</string>
+    <string name="night_mode_title">Начны рэжым</string>
+    <string name="night_mode_summary">Уключыце начны рэжым ва ўсім прыкладанне</string>
+
+    <!-- BREVIARY STRINGS -->
+    <string name="invitatory">Выклік</string>
+    <string name="office_of_readings">Гадзіна чытання</string>
+    <string name="morning_prayer">Ютрань</string>
+    <string name="midmorning_prayer">Ранішняя малітва</string>
+    <string name="midday_prayer">Паўдзённая малітва</string>
+    <string name="midafternoon_prayer">Малітва ў другой палове дня</string>
+    <string name="evening_prayer">Вячэрня</string>
+    <string name="night_prayer">Вячэрні богаслужэнне</string>
+
+    <!-- GOSPEL STRINGS -->
+    <string name="gospel_for_today">Евангелле на сёння</string>
+    <string name="listen_gospel">Слухайце Евангелле</string>
+
+    <!-- RETREAT STRINGS -->
+    <string name="empty_retreat_list">Ніякіх адступленняў яшчэ не дададзена!</string>
+    <string name="add_retreat">Даданне адступлення</string>
+    <string name="edit_retreat">Рэдагаванне адступлення</string>
+    <string name="retreat_added">Адступленне захавана!</string>
+    <string name="retreat_add_error">Памылка пры даданні адступлення!</string>
+    <string name="retreat_updated">Адступленне абноўлена!</string>
+    <string name="retreat_update_error">Памылка пры абнаўленні адступлення!</string>
+    <string name="retreat_delete_successfully">Адступленне выдалена!</string>
+    <string name="retreat_name">Назва адступлення</string>
+    <string name="retreat_city">Горад</string>
+    <string name="retreat_address">Адрас</string>
+    <string name="retreat_price">Цана</string>
+    <string name="begin">Пачатак</string>
+    <string name="end">Канец</string>
+    <string name="for_over_15years">Для ўсіх, каму больш за 15 гадоў.</string>
+    <string name="for_members">Для членаў МФ Тау</string>
+    <string name="for_responsible">Для адказвае МФ Тау</string>
+    <string name="delete_retreat">Выдаліце адступленне</string>
+    <string name="retreat_delete_dialog_msg">Выдаліць гэтае адступленне?</string>
+    <string name="empty_retreat_name_error">Запоўніце назву адступлення!</string>
+    <string name="empty_address_error">Запоўніце адрас!</string>
+    <string name="empty_price_error">Запоўніце цану!</string>
+    <string name="show_on_map">Пакажыце на карце</string>
+    <string name="error_begin_date_later_than_end">Дата заканчэння павінна быць усталявана пазней, чым першапачатковая дата!</string>
+    <string name="error_retreat_has_taken_place">Гэтыя адступленне ўжо адбыліся!</string>
+    <string name="error_date_limit_after_begin">Дата запісу павінна быць устаноўлена раней, чым дата пачатку адступлення!</string>
+    <string name="save_to_calendar">Даданне ў каляндар</string>
+    <string name="save_to_calendar_msg">Вы хочаце дадаць гэтыя адступленні ў свой каляндар?</string>
+    <string name="retreat_added_to_calendar">Адступленне дададзены ў каляндар!</string>
+    <string name="calendar_security_error">Няма дазволу на даданне ў каляндар!</string>
+    <string name="retreat_register_title">Запісы на адступленне</string>
+    <string name="retreat_register_msg">Увядзіце імя і прозвішча:</string>
+    <string name="advance_payment_title">Патрабуецца папярэдняя аплата</string>
+    <string name="advance_payment_msg">Гэтыя выезды патрабуюць папярэдняй аплаты! Не забудзьцеся зрабіць перадачу!</string>
+    <string name="register_until">Падпіскі магчымыя да:</string>
+    <string name="advance_payment_required">Патрабуецца папярэдняя аплата?</string>
+
+    <!-- MEETINGS STRINGS -->
+    <string name="empty_meeting_list">Сустрэча яшчэ не дададзеная!</string>
+    <string name="meeting_name">Назва сустрэчы</string>
+    <string name="notes">Нататкі</string>
+    <string name="formation">Адукацыя</string>
+    <string name="prayerful">Малітва</string>
+    <string name="other">Іншы</string>
+    <string name="calendar_description">Абразок для ўстаноўкі даты сустрэчы.</string>
+    <string name="check_list_description">Праверце прысутнасць удзельнікаў на сходзе.</string>
+    <string name="add_meeting">Даданне сустрэчы</string>
+    <string name="edit_meeting">Адрэдагаваць сустрэчу</string>
+    <string name="delete_meeting">Выдаліць сустрэчу</string>
+    <string name="empty_meeting_name_error">Запоўніце назву сустрэчы!</string>
+    <string name="empty_meeting_date_error">Абярыце дату сустрэчы!</string>
+    <string name="meeting_saved">Сустрэча была захавана!</string>
+    <string name="meeting_add_error">Памылка пры захавання сустрэчы!</string>
+    <string name="meeting_updated">Сустрэча абноўлена!!</string>
+    <string name="meeting_update_error">Памылка пры абнаўленні сустрэчы!</string>
+    <string name="check_presence_dialog_msg">Вы хочаце праверыць прысутнасць на сустрэчы зараз?</string>
+    <string name="check_presence">Праверце наяўнасць</string>
+    <string name="show_presence">Пакажыце наяўнасць</string>
+    <string name="justify_absence">Абгрунтуйце адсутнасць</string>
+    <string name="save">Захаваць</string>
+    <string name="absence_dialog_title">%s - апраўданне</string>
+    <string name="absence_dialog_message">Пакажыце прычыну адсутнасці:</string>
+    <string name="reason">Прычына</string>
+    <string name="reason_empty_error">Прычына не можа быць пустой!</string>
+    <string name="presence">Наяўнасць</string>
+    <string name="presence_list_title">%s - наяўнасць</string>
+    <string name="present">Цяперашні час</string>
+    <string name="justified">Апраўданне</string>
+    <string name="absent">Адсутнасць</string>
+    <string name="reason_for_absence">Прычына адсутнасці: %s</string>
+    <string name="delete_meetings_dialog_msg">Вы ўпэўнены, што хочаце выдаліць УСЕ сустрэчы?</string>
+    <string name="delete_meetings">Выдаліць усе сустрэчы</string>
+    <string name="delete_meetings_successfully">Усе сустрэчы выдалены!</string>
+    <string name="meeting_type_prompt">Абярыце тып сустрэчы</string>
+    <string name="set_date">Усталюйце дату</string>
+    <string name="meeting_delete_dialog_msg">Выдаліць гэтую сустрэчу?</string>
+    <string name="meeting_delete_successfully">Сустрэча выдаленая!</string>
+
+    <!-- MEMBERS STRINGS -->
+    <string name="empty_member_list">Няма людзей дададзеных!</string>
+    <string name="member_name">Імя і прозвішча</string>
+    <string name="is_responsible">Адказны?</string>
+    <string name="yes">Так</string>
+    <string name="no">Не</string>
+    <string name="city">Горад</string>
+    <string name="member_photo_description">Фотаздымак чалавека</string>
+    <string name="select_photo">Выберыце фота</string>
+    <string name="add_member">Даданне чалавека</string>
+    <string name="edit_member">Рэдагаванне чалавека</string>
+    <string name="delete_member">Выдаліць чалавека</string>
+    <string name="empty_name_error">Імя не можа быць пусты!</string>
+    <string name="empty_city_error">Горад не можа быць пусты!</string>
+    <string name="member_with_photo_saved">Чалавек і фота захаваны!</string>
+    <string name="member_added">Чалавек захаваны!</string>
+    <string name="member_add_error">Памылка пры захаванні чалавека!</string>
+    <string name="member_update_error">Памылка пры абнаўлення дадзеных!</string>
+    <string name="member_photo_error">Памылка пры захаванні фота!</string>
+    <string name="loading">Загрузка…</string>
+    <string name="unsaved_changes_dialog_msg">Адмяніць змены?</string>
+    <string name="discard">Адмоўцеся</string>
+    <string name="keep_editing">Працягвайце рэдагаваць</string>
+    <string name="member_delete_dialog_msg">Выдаліць гэтага чалавека?</string>
+    <string name="delete">Выдаліць</string>
+    <string name="member_delete_successfully">Чалавека выдалены!</string>
+    <string name="delete_error">Памылка пры выдаленні!</string>
+    <string name="emauses">Эмаус</string>
+    <string name="not_drawn_female">гэта не было намалявана, дадайце гэтага чалавека да апошняй пары.</string>
+    <string name="not_drawn_male">не было намалявана, дадайце гэтага чалавека да апошняй пары.</string>
+    <string name="no_people_msg">Спачатку вы павінны дадаць удзельнікаў у базу!</string>
+    <string name="empty_draw_list">Яшчэ не было латарэяў!</string>
+    <string name="full_draws_msg">Былі ўсе магчымыя камбінацыі. Вы хочаце скінуць латарэяў?</string>
+    <string name="reload_members">Перазагрузка дадзеных</string>
+    <string name="reset_draws">Скід усе латарэяў</string>
+    <string name="reset_draws_msg">Вы ўпэўнены, што хочаце ачысціць усе латарэяў?</string>
+    <string name="delete_last_draw">Выдаліце апошні латарэяў</string>
+    <string name="delete_last_draw_msg">Выдаліць апошні латарэяў?</string>
+    <string name="copy_draws">Скапіруйце ў буфер абмену</string>
+    <string name="copied_draws">Скапіявана ў буфер абмену!</string>
+</resources>

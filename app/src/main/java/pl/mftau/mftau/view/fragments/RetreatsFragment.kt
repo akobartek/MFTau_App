@@ -24,10 +24,8 @@ class RetreatsFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: RetreatRecyclerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_retreats, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_retreats, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +56,7 @@ class RetreatsFragment : Fragment() {
 
         mViewModel.getAllRetreats().observe(this@RetreatsFragment, Observer { retreats ->
             view.retreatRecyclerView.layoutAnimation =
-                    AnimationUtils.loadLayoutAnimation(view.retreatRecyclerView.context, R.anim.layout_animation_fall_down)
+                AnimationUtils.loadLayoutAnimation(view.retreatRecyclerView.context, R.anim.layout_animation_fall_down)
             mAdapter.setRetreatList(retreats)
             view.retreatRecyclerView.scheduleLayoutAnimation()
 

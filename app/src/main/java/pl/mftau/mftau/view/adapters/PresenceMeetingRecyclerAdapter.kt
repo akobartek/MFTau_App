@@ -9,17 +9,20 @@ import kotlinx.android.synthetic.main.item_presence_meeting.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Meeting
 
-class PresenceMeetingRecyclerAdapter : RecyclerView.Adapter<PresenceMeetingRecyclerAdapter.PresenceMeetingViewHolder>() {
+class PresenceMeetingRecyclerAdapter :
+    RecyclerView.Adapter<PresenceMeetingRecyclerAdapter.PresenceMeetingViewHolder>() {
 
     private var mMeetingsList = listOf<Meeting>()
     private var mPresenceList = arrayListOf<String>()
     private var mAbsenceList = HashMap<String, String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PresenceMeetingViewHolder =
-            PresenceMeetingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_meeting, parent, false))
+        PresenceMeetingViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_presence_meeting, parent, false)
+        )
 
     override fun onBindViewHolder(holder: PresenceMeetingViewHolder, position: Int) =
-            holder.bindView(mMeetingsList[position])
+        holder.bindView(mMeetingsList[position])
 
     override fun getItemCount(): Int = mMeetingsList.size
 
@@ -40,26 +43,45 @@ class PresenceMeetingRecyclerAdapter : RecyclerView.Adapter<PresenceMeetingRecyc
                 mPresenceList.contains(meeting.id) -> {
                     itemView.absenceReason.visibility = View.GONE
                     when (meeting.meetingType) {
-                        0 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType1_color1))
-                        1 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType2_color1))
-                        2 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType3_color1))
+                        0 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType1_color1)
+                        )
+                        1 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType2_color1)
+                        )
+                        2 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType3_color1)
+                        )
                     }
                 }
                 mAbsenceList.containsKey(meeting.id) -> {
                     itemView.absenceReason.visibility = View.VISIBLE
-                    itemView.absenceReason.text = itemView.context.getString(R.string.reason_for_absence, mAbsenceList[meeting.id])
+                    itemView.absenceReason.text =
+                        itemView.context.getString(R.string.reason_for_absence, mAbsenceList[meeting.id])
                     when (meeting.meetingType) {
-                        0 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType1_color2))
-                        1 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType2_color2))
-                        2 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType3_color2))
+                        0 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType1_color2)
+                        )
+                        1 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType2_color2)
+                        )
+                        2 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType3_color2)
+                        )
                     }
                 }
                 else -> {
                     itemView.absenceReason.visibility = View.GONE
                     when (meeting.meetingType) {
-                        0 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType1_color3))
-                        1 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType2_color3))
-                        2 -> itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.meetingType3_color3))
+                        0 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType1_color3)
+                        )
+                        1 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType2_color3)
+                        )
+                        2 -> itemView.setBackgroundColor(
+                            ContextCompat.getColor(itemView.context, R.color.meetingType3_color3)
+                        )
                     }
                 }
             }

@@ -15,10 +15,8 @@ class PdfFragment : Fragment() {
 
     private var mViewModel: MainViewModel? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_pdf, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_pdf, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,14 +36,14 @@ class PdfFragment : Fragment() {
         when (PdfFragmentArgs.fromBundle(arguments!!).pdf) {
             "songBook" -> {
                 view!!.pdfView.fromAsset("spiewnik.pdf")
-                        .defaultPage(if (isBtnPressed) 4 else savedInstanceState?.getInt("page") ?: 4)
-                        .nightMode(mViewModel?.isNightMode ?: false)
-                        .load()
+                    .defaultPage(if (isBtnPressed) 4 else savedInstanceState?.getInt("page") ?: 4)
+                    .nightMode(mViewModel?.isNightMode ?: false)
+                    .load()
             }
             "statute" -> {
                 view!!.pdfView.fromAsset("statut.pdf")
-                        .nightMode(mViewModel?.isNightMode ?: false)
-                        .load()
+                    .nightMode(mViewModel?.isNightMode ?: false)
+                    .load()
             }
         }
     }

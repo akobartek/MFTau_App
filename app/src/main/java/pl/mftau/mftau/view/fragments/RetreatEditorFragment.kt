@@ -38,8 +38,7 @@ class RetreatEditorFragment : Fragment() {
     private var registerDate: Date = Date()
     private var lastEditDate: Date = Date()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         retreatHasChanged = false
         return inflater.inflate(R.layout.fragment_retreat_editor, container, false)
@@ -52,8 +51,9 @@ class RetreatEditorFragment : Fragment() {
             mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
         }
 
-        view.retreatTypeSpinner.adapter = object : ArrayAdapter<String>(view.context,
-                R.layout.item_spinner, resources.getStringArray(R.array.retreat_types)) {
+        view.retreatTypeSpinner.adapter = object : ArrayAdapter<String>(
+            view.context, R.layout.item_spinner, resources.getStringArray(R.array.retreat_types)
+        ) {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val dropDownView = super.getDropDownView(position, convertView, parent)
                 (dropDownView as TextView).setTextColor(Color.BLACK)
@@ -87,7 +87,7 @@ class RetreatEditorFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_retreat_edit, menu)
+        inflater.inflate(R.menu.menu_retreat_edit, menu)
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         if (mRetreat == null) {
@@ -133,18 +133,24 @@ class RetreatEditorFragment : Fragment() {
             }
             when {
                 endDate < Date(Date().time - 86400000) -> {
-                    Snackbar.make(view!!.retreatsEditLayout, getString(R.string.error_retreat_has_taken_place),
-                            Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        view!!.retreatsEditLayout, getString(R.string.error_retreat_has_taken_place),
+                        Snackbar.LENGTH_LONG
+                    ).show()
                     errorOccurred = true
                 }
                 beginDate > endDate -> {
-                    Snackbar.make(view!!.retreatsEditLayout, getString(R.string.error_begin_date_later_than_end),
-                            Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        view!!.retreatsEditLayout, getString(R.string.error_begin_date_later_than_end),
+                        Snackbar.LENGTH_LONG
+                    ).show()
                     errorOccurred = true
                 }
                 registerDate > beginDate -> {
-                    Snackbar.make(view!!.retreatsEditLayout, getString(R.string.error_date_limit_after_begin),
-                            Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        view!!.retreatsEditLayout, getString(R.string.error_date_limit_after_begin),
+                        Snackbar.LENGTH_LONG
+                    ).show()
                     errorOccurred = true
                 }
             }
@@ -165,14 +171,15 @@ class RetreatEditorFragment : Fragment() {
                 mViewModel.addRetreat(activity!!, retreatValues)
             } else {
                 if (!(view!!.retreatNameET.text.toString().trim() == mRetreat!!.name &&
-                                view!!.retreatCityET.text.toString().trim() == mRetreat!!.city &&
-                                view!!.retreatAddressET.text.toString().trim() == mRetreat!!.address &&
-                                view!!.retreatPriceET.text.toString().toInt() == mRetreat!!.price &&
-                                beginDate == mRetreat!!.beginDate.toDate() &&
-                                endDate == mRetreat!!.endDate.toDate() &&
-                                registerDate == mRetreat!!.registerLimitDate.toDate() &&
-                                view!!.retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
-                                view!!.advPaymentSwitch.isChecked == mRetreat!!.advancePayment))
+                            view!!.retreatCityET.text.toString().trim() == mRetreat!!.city &&
+                            view!!.retreatAddressET.text.toString().trim() == mRetreat!!.address &&
+                            view!!.retreatPriceET.text.toString().toInt() == mRetreat!!.price &&
+                            beginDate == mRetreat!!.beginDate.toDate() &&
+                            endDate == mRetreat!!.endDate.toDate() &&
+                            registerDate == mRetreat!!.registerLimitDate.toDate() &&
+                            view!!.retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
+                            view!!.advPaymentSwitch.isChecked == mRetreat!!.advancePayment)
+                )
                     mViewModel.updateRetreat(activity!!, mRetreat!!.id, retreatValues)
             }
             findNavController().navigateUp()
@@ -180,33 +187,39 @@ class RetreatEditorFragment : Fragment() {
 
         view?.beginDateText?.setOnClickListener {
             (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
 
             val calendar = Calendar.getInstance()
             calendar.time = lastEditDate
 
-            DatePickerDialog(it.context, myBeginDateListener,
-                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                it.context, myBeginDateListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
         view?.endDateText?.setOnClickListener {
             (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
 
             val calendar = Calendar.getInstance()
             calendar.time = lastEditDate
 
-            DatePickerDialog(it.context, myEndDateListener,
-                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                it.context, myEndDateListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
         view?.registerDateText?.setOnClickListener {
             (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
 
             val calendar = Calendar.getInstance()
             calendar.time = lastEditDate
 
-            DatePickerDialog(it.context, myRegisterDateListener,
-                    calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            DatePickerDialog(
+                it.context, myRegisterDateListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
         view?.retreatsEditLayout?.setOnClickListener(mHideKeyboardClickListener)
@@ -223,31 +236,32 @@ class RetreatEditorFragment : Fragment() {
     }
 
     private fun showSaveToCalendarDialog() =
-            AlertDialog.Builder(context!!)
-                    .setTitle(R.string.save_to_calendar)
-                    .setMessage(R.string.save_to_calendar_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-                        dialog.dismiss()
-                        if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
-                            saveToCalendar()
-                        else
-                            PermissionUtils.requestCalendarReadWritePermission(activity!!)
-                    }
-                    .setNegativeButton(getString(R.string.no)) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.save_to_calendar)
+            .setMessage(R.string.save_to_calendar_msg)
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                dialog.dismiss()
+                if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
+                    saveToCalendar()
+                else
+                    PermissionUtils.requestCalendarReadWritePermission(activity!!)
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
 
     private fun saveToCalendar() {
+        if (mRetreat == null) return
         val startMillis: Long = Calendar.getInstance().run {
-            time = mRetreat?.beginDate?.toDate()
+            time = mRetreat!!.beginDate.toDate()
             set(Calendar.HOUR_OF_DAY, 18)
             timeInMillis
         }
         val endMillis: Long = Calendar.getInstance().run {
-            time = mRetreat?.endDate?.toDate()
+            time = mRetreat!!.endDate.toDate()
             set(Calendar.HOUR_OF_DAY, 14)
             timeInMillis
         }
@@ -266,17 +280,17 @@ class RetreatEditorFragment : Fragment() {
     }
 
     private fun showDeleteConfirmationDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.retreat_delete_dialog_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.delete) { dialog, _ ->
-                        dialog.dismiss()
-                        mViewModel.deleteRetreat(activity!!, mRetreat!!.id, true)
-                        findNavController().navigateUp()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.retreat_delete_dialog_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.delete) { dialog, _ ->
+                dialog.dismiss()
+                mViewModel.deleteRetreat(activity!!, mRetreat!!.id, true)
+                findNavController().navigateUp()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
 
     private val mTouchListener = View.OnTouchListener { _, _ ->
         retreatHasChanged = true
@@ -284,24 +298,24 @@ class RetreatEditorFragment : Fragment() {
     }
     private val mHideKeyboardClickListener = View.OnClickListener {
         (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+            .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
     }
     private val myBeginDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
-        beginDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
+        beginDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
+        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         view?.beginDateText?.setText(mViewModel.getDateFormatted(beginDate))
     }
     private val myEndDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
-        endDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
+        endDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
+        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         view?.endDateText?.setText(mViewModel.getDateFormatted(endDate))
     }
     private val myRegisterDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString = StringBuilder().append(day).append(".").append(month + 1).append(".").append(year).toString()
-        registerDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
+        registerDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
+        lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         view?.registerDateText?.setText(mViewModel.getDateFormatted(registerDate))
     }
 }

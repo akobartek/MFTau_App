@@ -1,8 +1,6 @@
 package pl.mftau.mftau.view.activities
 
-import android.content.Context
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +21,8 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.utils.PrayerUtils
+import pl.mftau.mftau.utils.checkNetworkConnection
+import pl.mftau.mftau.utils.showNoInternetDialogDataOutOfDate
 import pl.mftau.mftau.view.fragments.*
 import pl.mftau.mftau.viewmodel.MainViewModel
 
@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-                        .getBoolean(getString(R.string.night_mode_key), false)) {
+                .getBoolean(getString(R.string.night_mode_key), false)
+        ) {
             setTheme(R.style.AppTheme_Dark)
             window.decorView.systemUiVisibility = 0
             isNightMode = true
@@ -95,20 +96,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.loginFragment -> ""
                 R.id.membersFragment -> getString(R.string.members)
                 R.id.emausFragment -> getString(R.string.emauses)
-                R.id.memberEditorFragment -> if (arguments!!["member"] == null) getString(R.string.add_member) else getString(R.string.edit_member)
+                R.id.memberEditorFragment -> if (arguments!!["member"] == null) getString(R.string.add_member) else getString(
+                    R.string.edit_member
+                )
                 R.id.meetingsFragment -> getString(R.string.meetings)
-                R.id.meetingEditorFragment -> if (arguments!!["meeting"] == null) getString(R.string.add_meeting) else getString(R.string.edit_meeting)
+                R.id.meetingEditorFragment -> if (arguments!!["meeting"] == null) getString(R.string.add_meeting) else getString(
+                    R.string.edit_meeting
+                )
                 R.id.presenceCheckFragment -> getString(R.string.check_presence)
                 R.id.presenceListFragment -> getString(R.string.presence)
                 R.id.retreatsFragment -> getString(R.string.retreat)
-                R.id.retreatEditorFragment -> if (arguments!!["retreat"] == null) getString(R.string.add_retreat) else getString(R.string.edit_retreat)
+                R.id.retreatEditorFragment -> if (arguments!!["retreat"] == null) getString(R.string.add_retreat) else getString(
+                    R.string.edit_retreat
+                )
                 R.id.retreatDetailsFragment -> (arguments!!["retreat"] as Retreat).name
-                R.id.presenceDetailsFragment -> getString(R.string.presence_list_title, (arguments!!["member"] as Member).name)
+                R.id.presenceDetailsFragment -> getString(
+                    R.string.presence_list_title,
+                    (arguments!!["member"] as Member).name
+                )
                 else -> getString(R.string.app_name)
             }
             when (destination.id) {
                 R.id.membersFragment, R.id.meetingsFragment, R.id.retreatsFragment, R.id.presenceDetailsFragment ->
-                    checkNetworkConnection()
+                    if (!checkNetworkConnection()) showNoInternetDialogDataOutOfDate()
             }
         }
 
@@ -145,9 +155,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (isNightMode != PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-                        .getBoolean(getString(R.string.night_mode_key), false)) {
-            recreate()
-        }
+                .getBoolean(getString(R.string.night_mode_key), false)
+        ) recreate()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -159,16 +168,17 @@ class MainActivity : AppCompatActivity() {
         when (currentFragmentId) {
             R.id.mainFragment -> super.onBackPressed()
             R.id.websiteFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                    .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
+                .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
             else -> onSupportNavigateUp()
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return if ((currentFragmentId == R.id.memberEditorFragment && MemberEditorFragment.personHasChanged)
-                || (currentFragmentId == R.id.meetingEditorFragment && MeetingEditorFragment.meetingHasChanged)
-                || (currentFragmentId == R.id.retreatEditorFragment && RetreatEditorFragment.retreatHasChanged)
-                || (currentFragmentId == R.id.presenceCheckFragment && PresenceCheckFragment.listHasChanged)) {
+            || (currentFragmentId == R.id.meetingEditorFragment && MeetingEditorFragment.meetingHasChanged)
+            || (currentFragmentId == R.id.retreatEditorFragment && RetreatEditorFragment.retreatHasChanged)
+            || (currentFragmentId == R.id.presenceCheckFragment && PresenceCheckFragment.listHasChanged)
+        ) {
             showUnsavedChangesDialog()
             true
         } else if (currentFragmentId == R.id.presenceCheckFragment) {
@@ -177,34 +187,15 @@ class MainActivity : AppCompatActivity() {
         } else findNavController(R.id.navHostFragment).navigateUp()
     }
 
-    private fun checkNetworkConnection() {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val activeNetworkInfo = connectivityManager?.activeNetworkInfo
-
-        if (!(activeNetworkInfo != null && activeNetworkInfo.isConnected)) {
-            showNoInternetDialog()
-        }
-    }
-
-    private fun showNoInternetDialog() =
-            AlertDialog.Builder(this@MainActivity)
-                    .setTitle(R.string.no_internet_title)
-                    .setMessage(R.string.no_internet_data_message)
-                    .setPositiveButton(R.string.ok) { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-
     private fun showUnsavedChangesDialog() =
-            AlertDialog.Builder(this@MainActivity)
-                    .setMessage(R.string.unsaved_changes_dialog_msg)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.discard) { dialog, _ ->
-                        dialog.dismiss()
-                        findNavController(R.id.navHostFragment).navigateUp()
-                    }
-                    .setNegativeButton(R.string.keep_editing) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(this@MainActivity)
+            .setMessage(R.string.unsaved_changes_dialog_msg)
+            .setCancelable(false)
+            .setPositiveButton(R.string.discard) { dialog, _ ->
+                dialog.dismiss()
+                findNavController(R.id.navHostFragment).navigateUp()
+            }
+            .setNegativeButton(R.string.keep_editing) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
 }

@@ -43,10 +43,12 @@ class MySliceProvider : SliceProvider() {
 
     private fun createBreviaryAction(): SliceAction {
         return SliceAction.create(
-                PendingIntent.getActivity(context, 0,
-                        Intent(context, MainActivity::class.java).apply { putExtra("shortcut", "breviary") }, 0),
-                IconCompat.createWithResource(context, R.drawable.shortcut_ic_breviary),
-                SliceHints.ICON_IMAGE,
-                "Open Breviary.")
+            PendingIntent.getActivity(context, 0,
+                Intent(context, MainActivity::class.java).apply { putExtra("shortcut", "breviary") }, 0
+            ),
+            IconCompat.createWithResource(context, R.drawable.shortcut_ic_breviary),
+            SliceHints.ICON_IMAGE,
+            "Open Breviary."
+        )
     }
 }

@@ -12,15 +12,15 @@ object PermissionUtils {
     fun requestCalendarReadWritePermission(sourceActivity: Activity) {
         val permissionList = ArrayList<String>()
 
-        if (ContextCompat.checkSelfPermission(sourceActivity,
-                        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_CALENDAR)
-        }
+        if (ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.WRITE_CALENDAR)
+            != PackageManager.PERMISSION_GRANTED
+        ) permissionList.add(Manifest.permission.WRITE_CALENDAR)
 
-        if (ContextCompat.checkSelfPermission(sourceActivity,
-                        Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_CALENDAR)
-        }
+
+        if (ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.READ_CALENDAR)
+            != PackageManager.PERMISSION_GRANTED
+        ) permissionList.add(Manifest.permission.READ_CALENDAR)
+
 
         if (permissionList.size > 0) {
             val permissionArray = arrayOfNulls<String>(permissionList.size)
@@ -34,12 +34,10 @@ object PermissionUtils {
     }
 
     fun haveCalendarReadWritePermissions(sourceActivity: Activity): Boolean {
-        var permissionCheck = ContextCompat.checkSelfPermission(sourceActivity,
-                Manifest.permission.READ_CALENDAR)
+        var permissionCheck = ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.READ_CALENDAR)
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            permissionCheck = ContextCompat.checkSelfPermission(sourceActivity,
-                    Manifest.permission.WRITE_CALENDAR)
+            permissionCheck = ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.WRITE_CALENDAR)
 
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 return true

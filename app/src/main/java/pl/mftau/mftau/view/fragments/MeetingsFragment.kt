@@ -18,8 +18,7 @@ class MeetingsFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: MeetingPagerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_meetings, container, false)
     }
@@ -41,8 +40,7 @@ class MeetingsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-            inflater.inflate(R.menu.menu_meetings, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_meetings, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_show_presence -> {
@@ -57,18 +55,19 @@ class MeetingsFragment : Fragment() {
     }
 
     private fun showDeleteConfirmationDialog() =
-            AlertDialog.Builder(context!!)
-                    .setMessage(R.string.delete_meetings_dialog_msg)
-                    .setPositiveButton(R.string.delete) { dialog, _ ->
-                        dialog.dismiss()
-                        clearMeetings()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+        AlertDialog.Builder(context!!)
+            .setMessage(R.string.delete_meetings_dialog_msg)
+            .setPositiveButton(R.string.delete) { dialog, _ ->
+                dialog.dismiss()
+                clearMeetings()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
 
     private fun clearMeetings() {
         mViewModel.clearMeetings()
-        Snackbar.make(view!!.meetingsLayout, getString(R.string.delete_meetings_successfully), Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view!!.meetingsLayout, getString(R.string.delete_meetings_successfully), Snackbar.LENGTH_SHORT)
+            .show()
     }
 }

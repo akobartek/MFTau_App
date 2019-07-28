@@ -15,18 +15,19 @@ class MeetingsRecyclerAdapter : RecyclerView.Adapter<MeetingsRecyclerAdapter.Mee
     private var mMeetingList = listOf<Meeting>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeetingsViewHolder =
-            MeetingsViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-                    R.layout.item_meeting, parent, false))
+        MeetingsViewHolder(
+            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_meeting, parent, false)
+        )
 
     override fun onBindViewHolder(holder: MeetingsViewHolder, position: Int) {
         holder.binding.meeting = mMeetingList[position]
         holder.binding.attendanceListBtn.setOnClickListener {
-            it.findNavController().navigate(MeetingsFragmentDirections
-                    .showPresenceCheckFragment(mMeetingList[position], 0))
+            it.findNavController()
+                .navigate(MeetingsFragmentDirections.showPresenceCheckFragment(mMeetingList[position], 0))
         }
         holder.binding.root.setOnClickListener {
-            it.findNavController().navigate(MeetingsFragmentDirections
-                    .showMeetingEditorFragment(mMeetingList[position]))
+            it.findNavController()
+                .navigate(MeetingsFragmentDirections.showMeetingEditorFragment(mMeetingList[position]))
         }
     }
 

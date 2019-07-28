@@ -31,10 +31,8 @@ class PresenceListFragment : Fragment() {
     private var mPresence = HashMap<String, Array<Int>>()
     private var mMembers: List<Member>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_presence_list, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_presence_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,9 +43,9 @@ class PresenceListFragment : Fragment() {
         mAdapter = PresenceListRecyclerAdapter()
 
         mLoadingDialog = AlertDialog.Builder(view.context)
-                .setView(R.layout.dialog_loading)
-                .setCancelable(false)
-                .create()
+            .setView(R.layout.dialog_loading)
+            .setCancelable(false)
+            .create()
         mLoadingDialog.show()
 
         view.chartRecyclerView.layoutManager = LinearLayoutManager(view.context)

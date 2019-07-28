@@ -16,10 +16,8 @@ class ListFragment : Fragment() {
 
     private lateinit var listType: String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,12 +25,11 @@ class ListFragment : Fragment() {
         context?.let {
             if (ListFragmentArgs.fromBundle(arguments!!).listType == "prayer") {
                 listType = "prayer"
-                view.list.adapter = ArrayAdapter<String>(it,
-                        R.layout.item_listview, PrayerUtils.prayerNames)
+                view.list.adapter = ArrayAdapter<String>(it, R.layout.item_listview, PrayerUtils.prayerNames)
             } else {
                 listType = "breviary"
-                view.list.adapter = ArrayAdapter<String>(it,
-                        R.layout.item_listview, resources.getStringArray(R.array.breviary_list))
+                view.list.adapter =
+                    ArrayAdapter<String>(it, R.layout.item_listview, resources.getStringArray(R.array.breviary_list))
             }
         }
 

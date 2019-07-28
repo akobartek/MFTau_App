@@ -12,10 +12,12 @@ import pl.mftau.mftau.utils.GlideApp
 import kotlin.random.Random
 
 @Parcelize
-data class Member(var id: String = "",
-                  var name: String = "",
-                  var city: String = "",
-                  var isResponsible: Boolean = false) : Parcelable {
+data class Member(
+    var id: String = "",
+    var name: String = "",
+    var city: String = "",
+    var isResponsible: Boolean = false
+) : Parcelable {
 
     companion object {
         @BindingAdapter("memberPhoto")
@@ -23,13 +25,13 @@ data class Member(var id: String = "",
         fun loadImage(view: ImageView, member: Member?) {
             if ("example@mftau.pl" != FirebaseAuth.getInstance().currentUser!!.email!!) {
                 val storageReference = FirebaseStorage.getInstance()
-                        .reference.child("members/${member?.id}.jpg")
+                    .reference.child("members/${member?.id}.jpg")
 
                 GlideApp.with(view.context)
-                        .load(storageReference)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .into(view)
+                    .load(storageReference)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(view)
             } else {
                 val randomNumber = Random.nextInt(100)
                 val address = if (member != null) {
@@ -40,11 +42,11 @@ data class Member(var id: String = "",
                 } else ""
 
                 GlideApp.with(view.context)
-                        .load(address)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_user)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(view)
+                    .load(address)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(view)
             }
         }
     }
