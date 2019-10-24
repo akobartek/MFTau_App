@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_breviary.view.*
 import pl.mftau.mftau.R
@@ -25,7 +25,7 @@ class BreviaryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
 
             when {
                 savedInstanceState != null -> view.breviaryText.restoreState(savedInstanceState)

@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,12 +37,12 @@ class EmausFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         mAdapter = EmausRecyclerAdapter()
         setupRecyclerView()
 
-        mViewModel.getAllMembersFromDatabase().observe(this, Observer { databaseList ->
+        mViewModel.getAllMembersFromDatabase().observe(viewLifecycleOwner, Observer { databaseList ->
             if (databaseList.isEmpty()) {
                 loadMembersFromFirebase()
             } else {
@@ -50,7 +50,7 @@ class EmausFragment : Fragment() {
                 trySetAdapter()
             }
         })
-        mViewModel.getLastDrawsFromDatabase().observe(this, Observer { allDraws ->
+        mViewModel.getLastDrawsFromDatabase().observe(viewLifecycleOwner, Observer { allDraws ->
             if (allDraws.isNullOrEmpty()) {
                 draws = null
                 view.drawsEmptyView.visibility = View.VISIBLE
@@ -204,7 +204,7 @@ class EmausFragment : Fragment() {
     }
 
     private fun loadMembersFromFirebase() {
-        mViewModel.getAllMembersFromFirebase().observe(this, Observer { firebaseList ->
+        mViewModel.getAllMembersFromFirebase().observe(viewLifecycleOwner, Observer { firebaseList ->
             if (firebaseList.isEmpty()) {
                 showNoPeopleDialog()
             } else {

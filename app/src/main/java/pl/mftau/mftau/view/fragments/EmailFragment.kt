@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_email.*
 import kotlinx.android.synthetic.main.fragment_email.view.*
 import pl.mftau.mftau.R
@@ -25,6 +24,7 @@ import android.text.method.LinkMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 
@@ -49,7 +49,7 @@ class EmailFragment : Fragment() {
             }
         }
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
             it.title = if (mMailType == "error") getString(R.string.report_error) else getString(R.string.ask_for_pray)
         }
 

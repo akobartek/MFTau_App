@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +39,7 @@ class MeetingsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let { mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
         arguments?.let { mMeetingType = it.getInt("meetingType") }
         mAdapter = MeetingsRecyclerAdapter()
 
@@ -57,7 +57,7 @@ class MeetingsListFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllMeetings(mMeetingType).observe(this@MeetingsListFragment, Observer { meetings ->
+        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, Observer { meetings ->
             mAdapter.setMeetingList(meetings)
             view.loadingIndicator.hide()
             if (meetings.isEmpty()) {

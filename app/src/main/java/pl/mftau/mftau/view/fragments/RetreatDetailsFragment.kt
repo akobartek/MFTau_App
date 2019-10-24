@@ -10,7 +10,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.dialog_retreat_register.view.*
 import kotlinx.android.synthetic.main.fragment_retreat_details.view.*
 import pl.mftau.mftau.R
@@ -33,7 +33,7 @@ class RetreatDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         arguments?.let {
             mRetreat = RetreatDetailsFragmentArgs.fromBundle(it).retreat
@@ -94,6 +94,7 @@ class RetreatDetailsFragment : Fragment() {
                     dialogView.registerNameET.error = getString(R.string.empty_name_error)
                     return@setOnClickListener
                 } else {
+                    dialog.dismiss()
                     if (mRetreat.advancePayment) {
                         showAdvancePaymentDialog(dialogView.registerNameET.text.toString().trim())
                     } else {

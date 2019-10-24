@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        mMainViewModel = ViewModelProviders.of(this@MainActivity).get(MainViewModel::class.java)
+        mMainViewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
         mMainViewModel.isNightMode = isNightMode
 
         mAuth = FirebaseAuth.getInstance()

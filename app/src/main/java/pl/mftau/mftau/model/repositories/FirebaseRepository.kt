@@ -444,7 +444,8 @@ class FirebaseRepository(val app: Application) {
                     PresenceListFragment.numberOfMeetings[i] = querySnapshot!!.size()
                     querySnapshot.forEach { queryDocumentSnapshot ->
                         (queryDocumentSnapshot[FirestoreUtils.firestoreKeyAttendanceList] as ArrayList<*>).forEach {
-                            presence[it]!![i] = presence[it]!![i] + 1
+                            if (presence[it] != null)
+                                presence[it]!![i] = presence[it]!![i] + 1
                         }
                     }
                     mutableLiveData.value = presence

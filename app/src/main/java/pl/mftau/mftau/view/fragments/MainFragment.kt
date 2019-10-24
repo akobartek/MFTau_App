@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,6 +21,7 @@ import pl.mftau.mftau.viewmodel.MainViewModel
 import android.graphics.Color
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.lifecycle.ViewModelProvider
 
 class MainFragment : Fragment() {
 
@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let { mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
         mAuth = FirebaseAuth.getInstance()
         setOnClickListeners()
     }

@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.animation.Easing
@@ -51,7 +51,7 @@ class PresenceMemberFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let { mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
         arguments?.let {
             mMember = it.getParcelable("member")!!
             mMeetingType = it.getInt("meetingType")
@@ -82,7 +82,7 @@ class PresenceMemberFragment : Fragment() {
         legend.yEntrySpace = 0f
         legend.yOffset = 0f
 
-        mViewModel.getAllMeetings(mMeetingType).observe(this@PresenceMemberFragment, Observer { meetings ->
+        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, Observer { meetings ->
             view.loadingIndicator.hide()
 
             mNumberOfMeetings = meetings.size

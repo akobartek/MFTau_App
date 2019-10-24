@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +31,7 @@ class RetreatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
             mAdapter = RetreatRecyclerAdapter(mViewModel.currentUserType, this@RetreatsFragment)
         }
 
@@ -54,7 +54,7 @@ class RetreatsFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllRetreats().observe(this@RetreatsFragment, Observer { retreats ->
+        mViewModel.getAllRetreats().observe(viewLifecycleOwner, Observer { retreats ->
             view.retreatRecyclerView.layoutAnimation =
                 AnimationUtils.loadLayoutAnimation(view.retreatRecyclerView.context, R.anim.layout_animation_fall_down)
             mAdapter.setRetreatList(retreats)

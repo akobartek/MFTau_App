@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +39,7 @@ class PresenceCheckFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.let {
-            mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         arguments?.let { bundle ->
             mMeeting = PresenceCheckFragmentArgs.fromBundle(bundle).meeting
@@ -62,7 +62,7 @@ class PresenceCheckFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllMembers().observe(this@PresenceCheckFragment, Observer { members ->
+        mViewModel.getAllMembers().observe(viewLifecycleOwner, Observer { members ->
             mAdapter.setLists(members, mMeeting.attendanceList, mMeeting.absenceList)
             view.loadingIndicator.hide()
             if (members.isEmpty()) {

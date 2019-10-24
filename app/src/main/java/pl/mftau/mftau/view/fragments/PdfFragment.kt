@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_pdf.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.viewmodel.MainViewModel
@@ -21,7 +21,7 @@ class PdfFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let { mViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
 
         loadPdfFile(savedInstanceState, false)
         view.scrollUpBtn.setOnClickListener { loadPdfFile(null, true) }
