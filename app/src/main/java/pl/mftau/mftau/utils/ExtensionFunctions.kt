@@ -7,9 +7,14 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import pl.mftau.mftau.R
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.regex.Pattern
 
 fun Context.isChromeCustomTabsSupported(): Boolean {
     val serviceIntent = Intent("android.support.customtabs.action.CustomTabsService")
@@ -18,11 +23,28 @@ fun Context.isChromeCustomTabsSupported(): Boolean {
     return resolveInfos.isNotEmpty()
 }
 
+fun Context.getColorsByName(vararg colorNames: String) = colorNames.map { name ->
+    ContextCompat.getColor(this, resources.getIdentifier(name, "color", packageName))
+}
+
 fun String.createUnderlinedString(): SpannableString {
     val spannable = SpannableString(this)
     spannable.setSpan(UnderlineSpan(), 0, this.length, 0)
     return spannable
 }
+
+fun CharSequence.isValidEmail(): Boolean =
+    android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun CharSequence.isValidPassword(): Boolean {
+    val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})"
+    val pattern = Pattern.compile(passwordRegex)
+    val matcher = pattern.matcher(this)
+    return matcher.matches()
+}
+
+fun Date.getDateFormatted(): String =
+    SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(this)
 
 fun Activity.showNoInternetDialogWithTryAgain(function: () -> Unit): Unit =
     AlertDialog.Builder(this)
@@ -53,7 +75,8 @@ fun Activity.showNoInternetDialogDataOutOfDate(): Unit =
 fun Activity.checkNetworkConnection(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        val capabilities = connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)
+        val capabilities =
+            connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)
         capabilities != null
     } else {
         val activeNetworkInfo = connectivityManager?.activeNetworkInfo
@@ -72,3 +95,7 @@ fun Activity.tryToRunFunctionOnInternet(function: () -> Unit) {
         showNoInternetDialogWithTryAgain { function() }
     }
 }
+
+fun Activity.hideKeyboard() =
+    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow(currentFocus?.windowToken, 0)

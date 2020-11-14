@@ -8,7 +8,7 @@
             type="pl.mftau.mftau.model.Meeting" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorListItemBackground">
+            android:background="@color/colorListItemBackground">
 
             <TextView
                 android:id="@+id/meetingName"
@@ -31,7 +31,7 @@
                 android:fontFamily="sans-serif-light"
                 android:paddingBottom="16dp"
                 android:text="@{meeting.name}"
-                android:textColor="?attr/colorText"
+                android:textColor="@color/colorText"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toStartOf="@+id/attendanceListBtn"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                 android:layout_marginEnd="4dp"
                 android:fontFamily="sans-serif-condensed"
                 android:text="@{meeting.getDateFormatted}"
-                android:textColor="?attr/colorText"
+                android:textColor="@color/colorText"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toStartOf="@+id/attendanceListBtn"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,5 +65,5 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

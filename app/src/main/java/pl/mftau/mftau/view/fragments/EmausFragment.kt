@@ -3,16 +3,17 @@ package pl.mftau.mftau.view.fragments
 import android.animation.Animator
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.content_emaus.view.*
 import kotlinx.android.synthetic.main.fragment_emaus.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.MemberEntity
@@ -28,13 +29,13 @@ class EmausFragment : Fragment() {
     var members: List<MemberEntity>? = null
     private var draws: List<String>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_emaus, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_emaus, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inflateToolbarMenu(view.emausToolbar)
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
@@ -42,7 +43,7 @@ class EmausFragment : Fragment() {
         mAdapter = EmausRecyclerAdapter()
         setupRecyclerView()
 
-        mViewModel.getAllMembersFromDatabase().observe(viewLifecycleOwner, Observer { databaseList ->
+        mViewModel.getAllMembersFromDatabase().observe(viewLifecycleOwner, { databaseList ->
             if (databaseList.isEmpty()) {
                 loadMembersFromFirebase()
             } else {
@@ -50,7 +51,7 @@ class EmausFragment : Fragment() {
                 trySetAdapter()
             }
         })
-        mViewModel.getLastDrawsFromDatabase().observe(viewLifecycleOwner, Observer { allDraws ->
+        mViewModel.getLastDrawsFromDatabase().observe(viewLifecycleOwner, { allDraws ->
             if (allDraws.isNullOrEmpty()) {
                 draws = null
                 view.drawsEmptyView.visibility = View.VISIBLE
@@ -60,47 +61,48 @@ class EmausFragment : Fragment() {
                 draws = allDraws.toString().replace("[", "").replace("]", "").split(",")
                 trySetAdapter()
             }
-            activity?.invalidateOptionsMenu()
+            setupToolbarMenuIcons(view.emausToolbar.menu)
         })
 
         setOnClickListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_emaus, menu)
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        if (draws.isNullOrEmpty()) {
-            menu.findItem(R.id.action_delete_last_draw)?.isVisible = false
-            menu.findItem(R.id.action_reset_draws)?.isVisible = false
-            menu.findItem(R.id.action_copy_draws)?.isVisible = false
-        } else {
-            menu.findItem(R.id.action_delete_last_draw)?.isVisible = true
-            menu.findItem(R.id.action_reset_draws)?.isVisible = true
-            menu.findItem(R.id.action_copy_draws)?.isVisible = true
+    private fun inflateToolbarMenu(toolbar: Toolbar) {
+        toolbar.apply {
+            setNavigationOnClickListener { findNavController().navigateUp() }
+            inflateMenu(R.menu.menu_emaus)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_copy_draws -> {
+                        mViewModel.copyDrawsToClipboard(members, draws)
+                        Snackbar.make(
+                            requireView().emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG
+                        ).show()
+                        true
+                    }
+                    R.id.action_reload_members -> {
+                        loadMembersFromFirebase()
+                        true
+                    }
+                    R.id.action_delete_last_draw -> {
+                        showDeleteLastDrawDialog()
+                        true
+                    }
+                    R.id.action_reset_draws -> {
+                        showResetDrawsDialog()
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
-        super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_copy_draws -> {
-            mViewModel.copyDrawsToClipboard(members, draws)
-            Snackbar.make(view!!.emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG).show()
-            true
-        }
-        R.id.action_reload_members -> {
-            loadMembersFromFirebase()
-            true
-        }
-        R.id.action_delete_last_draw -> {
-            showDeleteLastDrawDialog()
-            true
-        }
-        R.id.action_reset_draws -> {
-            showResetDrawsDialog()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+    private fun setupToolbarMenuIcons(menu: Menu) {
+        val areDrawsEmpty = draws.isNullOrEmpty()
+        menu.findItem(R.id.action_delete_last_draw)?.isVisible = !areDrawsEmpty
+        menu.findItem(R.id.action_reset_draws)?.isVisible = !areDrawsEmpty
+        menu.findItem(R.id.action_copy_draws)?.isVisible = !areDrawsEmpty
     }
 
     private fun setupRecyclerView() {
@@ -120,19 +122,20 @@ class EmausFragment : Fragment() {
 
     private fun setOnClickListeners() {
         view?.startDrawBtn?.setOnClickListener {
-            if (members != null && (mViewModel.getMaxNumberOfDraw() >= (members!!.size - 1))) {
+            if (members != null && (mViewModel.getMaxNumberOfDraw() >= (members!!.size - 1)))
                 showFullListDialog()
-            } else {
-                createCircularReveal(view!!.circularRevealView)
-            }
+            else
+                createCircularReveal(requireView().circularRevealView)
         }
     }
 
     private fun createCircularReveal(circularRevealView: View) {
         // to get the center of FAB
-        val centerX = view!!.startDrawBtn.x.toInt() + view!!.startDrawBtn.width / 2
-        val centerY = view!!.startDrawBtn.y.toInt()
-        val finalRadius = hypot(circularRevealView.width.toDouble(), circularRevealView.height.toDouble()).toFloat()
+        val centerX = requireView().startDrawBtn.x.toInt() + requireView().startDrawBtn.width / 2
+        val centerY = requireView().startDrawBtn.y.toInt()
+        val finalRadius = hypot(
+            circularRevealView.width.toDouble(), circularRevealView.height.toDouble()
+        ).toFloat()
         // starts the effect at centerX, center Y and covers final radius
         val revealAnimator = ViewAnimationUtils.createCircularReveal(
             circularRevealView,
@@ -173,8 +176,12 @@ class EmausFragment : Fragment() {
         } else {
             val drawsWithMembers = arrayListOf<Pair<MemberEntity?, MemberEntity?>>()
             draws?.forEach { draw ->
-                drawsWithMembers.add(Pair(members!!.singleOrNull { it.id == draw.substring(0, draw.indexOf("+")) },
-                    members!!.singleOrNull { it.id == draw.substring(draw.indexOf("+") + 1, draw.length) }
+                drawsWithMembers.add(Pair(members!!.singleOrNull {
+                    it.id == draw.substring(0, draw.indexOf("+"))
+                },
+                    members!!.singleOrNull {
+                        it.id == draw.substring(draw.indexOf("+") + 1, draw.length)
+                    }
                 ))
             }
             mAdapter.setDraws(drawsWithMembers)
@@ -183,7 +190,10 @@ class EmausFragment : Fragment() {
 
             hideCircularReveal(view?.circularRevealView)
             view?.drawsRecyclerView?.layoutAnimation =
-                AnimationUtils.loadLayoutAnimation(view?.drawsRecyclerView?.context, R.anim.layout_animation_fall_down)
+                AnimationUtils.loadLayoutAnimation(
+                    view?.drawsRecyclerView?.context,
+                    R.anim.layout_animation_fall_down
+                )
             view?.drawsRecyclerView?.scheduleLayoutAnimation()
 
             val oddPersonId = mViewModel.getOddPersonId()
@@ -204,33 +214,33 @@ class EmausFragment : Fragment() {
     }
 
     private fun loadMembersFromFirebase() {
-        mViewModel.getAllMembersFromFirebase().observe(viewLifecycleOwner, Observer { firebaseList ->
-            if (firebaseList.isEmpty()) {
-                showNoPeopleDialog()
-            } else {
-                val memberEntities = arrayListOf<MemberEntity>()
-                firebaseList.forEach {
-                    memberEntities.add(MemberEntity(it.id, it.name, arrayListOf()))
-                }
-                mViewModel.insertMembersToDatabase(memberEntities)
+        mViewModel.getAllMembersFromFirebase()
+            .observe(viewLifecycleOwner, { firebaseList ->
+                if (firebaseList.isEmpty()) showNoPeopleDialog()
+                else {
+                    val memberEntities = arrayListOf<MemberEntity>()
+                    firebaseList.forEach {
+                        memberEntities.add(MemberEntity(it.id, it.name, arrayListOf()))
+                    }
+                    mViewModel.insertMembersToDatabase(memberEntities)
 
-                // Clear database from members that was deleted from Firebase.
-                if (members != null) {
-                    mViewModel.deleteMembersInDatabase(
-                        members!!.filter { databaseMember ->
-                            firebaseList.singleOrNull { firebaseMember ->
-                                databaseMember.id == firebaseMember.id
-                            } == null
-                        })
+                    // Clear database from members that was deleted from Firebase.
+                    if (members != null) {
+                        mViewModel.deleteMembersInDatabase(
+                            members!!.filter { databaseMember ->
+                                firebaseList.singleOrNull { firebaseMember ->
+                                    databaseMember.id == firebaseMember.id
+                                } == null
+                            })
+                    }
                 }
-            }
-        })
+            })
     }
 
     private fun showFullListDialog() {
         hideCircularReveal(view?.circularRevealView)
 
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setMessage(R.string.full_draws_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -244,7 +254,7 @@ class EmausFragment : Fragment() {
     }
 
     private fun showDeleteLastDrawDialog() =
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setMessage(R.string.delete_last_draw_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -257,7 +267,7 @@ class EmausFragment : Fragment() {
             .show()
 
     private fun showResetDrawsDialog() =
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setMessage(R.string.reset_draws_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -270,7 +280,7 @@ class EmausFragment : Fragment() {
             .show()
 
     private fun showNoPeopleDialog() =
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setMessage(getString(R.string.no_people_msg))
             .setCancelable(false)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->

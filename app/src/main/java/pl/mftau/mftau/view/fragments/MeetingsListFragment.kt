@@ -2,11 +2,10 @@ package pl.mftau.mftau.view.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,8 +32,9 @@ class MeetingsListFragment : Fragment() {
     private lateinit var mAdapter: MeetingsRecyclerAdapter
     private var mMeetingType: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_meeting, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_meeting, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +49,8 @@ class MeetingsListFragment : Fragment() {
         view.meetingsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val addMeetingBtn = activity!!.findViewById<FloatingActionButton>(R.id.addMeetingBtn)
+                val addMeetingBtn =
+                    activity!!.findViewById<FloatingActionButton>(R.id.addMeetingBtn)
                 if (dy < 0 && !addMeetingBtn.isShown)
                     addMeetingBtn.show()
                 else if (dy > 0 && addMeetingBtn.isShown)
@@ -57,7 +58,7 @@ class MeetingsListFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, Observer { meetings ->
+        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, { meetings ->
             mAdapter.setMeetingList(meetings)
             view.loadingIndicator.hide()
             if (meetings.isEmpty()) {

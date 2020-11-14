@@ -1,99 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addMemberLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     tools:context=".view.fragments.MemberEditorFragment">
 
-    <ImageView
-        android:id="@+id/addMemberPhoto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="12dp"
-        android:contentDescription="@string/member_photo_description"
-        android:src="@drawable/ic_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameInputLayout"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:textColorHint="?attr/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addMemberPhoto">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/memberNameET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:hint="@string/member_name"
-            android:inputType="textPersonName|textCapWords"
-            android:textColor="?attr/colorText" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/memberEditorToolbar"
+            style="@style/MFTauToolbar">
 
-    <TextView
-        android:id="@+id/responsibleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/is_responsible"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="?attr/colorText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
+            <TextView
+                android:id="@+id/memberEditorToolbarTitle"
+                style="@style/MFTauToolbarTitle"
+                tools:text="@tools:sample/full_names" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <Switch
-        android:id="@+id/responsibleSwitch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textOff="@string/no"
-        android:textOn="@string/yes"
-        app:layout_constraintStart_toEndOf="@id/responsibleTextView"
-        app:layout_constraintTop_toTopOf="@+id/responsibleTextView" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cityInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:textColorHint="?attr/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/responsibleSwitch">
-
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/cityET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:hint="@string/city"
-            android:inputType="textCapWords"
-            android:textColor="?attr/colorText" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <include layout="@layout/content_member_editor" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveMemberBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:src="@drawable/ic_save" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

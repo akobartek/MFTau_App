@@ -2,21 +2,22 @@ package pl.mftau.mftau.view.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.content_presence_list.view.*
 import kotlinx.android.synthetic.main.fragment_presence_list.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.view.adapters.PresenceListRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
-import java.util.HashMap
+import java.util.*
 
 class PresenceListFragment : Fragment() {
 
@@ -31,11 +32,13 @@ class PresenceListFragment : Fragment() {
     private var mPresence = HashMap<String, Array<Int>>()
     private var mMembers: List<Member>? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_presence_list, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_presence_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.presenceListToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
@@ -51,12 +54,12 @@ class PresenceListFragment : Fragment() {
         view.chartRecyclerView.layoutManager = LinearLayoutManager(view.context)
         view.chartRecyclerView.itemAnimator = DefaultItemAnimator()
 
-        mViewModel.getAllMembers().observe(viewLifecycleOwner, Observer { members ->
+        mViewModel.getAllMembers().observe(viewLifecycleOwner, { members ->
             mMembers = members
             members.forEach { mPresence[it.id] = arrayOf(0, 0, 0) }
 
             if (members.isNotEmpty()) {
-                mViewModel.getPresence(mPresence).observe(viewLifecycleOwner, Observer {
+                mViewModel.getPresence(mPresence).observe(viewLifecycleOwner, {
                     if (!numberOfMeetings.contains(null)) {
                         mPresence = it
                         setDataToChart()
@@ -74,7 +77,7 @@ class PresenceListFragment : Fragment() {
         if (mMembers.isNullOrEmpty() || mPresence.isNullOrEmpty())
             return
 
-        mAdapter.setLists(mMembers!!, mPresence, numberOfMeetings, mViewModel.isNightMode)
+        mAdapter.setLists(mMembers!!, mPresence, numberOfMeetings)
         view?.chartRecyclerView?.adapter = mAdapter
         mLoadingDialog.dismiss()
     }

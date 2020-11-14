@@ -6,16 +6,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.content_retreat_details.view.*
 import kotlinx.android.synthetic.main.dialog_retreat_register.view.*
 import kotlinx.android.synthetic.main.fragment_retreat_details.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
+import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.util.*
 
@@ -24,25 +30,26 @@ class RetreatDetailsFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mRetreat: Retreat
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_retreat_details, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_retreat_details, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inflateToolbarMenu(view.retreatDetailsToolbar)
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
         }
         arguments?.let {
             mRetreat = RetreatDetailsFragmentArgs.fromBundle(it).retreat
+            view.retreatDetailsToolbarTitle.text = mRetreat.name
             view.retreatNameET.setText(mRetreat.name)
             view.retreatCityET.setText(mRetreat.city)
             view.retreatAddressET.setText(mRetreat.address)
             view.retreatPriceET.setText(mRetreat.price.toString())
-            view.beginDateText.setText(mViewModel.getDateFormatted(mRetreat.beginDate.toDate()))
-            view.endDateText.setText(mViewModel.getDateFormatted(mRetreat.endDate.toDate()))
+            view.beginDateText.setText(mRetreat.beginDate.toDate().getDateFormatted())
+            view.endDateText.setText(mRetreat.endDate.toDate().getDateFormatted())
             view.retreatTypeET.setText(resources.getStringArray(R.array.retreat_types)[mRetreat.retreatType])
         }
 
@@ -54,32 +61,39 @@ class RetreatDetailsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_retreat_details, menu)
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_show_map -> {
-            val gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode("${mRetreat.address} ${mRetreat.city}"))
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            startActivity(mapIntent)
-            true
+    private fun inflateToolbarMenu(toolbar: Toolbar) {
+        toolbar.apply {
+            setNavigationOnClickListener { findNavController().navigateUp() }
+            inflateMenu(R.menu.menu_retreat_details)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_show_map -> {
+                        val gmmIntentUri =
+                            Uri.parse("geo:0,0?q=" + Uri.encode("${mRetreat.address} ${mRetreat.city}"))
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        startActivity(mapIntent)
+                        true
+                    }
+                    R.id.action_save_to_calendar -> {
+                        if (PermissionUtils.haveCalendarReadWritePermissions(requireActivity()))
+                            showSaveToCalendarDialog()
+                        else
+                            PermissionUtils.requestCalendarReadWritePermission(requireActivity())
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
-        R.id.action_save_to_calendar -> {
-            if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
-                showSaveToCalendarDialog()
-            else
-                PermissionUtils.requestCalendarReadWritePermission(activity!!)
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("InflateParams")
     private fun showRegisterDialog() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_retreat_register, null)
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_retreat_register, null)
 
-        val dialog = AlertDialog.Builder(context!!)
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.retreat_register_title)
             .setMessage(R.string.retreat_register_msg)
             .setView(dialogView)
@@ -107,7 +121,7 @@ class RetreatDetailsFragment : Fragment() {
     }
 
     private fun showAdvancePaymentDialog(name: String) =
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.advance_payment_title)
             .setMessage(R.string.advance_payment_msg)
             .setCancelable(false)
@@ -123,7 +137,9 @@ class RetreatDetailsFragment : Fragment() {
         emailIntent.data = Uri.parse("mailto:")
         emailIntent.type = "message/rfc822"
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("rada@mftau.pl"))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "<MF Tau App> Zapisy na rekolekcje ${mRetreat.name}")
+        emailIntent.putExtra(
+            Intent.EXTRA_SUBJECT, "Zapisy na rekolekcje ${mRetreat.name}"
+        )
         emailIntent.putExtra(
             Intent.EXTRA_TEXT, "Pokój i dobro!\n" +
                     "Chciałbym zgłosić chęć uczestnictwa w rekolekcjach ${mRetreat.name}.\n\n" +
@@ -138,16 +154,16 @@ class RetreatDetailsFragment : Fragment() {
     }
 
     private fun showSaveToCalendarDialog() =
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.save_to_calendar)
             .setMessage(R.string.save_to_calendar_msg)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                 dialog.dismiss()
-                if (PermissionUtils.haveCalendarReadWritePermissions(activity!!))
+                if (PermissionUtils.haveCalendarReadWritePermissions(requireActivity()))
                     saveToCalendar()
                 else
-                    PermissionUtils.requestCalendarReadWritePermission(activity!!)
+                    PermissionUtils.requestCalendarReadWritePermission(requireActivity())
             }
             .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
@@ -174,7 +190,9 @@ class RetreatDetailsFragment : Fragment() {
             putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
             putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endMillis)
             putExtra(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED)
-            putExtra(CalendarContract.Events.EVENT_LOCATION, "${mRetreat.address}, ${mRetreat.city}")
+            putExtra(
+                CalendarContract.Events.EVENT_LOCATION, "${mRetreat.address}, ${mRetreat.city}"
+            )
             putExtra(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
         }
         startActivity(intent)

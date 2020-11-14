@@ -10,31 +10,37 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.components.XAxis
-import kotlinx.android.synthetic.main.item_presence_show.view.*
-import pl.mftau.mftau.R
-import pl.mftau.mftau.model.Member
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import kotlinx.android.synthetic.main.item_presence_show.view.*
+import pl.mftau.mftau.R
+import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.view.fragments.PresenceListFragmentDirections
 
-class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAdapter.ChartViewHolder>() {
+class PresenceListRecyclerAdapter :
+    RecyclerView.Adapter<PresenceListRecyclerAdapter.ChartViewHolder>() {
 
     private var memberList = listOf<Member>()
     private var presence = HashMap<String, Array<Int>>()
     private var numberOfMeetings = arrayOfNulls<Int>(3)
-    private var isNightMode = false
+    private var isNightMode = PreferencesManager.getNightMode()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChartViewHolder {
         val viewHolder =
-            ChartViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_presence_show, parent, false))
+            ChartViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_presence_show, parent, false)
+            )
         viewHolder.reloadChart()
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ChartViewHolder, position: Int) = holder.bindView(memberList[position])
+    override fun onBindViewHolder(holder: ChartViewHolder, position: Int) =
+        holder.bindView(memberList[position])
 
     override fun getItemCount(): Int = memberList.size
 
@@ -42,12 +48,10 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
         memberList: List<Member>,
         presence: HashMap<String, Array<Int>>,
         numberOfMeetings: Array<Int?>,
-        isNightMode: Boolean
     ) {
         this.memberList = memberList
         this.presence = presence
         this.numberOfMeetings = numberOfMeetings
-        this.isNightMode = isNightMode
         notifyDataSetChanged()
     }
 
@@ -74,7 +78,8 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
             loadChart(member.id)
 
             itemView.setOnClickListener {
-                it.findNavController().navigate(PresenceListFragmentDirections.showPresenceDetailsFragment(member))
+                it.findNavController()
+                    .navigate(PresenceListFragmentDirections.showPresenceDetailsFragment(member))
             }
         }
 
@@ -111,7 +116,7 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
             itemView.presenceMemberChart.animateY(777)
 
             val legendEntries = ArrayList<LegendEntry>()
-            for (i in 0 until colors.size) {
+            for (i in colors.indices) {
                 val legendEntry = LegendEntry()
                 legendEntry.label = meetingTypeStrings[i]
                 legendEntry.formColor = colors[i]
@@ -130,17 +135,23 @@ class PresenceListRecyclerAdapter : RecyclerView.Adapter<PresenceListRecyclerAda
             val dataSet: BarDataSet
 
             if (numberOfMeetings[0] ?: 0 > 0)
-                values.add(BarEntry(0f, (presence[id]!![0].toFloat()) / numberOfMeetings[0]!! * 100))
+                values.add(
+                    BarEntry(0f, (presence[id]!![0].toFloat()) / numberOfMeetings[0]!! * 100)
+                )
             else
                 values.add(BarEntry(0f, 0f))
 
             if (numberOfMeetings[1] ?: 0 > 0)
-                values.add(BarEntry(1f, (presence[id]!![1].toFloat()) / numberOfMeetings[1]!! * 100))
+                values.add(
+                    BarEntry(1f, (presence[id]!![1].toFloat()) / numberOfMeetings[1]!! * 100)
+                )
             else
                 values.add(BarEntry(1f, 0f))
 
             if (numberOfMeetings[2] ?: 0 > 0)
-                values.add(BarEntry(2f, (presence[id]!![2].toFloat()) / numberOfMeetings[2]!! * 100))
+                values.add(
+                    BarEntry(2f, (presence[id]!![2].toFloat()) / numberOfMeetings[2]!! * 100)
+                )
             else
                 values.add(BarEntry(2f, 0f))
 

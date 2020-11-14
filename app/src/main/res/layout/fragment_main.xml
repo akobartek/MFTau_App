@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     tools:context=".view.fragments.MainFragment">
 
     <ImageView
@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:contentDescription="@string/community_logo"
-        android:src="?attr/logoFull"
+        android:src="?logoFull"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".3"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,88 +24,88 @@
         android:id="@+id/songBook"
         style="@style/MainMenuButtons"
         android:layout_marginEnd="24dp"
-        android:drawableTop="@drawable/ic_songbook"
-        android:text="@string/song_book"
+        android:text="@string/songbook"
         app:layout_constraintEnd_toStartOf="@+id/prayerBook"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:drawableTopCompat="@drawable/ic_songbook" />
 
     <TextView
         android:id="@+id/prayerBook"
         style="@style/MainMenuButtons"
-        android:drawableTop="@drawable/ic_pray"
         android:text="@string/prayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:drawableTopCompat="@drawable/ic_pray" />
 
     <TextView
         android:id="@+id/statute"
         style="@style/MainMenuButtons"
         android:layout_marginStart="24dp"
-        android:drawableTop="@drawable/ic_statute"
         android:text="@string/statute"
         app:layout_constraintStart_toEndOf="@+id/prayerBook"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:drawableTopCompat="@drawable/ic_statute" />
 
     <TextView
         android:id="@+id/breviary"
         style="@style/MainMenuButtons"
-        android:drawableTop="@drawable/ic_breviary"
         android:text="@string/breviary"
         app:layout_constraintEnd_toEndOf="@+id/songBook"
         app:layout_constraintStart_toStartOf="@+id/songBook"
-        app:layout_constraintTop_toBottomOf="@+id/songBook" />
+        app:layout_constraintTop_toBottomOf="@+id/songBook"
+        app:drawableTopCompat="@drawable/ic_breviary" />
 
     <TextView
         android:id="@+id/gospel"
         style="@style/MainMenuButtons"
-        android:drawableTop="@drawable/ic_gospel"
         android:text="@string/gospel"
         app:layout_constraintEnd_toEndOf="@+id/prayerBook"
         app:layout_constraintStart_toStartOf="@+id/prayerBook"
-        app:layout_constraintTop_toBottomOf="@+id/prayerBook" />
+        app:layout_constraintTop_toBottomOf="@+id/prayerBook"
+        app:drawableTopCompat="@drawable/ic_gospel" />
 
     <TextView
         android:id="@+id/website"
         style="@style/MainMenuButtons"
-        android:drawableTop="@drawable/ic_website"
         android:text="@string/mftau_website"
         app:layout_constraintEnd_toEndOf="@+id/statute"
         app:layout_constraintStart_toStartOf="@+id/statute"
-        app:layout_constraintTop_toBottomOf="@+id/statute" />
+        app:layout_constraintTop_toBottomOf="@+id/statute"
+        app:drawableTopCompat="@drawable/ic_website" />
 
     <TextView
         android:id="@+id/members"
         style="@style/MainMenuButtons"
         android:alpha="0"
         android:clickable="false"
-        android:drawableTop="@drawable/ic_people"
         android:text="@string/members"
         app:layout_constraintEnd_toEndOf="@+id/songBook"
         app:layout_constraintStart_toStartOf="@+id/songBook"
-        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+        app:layout_constraintTop_toBottomOf="@+id/breviary"
+        app:drawableTopCompat="@drawable/ic_people" />
 
     <TextView
         android:id="@+id/meetings"
         style="@style/MainMenuButtons"
         android:alpha="0"
         android:clickable="false"
-        android:drawableTop="@drawable/ic_meeting"
         android:text="@string/meetings"
         app:layout_constraintEnd_toEndOf="@+id/statute"
         app:layout_constraintStart_toStartOf="@+id/statute"
-        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+        app:layout_constraintTop_toBottomOf="@+id/breviary"
+        app:drawableTopCompat="@drawable/ic_meeting" />
 
     <TextView
         android:id="@+id/retreat"
         style="@style/MainMenuButtons"
         android:alpha="0"
         android:clickable="false"
-        android:drawableTop="@drawable/ic_retreat"
-        android:text="@string/retreat"
+        android:text="@string/retreats"
         app:layout_constraintEnd_toEndOf="@+id/prayerBook"
         app:layout_constraintStart_toStartOf="@+id/prayerBook"
-        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+        app:layout_constraintTop_toBottomOf="@+id/breviary"
+        app:drawableTopCompat="@drawable/ic_retreat" />
 
     <ImageView
         android:id="@+id/menuBtn"

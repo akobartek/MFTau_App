@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import pl.mftau.mftau.db.EmausDatabase
 import pl.mftau.mftau.db.daos.DrawsDao
 import pl.mftau.mftau.db.daos.MembersDao
-import pl.mftau.mftau.db.entities.MemberEntity
 import pl.mftau.mftau.db.entities.DrawEntity
+import pl.mftau.mftau.db.entities.MemberEntity
 
 class EmausRepository(application: Application) {
 
@@ -38,13 +38,16 @@ class EmausRepository(application: Application) {
     suspend fun getMaxNumberOfDraw(): Int? = mDrawsDao.getMaxNumberOfDraw()
 
     @WorkerThread
-    suspend fun insertMembers(members: List<MemberEntity>) = mMembersDao.insertAllMembers(*members.toTypedArray())
+    suspend fun insertMembers(members: List<MemberEntity>) =
+        mMembersDao.insertAllMembers(*members.toTypedArray())
 
     @WorkerThread
-    suspend fun updateMembersLists(members: List<MemberEntity>) = mMembersDao.updateAllMembers(*members.toTypedArray())
+    suspend fun updateMembersLists(members: List<MemberEntity>) =
+        mMembersDao.updateAllMembers(*members.toTypedArray())
 
     @WorkerThread
-    suspend fun deleteMembers(members: List<MemberEntity>) = mMembersDao.deleteMembers(*members.toTypedArray())
+    suspend fun deleteMembers(members: List<MemberEntity>) =
+        mMembersDao.deleteMembers(*members.toTypedArray())
 
     @WorkerThread
     suspend fun insertDraw(draw: DrawEntity) = mDrawsDao.insertDraw(draw)

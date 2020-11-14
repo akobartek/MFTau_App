@@ -8,9 +8,10 @@ import com.google.android.material.textfield.TextInputEditText
 
 class MyTextInputEditText : TextInputEditText {
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int)
+            : super(context, attrs, defStyleAttr)
 
     override fun getAutofillType(): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

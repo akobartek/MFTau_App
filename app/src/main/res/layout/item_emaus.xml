@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawItemView"
@@ -11,7 +11,7 @@
         android:id="@+id/drawItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorBackground">
+        android:background="@color/colorBackground">
 
         <ImageView
             android:id="@+id/drawFirstPicture"
@@ -48,12 +48,11 @@
             android:gravity="center"
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drawSecondPicture"
             app:layout_constraintStart_toEndOf="@+id/drawFirstPicture"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Grzegorz Brzęczeszczykiewicz + Grzegorz Brzęczeszczykiewicz" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

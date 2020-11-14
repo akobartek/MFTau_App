@@ -1,16 +1,18 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.lifecycle.Observer
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.content_members.view.*
 import kotlinx.android.synthetic.main.fragment_members.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.view.adapters.MembersRecyclerAdapter
@@ -21,13 +23,13 @@ class MembersFragment : Fragment() {
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: MembersRecyclerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_members, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_members, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inflateToolbarMenu(view.membersToolbar)
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
@@ -47,9 +49,11 @@ class MembersFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllMembers().observe(viewLifecycleOwner, Observer { members ->
+        mViewModel.getAllMembers().observe(viewLifecycleOwner, { members ->
             view.membersRecyclerView.layoutAnimation =
-                AnimationUtils.loadLayoutAnimation(view.membersRecyclerView.context, R.anim.layout_animation_fall_down)
+                AnimationUtils.loadLayoutAnimation(
+                    view.membersRecyclerView.context, R.anim.layout_animation_fall_down
+                )
             mAdapter.setMemberList(members)
             view.membersRecyclerView.scheduleLayoutAnimation()
 
@@ -66,13 +70,19 @@ class MembersFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_members, menu)
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_emauses -> {
-            findNavController().navigate(MembersFragmentDirections.showEmausFragment())
-            true
+    private fun inflateToolbarMenu(toolbar: Toolbar) {
+        toolbar.apply {
+            setNavigationOnClickListener { findNavController().navigateUp() }
+            inflateMenu(R.menu.menu_members)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_emauses -> {
+                        findNavController().navigate(MembersFragmentDirections.showEmausFragment())
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
-        else -> super.onOptionsItemSelected(item)
     }
 }

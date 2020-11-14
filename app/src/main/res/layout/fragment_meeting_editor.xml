@@ -1,128 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     tools:context=".view.fragments.MeetingEditorFragment">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?attr/colorBackground"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/addMeetingLayout"
-            android:paddingBottom="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:textColorHint="?attr/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <pl.mftau.mftau.view.ui.MyTextInputEditText
-                    android:id="@+id/meetingNameET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/colorAccent"
-                    android:hint="@string/meeting_name"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="4"
-                    android:textColor="?attr/colorText" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/meetingTypeSpinner"
-                style="@android:style/Widget.Material.Light.Spinner.Underlined"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:entries="@array/meeting_types"
-                android:prompt="@string/meeting_type_prompt"
-                android:textColor="?attr/colorText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/centerVerticalGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <ImageView
-                android:id="@+id/setDateIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:layout_marginEnd="20dp"
-                android:contentDescription="@string/calendar_description"
-                android:src="@drawable/ic_calendar"
-                app:layout_constraintEnd_toStartOf="@id/centerVerticalGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/meetingTypeSpinner" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/meetingEditorToolbar"
+            style="@style/MFTauToolbar">
 
             <TextView
-                android:id="@+id/dateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:textColor="?attr/colorButtonText"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/setDateIcon"
-                app:layout_constraintStart_toEndOf="@+id/setDateIcon"
-                app:layout_constraintTop_toTopOf="@+id/setDateIcon"
-                tools:text="11.11.2018" />
+                android:id="@+id/meetingEditorToolbarTitle"
+                style="@style/MFTauToolbarTitle"
+                tools:text="@string/add_meeting" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/notesInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="20dp"
-                android:textColorHint="?attr/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/setDateIcon">
-
-                <pl.mftau.mftau.view.ui.MyTextInputEditText
-                    android:id="@+id/meetingNotesET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/colorAccent"
-                    android:hint="@string/notes"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="6"
-                    android:textColor="?attr/colorText" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    <include layout="@layout/content_meeting_editor" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveMeetingBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:src="@drawable/ic_save" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,7 +18,9 @@ class EmausRecyclerAdapter : RecyclerView.Adapter<EmausRecyclerAdapter.EmausView
     private var mDraws = arrayListOf<Pair<MemberEntity?, MemberEntity?>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmausViewHolder =
-        EmausViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_emaus, parent, false))
+        EmausViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_emaus, parent, false)
+        )
 
     override fun onBindViewHolder(holder: EmausViewHolder, position: Int) =
         holder.bindView(mDraws[position])

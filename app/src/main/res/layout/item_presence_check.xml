@@ -12,7 +12,7 @@
         android:id="@+id/swipeItemLayout"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="?attr/colorAccent">
+        android:background="@color/colorAccent">
 
         <ImageView
             android:id="@+id/absenceBtn"
@@ -28,7 +28,7 @@
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="?attr/colorBackground">
+        android:background="@color/colorBackground">
 
         <ImageView
             android:id="@+id/memberPhoto"
@@ -51,12 +51,12 @@
             android:fontFamily="sans-serif-light"
             android:maxLines="2"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/isPresentCheckBox"
             app:layout_constraintStart_toEndOf="@+id/memberPhoto"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bartosz Tkaczyk" />
+            tools:text="@tools:sample/full_names" />
 
         <CheckBox
             android:id="@+id/isPresentCheckBox"

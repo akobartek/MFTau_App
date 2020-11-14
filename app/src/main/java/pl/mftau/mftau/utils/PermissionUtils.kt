@@ -5,7 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import java.util.ArrayList
+import java.util.*
 
 object PermissionUtils {
 
@@ -34,10 +34,13 @@ object PermissionUtils {
     }
 
     fun haveCalendarReadWritePermissions(sourceActivity: Activity): Boolean {
-        var permissionCheck = ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.READ_CALENDAR)
+        var permissionCheck =
+            ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.READ_CALENDAR)
 
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            permissionCheck = ContextCompat.checkSelfPermission(sourceActivity, Manifest.permission.WRITE_CALENDAR)
+            permissionCheck = ContextCompat.checkSelfPermission(
+                sourceActivity, Manifest.permission.WRITE_CALENDAR
+            )
 
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 return true

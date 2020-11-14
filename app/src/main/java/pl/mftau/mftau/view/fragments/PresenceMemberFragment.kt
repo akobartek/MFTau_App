@@ -1,14 +1,11 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +18,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import kotlinx.android.synthetic.main.fragment_presence_member.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.utils.PreferencesManager
+import pl.mftau.mftau.utils.getColorsByName
 import pl.mftau.mftau.view.adapters.PresenceMeetingRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 
@@ -45,8 +44,9 @@ class PresenceMemberFragment : Fragment() {
     private var mNumberOfMeetings = 0
     private var mMeetingType = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_presence_member, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_presence_member, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,6 +57,8 @@ class PresenceMemberFragment : Fragment() {
             mMeetingType = it.getInt("meetingType")
         }
         mAdapter = PresenceMeetingRecyclerAdapter()
+
+        val isNightMode = PreferencesManager.getNightMode()
 
         view.meetingsRecyclerView.layoutManager = LinearLayoutManager(view.context)
         view.meetingsRecyclerView.itemAnimator = DefaultItemAnimator()
@@ -69,20 +71,20 @@ class PresenceMemberFragment : Fragment() {
         view.presencePieChart.isRotationEnabled = true
         view.presencePieChart.isHighlightPerTapEnabled = true
         view.presencePieChart.rotationAngle = 0f
-        view.presencePieChart.setEntryLabelColor(if (mViewModel.isNightMode) Color.WHITE else Color.BLACK)
+        view.presencePieChart.setEntryLabelColor(if (isNightMode) Color.WHITE else Color.BLACK)
         view.presencePieChart.setEntryLabelTextSize(12f)
 
         val legend = view.presencePieChart.legend
         legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.textColor = if (mViewModel.isNightMode) Color.WHITE else Color.BLACK
+        legend.textColor = if (isNightMode) Color.WHITE else Color.BLACK
         legend.setDrawInside(false)
         legend.xEntrySpace = 7f
         legend.yEntrySpace = 0f
         legend.yOffset = 0f
 
-        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, Observer { meetings ->
+        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, { meetings ->
             view.loadingIndicator.hide()
 
             mNumberOfMeetings = meetings.size
@@ -93,7 +95,7 @@ class PresenceMemberFragment : Fragment() {
                     mAbsenceList[meeting.id] = meeting.absenceList[mMember.id]!!
             }
 
-            setDataToChart()
+            setDataToChart(isNightMode)
             mAdapter.setLists(meetings, mPresenceList, mAbsenceList)
             if (meetings.isEmpty()) {
                 view.emptyView.visibility = View.VISIBLE
@@ -107,13 +109,21 @@ class PresenceMemberFragment : Fragment() {
         view.presencePieChart.animateY(1000, Easing.EaseInOutQuad)
     }
 
-    private fun setDataToChart() {
+    private fun setDataToChart(isNightMode: Boolean) {
         val values = ArrayList<PieEntry>()
         if (mPresenceList.size > 0)
-            values.add(PieEntry(mPresenceList.size.toFloat() / mNumberOfMeetings, getString(R.string.present)))
+            values.add(
+                PieEntry(
+                    mPresenceList.size.toFloat() / mNumberOfMeetings,
+                    getString(R.string.present)
+                )
+            )
         if (mAbsenceList.size > 0)
             values.add(
-                PieEntry(mAbsenceList.size.toFloat() / mNumberOfMeetings, getString(R.string.justified))
+                PieEntry(
+                    mAbsenceList.size.toFloat() / mNumberOfMeetings,
+                    getString(R.string.justified)
+                )
             )
         if (mNumberOfMeetings > mPresenceList.size + mAbsenceList.size)
             values.add(
@@ -123,39 +133,25 @@ class PresenceMemberFragment : Fragment() {
                 )
             )
 
-        val dataSet = PieDataSet(values, "")
-        dataSet.sliceSpace = 3f
-        dataSet.selectionShift = 5f
-
-        when (mMeetingType) {
-            0 -> dataSet.setColors(
-                ContextCompat.getColor(context!!, R.color.meetingType1_color1),
-                ContextCompat.getColor(context!!, R.color.meetingType1_color2),
-                ContextCompat.getColor(context!!, R.color.meetingType1_color3)
+        val dataSet = PieDataSet(values, "").apply {
+            sliceSpace = 3f
+            selectionShift = 5f
+            colors = requireContext().getColorsByName(
+                *Array(3) { i -> "meetingType${mMeetingType + 1}_color${i + 1}" }
             )
-            1 -> dataSet.setColors(
-                ContextCompat.getColor(context!!, R.color.meetingType2_color1),
-                ContextCompat.getColor(context!!, R.color.meetingType2_color2),
-                ContextCompat.getColor(context!!, R.color.meetingType2_color3)
-            )
-            2 -> dataSet.setColors(
-                ContextCompat.getColor(context!!, R.color.meetingType3_color1),
-                ContextCompat.getColor(context!!, R.color.meetingType3_color2),
-                ContextCompat.getColor(context!!, R.color.meetingType3_color3)
-            )
+            valueLinePart1OffsetPercentage = 80f
+            valueLinePart1Length = 0.4f
+            valueLinePart2Length = 1f
+            valueLineColor = if (isNightMode) Color.WHITE else Color.BLACK
+//            setUsingSliceColorAsValueLineColor(true)
+            yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         }
 
-        dataSet.valueLinePart1OffsetPercentage = 80f
-        dataSet.valueLinePart1Length = 0.4f
-        dataSet.valueLinePart2Length = 1f
-        dataSet.valueLineColor = if (mViewModel.isNightMode) Color.WHITE else Color.BLACK
-        //dataSet.setUsingSliceColorAsValueLineColor(true)
-        dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-
-        val pieData = PieData(dataSet)
-        pieData.setValueFormatter(PercentFormatter())
-        pieData.setValueTextSize(11f)
-        pieData.setValueTextColor(if (mViewModel.isNightMode) Color.WHITE else Color.BLACK)
+        val pieData = PieData(dataSet).apply {
+            setValueFormatter(PercentFormatter())
+            setValueTextSize(11f)
+            setValueTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
+        }
 
         view?.presencePieChart?.data = pieData
         view?.presencePieChart?.invalidate()

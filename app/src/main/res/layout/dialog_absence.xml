@@ -17,5 +17,4 @@
         android:textColor="#28292e"
         android:textColorHint="#28292e"
         tools:ignore="Autofill,TextFields" />
-
 </LinearLayout>

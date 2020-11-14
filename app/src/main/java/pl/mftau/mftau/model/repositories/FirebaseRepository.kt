@@ -51,10 +51,14 @@ class FirebaseRepository(val app: Application) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
             .add(retreatValues)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.retreat_added), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.retreat_added), Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.retreat_add_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.retreat_add_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -63,10 +67,14 @@ class FirebaseRepository(val app: Application) {
             .document(retreatId)
             .set(retreatValues)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.retreat_updated), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.retreat_updated), Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.retreat_update_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.retreat_update_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -84,7 +92,9 @@ class FirebaseRepository(val app: Application) {
             }
             .addOnFailureListener {
                 if (withToast)
-                    Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT
+                    ).show()
             }
     }
     // endregion Retreats
@@ -97,7 +107,11 @@ class FirebaseRepository(val app: Application) {
     fun getAllMembers(): MutableLiveData<List<Member>> {
         val mutableLiveData = MutableLiveData<List<Member>>()
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMembers)
             .orderBy(FirestoreUtils.firestoreKeyName, Query.Direction.ASCENDING)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -120,7 +134,12 @@ class FirebaseRepository(val app: Application) {
     fun getMemberById(memberId: String): MutableLiveData<Member> {
         val mutableLiveData = MutableLiveData<Member>()
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0,
+                    mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMembers)
             .document(memberId)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -131,15 +150,20 @@ class FirebaseRepository(val app: Application) {
 
                 val member = querySnapshot!!.toObject(Member::class.java)
                 member?.id = memberId
-                member?.isResponsible = querySnapshot[FirestoreUtils.firestoreKeyIsResponsible] as Boolean
-                mutableLiveData.value = member
+                member?.isResponsible =
+                    querySnapshot[FirestoreUtils.firestoreKeyIsResponsible] as Boolean
+                member?.let { mutableLiveData.value = it }
             }
         return mutableLiveData
     }
 
     fun addMember(activity: Activity, memberValues: HashMap<String, Any>, filePath: InputStream?) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMembers)
             .add(memberValues)
             .addOnSuccessListener { documentReference ->
@@ -151,11 +175,15 @@ class FirebaseRepository(val app: Application) {
                     dialog.show()
                     putPhoto(activity, documentReference.id, filePath, dialog)
                 } else {
-                    Toast.makeText(activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.member_add_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.member_add_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -176,9 +204,18 @@ class FirebaseRepository(val app: Application) {
             }
     }
 
-    fun updateMember(activity: Activity, memberId: String, memberValues: HashMap<String, Any>, filePath: InputStream?) {
+    fun updateMember(
+        activity: Activity,
+        memberId: String,
+        memberValues: HashMap<String, Any>,
+        filePath: InputStream?
+    ) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMembers)
             .document(memberId)
             .set(memberValues)
@@ -199,32 +236,48 @@ class FirebaseRepository(val app: Application) {
                             putPhoto(activity, memberId, filePath, dialog)
                         }
                 } else {
-                    Toast.makeText(activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.member_update_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.member_update_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
 
-    private fun putPhoto(activity: Activity, memberId: String, filePath: InputStream?, dialog: AlertDialog) {
+    private fun putPhoto(
+        activity: Activity, memberId: String, filePath: InputStream?, dialog: AlertDialog
+    ) {
         mStorageRef.child("${FirestoreUtils.firestoreCollectionMembers}/$memberId.jpg")
             .putStream(filePath!!)
             .addOnSuccessListener {
                 dialog.dismiss()
-                Toast.makeText(activity, activity.getString(R.string.member_with_photo_saved), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    activity,
+                    activity.getString(R.string.member_with_photo_saved),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
             .addOnFailureListener {
                 dialog.dismiss()
-                Toast.makeText(activity, activity.getString(R.string.member_photo_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.member_photo_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
     fun deleteMember(activity: Activity, memberId: String) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMembers)
             .document(memberId)
             .delete()
@@ -240,7 +293,9 @@ class FirebaseRepository(val app: Application) {
                     }
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
     //endregion Members
@@ -253,7 +308,11 @@ class FirebaseRepository(val app: Application) {
     fun getAllMeetings(meetingType: Int): MutableLiveData<List<Meeting>> {
         val mutableLiveData = MutableLiveData<List<Meeting>>()
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
@@ -276,7 +335,11 @@ class FirebaseRepository(val app: Application) {
     fun getMeetingById(meetingId: String, meetingType: Int): MutableLiveData<Meeting> {
         val mutableLiveData = MutableLiveData<Meeting>()
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
@@ -289,43 +352,66 @@ class FirebaseRepository(val app: Application) {
 
                 val meeting = querySnapshot!!.toObject(Meeting::class.java)
                 meeting?.id = meetingId
-                mutableLiveData.value = meeting
+                meeting?.let { mutableLiveData.value = it }
             }
         return mutableLiveData
     }
 
     fun addMeeting(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .add(meetingValues)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
-    fun addMeetingWithAttendanceList(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) {
+    fun addMeetingWithAttendanceList(
+        activity: Activity,
+        meetingType: Int,
+        meetingValues: HashMap<String, Any>
+    ) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .add(meetingValues)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT
+                ).show()
 
                 val mNewMeetingId = it.id
-                val meetingDocument = mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                    .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
-                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                    .document(FirestoreUtils.meetingTypes[meetingType])
-                    .collection(FirestoreUtils.firestoreCollectionMeetings)
-                    .document(mNewMeetingId)
+                val meetingDocument =
+                    mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
+                        .document(
+                            mAuth.currentUser!!.email!!.substring(
+                                0, mAuth.currentUser!!.email!!.indexOf("@")
+                            )
+                        )
+                        .collection(FirestoreUtils.firestoreCollectionMeetings)
+                        .document(FirestoreUtils.meetingTypes[meetingType])
+                        .collection(FirestoreUtils.firestoreCollectionMeetings)
+                        .document(mNewMeetingId)
 
                 meetingDocument.update(
                     FirestoreUtils.firestoreKeyAttendanceList,
@@ -337,23 +423,35 @@ class FirebaseRepository(val app: Application) {
                 )
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
-    fun updateMeeting(activity: Activity, meetingId: String, meetingType: Int, meetingValues: HashMap<String, Any>) {
+    fun updateMeeting(
+        activity: Activity, meetingId: String, meetingType: Int, meetingValues: HashMap<String, Any>
+    ) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(meetingId)
             .set(meetingValues)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -362,7 +460,11 @@ class FirebaseRepository(val app: Application) {
         attendanceList: ArrayList<String>, absenceList: HashMap<String, String>
     ) {
         val meetingDocument = mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
@@ -371,34 +473,53 @@ class FirebaseRepository(val app: Application) {
         meetingDocument.update(FirestoreUtils.firestoreKeyAttendanceList, attendanceList)
         meetingDocument.update(FirestoreUtils.firestoreKeyAbsenceList, absenceList)
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
     fun deleteMeeting(activity: Activity, meetingId: String, meetingType: Int) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-            .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+            .document(
+                mAuth.currentUser!!.email!!.substring(
+                    0, mAuth.currentUser!!.email!!.indexOf("@")
+                )
+            )
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(meetingId)
             .delete()
             .addOnSuccessListener {
-                Toast.makeText(activity, activity.getString(R.string.meeting_delete_successfully), Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    activity,
+                    activity.getString(R.string.meeting_delete_successfully),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             .addOnFailureListener {
-                Toast.makeText(activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity,
+                    activity.getString(R.string.delete_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
     fun clearMeetings() {
         for (meetingType in FirestoreUtils.meetingTypes) {
             mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                .document(
+                    mAuth.currentUser!!.email!!.substring(
+                        0, mAuth.currentUser!!.email!!.indexOf("@")
+                    )
+                )
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .document(meetingType)
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
@@ -412,8 +533,7 @@ class FirebaseRepository(val app: Application) {
                         mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
                             .document(
                                 mAuth.currentUser!!.email!!.substring(
-                                    0,
-                                    mAuth.currentUser!!.email!!.indexOf("@")
+                                    0, mAuth.currentUser!!.email!!.indexOf("@")
                                 )
                             )
                             .collection(FirestoreUtils.firestoreCollectionMeetings)
@@ -428,10 +548,14 @@ class FirebaseRepository(val app: Application) {
 
     fun getPresence(presence: HashMap<String, Array<Int>>): MutableLiveData<HashMap<String, Array<Int>>> {
         val mutableLiveData = MutableLiveData<HashMap<String, Array<Int>>>()
-        for (i in 0 until FirestoreUtils.meetingTypes.size) {
+        for (i in FirestoreUtils.meetingTypes.indices) {
             val meetingType = FirestoreUtils.meetingTypes[i]
             mFirestore.collection(FirestoreUtils.firestoreCollectionCities)
-                .document(mAuth.currentUser!!.email!!.substring(0, mAuth.currentUser!!.email!!.indexOf("@")))
+                .document(
+                    mAuth.currentUser!!.email!!.substring(
+                        0, mAuth.currentUser!!.email!!.indexOf("@")
+                    )
+                )
                 .collection(FirestoreUtils.firestoreCollectionMeetings)
                 .document(meetingType)
                 .collection(FirestoreUtils.firestoreCollectionMeetings)

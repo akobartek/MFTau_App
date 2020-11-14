@@ -4,27 +4,27 @@
     android:viewportWidth="415"
     android:viewportHeight="415.0023">
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m164.902,127.703 l-22.801,50.301h45.598zM164.902,127.703" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m92.199,335.004v-335h-18.398c-8.359,-0.102 -16.41,3.152 -22.348,9.035 -5.941,5.883 -9.273,13.902 -9.254,22.262v315.703c8,-7.5 19.402,-12 31.602,-12zM92.199,335.004" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m248.301,109.102c0,5.027 -4.074,9.102 -9.102,9.102 -5.023,0 -9.098,-4.074 -9.098,-9.102 0,-5.023 4.074,-9.098 9.098,-9.098 5.027,0 9.102,4.074 9.102,9.098zM248.301,109.102" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m42,383.004c0.031,17.582 14.219,31.859 31.801,32h281.398v-64h-281.398c-17.598,0.102 -31.809,14.398 -31.801,32zM42,383.004" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m164.902,213.203c11.922,-0.055 22.438,-7.82 26,-19.199h-52.102c3.633,11.371 14.164,19.117 26.102,19.199zM164.902,213.203" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m108.199,335.004h264v-335h-264zM122.402,183.004 L157.602,105.504c1.301,-2.84 4.18,-4.613 7.301,-4.5h50.699c3.578,-9.961 13.02,-16.602 23.598,-16.602 10.582,0 20.023,6.641 23.602,16.602h50.699c3.113,-0.09 5.98,1.68 7.301,4.5l35.199,77.5c0.492,1.027 0.73,2.16 0.699,3.297 0,23.859 -19.34,43.203 -43.199,43.203s-43.199,-19.344 -43.199,-43.203c0.031,-1.133 0.266,-2.25 0.699,-3.297v0.098l30.102,-66.098h-38c-2.633,7.402 -8.48,13.211 -15.902,15.797v108.203h18.703c4.418,0 8,3.582 8,8 0,4.418 -3.582,8 -8,8h-54c-4.418,0 -8,-3.582 -8,-8 0,-4.418 3.582,-8 8,-8h19.297v-108.203c-7.418,-2.586 -13.266,-8.395 -15.898,-15.797h-38l30.102,66.098v-0.199c0.488,1.031 0.727,2.16 0.699,3.301 0,23.859 -19.34,43.199 -43.199,43.199s-43.203,-19.34 -43.203,-43.199c-0.016,-1.109 0.223,-2.203 0.703,-3.199zM122.402,183.004" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m336.301,178.004 l-22.801,-50.301 -22.801,50.301zM336.301,178.004" />
     <path
-        android:fillColor="?attr/colorIcons"
+        android:fillColor="@color/colorIcons"
         android:pathData="m313.5,213.203c11.926,-0.055 22.441,-7.82 26,-19.199h-52.098c3.629,11.371 14.16,19.117 26.098,19.199zM313.5,213.203" />
 </vector>

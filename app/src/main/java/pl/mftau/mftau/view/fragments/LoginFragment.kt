@@ -2,16 +2,14 @@ package pl.mftau.mftau.view.fragments
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -20,11 +18,15 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.content_login.view.*
 import kotlinx.android.synthetic.main.dialog_reset_password.view.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
 import pl.mftau.mftau.utils.createUnderlinedString
+import pl.mftau.mftau.utils.hideKeyboard
+import pl.mftau.mftau.utils.isValidEmail
+import pl.mftau.mftau.utils.isValidPassword
 import pl.mftau.mftau.viewmodel.MainViewModel
 
 class LoginFragment : Fragment() {
@@ -33,11 +35,13 @@ class LoginFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private var isSigningUp: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_login, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.loginToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
         mAuth = FirebaseAuth.getInstance()
@@ -55,18 +59,18 @@ class LoginFragment : Fragment() {
         view?.createAccountTV?.setOnClickListener { setSignUpViewVisible(true) }
 
         view?.loginBtn?.setOnClickListener {
-            view!!.loginBtn.isEnabled = false
-            val email = view!!.emailET.text.toString().trim()
-            val password = view!!.passwordET.text.toString().trim()
+            requireView().loginBtn.isEnabled = false
+            val email = requireView().emailET.text.toString().trim()
+            val password = requireView().passwordET.text.toString().trim()
 
             if (isSigningUp) {
                 if (!isEmailAndPasswordValid(email, password)) {
-                    view!!.loginBtn.isEnabled = true
+                    requireView().loginBtn.isEnabled = true
                     return@setOnClickListener
                 }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(activity!!) { task ->
+                    .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
                             mAuth.currentUser?.sendEmailVerification()
 
@@ -80,115 +84,126 @@ class LoginFragment : Fragment() {
                         } else {
                             Log.d("SignUpFailed", task.exception!!.toString())
                             if (task.exception!! is FirebaseAuthUserCollisionException) {
-                                view!!.emailET.error = getString(R.string.sign_up_existing_user_error)
-                                view!!.emailET.requestFocus()
+                                requireView().emailET.apply {
+                                    error = getString(R.string.sign_up_existing_user_error)
+                                    requestFocus()
+                                }
                             } else
-                                Snackbar.make(view!!.loginLayout, R.string.sign_up_error, Snackbar.LENGTH_LONG).show()
+                                Snackbar.make(
+                                    requireView().loginLayout,
+                                    R.string.sign_up_error,
+                                    Snackbar.LENGTH_LONG
+                                ).show()
                         }
-                        view!!.loginBtn.isEnabled = true
+                        requireView().loginBtn.isEnabled = true
                     }
             } else {
                 if (isEmailOrPasswordNull(email, password)) {
-                    view!!.loginBtn.isEnabled = true
+                    requireView().loginBtn.isEnabled = true
                     return@setOnClickListener
                 }
 
                 mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(activity!!) { task ->
+                    .addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
                             if (!mAuth.currentUser!!.isEmailVerified) {
                                 showVerifyEmailDialog()
-                                view!!.loginBtn.isEnabled = true
+                                requireView().loginBtn.isEnabled = true
                             } else {
-                                Toast.makeText(context, R.string.signed_in, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, R.string.signed_in, Toast.LENGTH_SHORT)
+                                    .show()
                                 findNavController().navigateUp()
                             }
                         } else {
                             Log.d("SignInFailed", task.exception.toString())
-                            when {
-                                task.exception is FirebaseAuthInvalidUserException -> {
-                                    view!!.emailET.error = getString(R.string.sign_in_no_user_error)
-                                    view!!.emailET.requestFocus()
+                            when (task.exception) {
+                                is FirebaseAuthInvalidUserException -> {
+                                    requireView().emailET.apply {
+                                        error = getString(R.string.sign_in_no_user_error)
+                                        requestFocus()
+                                    }
                                 }
-                                task.exception is FirebaseAuthInvalidCredentialsException -> {
-                                    view!!.passwordET.error = getString(R.string.sign_in_wrong_password_error)
-                                    view!!.passwordET.requestFocus()
+                                is FirebaseAuthInvalidCredentialsException -> {
+                                    requireView().passwordET.apply {
+                                        error = getString(R.string.sign_in_wrong_password_error)
+                                        requestFocus()
+                                    }
                                 }
                                 else -> Snackbar.make(
-                                    view!!.loginLayout,
+                                    requireView().loginLayout,
                                     R.string.sign_in_error,
                                     Snackbar.LENGTH_LONG
                                 ).show()
                             }
-                            view!!.loginBtn.isEnabled = true
+                            requireView().loginBtn.isEnabled = true
                         }
                     }
             }
         }
 
-        view?.loginLayout?.setOnClickListener {
-            (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
-        }
-        view?.logo?.setOnClickListener {
-            (it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
-        }
+        view?.loginLayout?.setOnClickListener { requireActivity().hideKeyboard() }
+        view?.logo?.setOnClickListener { requireActivity().hideKeyboard() }
     }
 
     private fun setSignUpViewVisible(boolean: Boolean) {
         isSigningUp = boolean
         if (boolean) {
-            view!!.loginBtn.text = getString(R.string.sign_up)
-            view!!.forgotPasswordTV.animate()
-                .alpha(0f)
-                .withEndAction { view!!.forgotPasswordTV.visibility = View.INVISIBLE }
-                .duration = 300
-            view!!.createAccountTV.animate()
-                .alpha(0f)
-                .withEndAction { view!!.createAccountTV.visibility = View.INVISIBLE }
-                .duration = 300
-            view!!.backToSignInTV.animate()
-                .alpha(1f)
-                .withStartAction {
-                    view!!.backToSignInTV.visibility = View.VISIBLE
-                    view!!.backToSignInTV.alpha = 0f
-                }
-                .duration = 300
+            with(requireView()) {
+                loginBtn.text = getString(R.string.sign_up)
+                forgotPasswordTV.animate()
+                    .alpha(0f)
+                    .withEndAction { forgotPasswordTV.visibility = View.INVISIBLE }
+                    .duration = 300
+                createAccountTV.animate()
+                    .alpha(0f)
+                    .withEndAction { createAccountTV.visibility = View.INVISIBLE }
+                    .duration = 300
+                backToSignInTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        backToSignInTV.visibility = View.VISIBLE
+                        backToSignInTV.alpha = 0f
+                    }
+                    .duration = 300
+            }
         } else {
-            view!!.loginBtn.text = getString(R.string.sign_in)
-            view!!.forgotPasswordTV.animate()
-                .alpha(1f)
-                .withStartAction {
-                    view!!.forgotPasswordTV.visibility = View.VISIBLE
-                    view!!.forgotPasswordTV.alpha = 0f
-                }
-                .duration = 300
-            view!!.createAccountTV.animate()
-                .alpha(1f)
-                .withStartAction {
-                    view!!.createAccountTV.visibility = View.VISIBLE
-                    view!!.createAccountTV.alpha = 0f
-                }
-                .duration = 300
-            view!!.backToSignInTV.animate()
-                .alpha(0f)
-                .withEndAction { view!!.backToSignInTV.visibility = View.INVISIBLE }
-                .duration = 300
+            with(requireView()) {
+                loginBtn.text = getString(R.string.sign_in)
+                forgotPasswordTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        forgotPasswordTV.visibility = View.VISIBLE
+                        forgotPasswordTV.alpha = 0f
+                    }
+                    .duration = 300
+                createAccountTV.animate()
+                    .alpha(1f)
+                    .withStartAction {
+                        createAccountTV.visibility = View.VISIBLE
+                        createAccountTV.alpha = 0f
+                    }
+                    .duration = 300
+                backToSignInTV.animate()
+                    .alpha(0f)
+                    .withEndAction { backToSignInTV.visibility = View.INVISIBLE }
+                    .duration = 300
+            }
         }
-        view!!.emailET.error = null
-        view!!.passwordET.error = null
+        with(requireView()) {
+            emailET.error = null
+            passwordET.error = null
+        }
     }
 
     private fun isEmailOrPasswordNull(email: String, password: String): Boolean {
         var isNull = false
 
-        if (!mViewModel.isEmailValid(email)) {
-            view!!.emailET.error = getString(R.string.email_error)
+        if (!email.isValidEmail()) {
+            requireView().emailET.error = getString(R.string.email_error)
             isNull = true
         }
         if (password.isEmpty()) {
-            view!!.passwordET.error = getString(R.string.password_error_empty)
+            requireView().passwordET.error = getString(R.string.password_error_empty)
             isNull = true
         }
         return isNull
@@ -197,22 +212,22 @@ class LoginFragment : Fragment() {
     private fun isEmailAndPasswordValid(email: String, password: String): Boolean {
         var isValid = true
 
-        if (!mViewModel.isEmailValid(email)) {
-            view!!.emailET.error = getString(R.string.email_error)
+        if (!email.isValidEmail()) {
+            requireView().emailET.error = getString(R.string.email_error)
             isValid = false
         }
         if (password.length < 6) {
-            view!!.passwordET.error = getString(R.string.password_error_too_short)
+            requireView().passwordET.error = getString(R.string.password_error_too_short)
             isValid = false
-        } else if (!mViewModel.isValidPassword(password)) {
-            view!!.passwordET.error = getString(R.string.password_error_wrong)
+        } else if (!password.isValidPassword()) {
+            requireView().passwordET.error = getString(R.string.password_error_wrong)
             isValid = false
         }
         return isValid
     }
 
     private fun showSignupSuccessfulDialog() {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.sign_up_successful_dialog_title)
             .setMessage(R.string.sign_up_successful_dialog_message)
             .setCancelable(false)
@@ -225,7 +240,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showVerifyEmailDialog() {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.verify_email_dialog_title)
             .setMessage(R.string.verify_email_dialog_message)
             .setCancelable(false)
@@ -237,7 +252,12 @@ class LoginFragment : Fragment() {
                 dialog.dismiss()
                 mAuth.currentUser?.sendEmailVerification()
                 mAuth.signOut()
-                Toast.makeText(context!!, getString(R.string.message_sent), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.message_sent),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
             .create()
             .show()
@@ -247,7 +267,7 @@ class LoginFragment : Fragment() {
     private fun showResetPasswordDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_reset_password, null)
 
-        val dialog = AlertDialog.Builder(context!!)
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.reset_password_dialog_title)
             .setMessage(R.string.reset_password_dialog_message)
             .setView(dialogView)
@@ -259,7 +279,7 @@ class LoginFragment : Fragment() {
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val email = dialogView.resetPasswordET.text.toString().trim()
-                if (!mViewModel.isEmailValid(email)) {
+                if (!email.isValidEmail()) {
                     dialogView.resetPasswordET.error = getString(R.string.email_error)
                     return@setOnClickListener
                 } else {
@@ -267,9 +287,14 @@ class LoginFragment : Fragment() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 dialog.dismiss()
-                                Snackbar.make(view!!.loginLayout, R.string.message_sent, Snackbar.LENGTH_LONG).show()
+                                Snackbar.make(
+                                    requireView().loginLayout,
+                                    R.string.message_sent,
+                                    Snackbar.LENGTH_LONG
+                                ).show()
                             } else {
-                                dialogView.resetPasswordET.error = getString(R.string.reset_password_error)
+                                dialogView.resetPasswordET.error =
+                                    getString(R.string.reset_password_error)
                             }
                         }
                 }

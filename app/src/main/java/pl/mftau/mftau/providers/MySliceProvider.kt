@@ -6,11 +6,11 @@ import android.net.Uri
 import androidx.core.graphics.drawable.IconCompat
 import androidx.slice.Slice
 import androidx.slice.SliceProvider
+import androidx.slice.builders.ListBuilder
 import androidx.slice.builders.ListBuilder.INFINITY
 import androidx.slice.builders.SliceAction
 import androidx.slice.builders.list
 import androidx.slice.builders.row
-import androidx.slice.core.SliceHints
 import pl.mftau.mftau.R
 import pl.mftau.mftau.view.activities.MainActivity
 
@@ -43,11 +43,17 @@ class MySliceProvider : SliceProvider() {
 
     private fun createBreviaryAction(): SliceAction {
         return SliceAction.create(
-            PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java).apply { putExtra("shortcut", "breviary") }, 0
+            PendingIntent.getActivity(
+                context, 0,
+                Intent(context, MainActivity::class.java).apply {
+                    putExtra(
+                        "shortcut",
+                        "breviary"
+                    )
+                }, 0
             ),
             IconCompat.createWithResource(context, R.drawable.shortcut_ic_breviary),
-            SliceHints.ICON_IMAGE,
+            ListBuilder.ICON_IMAGE,
             "Open Breviary."
         )
     }

@@ -6,8 +6,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import pl.mftau.mftau.db.converters.ListConverters
 import pl.mftau.mftau.db.converters.Converters
+import pl.mftau.mftau.db.converters.ListConverters
 import pl.mftau.mftau.db.daos.DrawsDao
 import pl.mftau.mftau.db.daos.MembersDao
 import pl.mftau.mftau.db.entities.DrawEntity

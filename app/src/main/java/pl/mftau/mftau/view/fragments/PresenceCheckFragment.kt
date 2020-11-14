@@ -2,16 +2,16 @@ package pl.mftau.mftau.view.fragments
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.content_presence_check.view.*
 import kotlinx.android.synthetic.main.fragment_presence_check.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Meeting
@@ -30,13 +30,16 @@ class PresenceCheckFragment : Fragment() {
     private lateinit var mMeeting: Meeting
     private var mIsMeetingNew: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         listHasChanged = false
         return inflater.inflate(R.layout.fragment_presence_check, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.presenceCheckToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
@@ -62,7 +65,7 @@ class PresenceCheckFragment : Fragment() {
             }
         })
 
-        mViewModel.getAllMembers().observe(viewLifecycleOwner, Observer { members ->
+        mViewModel.getAllMembers().observe(viewLifecycleOwner, { members ->
             mAdapter.setLists(members, mMeeting.attendanceList, mMeeting.absenceList)
             view.loadingIndicator.hide()
             if (members.isEmpty()) {
@@ -76,7 +79,7 @@ class PresenceCheckFragment : Fragment() {
             when (mIsMeetingNew) {
                 0 -> {
                     mViewModel.updateAttendanceList(
-                        activity!!, mMeeting.id, mMeeting.meetingType,
+                        requireActivity(), mMeeting.id, mMeeting.meetingType,
                         mAdapter.attendanceList, mAdapter.absenceList
                     )
                     findNavController().navigateUp()
@@ -87,9 +90,14 @@ class PresenceCheckFragment : Fragment() {
                     meetingValues[FirestoreUtils.firestoreKeyNotes] = mMeeting.notes
                     meetingValues[FirestoreUtils.firestoreKeyDate] = mMeeting.date
                     meetingValues[FirestoreUtils.firestoreKeyMeetingType] = mMeeting.meetingType
-                    meetingValues[FirestoreUtils.firestoreKeyAttendanceList] = mAdapter.attendanceList
+                    meetingValues[FirestoreUtils.firestoreKeyAttendanceList] =
+                        mAdapter.attendanceList
                     meetingValues[FirestoreUtils.firestoreKeyAbsenceList] = mAdapter.absenceList
-                    mViewModel.addMeetingWithAttendanceList(activity!!, mMeeting.meetingType, meetingValues)
+                    mViewModel.addMeetingWithAttendanceList(
+                        requireActivity(),
+                        mMeeting.meetingType,
+                        meetingValues
+                    )
                     findNavController().navigate(PresenceCheckFragmentDirections.moveBackToMeetingsList())
                 }
             }

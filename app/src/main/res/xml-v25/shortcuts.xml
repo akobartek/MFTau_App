@@ -20,7 +20,7 @@
         android:enabled="true"
         android:icon="@drawable/shortcut_ic_songbook"
         android:shortcutId="shortcut_songbook"
-        android:shortcutShortLabel="@string/song_book">
+        android:shortcutShortLabel="@string/songbook">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="pl.mftau.mftau.view.activities.MainActivity"

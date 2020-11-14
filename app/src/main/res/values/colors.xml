@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#402222</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#391e1e</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#391e1e</color>
+    <color name="colorAccent">#391e1e</color>
+    <color name="colorText">#391e1e</color>
+    <color name="colorButtonText">#000000</color>
+    <color name="colorIcons">#4e342e</color>
+    <color name="colorMenuIcons">#777777</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorListItemBackground">#FFFFFF</color>
     <color name="meetingType1_color1">#64ff11</color>
     <color name="meetingType1_color2">#4cc10d</color>
     <color name="meetingType1_color3">#378c09</color>
@@ -10,5 +22,4 @@
     <color name="meetingType3_color2">#c64545</color>
     <color name="meetingType3_color3">#993535</color>
     <color name="black">#000000</color>
-    <color name="colorBackground">#28292e</color>
 </resources>

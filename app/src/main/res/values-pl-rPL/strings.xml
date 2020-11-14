@@ -5,10 +5,10 @@
     <string name="prayer">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
     <string name="gospel">Ewangelia</string>
-    <string name="song_book">Śpiewnik</string>
+    <string name="songbook">Śpiewnik</string>
     <string name="members">Członkowie</string>
     <string name="meetings">Spotkania</string>
-    <string name="retreat">Rekolekcje</string>
+    <string name="retreats">Rekolekcje</string>
     <string name="community_logo">Logo wspólnoty MF Tau</string>
     <string name="menu_description">Menu z opcjami zalogowania się oraz otworzeniem ustawień.</string>
     <string name="sign_in">Zaloguj</string>
@@ -66,10 +66,22 @@
     <string name="reset_password_dialog_message">Wpisz adres mailowy:</string>
     <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
 
+    <!-- PDF STRINGS -->
+    <string name="search">Szukaj</string>
+    <string name="scroll_up">Przewiń do początku</string>
+    <string name="songbook_search">Szukaj w śpiewniku</string>
+    <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
+    <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
+    <string name="cd_collapse_bottom_sheet">Zamknij okienko</string>
+
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>
     <string name="night_mode_title">Tryb nocny</string>
     <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
+    <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
+    <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
+    <string name="awake_songbook_title">Ciągły ekran śpiewnika</string>
+    <string name="awake_songbook_summary">Nie wygaszaj ekranu śpiewnika</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="invitatory">Wezwanie</string>

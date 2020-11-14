@@ -4,12 +4,12 @@
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statute</string>
     <string name="prayer">Prayers</string>
-    <string name="song_book">Songbook</string>
+    <string name="songbook">Songbook</string>
     <string name="breviary">Breviary</string>
     <string name="gospel">Gospel</string>
     <string name="members">Members</string>
     <string name="meetings">Meetings</string>
-    <string name="retreat">Retreats</string>
+    <string name="retreats">Retreats</string>
     <string name="community_logo">MF Tau community logo</string>
     <string name="menu_description">Menu with options like sign in or open settings.</string>
     <string name="sign_in">Sign in</string>
@@ -69,11 +69,25 @@
     <string name="reset_password_dialog_message">Enter the email address:</string>
     <string name="reset_password_error">Operation failed, please check connection and the input!</string>
 
+    <!-- PDF STRINGS -->
+    <string name="search">Search</string>
+    <string name="scroll_up">Scroll document up</string>
+    <string name="songbook_search">Search in the songbook</string>
+    <string name="empty_search_list">No songs with this phrase found!</string>
+    <string name="empty_search_query">If you want to search a song, type the query above!</string>
+    <string name="cd_collapse_bottom_sheet">Collapse bottom sheet</string>
+
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>
     <string name="night_mode_key" translatable="false">night_mode</string>
     <string name="night_mode_title">Night mode</string>
     <string name="night_mode_summary">Turn on night mode in the app</string>
+    <string name="repeat_gospel_key" translatable="false">repeat_gospel</string>
+    <string name="repeat_gospel_title">Repeat Gospel</string>
+    <string name="repeat_gospel_summary">Repeat Gospel after the end of hearing</string>
+    <string name="awake_songbook_key" translatable="false">awake_songbook</string>
+    <string name="awake_songbook_title">Stay awake in songbook</string>
+    <string name="awake_songbook_summary">Do not turn off the songbook screen</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="invitatory">Invitatory</string>

@@ -12,7 +12,8 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.view.fragments.PresenceCheckFragment
 
-class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerAdapter.PresenceCheckViewHolder>() {
+class PresenceCheckRecyclerAdapter :
+    RecyclerView.Adapter<PresenceCheckRecyclerAdapter.PresenceCheckViewHolder>() {
 
     private var mMembersList = listOf<Member>()
     var attendanceList = arrayListOf<String>()
@@ -32,7 +33,11 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
 
     override fun getItemCount(): Int = mMembersList.size
 
-    fun setLists(memberList: List<Member>, attendanceList: ArrayList<String>, absenceList: HashMap<String, String>) {
+    fun setLists(
+        memberList: List<Member>,
+        attendanceList: ArrayList<String>,
+        absenceList: HashMap<String, String>
+    ) {
         mMembersList = memberList
         this.attendanceList = attendanceList
         this.absenceList = absenceList
@@ -83,7 +88,8 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
 
         @SuppressLint("InflateParams")
         private fun showAbsenceDialog(memberId: String, memberName: String) {
-            val dialogView = LayoutInflater.from(itemView.context).inflate(R.layout.dialog_absence, null)
+            val dialogView =
+                LayoutInflater.from(itemView.context).inflate(R.layout.dialog_absence, null)
             dialogView.absenceReasonET.setText(absenceList[memberId])
 
             val dialog = AlertDialog.Builder(itemView.context)
@@ -99,7 +105,8 @@ class PresenceCheckRecyclerAdapter : RecyclerView.Adapter<PresenceCheckRecyclerA
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     val reason = dialogView.absenceReasonET.text.toString().trim()
                     if (reason.isEmpty()) {
-                        dialogView.absenceReasonET.error = itemView.context.getString(R.string.reason_empty_error)
+                        dialogView.absenceReasonET.error =
+                            itemView.context.getString(R.string.reason_empty_error)
                         return@setOnClickListener
                     } else {
                         absenceList[memberId] = reason

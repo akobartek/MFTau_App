@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".view.fragments.RetreatDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/retreatsEditLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="40dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/retreatNameET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/retreat_name"
+                android:inputType="none"
+                android:maxLines="3"
+                android:textColor="@color/colorText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameInputLayout">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/retreatCityET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/retreat_city"
+                android:inputType="none"
+                android:textColor="@color/colorText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityInputLayout">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/retreatAddressET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/retreat_address"
+                android:inputType="none"
+                android:maxLines="2"
+                android:textColor="@color/colorText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/priceInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintEnd_toStartOf="@+id/plnTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressInputLayout">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/retreatPriceET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/retreat_price"
+                android:inputType="none"
+                android:textColor="@color/colorText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/plnTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/pln"
+            android:textColor="@color/colorText"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@id/priceInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/priceInputLayout" />
+
+        <ImageView
+            android:id="@+id/setDateIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="28dp"
+            android:contentDescription="@string/calendar_description"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceInputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/beginDateInputLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/setDateIcon"
+            app:layout_constraintEnd_toStartOf="@+id/setDateIcon"
+            app:layout_constraintTop_toTopOf="@+id/setDateIcon">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/beginDateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/begin"
+                android:inputType="none"
+                android:textColor="@color/colorText"
+                tools:ignore="KeyboardInaccessibleWidget"
+                tools:text="11.11.2018" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/endDateInputLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/setDateIcon"
+            app:layout_constraintStart_toEndOf="@+id/setDateIcon"
+            app:layout_constraintTop_toTopOf="@+id/setDateIcon">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/endDateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/end"
+                android:inputType="none"
+                android:textColor="@color/colorText"
+                tools:ignore="KeyboardInaccessibleWidget"
+                tools:text="11.11.2018" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/retreatTypeInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:textColorHint="@color/colorAccent"
+            app:boxBackgroundColor="@color/colorBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setDateIcon">
+
+            <pl.mftau.mftau.view.ui.MyTextInputEditText
+                android:id="@+id/retreatTypeET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="none"
+                android:maxLines="2"
+                android:textColor="@color/colorText"
+                tools:text="@string/for_over_15years" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

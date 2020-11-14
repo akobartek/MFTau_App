@@ -5,7 +5,6 @@ import com.google.firebase.Timestamp
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 @Parcelize
@@ -19,5 +18,6 @@ data class Meeting(
     var absenceList: HashMap<String, String> = HashMap()
 ) : Parcelable {
 
-    fun getDateFormatted(): String = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date.toDate())
+    fun getDateFormatted(): String =
+        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date.toDate())
 }

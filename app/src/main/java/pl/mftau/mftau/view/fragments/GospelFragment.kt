@@ -5,17 +5,22 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_gospel.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.tryToRunFunctionOnInternet
 import pl.mftau.mftau.viewmodel.MainViewModel
-import java.lang.StringBuilder
 import java.util.*
 
 class GospelFragment : Fragment() {
@@ -26,13 +31,13 @@ class GospelFragment : Fragment() {
     private var mGospel: String? = null
     private var mIsSpeaking: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_gospel, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_gospel, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inflateToolbarMenu(view.gospelToolbar)
 
         activity?.let {
             mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
@@ -44,7 +49,7 @@ class GospelFragment : Fragment() {
             }
         }
 
-        mTextToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+        mTextToSpeech = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 val result = mTextToSpeech.setLanguage(Locale("pl_PL"))
                 mTextToSpeech.setSpeechRate(0.9f)
@@ -54,11 +59,13 @@ class GospelFragment : Fragment() {
             } else {
                 Log.e("TextToSpeech", "Initialization failed!")
             }
-        })
+        }
         mTextToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onDone(utteranceId: String?) {
-                view.handler.post { activity?.invalidateOptionsMenu() }
-//                view.handler.postDelayed({ readGospel() }, 2000)
+                if (PreferencesManager.getRepeatGospel())
+                    view.handler.postDelayed({ readGospel() }, 1500)
+                else
+                    view.handler.post { updateToolbarIcon(view.gospelToolbar.menu) }
             }
 
             @Suppress("OverridingDeprecatedMember")
@@ -82,44 +89,57 @@ class GospelFragment : Fragment() {
         super.onDestroy()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_gospel, menu)
+    private fun inflateToolbarMenu(toolbar: Toolbar) {
+        toolbar.apply {
+            setNavigationOnClickListener { findNavController().navigateUp() }
+            inflateMenu(R.menu.menu_gospel)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_play_gospel -> {
+                        if (mIsSpeaking) {
+                            mIsSpeaking = false
+                            it.icon =
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.anim_pause_to_sound
+                                )
+                            (it.icon as AnimatedVectorDrawable).start()
+                            mTextToSpeech.stop()
+                        } else {
+                            mIsSpeaking = true
+                            it.icon =
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.anim_sound_to_pause
+                                )
+                            (it.icon as AnimatedVectorDrawable).start()
+                            readGospel()
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+    }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
+    private fun updateToolbarIcon(menu: Menu) {
         if (mIsSpeaking) {
             mIsSpeaking = false
             val playGospelMenuItem = menu.findItem(R.id.action_play_gospel)
-            playGospelMenuItem.icon = context!!.getDrawable(R.drawable.anim_pause_to_sound)
+            playGospelMenuItem.icon =
+                ContextCompat.getDrawable(requireContext(), R.drawable.anim_pause_to_sound)
             (playGospelMenuItem.icon as AnimatedVectorDrawable).start()
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_play_gospel -> {
-            if (mIsSpeaking) {
-                mIsSpeaking = false
-                item.icon = context!!.getDrawable(R.drawable.anim_pause_to_sound)
-                (item.icon as AnimatedVectorDrawable).start()
-                mTextToSpeech.stop()
-            } else {
-                mIsSpeaking = true
-                item.icon = context!!.getDrawable(R.drawable.anim_sound_to_pause)
-                (item.icon as AnimatedVectorDrawable).start()
-                readGospel()
-            }
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
-
     private fun loadGospel() {
-        val loadingDialog = AlertDialog.Builder(activity!!)
+        val loadingDialog = AlertDialog.Builder(requireContext())
             .setView(R.layout.dialog_loading)
             .setOnCancelListener { findNavController().navigateUp() }
             .create()
         loadingDialog.show()
-        mViewModel.loadGospelHtml(loadingDialog, view!!.gospelText, activity!!)
+        mViewModel.loadGospelHtml(loadingDialog, requireView().gospelText, requireActivity())
     }
 
     private fun readGospel() {
@@ -139,7 +159,7 @@ class GospelFragment : Fragment() {
             val list = mGospel!!.split("; ").toMutableList()
             val stringBuilder = StringBuilder()
             for (sentence in list) {
-                stringBuilder.append(sentence.capitalize()).append(". ")
+                stringBuilder.append(sentence.capitalize(Locale.getDefault())).append(". ")
             }
             mGospel = stringBuilder.toString().trim()
             mGospel = mGospel!!.substring(0, mGospel!!.length - 1)

@@ -18,7 +18,8 @@ class PresenceMeetingRecyclerAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PresenceMeetingViewHolder =
         PresenceMeetingViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_presence_meeting, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_presence_meeting, parent, false)
         )
 
     override fun onBindViewHolder(holder: PresenceMeetingViewHolder, position: Int) =
@@ -26,7 +27,11 @@ class PresenceMeetingRecyclerAdapter :
 
     override fun getItemCount(): Int = mMeetingsList.size
 
-    fun setLists(meetingsList: List<Meeting>, presenceList: ArrayList<String>, absenceList: HashMap<String, String>) {
+    fun setLists(
+        meetingsList: List<Meeting>,
+        presenceList: ArrayList<String>,
+        absenceList: HashMap<String, String>
+    ) {
         mMeetingsList = meetingsList
         mPresenceList = presenceList
         mAbsenceList = absenceList
@@ -57,7 +62,10 @@ class PresenceMeetingRecyclerAdapter :
                 mAbsenceList.containsKey(meeting.id) -> {
                     itemView.absenceReason.visibility = View.VISIBLE
                     itemView.absenceReason.text =
-                        itemView.context.getString(R.string.reason_for_absence, mAbsenceList[meeting.id])
+                        itemView.context.getString(
+                            R.string.reason_for_absence,
+                            mAbsenceList[meeting.id]
+                        )
                     when (meeting.meetingType) {
                         0 -> itemView.setBackgroundColor(
                             ContextCompat.getColor(itemView.context, R.color.meetingType1_color2)

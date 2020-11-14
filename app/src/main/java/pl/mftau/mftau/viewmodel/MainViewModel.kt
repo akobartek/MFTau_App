@@ -13,7 +13,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import pl.mftau.mftau.R
@@ -25,12 +28,10 @@ import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.model.repositories.EmausRepository
 import pl.mftau.mftau.model.repositories.FirebaseRepository
 import pl.mftau.mftau.utils.FirestoreUtils
+import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.showNoInternetDialogWithTryAgain
 import java.io.InputStream
-import java.lang.Runnable
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 import kotlin.collections.HashMap
 import kotlin.random.Random
 
@@ -48,24 +49,12 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     var currentUserType = USER_TYPE_NONE
-    var isNightMode = false
-
-    fun getDateFormatted(date: Date): String = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
     // endregion General values
 
     // region LoginFragment
     private val adminAddresses = arrayOf(
         "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
     )
-
-    fun isEmailValid(email: CharSequence): Boolean = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-    fun isValidPassword(password: CharSequence): Boolean {
-        val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{6,20})"
-        val pattern = Pattern.compile(passwordRegex)
-        val matcher = pattern.matcher(password)
-        return matcher.matches()
-    }
 
     fun createUserValues(email: String): HashMap<String, Any> {
         val user = HashMap<String, Any>()
@@ -102,7 +91,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         webView: WebView,
         activity: Activity
     ) {
-        Thread(Runnable {
+        Thread {
             try {
                 if (!wasBreviaryLoaded(type)) {
                     val buildUrls = buildBreviaryUrl(type)
@@ -119,8 +108,9 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                             }
                         }
                     }
-                    breviaryHtml[type] = document.select("table").last { it.outerHtml().contains("Psalm ") }
-                        .html()
+                    breviaryHtml[type] =
+                        document.select("table").last { it.outerHtml().contains("Psalm ") }
+                            .html()
 
                     updateBreviaryHtml(type)
                 }
@@ -144,7 +134,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     }
                 }
             }
-        }).start()
+        }.start()
     }
 
     private fun buildBreviaryUrl(type: Int): Array<String> {
@@ -152,7 +142,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             "wezw", /*"godzczyt",*/ "jutrznia", "modlitwa1",
             "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
         )
-        val romanMonths = arrayOf("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
+        val romanMonths =
+            arrayOf("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
         val calendar = Calendar.getInstance()
         val dayInt = calendar.get(Calendar.DAY_OF_MONTH)
         val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
@@ -160,10 +151,14 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
         val year = calendar.get(Calendar.YEAR).toString().substring(2)
 
-        val url1 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month/${breviaryUrlTypes[type]}.php3"
-        val url2 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}p/${breviaryUrlTypes[type]}.php3"
-        val url3 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-1/${breviaryUrlTypes[type]}.php3"
-        val url4 = "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-2/${breviaryUrlTypes[type]}.php3"
+        val url1 =
+            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month/${breviaryUrlTypes[type]}.php3"
+        val url2 =
+            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day${month}p/${breviaryUrlTypes[type]}.php3"
+        val url3 =
+            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-1/${breviaryUrlTypes[type]}.php3"
+        val url4 =
+            "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month-2/${breviaryUrlTypes[type]}.php3"
         return arrayOf(url1, url2, url3, url4)
     }
 
@@ -172,30 +167,55 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             if (breviaryHtml[type] != null) {
 
                 for (i in 1..(if (type == 0) 2 else 5))
-                    breviaryHtml[type] = breviaryHtml[type]!!.replaceFirst("class=\"c\"", "class=\"xD\"")
+                    breviaryHtml[type] =
+                        breviaryHtml[type]!!.replaceFirst("class=\"c\"", "class=\"xD\"")
 
                 breviaryHtml[type] = breviaryHtml[type]!!
                     .replace("<tr><td colspan=2 width=490 class=ww>\n", "")
-                    .replace("color=\"red\">", "color=\"brown\">")
-                    .replace("color:red", "color:brown")
+                    .replace("color=\"red\">", "color=\"saddlebrown\">")
+                    .replace("color:red", "color:saddlebrown")
                     .replace("</a> - ", "</a>")
-                    .replace("<img src=\"../../images/dot.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
-                    .replace("<img src=\"../../images/dot4.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">", "")
-                    .replace("<img src=\"../../images/dot4.gif\" width=\"15\" height=\"9\" border=\"0\" alt=\"\">", "")
+                    .replace(
+                        "<img src=\"../../images/dot.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">",
+                        ""
+                    )
+                    .replace(
+                        "<img src=\"../../images/dot4.gif\" width=\"30\" height=\"9\" border=\"0\" alt=\"\">",
+                        ""
+                    )
+                    .replace(
+                        "<img src=\"../../images/dot4.gif\" width=\"15\" height=\"9\" border=\"0\" alt=\"\">",
+                        ""
+                    )
                     .replace("align=\"center\"", "")
                     .replace("class=\"b\"", "style=\"text-indent:12pt\"")
                     .replace("class=\"c\"", "style=\"text-indent:16pt\"")
                     .replace("style=\"margin-left:15pt\"", "")
                     .replace("style=\"font-size:10pt\"", "")
-                    .replace("style=\"font-size:10pt; border: 2px solid navy; background-color:#FAE6D2\"", "")
+                    .replace(
+                        "style=\"font-size:10pt; border: 2px solid navy; background-color:#FAE6D2\"",
+                        ""
+                    )
                     .replace("style=\"font-size:8pt; background-color:#FAE6D2\"", "")
                     .replace("<a href=\"http://premium.brewiarz.pl\">W wersji PREMIUM</a>", "")
                     .replace("<a href=\"../../access.php3\">W wersji PREMIUM</a>", "")
                     .replace("dostępne jest nagranie tej Godziny w formacie MP3.", "")
-                    .replace(" znajdziesz tutaj propozycję melodii oraz plik mp3 z jej wykonaniem.", "")
-                    .replace(" znajdziesz tutaj link do papieskiej katechezy na temat tego psalmu.", "")
-                    .replace(" znajdziesz tutaj link do papieskiej katechezy na temat tej pieśni.", "")
-                    .replace(" znajdziesz tutaj propozycje melodii Wezwania oraz przykładowe pliki mp3.", "")
+                    .replace(
+                        " znajdziesz tutaj propozycję melodii oraz plik mp3 z jej wykonaniem.",
+                        ""
+                    )
+                    .replace(
+                        " znajdziesz tutaj link do papieskiej katechezy na temat tego psalmu.",
+                        ""
+                    )
+                    .replace(
+                        " znajdziesz tutaj link do papieskiej katechezy na temat tej pieśni.",
+                        ""
+                    )
+                    .replace(
+                        " znajdziesz tutaj propozycje melodii Wezwania oraz przykładowe pliki mp3.",
+                        ""
+                    )
                     .replace(
                         "<a href=\"../../appendix/formula.php3\" style=\"font-family:tahoma;\" title=\"Formuły wprowadzenia do Modlitwy Pańskiej\" onmouseover=\"t('Formuły wprowadzenia do Modlitwy Pańskiej');return true\">formułą.</a>",
                         "formułą"
@@ -227,7 +247,10 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     .replace("ROZWAŻANIE", "")
                     .replace("KOMENTARZ I MP3", "")
                     .replace("KOMENTARZ", "")
-                    .replace("<div align=\"center\"><span style=\"color:brown\">wybierz:</span>", "")
+                    .replace(
+                        "<div align=\"center\"><span style=\"color:saddlebrown\">wybierz:</span>",
+                        ""
+                    )
                     .replace("wariant I", "")
                     .replace("|", "")
                     .replace("wariant II", "")
@@ -240,7 +263,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     private fun checkBreviaryNightMode(type: Int): String? {
-        return if (isNightMode) {
+        return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
                     "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
                     "</style></head>" +
@@ -260,7 +283,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     fun wasGospelLoaded(): Boolean = gospelHtml != null
 
     fun loadGospelHtml(loadingDialog: AlertDialog, webView: WebView, activity: Activity) {
-        Thread(Runnable {
+        Thread {
             try {
                 if (!wasGospelLoaded()) {
                     val document = Jsoup.connect(buildGospelUrl()).timeout(30000).get()
@@ -287,10 +310,12 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                 exc.printStackTrace()
                 activity.runOnUiThread {
                     loadingDialog.hide()
-                    activity.showNoInternetDialogWithTryAgain { loadGospelHtml(loadingDialog, webView, activity) }
+                    activity.showNoInternetDialogWithTryAgain {
+                        loadGospelHtml(loadingDialog, webView, activity)
+                    }
                 }
             }
-        }).start()
+        }.start()
     }
 
     fun getGospelHtml(): String = gospelHtml!!
@@ -307,7 +332,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     private fun checkGospelNightMode(): String? {
-        return if (isNightMode) {
+        return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
                     "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
                     "</style></head>" +
@@ -332,8 +357,12 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     fun updatePhoto(activity: Activity, memberId: String, filePath: InputStream?) =
         mFirebaseRepository.updateMemberPhoto(activity, memberId, filePath)
 
-    fun updateMember(activity: Activity, memberId: String, memberValues: HashMap<String, Any>, filePath: InputStream?) =
-        mFirebaseRepository.updateMember(activity, memberId, memberValues, filePath)
+    fun updateMember(
+        activity: Activity,
+        memberId: String,
+        memberValues: HashMap<String, Any>,
+        filePath: InputStream?
+    ) = mFirebaseRepository.updateMember(activity, memberId, memberValues, filePath)
 
 
     fun deleteMember(activity: Activity, memberId: String) =
@@ -362,7 +391,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     private fun updateMembersListsInDatabase(members: List<MemberEntity>) =
         viewModelScope.launch { mEmausRepository.updateMembersLists(members) }
 
-    private fun insertDrawToDatabase(draw: DrawEntity) = viewModelScope.launch { mEmausRepository.insertDraw(draw) }
+    private fun insertDrawToDatabase(draw: DrawEntity) =
+        viewModelScope.launch { mEmausRepository.insertDraw(draw) }
 
     fun deleteLastDrawInDatabase(members: List<MemberEntity>?, draws: List<String>?) {
         viewModelScope.launch { mEmausRepository.deleteLastDraw() }
@@ -404,7 +434,10 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     Log.d("startDraw", draw.toString())
 
                     ++checkIfDrawIsPossibleNumber
-                    Log.d("startDraw", "checkIfDrawIsPossibleNumber value: $checkIfDrawIsPossibleNumber")
+                    Log.d(
+                        "startDraw",
+                        "checkIfDrawIsPossibleNumber value: $checkIfDrawIsPossibleNumber"
+                    )
                     Log.d("startDraw", "numberOftry value: $numberOfTry")
                     if (checkIfDrawIsPossibleNumber == 20) {
                         return if (numberOfTry == 40) {
@@ -462,7 +495,11 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         draws.forEach { draw ->
             textToCopy.append(
                 "${members!!.single { it.id == draw.substring(0, draw.indexOf("+")) }.name} + " +
-                        "${members.single { it.id == draw.substring(draw.indexOf("+") + 1, draw.length) }.name}\n"
+                        "${
+                            members.single {
+                                it.id == draw.substring(draw.indexOf("+") + 1, draw.length)
+                            }.name
+                        }\n"
             )
         }
 
@@ -481,11 +518,13 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             .setPrimaryClip(ClipData.newPlainText("emaus", textToCopy.toString()))
     }
 
-    fun getOddPersonId(): String? = runBlocking { withContext(Dispatchers.IO) { mEmausRepository.getOddPersonId() } }
+    fun getOddPersonId(): String? =
+        runBlocking { withContext(Dispatchers.IO) { mEmausRepository.getOddPersonId() } }
     // endregion Emauses
 
     // region Meetings Module
-    fun getAllMeetings(meetingType: Int): LiveData<List<Meeting>> = mFirebaseRepository.getAllMeetings(meetingType)
+    fun getAllMeetings(meetingType: Int): LiveData<List<Meeting>> =
+        mFirebaseRepository.getAllMeetings(meetingType)
 
 //    fun getMeetingById(meetingId: String, meetingType: Int): LiveData<Meeting> =
 //            mFirebaseRepository.getMeetingById(meetingId, meetingType)
@@ -495,17 +534,21 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     fun addMeeting(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) =
         mFirebaseRepository.addMeeting(activity, meetingType, meetingValues)
 
-    fun addMeetingWithAttendanceList(activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>) =
-        mFirebaseRepository.addMeetingWithAttendanceList(activity, meetingType, meetingValues)
+    fun addMeetingWithAttendanceList(
+        activity: Activity, meetingType: Int, meetingValues: HashMap<String, Any>
+    ) = mFirebaseRepository.addMeetingWithAttendanceList(activity, meetingType, meetingValues)
 
-    fun updateMeeting(activity: Activity, meetingId: String, meetingType: Int, meetingValues: HashMap<String, Any>) =
-        mFirebaseRepository.updateMeeting(activity, meetingId, meetingType, meetingValues)
+    fun updateMeeting(
+        activity: Activity, meetingId: String, meetingType: Int, meetingValues: HashMap<String, Any>
+    ) = mFirebaseRepository.updateMeeting(activity, meetingId, meetingType, meetingValues)
 
     fun updateAttendanceList(
         activity: Activity, meetingId: String, meetingType: Int,
         attendanceList: ArrayList<String>, absenceList: HashMap<String, String>
     ) =
-        mFirebaseRepository.updateAttendanceList(activity, meetingId, meetingType, attendanceList, absenceList)
+        mFirebaseRepository.updateAttendanceList(
+            activity, meetingId, meetingType, attendanceList, absenceList
+        )
 
     fun deleteMeeting(activity: Activity, meetingId: String, meetingType: Int) =
         mFirebaseRepository.deleteMeeting(activity, meetingId, meetingType)

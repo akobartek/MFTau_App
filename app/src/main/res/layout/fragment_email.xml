@@ -1,112 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/emailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     tools:context=".view.fragments.EmailFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailNameInputLayout"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="48dp"
-        android:textColorHint="?attr/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/emailNameET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:hint="@string/email_name"
-            android:inputType="textPersonName|textCapWords"
-            android:textColor="?attr/colorAccent" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/emailToolbar"
+            style="@style/MFTauToolbar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailAddressInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:textColorHint="?attr/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailNameInputLayout">
+            <TextView
+                android:id="@+id/emailToolbarTitle"
+                style="@style/MFTauToolbarTitle"
+                tools:text="@string/ask_for_pray" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/emailAdressET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:textColor="?attr/colorAccent" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailIntentionInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:textColorHint="?attr/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAddressInputLayout">
-
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/emailIntentionET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
-            android:hint="@string/intention"
-            android:inputType="textMultiLine|textCapSentences"
-            android:maxLines="8"
-            android:textColor="?attr/colorAccent" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <include layout="@layout/content_email" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/sendMailBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:src="@drawable/ic_send" />
 
-    <CheckBox
-        android:id="@+id/rodoCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="6dp"
-        android:layout_marginStart="48dp"
-        app:layout_constraintBottom_toBottomOf="@+id/privacyPolicyTV"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/privacyPolicyTV" />
-
-    <TextView
-        android:id="@+id/privacyPolicyTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="48dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/rodo_srodo"
-        android:textColor="?attr/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rodoCheckBox"
-        app:layout_constraintTop_toBottomOf="@+id/emailIntentionInputLayout" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

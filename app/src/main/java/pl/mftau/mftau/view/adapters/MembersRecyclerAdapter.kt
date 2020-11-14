@@ -16,13 +16,16 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder =
         MembersViewHolder(
-            DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_member, parent, false)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context), R.layout.item_member, parent, false
+            )
         )
 
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.binding.member = mMembersList[position]
         holder.binding.root.setOnClickListener {
-            it.findNavController().navigate(MembersFragmentDirections.showMemberEditorFragment(mMembersList[position]))
+            it.findNavController()
+                .navigate(MembersFragmentDirections.showMemberEditorFragment(mMembersList[position]))
         }
     }
 
@@ -34,5 +37,6 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
     }
 
 
-    inner class MembersViewHolder(val binding: ItemMemberBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MembersViewHolder(val binding: ItemMemberBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

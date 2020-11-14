@@ -5,10 +5,10 @@
     <string name="prayer">Малітвы</string>
     <string name="breviary">Брэвіярый</string>
     <string name="gospel">Евангелле</string>
-    <string name="song_book">Песеннік</string>
+    <string name="songbook">Песеннік</string>
     <string name="members">Члены</string>
     <string name="meetings">Сустрэчы</string>
-    <string name="retreat">Адступленне</string>
+    <string name="retreats">Адступленне</string>
     <string name="community_logo">Лагатып суполкі МФ Тау</string>
     <string name="menu_description">Меню з такімі параметрамі, як увайсці або адкрыць налады.</string>
     <string name="sign_in">Увайсці</string>
@@ -66,10 +66,22 @@
     <string name="reset_password_dialog_message">Увядзіце адрас электроннай пошты:</string>
     <string name="reset_password_error">Не ўдалося скінуць, праверце злучэнне і правільнасць адрасу!</string>
 
+    <!-- PDF STRINGS -->
+    <string name="search">Search</string>
+    <string name="scroll_up">Scroll document up</string>
+    <string name="songbook_search">Search in the songbook</string>
+    <string name="empty_search_list">Песні з гэтай фразай не знойдзены!</string>
+    <string name="empty_search_query">Калі вы хочаце знайсці песню, увядзіце запыт вышэй!</string>
+    <string name="cd_collapse_bottom_sheet">Згарнуць акно</string>
+
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Налады</string>
     <string name="night_mode_title">Начны рэжым</string>
     <string name="night_mode_summary">Уключыце начны рэжым ва ўсім прыкладанне</string>
+    <string name="repeat_gospel_title">Паўтарыце Евангелле</string>
+    <string name="repeat_gospel_summary">Паўтарыце чытанне Евангелля пасля заканчэння слуханняў</string>
+    <string name="awake_songbook_title">Заставайцеся спаць у кнізе песень</string>
+    <string name="awake_songbook_summary">Не выключайце экран на экране кнігі песень</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="invitatory">Выклік</string>

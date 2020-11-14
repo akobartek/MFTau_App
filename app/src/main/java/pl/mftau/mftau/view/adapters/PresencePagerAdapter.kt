@@ -11,7 +11,9 @@ class PresencePagerAdapter(
     private val member: Member
 ) : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    override fun getItem(position: Int): Fragment = PresenceMemberFragment.newInstance(member, position)
+    // TODO() -> ViewPager2!
+    override fun getItem(position: Int): Fragment =
+        PresenceMemberFragment.newInstance(member, position)
 
     override fun getPageTitle(position: Int): CharSequence? = names[position]
 

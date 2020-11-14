@@ -21,7 +21,9 @@ class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment) :
     private var mRetreats = listOf<Retreat>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RetreatViewHolder =
-        RetreatViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_retreat, parent, false))
+        RetreatViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_retreat, parent, false)
+        )
 
     override fun onBindViewHolder(holder: RetreatViewHolder, position: Int) =
         holder.bindView(mRetreats[position])
@@ -48,9 +50,11 @@ class RetreatRecyclerAdapter(var userType: Int, val fragment: Fragment) :
 
             itemView.setOnClickListener {
                 if (userType != MainViewModel.USER_TYPE_ADMIN)
-                    fragment.findNavController().navigate(RetreatsFragmentDirections.showDetailsFragment(retreat))
+                    fragment.findNavController()
+                        .navigate(RetreatsFragmentDirections.showDetailsFragment(retreat))
                 else
-                    fragment.findNavController().navigate(RetreatsFragmentDirections.showEditorFragment(retreat))
+                    fragment.findNavController()
+                        .navigate(RetreatsFragmentDirections.showEditorFragment(retreat))
             }
         }
     }

@@ -5,9 +5,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import pl.mftau.mftau.view.fragments.MeetingsListFragment
 
-class MeetingPagerAdapter(supportFragmentManager: FragmentManager, private val names: Array<String>) :
-    FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class MeetingPagerAdapter(
+    supportFragmentManager: FragmentManager, private val names: Array<String>
+) : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
+    // TODO() -> ViewPager2!
     override fun getItem(position: Int): Fragment = MeetingsListFragment.newInstance(position)
 
     override fun getPageTitle(position: Int): CharSequence? = names[position]

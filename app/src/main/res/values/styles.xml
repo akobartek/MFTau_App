@@ -1,38 +1,23 @@
 <resources>
 
     <!-- Light base application theme. -->
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#402222</item>
-        <item name="colorPrimaryDark">#391e1e</item>
-        <item name="colorAccent">#391e1e</item>
-        <item name="colorText">#391e1e</item>
-        <item name="colorButtonText">#000000</item>
-        <item name="colorIcons">#4e342e</item>
-        <item name="colorMenuIcons">#777777</item>
-        <item name="colorBackground">#FFFFFF</item>
-        <item name="colorListItemBackground">#FFFFFF</item>
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="logoFull">@drawable/logo_full</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="preferenceTheme">@style/PrefsTheme</item>
         <item name="alertDialogTheme">@style/Widget.MFTau.Dialog</item>
     </style>
 
     <!-- Dark base application theme. -->
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#28292e</item>
-        <item name="colorPrimaryDark">#28292e</item>
-        <item name="colorAccent">#FFFFFF</item>
-        <item name="colorText">#FFFFFF</item>
-        <item name="colorButtonText">#FFFFFF</item>
-        <item name="colorIcons">#FFFFFF</item>
-        <item name="colorMenuIcons">#FFFFFF</item>
-        <item name="colorBackground">#28292e</item>
-        <item name="colorListItemBackground">#232428</item>
+    <style name="AppTheme.Dark" parent="AppTheme.Light">
         <item name="logoFull">@drawable/logo_full_white</item>
         <item name="colorControlNormal">#FFFFFF</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="actionOverflowButtonStyle">@style/Widget.MFTau.OverflowButtonStyle</item>
-        <item name="alertDialogTheme">@style/Widget.MFTau.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/Widget.MFTau.Dialog</item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.MFTau.Dialog</item>
         <item name="android:itemBackground">#232428</item>
@@ -41,16 +26,36 @@
         <item name="android:textColorTertiary">#FFFFFF</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+    <style name="PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:layout">@layout/fragment_preferences</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="Theme.MaterialComponents.DayNight" />
 
     <style name="Widget.MFTau.OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">#FFFFFF</item>
     </style>
 
-    <style name="Widget.MFTau.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="Widget.MFTau.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorAccent">#28292e</item>
+        <item name="colorSecondary">#28292e</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?colorError</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="TextAppearance.MFTau.Dialog" parent="@android:style/TextAppearance.Large">
@@ -72,7 +77,43 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/mffont</item>
-        <item name="android:textColor">?attr/colorButtonText</item>
+        <item name="android:textColor">@color/colorButtonText</item>
     </style>
 
+    <style name="MFTauToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">@color/colorBackground</item>
+        <item name="layout_scrollFlags">enterAlways</item>
+        <item name="navigationIcon">@drawable/ic_arrow_back</item>
+        <item name="popupTheme">@style/AppTheme.PopupOverlay</item>
+    </style>
+
+    <style name="MFTauToolbarTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:fontFamily">@font/mffont</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="MFTauEmptyView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginEnd">60dp</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorIcons</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="MFTauLoadingIndicator">
+        <item name="android:layout_width">42dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:indeterminateTint">@color/colorAccent</item>
+    </style>
 </resources>

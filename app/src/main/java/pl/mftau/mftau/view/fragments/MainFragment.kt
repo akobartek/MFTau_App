@@ -1,12 +1,16 @@
 package pl.mftau.mftau.view.fragments
 
 
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,20 +20,18 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
+import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 import pl.mftau.mftau.viewmodel.MainViewModel
-import android.graphics.Color
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.ViewModelProvider
 
 class MainFragment : Fragment() {
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAuth: FirebaseAuth
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_main, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_main, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,7 +76,7 @@ class MainFragment : Fragment() {
 
     private fun setOnClickListeners() {
         view?.menuBtn?.setOnClickListener {
-            val popupMenu = PopupMenu(context, view!!.menuBtn)
+            val popupMenu = PopupMenu(context, requireView().menuBtn)
 
             if (FirebaseAuth.getInstance().currentUser != null)
                 popupMenu.menuInflater.inflate(R.menu.menu_main_out, popupMenu.menu)
@@ -111,11 +113,11 @@ class MainFragment : Fragment() {
         }
 
         view?.songBook?.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.showPdfFragment("songBook"))
+            findNavController().navigate(MainFragmentDirections.showPdfFragment("songbook"))
         }
 
         view?.breviary?.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.showListFragment("breviary"))
+            findNavController().navigate(MainFragmentDirections.showBreviaryFragment("breviary"))
         }
 
         view?.gospel?.setOnClickListener {
@@ -139,16 +141,18 @@ class MainFragment : Fragment() {
         }
 
         view?.prayerBook?.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.showListFragment("prayer"))
+            findNavController().navigate(MainFragmentDirections.showPrayerFragment("prayer"))
         }
 
         view?.website?.setOnClickListener {
-            if (context!!.isChromeCustomTabsSupported()) {
+            if (requireContext().isChromeCustomTabsSupported()) {
                 CustomTabsIntent.Builder().apply {
-                    val color = if (mViewModel.isNightMode) Color.parseColor("#28292e") else Color.WHITE
+                    val color =
+                        if (PreferencesManager.getNightMode()) Color.parseColor("#28292e")
+                        else Color.WHITE
                     setToolbarColor(color)
                     setSecondaryToolbarColor(color)
-                }.build().launchUrl(context, Uri.parse("http://mftau.pl/"))
+                }.build().launchUrl(requireContext(), Uri.parse("http://mftau.pl/"))
             } else {
                 findNavController().navigate(MainFragmentDirections.showWebsiteFragment("http://mftau.pl/"))
             }

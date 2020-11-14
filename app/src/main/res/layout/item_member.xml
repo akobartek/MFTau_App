@@ -8,7 +8,7 @@
             type="pl.mftau.mftau.model.Member" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/itemView"
@@ -23,7 +23,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="?attr/colorListItemBackground">
+            android:background="@color/colorListItemBackground">
 
             <ImageView
                 android:id="@+id/memberPhoto"
@@ -48,12 +48,12 @@
                 android:maxLines="2"
                 android:text="@{member.name}"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="?attr/colorText"
+                android:textColor="@color/colorText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/memberPhoto"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Bartosz Tkaczyk" />
+                tools:text="@tools:sample/full_names" />
 
             <TextView
                 android:id="@+id/memberCity"
@@ -62,11 +62,11 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@{member.city}"
-                android:textColor="?attr/colorText"
+                android:textColor="@color/colorText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Skomielna Czarna" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

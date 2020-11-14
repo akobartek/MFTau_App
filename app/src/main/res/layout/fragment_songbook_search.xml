@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackground"
+    tools:context=".view.fragments.SongbookSearchFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/searchToolbar"
+            style="@style/MFTauToolbar">
+
+            <TextView
+                android:id="@+id/searchToolbarTitle"
+                style="@style/MFTauToolbarTitle"
+                tools:text="@string/songbook_search" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/content_songbook_search" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/songBottomSheet"
+        android:name="pl.mftau.mftau.view.fragments.SongBottomSheetFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
+        android:elevation="100dp"
+        app:behavior_hideable="true"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:layout="@layout/fragment_song_bottom_sheet" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
