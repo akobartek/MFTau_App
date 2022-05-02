@@ -36,7 +36,9 @@ android {
         jvmTarget = "1.8"
     }
     packagingOptions {
-        exclude 'META-INF/atomicfu.kotlin_module'
+        resources {
+            excludes += ['META-INF/atomicfu.kotlin_module']
+        }
     }
 }
 
@@ -108,11 +110,11 @@ dependencies {
     implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1"
 
     // JSoup library
-    implementation "org.jsoup:jsoup:1.12.1"
+    implementation "org.jsoup:jsoup:1.13.1"
 
     // Tests
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    testImplementation "junit:junit:4.12"
+    testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test:runner:1.4.0"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
 }
