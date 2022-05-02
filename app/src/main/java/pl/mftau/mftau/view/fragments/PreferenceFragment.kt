@@ -16,9 +16,9 @@ class PreferenceFragment : PreferenceFragmentCompat() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val root = super.onCreateView(inflater, container, savedInstanceState)
-        root?.findViewById<Toolbar>(R.id.preferencesToolbar)
+        root.findViewById<Toolbar>(R.id.preferencesToolbar)
             ?.setNavigationOnClickListener { findNavController().navigateUp() }
         return root
     }

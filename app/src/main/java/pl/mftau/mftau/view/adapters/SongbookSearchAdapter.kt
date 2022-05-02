@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_song_search.view.*
 import pl.mftau.mftau.R
 import pl.mftau.mftau.utils.SongbookUtils
-import java.util.*
 
 class SongbookSearchAdapter(
     val emptyView: TextView, val showBottomSheet: (Int) -> Unit
@@ -29,7 +28,7 @@ class SongbookSearchAdapter(
     )
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) =
-        holder.bindView(mResults[position])
+        holder.bindView(mResults.getOrNull(position))
 
     override fun getItemCount(): Int = mResults.size
 
@@ -37,7 +36,7 @@ class SongbookSearchAdapter(
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
                 mQuery = charSequence.toString()
-                val searchQuery = mQuery.toLowerCase(Locale.ROOT)
+                val searchQuery = mQuery.lowercase()
                 mResults =
                     if (mQuery.isEmpty()) listOf()
                     else {
@@ -45,8 +44,8 @@ class SongbookSearchAdapter(
                         for (index in SongbookUtils.songTitles.indices) {
                             val title = SongbookUtils.songTitles[index]
                             val text = SongbookUtils.songs[index]
-                            if (title.toLowerCase(Locale.ROOT).contains(searchQuery) ||
-                                text.toLowerCase(Locale.ROOT).contains(searchQuery)
+                            if (title.lowercase().contains(searchQuery) ||
+                                text.lowercase().contains(searchQuery)
                             ) filteredList.add(Pair(title, text))
                         }
                         filteredList
@@ -73,9 +72,11 @@ class SongbookSearchAdapter(
     }
 
     inner class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(song: Pair<String, String>) {
+        fun bindView(song: Pair<String, String>?) {
+            if (song == null) return
+
             val songTitle = SpannableString(song.first)
-            val searchTitle = song.first.toLowerCase(Locale.ROOT)
+            val searchTitle = song.first.lowercase()
             if (searchTitle.contains(mQuery))
                 songTitle.setSpan(
                     BackgroundColorSpan(Color.RED),
@@ -86,7 +87,7 @@ class SongbookSearchAdapter(
 
             val textLines = SpannableStringBuilder()
             song.second.split("\n").forEach {
-                val line = it.toLowerCase(Locale.ROOT)
+                val line = it.lowercase()
                 if (line.contains(mQuery)) {
                     val spannable = SpannableString(it + "\n")
                     spannable.setSpan(

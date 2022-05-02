@@ -9,7 +9,7 @@ object SongbookUtils {
                 "2. Ufam Tobie,\nChciej wysłuchać mojej skargi i wołania.\nOdsuń kielich,\n" +
                 "Lecz nie moja wola - Twoja niech się stanie,\nOjcze mój!\n\n" +
                 "3. Ratuj mnie,\nWzmocnij swoją łaską słabą duszę moją.\nZabierz kamień,\n" +
-                "Który wiąże mnie, obciąża moje serce,\nOjcze mój! Ojcze mój!\n",
+                "Który wiąże mnie, obciąża moje serce,\nOjcze mój! Ojcze mój!\n\n",
         "1. Abba Ojcze, tchnij w nas Ducha, Jezu chwała Ci!\nAbba Ojcze, tchnij w nas Ducha, Jezu chwała Ci!\n\n" +
                 "Ref. Chwała, Alleluja! Jezu chwała Ci!\nChwała, Alleluja! Jezu chwała Ci!\n\n" +
                 "2. Ja dam wszystkim wodę życia, Jezu chwała Ci! /x2\n\n" +
@@ -18,7 +18,7 @@ object SongbookUtils {
                 "5. Przyjdźcie dzieci, Jam jest Prawdą, Jezu chwała Ci! /x2\n\n" +
                 "6. Jam wasz Pasterz, was powiodę, Jezu chwała Ci! /x2\n\n" +
                 "7. Pokój Mój wam dzisiaj daję, Jezu chwała Ci! /x2\n\n" +
-                "8. Jam jest Życiem, Zmartwychwstaniem, Jezu chwała Ci! /x2\n",
+                "8. Jam jest Życiem, Zmartwychwstaniem, Jezu chwała Ci! /x2\n\n",
         "Ref. Aby byli jedno, muszą wydać życie.\nAby byli jedno, muszą życie dać.\n\n" +
                 "1. Tajemnica wielka pociąga ich\ni w komunię pragną wejść.\n" +
                 "Jak złamać ten lęk, co wrogiem jest:\nCzemu pragną i boją się.\n\n" +
@@ -29,7 +29,7 @@ object SongbookUtils {
         "1. Abyśmy byli jedno, błagamy Cię, Ojcze nasz.\nAbyśmy byli jedno, błagamy Cię, Ojcze nasz.\n\n" +
                 "Ref. Uczyń wszystkich nas\nnarzędziem Twego pokoju,\naby miłość Twa mieszkała w każdym z nas.\n\n" +
                 "2. Zachowaj nas od złego, - błagamy Cię, Ojcze nasz. /2x\n\n" +
-                "3. Uświęć nas w prawdzie, - błagamy Cię, Ojcze nasz.  /2x\n\n",
+                "3. Uświęć nas w prawdzie, - błagamy Cię, Ojcze nasz. /2x\n\n",
         "Spojrzenie Twe, rozkoszy żar.\nPrzenikaj mnie, wytrwajmy tak.\n" +
                 "Opromień mnie, zatańczyć chcę,\nporywaj wciąż, uwielbiam Cię.\n\n" +
                 "Gdy łaskę dasz, mogę tańczyć jak wiatr.\nGdy łaskę dasz, mogę śpiewać i grać.\n" +
@@ -1237,10 +1237,12 @@ object SongbookUtils {
         "Królowo Nieba, wesel się,\nAlleluja, Alleluja!\nBo Ten, któregoś nosiła, Maryjo,\nAlleluja, Alleluja.\n" +
                 "Zmartwychpowstał, jak powiedział,\nAlleluja, Alleluja./x2\nBłagaj za nami Boga,\nAlleluja, Alleluja,\n" +
                 "Alleluja, Alleluja.\nZmartwychpowstał, jak powiedział,\nAlleluja, Alleluja./x2\n\n",
-        "1. Krzyż jest drogą mego zbawienia,\nKażde cierpienie oczyszcza mnie.\nTrudność w drodze, upokorzenie\n" +
+        "1. Krzyż jest źródłem mego zbawienia.\nJezus obmył mnie swoją Krwią,\nOn uleczy moje zranienia.\nKrzyż Jezusa nadzieją mą.\n" +
+                "Me szaty jaśnieją jak śnieg,\nObmyła je Baranka Krew,\nOna gładzi wszelki grzech,\nBaranka Krew.\n\n" +
+                "2. Krzyż jest drogą mego zbawienia,\nKażde cierpienie oczyszcza mnie.\nTrudność w drodze, upokorzenie\n" +
                 "Błogosławieństwem w Krzyżu jest.\nOdważnie więc śpiewam tę pieśń.\nZnam drogę, bym wolnym mógł być:\n" +
                 "Trzeba umrzeć, aby żyć!\nTrzeba życie dać!\n\n" +
-                "2. Krzyż jest znakiem mego zbawienia.\nMiłość Boża rozświetla świat,\nTą miłością pragnę świecić.\n" +
+                "3. Krzyż jest znakiem mego zbawienia.\nMiłość Boża rozświetla świat,\nTą miłością pragnę świecić.\n" +
                 "Swoje życie w ofierze dać.\nChcę milczeć, gdy spotka mnie zło\nI w sercu Jezusa się skryć.\n" +
                 "Chcę miłością w świecie być!\nChcę miłością być!\n\n",
         "1. Krzyżu Chrystusa, bądźże pochwalony,\nna wieczne czasy bądźże pozdrowiony.\nGdzie Bóg, Król świata całego,\ndokonał życia swojego.\n\n" +

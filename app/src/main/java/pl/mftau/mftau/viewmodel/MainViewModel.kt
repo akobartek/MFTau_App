@@ -262,7 +262,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun checkBreviaryNightMode(type: Int): String? {
+    private fun checkBreviaryNightMode(type: Int): String {
         return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
                     "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
@@ -272,7 +272,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     "</body></html>"
             result.replace("black", "white")
         } else {
-            breviaryHtml[type]
+            breviaryHtml[type] ?: ""
         }
     }
     // endregion BreviaryFragment
@@ -331,7 +331,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         return "http://niezbednik.niedziela.pl/liturgia/$year-$month-$day/"
     }
 
-    private fun checkGospelNightMode(): String? {
+    private fun checkGospelNightMode(): String {
         return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
                     "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
@@ -341,7 +341,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
                     "</body></html>"
             result.replace("black", "white")
         } else {
-            gospelHtml
+            gospelHtml ?: ""
         }
     }
     // endregion GospelFragment

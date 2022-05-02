@@ -71,6 +71,8 @@ class SongbookSearchFragment : Fragment() {
 
         mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                if (::mSongBottomSheetBehavior.isInitialized && mSongBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 mViewModel.query.postValue(query)
                 return false
             }

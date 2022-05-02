@@ -31,7 +31,7 @@ class MySliceProvider : SliceProvider() {
         return null
     }
 
-    private fun createBreviarySlice(sliceUri: Uri): Slice? {
+    private fun createBreviarySlice(sliceUri: Uri): Slice {
         return list(context!!, sliceUri, INFINITY) {
             row {
                 title = context!!.getString(R.string.breviary)
@@ -52,7 +52,7 @@ class MySliceProvider : SliceProvider() {
                     )
                 }, 0
             ),
-            IconCompat.createWithResource(context, R.drawable.shortcut_ic_breviary),
+            IconCompat.createWithResource(context!!, R.drawable.shortcut_ic_breviary),
             ListBuilder.ICON_IMAGE,
             "Open Breviary."
         )
