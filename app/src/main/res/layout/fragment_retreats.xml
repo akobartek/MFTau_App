@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.fragments.RetreatsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -33,5 +33,6 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/add_retreat"
         android:src="@drawable/ic_plus" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

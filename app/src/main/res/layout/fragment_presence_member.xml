@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.fragments.PresenceMemberFragment">
 
     <com.github.mikephil.charting.charts.PieChart
@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorBackground"
+        android:background="?attr/colorBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".4"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:indeterminateTint="@color/colorAccent"
+        android:indeterminateTint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,5 +51,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:drawableTopCompat="@drawable/ic_no_meetings" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

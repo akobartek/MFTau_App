@@ -5,7 +5,7 @@
     android:id="@+id/addMemberLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.MemberEditorFragment">
 
@@ -27,8 +27,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="16dp"
-        android:textColorHint="@color/colorAccent"
-        app:boxBackgroundColor="@color/colorBackground"
+        android:hint="@string/member_name"
         app:layout_constraintBottom_toTopOf="@+id/responsibleSwitch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addMemberPhoto">
@@ -37,9 +36,8 @@
             android:id="@+id/memberNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/member_name"
-            android:inputType="textPersonName|textCapWords"
-            android:textColor="@color/colorText" />
+            android:backgroundTint="?attr/colorAccent"
+            android:inputType="textPersonName|textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -49,10 +47,10 @@
         android:layout_marginStart="28dp"
         android:text="@string/is_responsible"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="@+id/addMemberPhoto"
+        android:textColor="?attr/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="@+id/responsibleSwitch"
         app:layout_constraintStart_toEndOf="@+id/addMemberPhoto"
-        app:layout_constraintTop_toTopOf="@+id/addMemberPhoto" />
+        app:layout_constraintTop_toTopOf="@+id/responsibleSwitch" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/responsibleSwitch"
@@ -63,7 +61,8 @@
         android:textOff="@string/no"
         android:textOn="@string/yes"
         app:layout_constraintStart_toEndOf="@id/responsibleTextView"
-        app:layout_constraintTop_toTopOf="@+id/responsibleTextView" />
+        app:layout_constraintBottom_toBottomOf="@+id/addMemberPhoto"
+        app:layout_constraintTop_toTopOf="@+id/addMemberPhoto" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputLayout"
@@ -72,8 +71,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="28dp"
-        android:textColorHint="@color/colorAccent"
-        app:boxBackgroundColor="@color/colorBackground"
+        android:hint="@string/city"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addMemberPhoto"
         app:layout_constraintTop_toBottomOf="@id/responsibleSwitch">
@@ -82,8 +80,7 @@
             android:id="@+id/cityET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/city"
-            android:inputType="textCapWords"
-            android:textColor="@color/colorText" />
+            android:backgroundTint="?attr/colorAccent"
+            android:inputType="textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/colorListItemBackground">
+            android:background="?attr/colorListItemBackground">
 
             <ImageView
                 android:id="@+id/memberPhoto"
@@ -48,7 +48,7 @@
                 android:maxLines="2"
                 android:text="@{member.name}"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorText"
+                android:textColor="?attr/colorText"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/memberPhoto"
@@ -62,7 +62,7 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@{member.city}"
-                android:textColor="@color/colorText"
+                android:textColor="?attr/colorText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Skomielna Czarna" />

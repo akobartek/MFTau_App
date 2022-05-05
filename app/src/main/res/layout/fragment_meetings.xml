@@ -5,13 +5,13 @@
     android:id="@+id/meetingsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.fragments.MeetingsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="?attr/colorBackground"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -28,11 +28,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBackground"
-            app:tabIndicatorColor="@color/colorText"
+            android:background="?attr/colorBackground"
+            app:tabIndicatorColor="?attr/colorText"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TextAppearance.MFTau.Tab"
-            app:tabTextColor="@color/colorText" />
+            app:tabTextColor="?attr/colorText" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -48,5 +48,6 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/add_meeting"
         android:src="@drawable/ic_plus" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

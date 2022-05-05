@@ -12,7 +12,7 @@
         android:id="@+id/swipeItemLayout"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@color/colorAccent">
+        android:background="?attr/colorAccent">
 
         <ImageView
             android:id="@+id/absenceBtn"
@@ -28,7 +28,7 @@
         android:id="@+id/itemLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/colorBackground">
+        android:background="?attr/colorBackground">
 
         <ImageView
             android:id="@+id/memberPhoto"
@@ -51,7 +51,7 @@
             android:fontFamily="sans-serif-light"
             android:maxLines="2"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorText"
+            android:textColor="?attr/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/isPresentCheckBox"
             app:layout_constraintStart_toEndOf="@+id/memberPhoto"

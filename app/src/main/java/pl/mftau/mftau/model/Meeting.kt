@@ -3,7 +3,7 @@ package pl.mftau.mftau.model
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
-import java.text.SimpleDateFormat
+import pl.mftau.mftau.utils.getDateFormatted
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -18,6 +18,5 @@ data class Meeting(
     var absenceList: HashMap<String, String> = HashMap()
 ) : Parcelable {
 
-    fun getDateFormatted(): String =
-        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date.toDate())
+    fun getDateFormatted(): String = date.toDate().getDateFormatted()
 }

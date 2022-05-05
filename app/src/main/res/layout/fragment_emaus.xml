@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     tools:context=".view.fragments.EmausFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,7 +31,7 @@
         android:id="@+id/circularRevealView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
+        android:background="?attr/colorAccent"
         android:visibility="invisible">
 
         <ImageView
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="40dp"
+        android:contentDescription="@string/emauses"
         android:src="@drawable/ic_dice"
         app:fabSize="normal" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
