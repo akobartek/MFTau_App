@@ -16,6 +16,8 @@
             style="@style/MFTauToolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_login" />
+    <include
+        android:id="@+id/contentLogin"
+        layout="@layout/content_login" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

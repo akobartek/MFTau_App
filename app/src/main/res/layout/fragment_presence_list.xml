@@ -22,5 +22,7 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_presence_list" />
+    <include
+        android:id="@+id/contentPresenceList"
+        layout="@layout/content_presence_list" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

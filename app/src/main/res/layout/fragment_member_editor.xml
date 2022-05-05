@@ -22,7 +22,9 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_member_editor" />
+    <include
+        android:id="@+id/contentMemberEditor"
+        layout="@layout/content_member_editor" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveMemberBtn"

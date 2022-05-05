@@ -23,7 +23,9 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_emaus" />
+    <include
+        android:id="@+id/contentEmaus"
+        layout="@layout/content_emaus" />
 
     <FrameLayout
         android:id="@+id/circularRevealView"

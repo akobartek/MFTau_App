@@ -1,62 +1,58 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.content_retreat_details.view.*
-import kotlinx.android.synthetic.main.dialog_retreat_register.view.*
-import kotlinx.android.synthetic.main.fragment_retreat_details.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.DialogRetreatRegisterBinding
+import pl.mftau.mftau.databinding.FragmentRetreatDetailsBinding
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.util.*
 
-class RetreatDetailsFragment : Fragment() {
+class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() {
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mRetreat: Retreat
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_retreat_details, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentRetreatDetailsBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.retreatDetailsToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        inflateToolbarMenu(binding.retreatDetailsToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
         arguments?.let {
             mRetreat = RetreatDetailsFragmentArgs.fromBundle(it).retreat
-            view.retreatDetailsToolbarTitle.text = mRetreat.name
-            view.retreatNameET.setText(mRetreat.name)
-            view.retreatCityET.setText(mRetreat.city)
-            view.retreatAddressET.setText(mRetreat.address)
-            view.retreatPriceET.setText(mRetreat.price.toString())
-            view.beginDateText.setText(mRetreat.beginDate.toDate().getDateFormatted())
-            view.endDateText.setText(mRetreat.endDate.toDate().getDateFormatted())
-            view.retreatTypeET.setText(resources.getStringArray(R.array.retreat_types)[mRetreat.retreatType])
+            binding.retreatDetailsToolbarTitle.text = mRetreat.name
+            with(binding.contentRetreatDetails) {
+                retreatNameET.setText(mRetreat.name)
+                retreatCityET.setText(mRetreat.city)
+                retreatAddressET.setText(mRetreat.address)
+                retreatPriceET.setText(mRetreat.price.toString())
+                beginDateText.setText(mRetreat.beginDate.toDate().getDateFormatted())
+                endDateText.setText(mRetreat.endDate.toDate().getDateFormatted())
+                retreatTypeET.setText(resources.getStringArray(R.array.retreat_types)[mRetreat.retreatType])
+            }
         }
 
         if (mRetreat.registerLimitDate.toDate() < Date())
-            view.registerBtn.hide()
+            binding.registerBtn.hide()
 
-        view.registerBtn.setOnClickListener {
+        binding.registerBtn.setOnClickListener {
             showRegisterDialog()
         }
     }
@@ -90,29 +86,29 @@ class RetreatDetailsFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showRegisterDialog() {
-        val dialogView =
-            LayoutInflater.from(context).inflate(R.layout.dialog_retreat_register, null)
+        val dialogBinding = DialogRetreatRegisterBinding.inflate(layoutInflater)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setTitle(R.string.retreat_register_title)
             .setMessage(R.string.retreat_register_msg)
-            .setView(dialogView)
+            .setView(dialogBinding.root)
             .setCancelable(false)
             .setPositiveButton(getString(R.string.send), null)
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             .create()
 
+
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                if (dialogView.registerNameET.text.isNullOrBlank()) {
-                    dialogView.registerNameET.error = getString(R.string.empty_name_error)
+                if (dialogBinding.registerNameET.text.isNullOrBlank()) {
+                    dialogBinding.registerNameET.error = getString(R.string.empty_name_error)
                     return@setOnClickListener
                 } else {
                     dialog.dismiss()
                     if (mRetreat.advancePayment) {
-                        showAdvancePaymentDialog(dialogView.registerNameET.text.toString().trim())
+                        showAdvancePaymentDialog(dialogBinding.registerNameET.text.toString().trim())
                     } else {
-                        sendRegisterEmail(dialogView.registerNameET.text.toString().trim())
+                        sendRegisterEmail(dialogBinding.registerNameET.text.toString().trim())
                     }
                 }
             }

@@ -22,7 +22,9 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_retreats" />
+    <include
+        android:id="@+id/contentRetreats"
+        layout="@layout/content_retreats" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addRetreatBtn"

@@ -1,18 +1,15 @@
 package pl.mftau.mftau.view.adapters
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import pl.mftau.mftau.view.fragments.MeetingsListFragment
 
-class MeetingPagerAdapter(
-    supportFragmentManager: FragmentManager, private val names: Array<String>
-) : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class MeetingPagerAdapter(fragment: Fragment, private val names: Array<String>) : FragmentStateAdapter(fragment) {
 
-    // TODO() -> ViewPager2!
-    override fun getItem(position: Int): Fragment = MeetingsListFragment.newInstance(position)
+    override fun createFragment(position: Int): Fragment =
+        MeetingsListFragment.newInstance(position)
 
-    override fun getPageTitle(position: Int): CharSequence? = names[position]
+    override fun getItemCount(): Int = 3
 
-    override fun getCount(): Int = 3
+    fun getTabTitle(position: Int) = names[position]
 }

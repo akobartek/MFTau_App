@@ -1,47 +1,47 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_meetings.view.*
+import com.google.android.material.tabs.TabLayoutMediator
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentMeetingsBinding
 import pl.mftau.mftau.view.adapters.MeetingPagerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 
-class MeetingsFragment : Fragment() {
+class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: MeetingPagerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_meetings, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMeetingsBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.meetingsToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        inflateToolbarMenu(binding.meetingsToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
 
         mAdapter = MeetingPagerAdapter(
-            childFragmentManager, resources.getStringArray(R.array.meeting_types)
+            this@MeetingsFragment, resources.getStringArray(R.array.meeting_types)
         )
-        view.viewPager.adapter = mAdapter
-        view.viewPager.currentItem = 0
-        view.viewPager.offscreenPageLimit = 3
-        view.tabLayout.setupWithViewPager(view.viewPager)
+        binding.viewPager.apply {
+            adapter = mAdapter
+            currentItem = 0
+            offscreenPageLimit = 3
+        }
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = mAdapter.getTabTitle(position)
+        }
 
-        view.addMeetingBtn.setOnClickListener {
+        binding.addMeetingBtn.setOnClickListener {
             findNavController().navigate(MeetingsFragmentDirections.showMeetingEditorFragment(null))
         }
     }
@@ -80,7 +80,7 @@ class MeetingsFragment : Fragment() {
     private fun clearMeetings() {
         mViewModel.clearMeetings()
         Snackbar.make(
-            requireView().meetingsLayout,
+            binding.meetingsLayout,
             getString(R.string.delete_meetings_successfully),
             Snackbar.LENGTH_SHORT
         ).show()

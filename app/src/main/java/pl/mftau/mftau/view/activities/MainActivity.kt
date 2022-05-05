@@ -4,18 +4,18 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.android.synthetic.main.activity_main.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.ActivityMainBinding
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.checkNetworkConnection
 import pl.mftau.mftau.utils.hideKeyboard
@@ -24,6 +24,7 @@ import pl.mftau.mftau.view.fragments.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var mAuth: FirebaseAuth
     private var currentFragmentId = 0
 
@@ -31,17 +32,19 @@ class MainActivity : AppCompatActivity() {
         if (PreferencesManager.getNightMode()) {
             setTheme(R.style.AppTheme_Dark)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            window.decorView.systemUiVisibility = 0
         } else {
             setTheme(R.style.AppTheme_Light)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
         if (!PreferencesManager.getNightMode() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            val wic = WindowInsetsControllerCompat(window, window.decorView)
+            wic.isAppearanceLightStatusBars = true
+            wic.isAppearanceLightNavigationBars = true
             window.statusBarColor = Color.WHITE
         }
 
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         if (mAuth.currentUser != null)
             FirebaseCrashlytics.getInstance().setUserId(mAuth.currentUser!!.uid)
 
-        (navHostFragment as NavHostFragment? ?: return).navController
+        (binding.navHostFragment.getFragment<NavHostFragment>()).navController
             .addOnDestinationChangedListener { _, destination, _ ->
                 currentFragmentId = destination.id
 

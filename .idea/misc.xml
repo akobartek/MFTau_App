@@ -5,6 +5,33 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/activity_main.xml" value="0.1337386018237082" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_member_editor.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_retreat_editor.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_email.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_emaus.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_login.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_meeting.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_meeting_editor.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_meetings.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_member_editor.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_members.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_presence_check.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_presence_details.xml" value="0.1" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_presence_list.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_retreat_details.xml" value="0.40129749768303985" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_retreat_editor.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_retreats.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_bottom_sheet.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_songbook_search.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/item_meeting.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/item_presence_show.xml" value="0.3763586956521739" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

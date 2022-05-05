@@ -1,8 +1,6 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -15,38 +13,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.content_email.view.*
-import kotlinx.android.synthetic.main.fragment_email.view.*
 import pl.mftau.mftau.R
-import pl.mftau.mftau.utils.PreferencesManager
-import pl.mftau.mftau.utils.hideKeyboard
-import pl.mftau.mftau.utils.isChromeCustomTabsSupported
-import pl.mftau.mftau.utils.isValidEmail
+import pl.mftau.mftau.databinding.FragmentEmailBinding
+import pl.mftau.mftau.utils.*
 
-
-class EmailFragment : Fragment() {
+class EmailFragment : BindingFragment<FragmentEmailBinding>() {
 
     private lateinit var mMailType: String
 
     private val emailAddresses = arrayOf("modlitwa@mftau.pl", "sokolowskijbartek@gmail.com")
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_email, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentEmailBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.emailToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+    override fun setup(savedInstanceState: Bundle?) {
+        binding.emailToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         arguments?.let {
             mMailType = EmailFragmentArgs.fromBundle(it).emailType
-            view.emailToolbarTitle.text = when (mMailType) {
+            binding.emailToolbarTitle.text = when (mMailType) {
                 "pray" -> getString(R.string.ask_for_pray)
                 "error" -> {
-                    view.emailIntentionInputLayout.hint = getString(R.string.error_description)
+                    binding.contentEmail.emailIntentionInputLayout.hint =
+                        getString(R.string.error_description)
                     getString(R.string.report_error)
                 }
                 else -> ""
@@ -57,11 +47,11 @@ class EmailFragment : Fragment() {
                 if (mMailType == "error") getString(R.string.report_error) else getString(R.string.ask_for_pray)
         }
 
-        view.sendMailBtn?.setOnClickListener {
-            if (view.rodoCheckBox.isChecked) sendMail()
+        binding.sendMailBtn.setOnClickListener {
+            if (binding.contentEmail.rodoCheckBox.isChecked) sendMail()
             else showRodoDialog()
         }
-        view.emailLayout.setOnClickListener { requireActivity().hideKeyboard() }
+        binding.contentEmail.emailLayout.setOnClickListener { requireActivity().hideKeyboard() }
 
 
         val rodoSrodo = getString(R.string.rodo_srodo)
@@ -69,16 +59,8 @@ class EmailFragment : Fragment() {
         val ss = SpannableString(rodoSrodo)
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                if (context!!.isChromeCustomTabsSupported()) {
-                    CustomTabsIntent.Builder().apply {
-                        val color =
-                            if (PreferencesManager.getNightMode()) Color.parseColor("#28292e")
-                            else Color.WHITE
-                        setToolbarColor(color)
-                        setSecondaryToolbarColor(color)
-                    }.build().launchUrl(
-                        requireContext(), Uri.parse("http://mftau.pl/polityka-prywatnosci/")
-                    )
+                if (requireContext().isChromeCustomTabsSupported()) {
+                    requireContext().openWebsiteInChromeCustomTabs("http://mftau.pl/polityka-prywatnosci/")
                 } else {
                     findNavController().navigate(MainFragmentDirections.showWebsiteFragment("http://mftau.pl/polityka-prywatnosci/"))
                 }
@@ -97,8 +79,8 @@ class EmailFragment : Fragment() {
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        view.privacyPolicyTV.text = ss
-        view.privacyPolicyTV.movementMethod = LinkMovementMethod.getInstance()
+        binding.contentEmail.privacyPolicyTV.text = ss
+        binding.contentEmail.privacyPolicyTV.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun showRodoDialog() =
@@ -114,19 +96,20 @@ class EmailFragment : Fragment() {
     private fun sendMail() {
         var isValid = true
 
-        val name = view?.emailNameET?.text
+        val name = binding.contentEmail.emailNameET.text
         if (name.isNullOrEmpty()) {
-            view?.emailNameET?.error = getString(R.string.empty_email_name_error)
+            binding.contentEmail.emailNameET.error = getString(R.string.empty_email_name_error)
             isValid = false
         }
-        val emailAddress = view?.emailAdressET?.text.toString().trim()
+        val emailAddress = binding.contentEmail.emailAdressET.text.toString().trim()
         if (!emailAddress.isValidEmail()) {
-            view?.emailAdressET?.error = getString(R.string.email_error)
+            binding.contentEmail.emailAdressET.error = getString(R.string.email_error)
             isValid = false
         }
-        val intention = view?.emailIntentionET?.text
+        val intention = binding.contentEmail.emailIntentionET.text
         if (intention.isNullOrEmpty()) {
-            view?.emailIntentionET?.error = getString(R.string.empty_email_intention_error)
+            binding.contentEmail.emailIntentionET.error =
+                getString(R.string.empty_email_intention_error)
             isValid = false
         }
 

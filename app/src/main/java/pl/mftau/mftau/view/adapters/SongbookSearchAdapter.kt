@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.adapters
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
@@ -12,68 +13,26 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_song_search.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.ItemSongSearchBinding
 import pl.mftau.mftau.utils.SongbookUtils
 
 class SongbookSearchAdapter(
     val emptyView: TextView, val showBottomSheet: (Int) -> Unit
 ) : RecyclerView.Adapter<SongbookSearchAdapter.SongViewHolder>(), Filterable {
 
+    inner class SongViewHolder(val binding: ItemSongSearchBinding) : RecyclerView.ViewHolder(binding.root)
+
     private var mResults = listOf<Pair<String, String>>()
     private var mQuery = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SongViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_song_search, parent, false)
+        ItemSongSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    override fun onBindViewHolder(holder: SongViewHolder, position: Int) =
-        holder.bindView(mResults.getOrNull(position))
-
-    override fun getItemCount(): Int = mResults.size
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(charSequence: CharSequence?): FilterResults {
-                mQuery = charSequence.toString()
-                val searchQuery = mQuery.lowercase()
-                mResults =
-                    if (mQuery.isEmpty()) listOf()
-                    else {
-                        val filteredList = arrayListOf<Pair<String, String>>()
-                        for (index in SongbookUtils.songTitles.indices) {
-                            val title = SongbookUtils.songTitles[index]
-                            val text = SongbookUtils.songs[index]
-                            if (title.lowercase().contains(searchQuery) ||
-                                text.lowercase().contains(searchQuery)
-                            ) filteredList.add(Pair(title, text))
-                        }
-                        filteredList
-                    }
-                val filterResults = FilterResults()
-                filterResults.values = mResults
-                return filterResults
-            }
-
-            override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
-                @Suppress("UNCHECKED_CAST")
-                mResults = results?.values as List<Pair<String, String>>? ?: listOf()
-                emptyView.apply {
-                    visibility = if (mResults.isEmpty()) View.VISIBLE else View.INVISIBLE
-                    text =
-                        this.context.getString(
-                            if (mQuery.isEmpty()) R.string.empty_search_query
-                            else R.string.empty_search_list
-                        )
-                }
-                notifyDataSetChanged()
-            }
-        }
-    }
-
-    inner class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(song: Pair<String, String>?) {
-            if (song == null) return
+    override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
+        with(holder.binding) {
+            val song = mResults.getOrNull(position) ?: return
 
             val songTitle = SpannableString(song.first)
             val searchTitle = song.first.lowercase()
@@ -100,11 +59,53 @@ class SongbookSearchAdapter(
                 }
             }
 
-            itemView.songItemTitle.text = songTitle
-            itemView.songItemText.text = textLines
-            itemView.songItemText.visibility = if (textLines.isEmpty()) View.GONE else View.VISIBLE
+            songItemTitle.text = songTitle
+            songItemText.text = textLines
+            songItemText.visibility = if (textLines.isEmpty()) View.GONE else View.VISIBLE
 
-            itemView.setOnClickListener { showBottomSheet(SongbookUtils.songTitles.indexOf(song.first)) }
+            root.setOnClickListener { showBottomSheet(SongbookUtils.songTitles.indexOf(song.first)) }
+        }
+    }
+
+    override fun getItemCount(): Int = mResults.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+                mQuery = charSequence.toString()
+                val searchQuery = mQuery.lowercase()
+                mResults =
+                    if (mQuery.isEmpty()) listOf()
+                    else {
+                        val filteredList = arrayListOf<Pair<String, String>>()
+                        for (index in SongbookUtils.songTitles.indices) {
+                            val title = SongbookUtils.songTitles[index]
+                            val text = SongbookUtils.songs[index]
+                            if (title.lowercase().contains(searchQuery) ||
+                                text.lowercase().contains(searchQuery)
+                            ) filteredList.add(Pair(title, text))
+                        }
+                        filteredList
+                    }
+                val filterResults = FilterResults()
+                filterResults.values = mResults
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
+                @Suppress("UNCHECKED_CAST")
+                mResults = results?.values as List<Pair<String, String>>? ?: listOf()
+                emptyView.apply {
+                    visibility = if (mResults.isEmpty()) View.VISIBLE else View.INVISIBLE
+                    text =
+                        this.context.getString(
+                            if (mQuery.isEmpty()) R.string.empty_search_query
+                            else R.string.empty_search_list
+                        )
+                }
+                notifyDataSetChanged()
+            }
         }
     }
 }

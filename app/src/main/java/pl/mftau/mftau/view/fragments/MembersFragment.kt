@@ -6,66 +6,61 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.content_members.view.*
-import kotlinx.android.synthetic.main.fragment_members.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentMembersBinding
 import pl.mftau.mftau.view.adapters.MembersRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 
-class MembersFragment : Fragment() {
+class MembersFragment : BindingFragment<FragmentMembersBinding>() {
 
     private lateinit var mViewModel: MainViewModel
     private lateinit var mAdapter: MembersRecyclerAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_members, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMembersBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.membersToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        inflateToolbarMenu(binding.membersToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
         mAdapter = MembersRecyclerAdapter()
 
-        view.membersRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        view.membersRecyclerView.itemAnimator = DefaultItemAnimator()
-        view.membersRecyclerView.adapter = mAdapter
-        view.membersRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy < 0 && !view.addMemberBtn.isShown)
-                    view.addMemberBtn.show()
-                else if (dy > 0 && view.addMemberBtn.isShown)
-                    view.addMemberBtn.hide()
-            }
-        })
+        binding.contentMembers.membersRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = DefaultItemAnimator()
+            adapter = mAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy < 0 && !binding.addMemberBtn.isShown)
+                        binding.addMemberBtn.show()
+                    else if (dy > 0 && binding.addMemberBtn.isShown)
+                        binding.addMemberBtn.hide()
+                }
+            })
+        }
 
-        mViewModel.getAllMembers().observe(viewLifecycleOwner, { members ->
-            view.membersRecyclerView.layoutAnimation =
+        mViewModel.getAllMembers().observe(viewLifecycleOwner) { members ->
+            binding.contentMembers.membersRecyclerView.layoutAnimation =
                 AnimationUtils.loadLayoutAnimation(
-                    view.membersRecyclerView.context, R.anim.layout_animation_fall_down
+                    binding.contentMembers.membersRecyclerView.context, R.anim.layout_animation_fall_down
                 )
             mAdapter.setMemberList(members)
-            view.membersRecyclerView.scheduleLayoutAnimation()
+            binding.contentMembers.membersRecyclerView.scheduleLayoutAnimation()
 
-            view.loadingIndicator.hide()
-            if (members.isEmpty()) {
-                view.emptyView.visibility = View.VISIBLE
-            } else {
-                view.emptyView.visibility = View.INVISIBLE
-            }
-        })
+            binding.contentMembers.loadingIndicator.hide()
+            binding.contentMembers.emptyView.visibility =
+                if (members.isEmpty()) View.VISIBLE else View.INVISIBLE
+        }
 
-        view.addMemberBtn.setOnClickListener {
+        binding.addMemberBtn.setOnClickListener {
             findNavController().navigate(MembersFragmentDirections.showMemberEditorFragment(null))
         }
     }

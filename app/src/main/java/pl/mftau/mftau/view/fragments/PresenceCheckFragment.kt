@@ -1,25 +1,21 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.content_presence_check.view.*
-import kotlinx.android.synthetic.main.fragment_presence_check.view.*
-import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentPresenceCheckBinding
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.view.adapters.PresenceCheckRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 
-class PresenceCheckFragment : Fragment() {
+class PresenceCheckFragment : BindingFragment<FragmentPresenceCheckBinding>() {
 
     companion object {
         var listHasChanged = false
@@ -30,52 +26,45 @@ class PresenceCheckFragment : Fragment() {
     private lateinit var mMeeting: Meeting
     private var mIsMeetingNew: Int = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        listHasChanged = false
-        return inflater.inflate(R.layout.fragment_presence_check, container, false)
-    }
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPresenceCheckBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.presenceCheckToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+    override fun setup(savedInstanceState: Bundle?) {
+        binding.presenceCheckToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
         arguments?.let { bundle ->
             mMeeting = PresenceCheckFragmentArgs.fromBundle(bundle).meeting
             mIsMeetingNew = PresenceCheckFragmentArgs.fromBundle(bundle).isMeetingNew
         }
         mAdapter = PresenceCheckRecyclerAdapter()
-        view.loadingIndicator.show()
+        binding.contentPresenceCheck.loadingIndicator.show()
 
-        view.attendanceRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        view.attendanceRecyclerView.itemAnimator = DefaultItemAnimator()
-        view.attendanceRecyclerView.adapter = mAdapter
+        binding.contentPresenceCheck.attendanceRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = DefaultItemAnimator()
+            adapter = mAdapter
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy < 0 && !binding.saveMeetingBtn.isShown)
+                        binding.saveMeetingBtn.show()
+                    else if (dy > 0 && binding.saveMeetingBtn.isShown)
+                        binding.saveMeetingBtn.hide()
+                }
+            })
+        }
 
-        view.attendanceRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy < 0 && !view.saveMeetingBtn.isShown)
-                    view.saveMeetingBtn.show()
-                else if (dy > 0 && view.saveMeetingBtn.isShown)
-                    view.saveMeetingBtn.hide()
-            }
-        })
-
-        mViewModel.getAllMembers().observe(viewLifecycleOwner, { members ->
+        mViewModel.getAllMembers().observe(viewLifecycleOwner) { members ->
             mAdapter.setLists(members, mMeeting.attendanceList, mMeeting.absenceList)
-            view.loadingIndicator.hide()
-            if (members.isEmpty()) {
-                view.emptyView.visibility = View.VISIBLE
-            } else {
-                view.emptyView.visibility = View.INVISIBLE
-            }
-        })
+            binding.contentPresenceCheck.loadingIndicator.hide()
+            binding.contentPresenceCheck.emptyView.visibility =
+                if (members.isEmpty()) View.VISIBLE else View.INVISIBLE
+        }
 
-        view.saveMeetingBtn.setOnClickListener {
+        binding.saveMeetingBtn.setOnClickListener {
             when (mIsMeetingNew) {
                 0 -> {
                     mViewModel.updateAttendanceList(

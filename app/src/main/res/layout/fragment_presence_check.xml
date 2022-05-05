@@ -21,7 +21,9 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_presence_check" />
+    <include
+        android:id="@+id/contentPresenceCheck"
+        layout="@layout/content_presence_check" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveMeetingBtn"

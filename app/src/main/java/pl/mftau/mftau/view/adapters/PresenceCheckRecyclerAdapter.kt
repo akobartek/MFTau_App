@@ -2,59 +2,42 @@ package pl.mftau.mftau.view.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.dialog_absence.view.*
-import kotlinx.android.synthetic.main.item_presence_check.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.DialogAbsenceBinding
+import pl.mftau.mftau.databinding.ItemPresenceCheckBinding
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.view.fragments.PresenceCheckFragment
 
 class PresenceCheckRecyclerAdapter :
     RecyclerView.Adapter<PresenceCheckRecyclerAdapter.PresenceCheckViewHolder>() {
 
+    inner class PresenceCheckViewHolder(val binding: ItemPresenceCheckBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     private var mMembersList = listOf<Member>()
     var attendanceList = arrayListOf<String>()
     var absenceList = HashMap<String, String>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PresenceCheckViewHolder =
-        PresenceCheckViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_presence_check,
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PresenceCheckViewHolder(
+        ItemPresenceCheckBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
-    override fun onBindViewHolder(holder: PresenceCheckViewHolder, position: Int) =
-        holder.bindView(mMembersList[position])
+    override fun onBindViewHolder(holder: PresenceCheckViewHolder, position: Int) {
+        with(holder.binding) {
+            val member = mMembersList[position]
 
-    override fun getItemCount(): Int = mMembersList.size
+            swipeItemPresenceLayout.close(false)
+            root.tag = member.id
+            memberName.text = member.name
+            isPresentCheckBox.setOnCheckedChangeListener(null)
+            isPresentCheckBox.isChecked = attendanceList.contains(member.id)
 
-    fun setLists(
-        memberList: List<Member>,
-        attendanceList: ArrayList<String>,
-        absenceList: HashMap<String, String>
-    ) {
-        mMembersList = memberList
-        this.attendanceList = attendanceList
-        this.absenceList = absenceList
-        notifyDataSetChanged()
-    }
+            Member.loadImage(memberPhoto, member)
 
-    inner class PresenceCheckViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(member: Member) {
-            itemView.swipeItemPresenceLayout.close(false)
-            itemView.tag = member.id
-            itemView.memberName.text = member.name
-            itemView.isPresentCheckBox.setOnCheckedChangeListener(null)
-            itemView.isPresentCheckBox.isChecked = attendanceList.contains(member.id)
-
-            Member.loadImage(itemView.memberPhoto, member)
-
-            itemView.isPresentCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            isPresentCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     if (!attendanceList.contains(member.id)) {
                         attendanceList.add(member.id)
@@ -68,9 +51,9 @@ class PresenceCheckRecyclerAdapter :
                 PresenceCheckFragment.listHasChanged = true
             }
 
-            itemView.itemLayout.setOnClickListener {
-                itemView.isPresentCheckBox.isChecked = !itemView.isPresentCheckBox.isChecked
-                if (itemView.isPresentCheckBox.isChecked) {
+            itemLayout.setOnClickListener {
+                isPresentCheckBox.isChecked = !isPresentCheckBox.isChecked
+                if (isPresentCheckBox.isChecked) {
                     if (!attendanceList.contains(member.id)) {
                         attendanceList.add(member.id)
                         absenceList.remove(member.id)
@@ -83,41 +66,54 @@ class PresenceCheckRecyclerAdapter :
                 PresenceCheckFragment.listHasChanged = true
             }
 
-            itemView.absenceBtn.setOnClickListener { showAbsenceDialog(member.id, member.name) }
+            absenceBtn.setOnClickListener { showAbsenceDialog(this, member.id, member.name) }
         }
+    }
 
-        @SuppressLint("InflateParams")
-        private fun showAbsenceDialog(memberId: String, memberName: String) {
-            val dialogView =
-                LayoutInflater.from(itemView.context).inflate(R.layout.dialog_absence, null)
-            dialogView.absenceReasonET.setText(absenceList[memberId])
+    override fun getItemCount(): Int = mMembersList.size
 
-            val dialog = AlertDialog.Builder(itemView.context)
-                .setTitle(itemView.context.getString(R.string.absence_dialog_title, memberName))
+    @SuppressLint("NotifyDataSetChanged")
+    fun setLists(
+        members: List<Member>, attendances: ArrayList<String>, absences: HashMap<String, String>
+    ) {
+        mMembersList = members
+        attendanceList = attendances
+        absenceList = absences
+        notifyDataSetChanged()
+    }
+
+    private fun showAbsenceDialog(
+        binding: ItemPresenceCheckBinding, memberId: String, memberName: String
+    ) {
+        with(binding) {
+            val dialogBinding = DialogAbsenceBinding.inflate(LayoutInflater.from(root.context))
+            dialogBinding.absenceReasonET.setText(absenceList[memberId])
+
+            val dialog = AlertDialog.Builder(root.context)
+                .setTitle(root.context.getString(R.string.absence_dialog_title, memberName))
                 .setMessage(R.string.absence_dialog_message)
-                .setView(dialogView)
+                .setView(dialogBinding.root)
                 .setCancelable(false)
-                .setPositiveButton(itemView.context.getString(R.string.save), null)
-                .setNegativeButton(itemView.context.getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
+                .setPositiveButton(root.context.getString(R.string.save), null)
+                .setNegativeButton(root.context.getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
                 .create()
 
             dialog.setOnShowListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                    val reason = dialogView.absenceReasonET.text.toString().trim()
+                    val reason = dialogBinding.absenceReasonET.text.toString().trim()
                     if (reason.isEmpty()) {
-                        dialogView.absenceReasonET.error =
-                            itemView.context.getString(R.string.reason_empty_error)
+                        dialogBinding.absenceReasonET.error =
+                            root.context.getString(R.string.reason_empty_error)
                         return@setOnClickListener
                     } else {
                         absenceList[memberId] = reason
                         attendanceList.remove(memberId)
-                        itemView.isPresentCheckBox.isChecked = false
+                        isPresentCheckBox.isChecked = false
                         dialog.dismiss()
                     }
                     PresenceCheckFragment.listHasChanged = true
                 }
             }
-
             dialog.show()
         }
     }

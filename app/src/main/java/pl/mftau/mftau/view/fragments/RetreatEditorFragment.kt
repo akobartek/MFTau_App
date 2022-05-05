@@ -14,14 +14,12 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
-import kotlinx.android.synthetic.main.content_retreat_editor.view.*
-import kotlinx.android.synthetic.main.fragment_retreat_editor.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentRetreatEditorBinding
 import pl.mftau.mftau.model.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.PermissionUtils
@@ -31,7 +29,7 @@ import pl.mftau.mftau.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RetreatEditorFragment : Fragment() {
+class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
 
     companion object {
         var retreatHasChanged = false
@@ -44,23 +42,19 @@ class RetreatEditorFragment : Fragment() {
     private var registerDate: Date = Date()
     private var lastEditDate: Date = Date()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        retreatHasChanged = false
-        return inflater.inflate(R.layout.fragment_retreat_editor, container, false)
-    }
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentRetreatEditorBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.retreatEditorToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        retreatHasChanged = false
+        inflateToolbarMenu(binding.retreatEditorToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
 
-        view.retreatTypeSpinner.adapter = object : ArrayAdapter<String>(
-            view.context, R.layout.item_spinner, resources.getStringArray(R.array.retreat_types)
+        binding.contentRetreatEditor.retreatTypeSpinner.adapter = object : ArrayAdapter<String>(
+            requireContext(), R.layout.item_spinner, resources.getStringArray(R.array.retreat_types)
         ) {
             override fun getDropDownView(
                 position: Int, convertView: View?, parent: ViewGroup
@@ -74,25 +68,29 @@ class RetreatEditorFragment : Fragment() {
 
         arguments?.let { bundle ->
             mRetreat = RetreatEditorFragmentArgs.fromBundle(bundle).retreat
-            view.retreatEditorToolbarTitle.text =
+            binding.retreatEditorToolbarTitle.text =
                 if (mRetreat == null) getString(R.string.add_retreat) else getString(R.string.edit_retreat)
             mRetreat?.let {
                 beginDate = it.beginDate.toDate()
                 endDate = it.endDate.toDate()
                 registerDate = it.registerLimitDate.toDate()
 
-                view.retreatNameET.setText(it.name)
-                view.retreatCityET.setText(it.city)
-                view.retreatAddressET.setText(it.address)
-                view.retreatPriceET.setText(it.price.toString())
-                view.retreatTypeSpinner.setSelection(it.retreatType)
-                view.advPaymentSwitch.isChecked = it.advancePayment
+                with(binding.contentRetreatEditor) {
+                    retreatNameET.setText(it.name)
+                    retreatCityET.setText(it.city)
+                    retreatAddressET.setText(it.address)
+                    retreatPriceET.setText(it.price.toString())
+                    retreatTypeSpinner.setSelection(it.retreatType)
+                    advPaymentSwitch.isChecked = it.advancePayment
+                }
             }
-            view.beginDateText.setText(beginDate.getDateFormatted())
-            view.endDateText.setText(endDate.getDateFormatted())
-            view.registerDateText.setText(registerDate.getDateFormatted())
+            with(binding.contentRetreatEditor) {
+                beginDateText.setText(beginDate.getDateFormatted())
+                endDateText.setText(endDate.getDateFormatted())
+                registerDateText.setText(registerDate.getDateFormatted())
+            }
 
-            setupToolbarMenuIcons(view.retreatEditorToolbar.menu)
+            setupToolbarMenuIcons(binding.retreatEditorToolbar.menu)
         }
 
         setOnClickListeners()
@@ -128,144 +126,145 @@ class RetreatEditorFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setOnClickListeners() {
-        view?.saveRetreatBtn?.setOnClickListener {
-            var errorOccurred = false
-            if (requireView().retreatNameET.text.isNullOrBlank()) {
-                requireView().retreatNameET.error = getString(R.string.empty_name_error)
-                errorOccurred = true
-            }
-            if (requireView().retreatCityET.text.isNullOrBlank()) {
-                requireView().retreatCityET.error = getString(R.string.empty_city_error)
-                errorOccurred = true
-            }
-            if (requireView().retreatAddressET.text.isNullOrBlank()) {
-                requireView().retreatAddressET.error = getString(R.string.empty_address_error)
-                errorOccurred = true
-            }
-            if (requireView().retreatPriceET.text.isNullOrBlank()) {
-                requireView().retreatPriceET.error = getString(R.string.empty_price_error)
-                errorOccurred = true
-            }
-            when {
-                endDate < Date(Date().time - 86400000) -> {
-                    Snackbar.make(
-                        requireView().retreatsEditLayout,
-                        getString(R.string.error_retreat_has_taken_place),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+        with(binding.contentRetreatEditor) {
+            binding.saveRetreatBtn.setOnClickListener {
+                var errorOccurred = false
+                if (retreatNameET.text.isNullOrBlank()) {
+                    retreatNameET.error = getString(R.string.empty_name_error)
                     errorOccurred = true
                 }
-                beginDate > endDate -> {
-                    Snackbar.make(
-                        requireView().retreatsEditLayout,
-                        getString(R.string.error_begin_date_later_than_end),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                if (retreatCityET.text.isNullOrBlank()) {
+                    retreatCityET.error = getString(R.string.empty_city_error)
                     errorOccurred = true
                 }
-                registerDate > beginDate -> {
-                    Snackbar.make(
-                        requireView().retreatsEditLayout,
-                        getString(R.string.error_date_limit_after_begin),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                if (retreatAddressET.text.isNullOrBlank()) {
+                    retreatAddressET.error = getString(R.string.empty_address_error)
                     errorOccurred = true
                 }
+                if (retreatPriceET.text.isNullOrBlank()) {
+                    retreatPriceET.error = getString(R.string.empty_price_error)
+                    errorOccurred = true
+                }
+                when {
+                    endDate < Date(Date().time - 86400000) -> {
+                        Snackbar.make(
+                            retreatsEditLayout,
+                            getString(R.string.error_retreat_has_taken_place),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        errorOccurred = true
+                    }
+                    beginDate > endDate -> {
+                        Snackbar.make(
+                            retreatsEditLayout,
+                            getString(R.string.error_begin_date_later_than_end),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        errorOccurred = true
+                    }
+                    registerDate > beginDate -> {
+                        Snackbar.make(
+                            retreatsEditLayout,
+                            getString(R.string.error_date_limit_after_begin),
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        errorOccurred = true
+                    }
+                }
+                if (errorOccurred) return@setOnClickListener
+
+                val retreatValues = HashMap<String, Any>()
+                retreatValues[FirestoreUtils.firestoreKeyName] =
+                    retreatNameET.text.toString().trim()
+                retreatValues[FirestoreUtils.firestoreKeyCity] =
+                    retreatCityET.text.toString().trim()
+                retreatValues[FirestoreUtils.firestoreKeyAddress] =
+                    retreatAddressET.text.toString().trim()
+                retreatValues[FirestoreUtils.firestoreKeyPrice] =
+                    retreatPriceET.text.toString().toInt()
+                retreatValues[FirestoreUtils.firestoreKeyBeginDate] = Timestamp(beginDate)
+                retreatValues[FirestoreUtils.firestoreKeyEndDate] = Timestamp(endDate)
+                retreatValues[FirestoreUtils.firestoreKeyRegisterLimitDate] =
+                    Timestamp(registerDate)
+                retreatValues[FirestoreUtils.firestoreKeyRetreatType] =
+                    retreatTypeSpinner.selectedItemPosition
+                retreatValues[FirestoreUtils.firestoreKeyAdvancePayment] =
+                    advPaymentSwitch.isChecked
+
+                if (mRetreat == null) {
+                    mViewModel.addRetreat(requireActivity(), retreatValues)
+                } else {
+                    if (!(retreatNameET.text.toString().trim() == mRetreat!!.name &&
+                                retreatCityET.text.toString().trim() == mRetreat!!.city &&
+                                retreatAddressET.text.toString().trim() == mRetreat!!.address &&
+                                retreatPriceET.text.toString().toInt() == mRetreat!!.price &&
+                                beginDate == mRetreat!!.beginDate.toDate() &&
+                                endDate == mRetreat!!.endDate.toDate() &&
+                                registerDate == mRetreat!!.registerLimitDate.toDate() &&
+                                retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
+                                advPaymentSwitch.isChecked == mRetreat!!.advancePayment)
+                    ) mViewModel.updateRetreat(requireActivity(), mRetreat!!.id, retreatValues)
+                }
+                findNavController().navigateUp()
             }
-            if (errorOccurred) return@setOnClickListener
 
-            val retreatValues = HashMap<String, Any>()
-            retreatValues[FirestoreUtils.firestoreKeyName] =
-                requireView().retreatNameET.text.toString().trim()
-            retreatValues[FirestoreUtils.firestoreKeyCity] =
-                requireView().retreatCityET.text.toString().trim()
-            retreatValues[FirestoreUtils.firestoreKeyAddress] =
-                requireView().retreatAddressET.text.toString().trim()
-            retreatValues[FirestoreUtils.firestoreKeyPrice] =
-                requireView().retreatPriceET.text.toString().toInt()
-            retreatValues[FirestoreUtils.firestoreKeyBeginDate] = Timestamp(beginDate)
-            retreatValues[FirestoreUtils.firestoreKeyEndDate] = Timestamp(endDate)
-            retreatValues[FirestoreUtils.firestoreKeyRegisterLimitDate] = Timestamp(registerDate)
-            retreatValues[FirestoreUtils.firestoreKeyRetreatType] =
-                requireView().retreatTypeSpinner.selectedItemPosition
-            retreatValues[FirestoreUtils.firestoreKeyAdvancePayment] =
-                requireView().advPaymentSwitch.isChecked
+            beginDateText.setOnClickListener {
+                requireActivity().hideKeyboard()
 
-            if (mRetreat == null) {
-                mViewModel.addRetreat(requireActivity(), retreatValues)
-            } else {
-                if (!(requireView().retreatNameET.text.toString().trim() == mRetreat!!.name &&
-                            requireView().retreatCityET.text.toString().trim() == mRetreat!!.city &&
-                            requireView().retreatAddressET.text.toString()
-                                .trim() == mRetreat!!.address &&
-                            requireView().retreatPriceET.text.toString()
-                                .toInt() == mRetreat!!.price &&
-                            beginDate == mRetreat!!.beginDate.toDate() &&
-                            endDate == mRetreat!!.endDate.toDate() &&
-                            registerDate == mRetreat!!.registerLimitDate.toDate() &&
-                            requireView().retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
-                            requireView().advPaymentSwitch.isChecked == mRetreat!!.advancePayment)
-                )
-                    mViewModel.updateRetreat(requireActivity(), mRetreat!!.id, retreatValues)
+                val calendar = Calendar.getInstance()
+                calendar.time = lastEditDate
+
+                DatePickerDialog(
+                    it.context,
+                    myBeginDateListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
             }
-            findNavController().navigateUp()
+            endDateText.setOnClickListener {
+                requireActivity().hideKeyboard()
+
+                val calendar = Calendar.getInstance()
+                calendar.time = lastEditDate
+
+                DatePickerDialog(
+                    it.context,
+                    myEndDateListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+            registerDateText.setOnClickListener {
+                requireActivity().hideKeyboard()
+
+                val calendar = Calendar.getInstance()
+                calendar.time = lastEditDate
+
+                DatePickerDialog(
+                    it.context,
+                    myRegisterDateListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+
+            retreatsEditLayout.setOnClickListener { requireActivity().hideKeyboard() }
+
+            retreatNameET.setOnTouchListener(mTouchListener)
+            retreatCityET.setOnTouchListener(mTouchListener)
+            retreatAddressET.setOnTouchListener(mTouchListener)
+            retreatPriceET.setOnTouchListener(mTouchListener)
+            beginDateText.setOnTouchListener(mTouchListener)
+            endDateText.setOnTouchListener(mTouchListener)
+            registerDateText.setOnTouchListener(mTouchListener)
+            retreatTypeSpinner.setOnTouchListener(mTouchListener)
+            advPaymentSwitch.setOnTouchListener(mTouchListener)
         }
-
-        view?.beginDateText?.setOnClickListener {
-            requireActivity().hideKeyboard()
-
-            val calendar = Calendar.getInstance()
-            calendar.time = lastEditDate
-
-            DatePickerDialog(
-                it.context,
-                myBeginDateListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-        view?.endDateText?.setOnClickListener {
-            requireActivity().hideKeyboard()
-
-            val calendar = Calendar.getInstance()
-            calendar.time = lastEditDate
-
-            DatePickerDialog(
-                it.context,
-                myEndDateListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-        view?.registerDateText?.setOnClickListener {
-            requireActivity().hideKeyboard()
-
-            val calendar = Calendar.getInstance()
-            calendar.time = lastEditDate
-
-            DatePickerDialog(
-                it.context,
-                myRegisterDateListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
-
-        view?.retreatsEditLayout?.setOnClickListener { requireActivity().hideKeyboard() }
-
-        view?.retreatNameET?.setOnTouchListener(mTouchListener)
-        view?.retreatCityET?.setOnTouchListener(mTouchListener)
-        view?.retreatAddressET?.setOnTouchListener(mTouchListener)
-        view?.retreatPriceET?.setOnTouchListener(mTouchListener)
-        view?.beginDateText?.setOnTouchListener(mTouchListener)
-        view?.endDateText?.setOnTouchListener(mTouchListener)
-        view?.registerDateText?.setOnTouchListener(mTouchListener)
-        view?.retreatTypeSpinner?.setOnTouchListener(mTouchListener)
-        view?.advPaymentSwitch?.setOnTouchListener(mTouchListener)
     }
 
     private fun showSaveToCalendarDialog() =
@@ -280,9 +279,7 @@ class RetreatEditorFragment : Fragment() {
                 else
                     PermissionUtils.requestCalendarReadWritePermission(requireActivity())
             }
-            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ -> dialog.dismiss() }
             .create()
             .show()
 
@@ -339,7 +336,7 @@ class RetreatEditorFragment : Fragment() {
                 .toString()
         beginDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
-        view?.beginDateText?.setText(beginDate.getDateFormatted())
+        binding.contentRetreatEditor.beginDateText.setText(beginDate.getDateFormatted())
     }
     private val myEndDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString =
@@ -347,7 +344,7 @@ class RetreatEditorFragment : Fragment() {
                 .toString()
         endDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
-        view?.endDateText?.setText(endDate.getDateFormatted())
+        binding.contentRetreatEditor.endDateText.setText(endDate.getDateFormatted())
     }
     private val myRegisterDateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
         val dateString =
@@ -355,6 +352,6 @@ class RetreatEditorFragment : Fragment() {
                 .toString()
         registerDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
         lastEditDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
-        view?.registerDateText?.setText(registerDate.getDateFormatted())
+        binding.contentRetreatEditor.registerDateText.setText(registerDate.getDateFormatted())
     }
 }

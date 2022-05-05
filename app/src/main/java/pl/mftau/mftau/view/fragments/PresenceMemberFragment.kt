@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +14,15 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import kotlinx.android.synthetic.main.fragment_presence_member.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentPresenceMemberBinding
 import pl.mftau.mftau.model.Member
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.getColorsByName
 import pl.mftau.mftau.view.adapters.PresenceMeetingRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 
-class PresenceMemberFragment : Fragment() {
+class PresenceMemberFragment : BindingFragment<FragmentPresenceMemberBinding>() {
 
     companion object {
         fun newInstance(member: Member, meetingType: Int): PresenceMemberFragment {
@@ -44,14 +43,11 @@ class PresenceMemberFragment : Fragment() {
     private var mNumberOfMeetings = 0
     private var mMeetingType = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_presence_member, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPresenceMemberBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        activity?.let { mViewModel = ViewModelProvider(it).get(MainViewModel::class.java) }
+    override fun setup(savedInstanceState: Bundle?) {
+        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
         arguments?.let {
             mMember = it.getParcelable("member")!!
             mMeetingType = it.getInt("meetingType")
@@ -60,32 +56,36 @@ class PresenceMemberFragment : Fragment() {
 
         val isNightMode = PreferencesManager.getNightMode()
 
-        view.meetingsRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        view.meetingsRecyclerView.itemAnimator = DefaultItemAnimator()
-        view.meetingsRecyclerView.adapter = mAdapter
+        with(binding) {
+            meetingsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            meetingsRecyclerView.itemAnimator = DefaultItemAnimator()
+            meetingsRecyclerView.adapter = mAdapter
 
-        view.presencePieChart.setUsePercentValues(true)
-        view.presencePieChart.description.isEnabled = false
-        view.presencePieChart.setExtraOffsets(20f, 0f, 20f, 0f)
-        view.presencePieChart.isDrawHoleEnabled = false
-        view.presencePieChart.isRotationEnabled = true
-        view.presencePieChart.isHighlightPerTapEnabled = true
-        view.presencePieChart.rotationAngle = 0f
-        view.presencePieChart.setEntryLabelColor(if (isNightMode) Color.WHITE else Color.BLACK)
-        view.presencePieChart.setEntryLabelTextSize(12f)
+            presencePieChart.setUsePercentValues(true)
+            presencePieChart.description.isEnabled = false
+            presencePieChart.setExtraOffsets(20f, 0f, 20f, 0f)
+            presencePieChart.isDrawHoleEnabled = false
+            presencePieChart.isRotationEnabled = true
+            presencePieChart.isHighlightPerTapEnabled = true
+            presencePieChart.rotationAngle = 0f
+            presencePieChart.setEntryLabelColor(if (isNightMode) Color.WHITE else Color.BLACK)
+            presencePieChart.setEntryLabelTextSize(12f)
 
-        val legend = view.presencePieChart.legend
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.textColor = if (isNightMode) Color.WHITE else Color.BLACK
-        legend.setDrawInside(false)
-        legend.xEntrySpace = 7f
-        legend.yEntrySpace = 0f
-        legend.yOffset = 0f
+            val legend = presencePieChart.legend
+            legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            legend.orientation = Legend.LegendOrientation.HORIZONTAL
+            legend.textColor = if (isNightMode) Color.WHITE else Color.BLACK
+            legend.setDrawInside(false)
+            legend.xEntrySpace = 7f
+            legend.yEntrySpace = 0f
+            legend.yOffset = 0f
 
-        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner, { meetings ->
-            view.loadingIndicator.hide()
+            presencePieChart.animateY(1000, Easing.EaseInOutQuad)
+        }
+
+        mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner) { meetings ->
+            binding.loadingIndicator.hide()
 
             mNumberOfMeetings = meetings.size
             meetings.forEach { meeting ->
@@ -98,15 +98,13 @@ class PresenceMemberFragment : Fragment() {
             setDataToChart(isNightMode)
             mAdapter.setLists(meetings, mPresenceList, mAbsenceList)
             if (meetings.isEmpty()) {
-                view.emptyView.visibility = View.VISIBLE
-                view.presencePieChart.visibility = View.INVISIBLE
+                binding.emptyView.visibility = View.VISIBLE
+                binding.presencePieChart.visibility = View.INVISIBLE
             } else {
-                view.emptyView.visibility = View.INVISIBLE
-                view.presencePieChart.visibility = View.VISIBLE
+                binding.emptyView.visibility = View.INVISIBLE
+                binding.presencePieChart.visibility = View.VISIBLE
             }
-        })
-
-        view.presencePieChart.animateY(1000, Easing.EaseInOutQuad)
+        }
     }
 
     private fun setDataToChart(isNightMode: Boolean) {
@@ -153,7 +151,7 @@ class PresenceMemberFragment : Fragment() {
             setValueTextColor(if (isNightMode) Color.WHITE else Color.BLACK)
         }
 
-        view?.presencePieChart?.data = pieData
-        view?.presencePieChart?.invalidate()
+        binding.presencePieChart.data = pieData
+        binding.presencePieChart.invalidate()
     }
 }

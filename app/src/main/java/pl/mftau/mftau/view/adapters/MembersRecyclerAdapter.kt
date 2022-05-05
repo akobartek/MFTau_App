@@ -1,5 +1,6 @@
 package pl.mftau.mftau.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,14 +13,16 @@ import pl.mftau.mftau.view.fragments.MembersFragmentDirections
 
 class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.MembersViewHolder>() {
 
+    inner class MembersViewHolder(val binding: ItemMemberBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     private var mMembersList = listOf<Member>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MembersViewHolder =
-        MembersViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context), R.layout.item_member, parent, false
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MembersViewHolder(
+        DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context), R.layout.item_member, parent, false
         )
+    )
 
     override fun onBindViewHolder(holder: MembersViewHolder, position: Int) {
         holder.binding.member = mMembersList[position]
@@ -31,12 +34,9 @@ class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.Membe
 
     override fun getItemCount(): Int = mMembersList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setMemberList(list: List<Member>) {
         mMembersList = list
         notifyDataSetChanged()
     }
-
-
-    inner class MembersViewHolder(val binding: ItemMemberBinding) :
-        RecyclerView.ViewHolder(binding.root)
 }

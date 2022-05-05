@@ -1,10 +1,12 @@
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-kapt"
-apply plugin: "kotlin-android-extensions"
-apply plugin: "com.google.gms.google-services"
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: "androidx.navigation.safeargs"
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+    id "androidx.navigation.safeargs"
+}
 
 android {
     compileSdkVersion 31
@@ -17,7 +19,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
+        buildConfig = true
         dataBinding = true
+        viewBinding true
     }
     buildTypes {
         release {
@@ -25,8 +29,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    androidExtensions {
-        experimental = true
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        def mftauApiUrl = properties.getProperty("mftau_api_url", "")
+        it.buildConfigField("String", "MFTAU_API_URL", mftauApiUrl)
+        it.resValue("string", "mftau_api_url", mftauApiUrl)
+        def mftauApiKey = properties.getProperty("mftau_api_key", "")
+        it.buildConfigField("String", "MFTAU_API_KEY", mftauApiKey)
+        it.resValue("string", "mftau_api_key", mftauApiKey)
     }
     compileOptions {
         sourceCompatibility 1.8
@@ -99,6 +110,18 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:4.11.0"
     kapt "com.github.bumptech.glide:compiler:4.11.0"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
+
+    // Retrofit2
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+
+    // OkHttp3
+    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
     // PDFViewer library
     implementation "com.github.barteksc:android-pdf-viewer:3.2.0-beta.1"

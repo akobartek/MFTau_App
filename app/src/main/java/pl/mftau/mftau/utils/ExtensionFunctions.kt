@@ -3,18 +3,36 @@ package pl.mftau.mftau.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import pl.mftau.mftau.R
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+
+fun Context.openWebsiteInChromeCustomTabs(website: String) {
+    CustomTabsIntent.Builder().apply {
+        val params = CustomTabColorSchemeParams.Builder().apply {
+            val color =
+                if (PreferencesManager.getNightMode()) Color.parseColor("#28292e")
+                else Color.WHITE
+            setNavigationBarColor(color)
+            setToolbarColor(color)
+            setSecondaryToolbarColor(color)
+        }.build()
+        setDefaultColorSchemeParams(params)
+    }.build().launchUrl(this, Uri.parse(website))
+}
 
 fun Context.isChromeCustomTabsSupported(): Boolean {
     val serviceIntent = Intent("android.support.customtabs.action.CustomTabsService")

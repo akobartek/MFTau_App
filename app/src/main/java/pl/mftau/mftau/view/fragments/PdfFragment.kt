@@ -1,37 +1,32 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.fragment_pdf.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentPdfBinding
 import pl.mftau.mftau.utils.PreferencesManager
 
-class PdfFragment : Fragment() {
+class PdfFragment : BindingFragment<FragmentPdfBinding>() {
 
     private lateinit var mSearchView: SearchView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_pdf, container, false)
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPdfBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.pdfToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        inflateToolbarMenu(binding.pdfToolbar)
 
         if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook" && PreferencesManager.getAwakeSongbook())
             activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        view.pdfToolbarTitle.text = getString(
+        binding.pdfToolbarTitle.text = getString(
             if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook") R.string.songbook
             else R.string.statute
         )
@@ -41,19 +36,19 @@ class PdfFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("page", view?.pdfView?.currentPage ?: 2)
+        outState.putInt("page", binding.pdfView.currentPage)
     }
 
     private fun loadPdfFile(savedInstanceState: Bundle?, isBtnPressed: Boolean) {
         when (PdfFragmentArgs.fromBundle(requireArguments()).pdf) {
             "songbook" -> {
-                requireView().pdfView.fromAsset("spiewnik.pdf")
+                binding.pdfView.fromAsset("spiewnik.pdf")
                     .defaultPage(if (isBtnPressed) 4 else savedInstanceState?.getInt("page") ?: 4)
                     .nightMode(PreferencesManager.getNightMode())
                     .load()
             }
             "statute" -> {
-                requireView().pdfView.fromAsset("statut.pdf")
+                binding.pdfView.fromAsset("statut.pdf")
                     .nightMode(PreferencesManager.getNightMode())
                     .load()
             }

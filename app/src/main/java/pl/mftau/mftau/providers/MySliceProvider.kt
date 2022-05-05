@@ -46,10 +46,7 @@ class MySliceProvider : SliceProvider() {
             PendingIntent.getActivity(
                 context, 0,
                 Intent(context, MainActivity::class.java).apply {
-                    putExtra(
-                        "shortcut",
-                        "breviary"
-                    )
+                    putExtra("shortcut", "breviary")
                 }, 0
             ),
             IconCompat.createWithResource(context!!, R.drawable.shortcut_ic_breviary),

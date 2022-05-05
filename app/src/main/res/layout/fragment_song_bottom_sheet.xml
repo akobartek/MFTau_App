@@ -29,7 +29,7 @@
         android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/colorText"
-        android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintBottom_toTopOf="@id/guidePeekHeight"
         app:layout_constraintEnd_toStartOf="@+id/collapseSheetBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
             android:fontFamily="sans-serif-light"
             android:paddingStart="36dp"
             android:paddingEnd="36dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/colorButtonText"
             tools:text="@tools:sample/lorem/random" />
     </androidx.core.widget.NestedScrollView>

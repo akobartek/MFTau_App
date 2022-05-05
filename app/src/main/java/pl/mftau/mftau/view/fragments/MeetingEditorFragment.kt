@@ -1,6 +1,5 @@
 package pl.mftau.mftau.view.fragments
 
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -13,13 +12,11 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
-import kotlinx.android.synthetic.main.content_meeting_editor.view.*
-import kotlinx.android.synthetic.main.fragment_meeting_editor.view.*
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.FragmentMeetingEditorBinding
 import pl.mftau.mftau.model.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.getDateFormatted
@@ -29,7 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
-class MeetingEditorFragment : Fragment() {
+class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
 
     companion object {
         var meetingHasChanged = false
@@ -39,47 +36,46 @@ class MeetingEditorFragment : Fragment() {
     private var mMeeting: Meeting? = null
     private var mMeetingDate = Date()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        meetingHasChanged = false
-        return inflater.inflate(R.layout.fragment_meeting_editor, container, false)
-    }
+    override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMeetingEditorBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        inflateToolbarMenu(view.meetingEditorToolbar)
+    override fun setup(savedInstanceState: Bundle?) {
+        meetingHasChanged = false
+        inflateToolbarMenu(binding.meetingEditorToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it).get(MainViewModel::class.java)
+            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
-        view.meetingTypeSpinner.adapter = object :
-            ArrayAdapter<String>(
-                view.context, R.layout.item_spinner, resources.getStringArray(R.array.meeting_types)
+        binding.contentMeetingEditor.meetingTypeSpinner.adapter =
+            object : ArrayAdapter<String>(
+                requireContext(),
+                R.layout.item_spinner,
+                resources.getStringArray(R.array.meeting_types)
             ) {
-            override fun getDropDownView(
-                position: Int, convertView: View?, parent: ViewGroup
-            ): View {
-                val dropDownView = super.getDropDownView(position, convertView, parent)
-                (dropDownView as TextView).setTextColor(Color.BLACK)
-
-                return dropDownView
+                override fun getDropDownView(
+                    position: Int, convertView: View?, parent: ViewGroup
+                ): View {
+                    val dropDownView = super.getDropDownView(position, convertView, parent)
+                    (dropDownView as TextView).setTextColor(Color.BLACK)
+                    return dropDownView
+                }
             }
-        }
 
         arguments?.let { bundle ->
             mMeeting = MeetingEditorFragmentArgs.fromBundle(bundle).meeting
-            view.meetingEditorToolbarTitle.text =
+            binding.meetingEditorToolbarTitle.text =
                 if (mMeeting == null) getString(R.string.add_meeting) else getString(R.string.edit_meeting)
-            mMeeting?.let {
-                view.meetingNameET.setText(it.name)
-                view.meetingTypeSpinner.setSelection(it.meetingType)
-                view.meetingNotesET.setText(it.notes)
-                mMeetingDate = it.date.toDate()
+            with(binding.contentMeetingEditor) {
+                mMeeting?.let {
+                    meetingNameET.setText(it.name)
+                    meetingTypeSpinner.setSelection(it.meetingType)
+                    meetingNotesET.setText(it.notes)
+                    mMeetingDate = it.date.toDate()
+                }
             }
-            setupToolbarMenuIcons(view.meetingEditorToolbar.menu)
+            setupToolbarMenuIcons(binding.meetingEditorToolbar.menu)
         }
-        view.dateText.text = mMeetingDate.getDateFormatted()
+        binding.contentMeetingEditor.dateText.text = mMeetingDate.getDateFormatted()
 
         setOnClickListeners()
     }
@@ -113,61 +109,66 @@ class MeetingEditorFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setOnClickListeners() {
-        view?.saveMeetingBtn?.setOnClickListener {
-            val meetingValues = HashMap<String, Any>()
-            meetingValues[FirestoreUtils.firestoreKeyName] =
-                requireView().meetingNameET.text.toString().trim()
-            meetingValues[FirestoreUtils.firestoreKeyNotes] =
-                requireView().meetingNotesET.text.toString().trim()
-            meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
-            meetingValues[FirestoreUtils.firestoreKeyMeetingType] =
-                requireView().meetingTypeSpinner.selectedItemPosition
-            meetingValues[FirestoreUtils.firestoreKeyAttendanceList] =
-                mMeeting?.attendanceList ?: arrayListOf<String>()
-            meetingValues[FirestoreUtils.firestoreKeyAbsenceList] =
-                mMeeting?.absenceList ?: HashMap<String, String>()
+        with(binding.contentMeetingEditor) {
+            binding.saveMeetingBtn.setOnClickListener {
+                val meetingValues = HashMap<String, Any>()
+                meetingValues[FirestoreUtils.firestoreKeyName] =
+                    meetingNameET.text.toString().trim()
+                meetingValues[FirestoreUtils.firestoreKeyNotes] =
+                    meetingNotesET.text.toString().trim()
+                meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
+                meetingValues[FirestoreUtils.firestoreKeyMeetingType] =
+                    meetingTypeSpinner.selectedItemPosition
+                meetingValues[FirestoreUtils.firestoreKeyAttendanceList] =
+                    mMeeting?.attendanceList ?: arrayListOf<String>()
+                meetingValues[FirestoreUtils.firestoreKeyAbsenceList] =
+                    mMeeting?.absenceList ?: HashMap<String, String>()
 
-            if (requireView().meetingNameET.text.isNullOrBlank()) {
-                requireView().meetingNameET.error = getString(R.string.empty_meeting_name_error)
-                return@setOnClickListener
-            }
-
-            if (mMeeting == null) {
-                showCheckPresenceDialog(meetingValues)
-            } else {
-                if (!(meetingValues[FirestoreUtils.firestoreKeyDate] == mMeeting!!.date
-                            && meetingValues[FirestoreUtils.firestoreKeyName] == mMeeting!!.name
-                            && meetingValues[FirestoreUtils.firestoreKeyNotes] == mMeeting!!.notes)
-                ) {
-                    mViewModel.updateMeeting(
-                        requireActivity(), mMeeting!!.id,
-                        meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int, meetingValues
-                    )
-                } else if (meetingValues[FirestoreUtils.firestoreKeyMeetingType] != mMeeting!!.meetingType) {
-                    mViewModel.deleteMeeting(
-                        requireActivity(), mMeeting!!.id, mMeeting!!.meetingType
-                    )
-                    mViewModel.addMeeting(
-                        requireActivity(),
-                        meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int,
-                        meetingValues
-                    )
+                if (meetingNameET.text.isNullOrBlank()) {
+                    meetingNameET.error = getString(R.string.empty_meeting_name_error)
+                    return@setOnClickListener
                 }
-                findNavController().navigateUp()
+
+                if (mMeeting == null) {
+                    showCheckPresenceDialog(meetingValues)
+                } else {
+                    if (!(meetingValues[FirestoreUtils.firestoreKeyDate] == mMeeting!!.date
+                                && meetingValues[FirestoreUtils.firestoreKeyName] == mMeeting!!.name
+                                && meetingValues[FirestoreUtils.firestoreKeyNotes] == mMeeting!!.notes)
+                    ) {
+                        mViewModel.updateMeeting(
+                            requireActivity(),
+                            mMeeting!!.id,
+                            meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int,
+                            meetingValues
+                        )
+                    } else if (meetingValues[FirestoreUtils.firestoreKeyMeetingType] != mMeeting!!.meetingType) {
+                        mViewModel.deleteMeeting(
+                            requireActivity(), mMeeting!!.id, mMeeting!!.meetingType
+                        )
+                        mViewModel.addMeeting(
+                            requireActivity(),
+                            meetingValues[FirestoreUtils.firestoreKeyMeetingType] as Int,
+                            meetingValues
+                        )
+                    }
+                    findNavController().navigateUp()
+                }
             }
+
+            setDateIcon.setOnClickListener(mDateClickListener)
+            dateText.setOnClickListener(mDateClickListener)
+
+            addMeetingLayout.setOnClickListener { requireActivity().hideKeyboard() }
+
+            meetingNameET.setOnTouchListener(mTouchListener)
+            meetingNotesET.setOnTouchListener(mTouchListener)
+            meetingTypeSpinner.setOnTouchListener(mTouchListener)
+            setDateIcon.setOnTouchListener(mTouchListener)
+            dateText.setOnTouchListener(mTouchListener)
         }
-
-        view?.setDateIcon?.setOnClickListener(mDateClickListener)
-        view?.dateText?.setOnClickListener(mDateClickListener)
-
-        view?.addMeetingLayout?.setOnClickListener { requireActivity().hideKeyboard() }
-
-        view?.meetingNameET?.setOnTouchListener(mTouchListener)
-        view?.meetingNotesET?.setOnTouchListener(mTouchListener)
-        view?.meetingTypeSpinner?.setOnTouchListener(mTouchListener)
-        view?.setDateIcon?.setOnTouchListener(mTouchListener)
-        view?.dateText?.setOnTouchListener(mTouchListener)
     }
 
     private fun showCheckPresenceDialog(meetingValues: HashMap<String, Any>) =
@@ -236,6 +237,6 @@ class MeetingEditorFragment : Fragment() {
             StringBuilder().append(day).append(".").append(month + 1).append(".").append(year)
                 .toString()
         mMeetingDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)!!
-        view?.dateText?.text = dateString
+        binding.contentMeetingEditor.dateText.text = dateString
     }
 }
