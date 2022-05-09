@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogRetreatRegisterBinding
 import pl.mftau.mftau.databinding.FragmentRetreatDetailsBinding
-import pl.mftau.mftau.model.Retreat
+import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.viewmodel.MainViewModel

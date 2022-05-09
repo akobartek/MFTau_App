@@ -9,7 +9,7 @@ object PrayerUtils {
                 "Wiarę tam, gdzie panuje zwątpienie;\n" +
                 "Nadzieję tam, gdzie panuje rozpacz;\n" +
                 "Światło tam, gdzie panuje mrok;\n" +
-                "Radość tan, gdzie panuje smutek.\n" +
+                "Radość tam, gdzie panuje smutek.\n" +
                 "Spraw, abyśmy mogli nie tyle szukać pociechy,\n" +
                 "Co pociechę dawać,\n" +
                 "Nie tyle szukać zrozumienia, co rozumieć," +

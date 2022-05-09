@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentRetreatEditorBinding
-import pl.mftau.mftau.model.Retreat
+import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted

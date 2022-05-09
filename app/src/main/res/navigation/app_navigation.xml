@@ -220,7 +220,7 @@
 
         <argument
             android:name="retreat"
-            app:argType="pl.mftau.mftau.model.Retreat" />
+            app:argType="pl.mftau.mftau.model.local_db.Retreat" />
     </fragment>
 
     <fragment
@@ -230,7 +230,7 @@
 
         <argument
             android:name="retreat"
-            app:argType="pl.mftau.mftau.model.Retreat"
+            app:argType="pl.mftau.mftau.model.local_db.Retreat"
             app:nullable="true" />
     </fragment>
 
@@ -268,7 +268,7 @@
 
         <argument
             android:name="member"
-            app:argType="pl.mftau.mftau.model.Member"
+            app:argType="pl.mftau.mftau.model.local_db.Member"
             app:nullable="true" />
         <action
             android:id="@+id/showPresenceDetailsFragment"
@@ -329,7 +329,7 @@
 
         <argument
             android:name="meeting"
-            app:argType="pl.mftau.mftau.model.Meeting"
+            app:argType="pl.mftau.mftau.model.local_db.Meeting"
             app:nullable="true" />
         <action
             android:id="@+id/showPresenceCheckFragment"
@@ -347,7 +347,7 @@
 
         <argument
             android:name="meeting"
-            app:argType="pl.mftau.mftau.model.Meeting" />
+            app:argType="pl.mftau.mftau.model.local_db.Meeting" />
         <argument
             android:name="isMeetingNew"
             app:argType="integer" />
@@ -363,6 +363,6 @@
 
         <argument
             android:name="member"
-            app:argType="pl.mftau.mftau.model.Member" />
+            app:argType="pl.mftau.mftau.model.local_db.Member" />
     </fragment>
 </navigation>

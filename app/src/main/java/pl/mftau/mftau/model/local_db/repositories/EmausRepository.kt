@@ -1,4 +1,4 @@
-package pl.mftau.mftau.model.repositories
+package pl.mftau.mftau.model.local_db.repositories
 
 import android.app.Application
 import androidx.annotation.WorkerThread

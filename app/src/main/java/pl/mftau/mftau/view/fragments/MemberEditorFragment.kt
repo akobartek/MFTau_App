@@ -18,7 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMemberEditorBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyCity
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsResponsible
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName

@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemMeetingBinding
-import pl.mftau.mftau.model.Meeting
+import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.view.fragments.MeetingsFragmentDirections
 
 class MeetingsRecyclerAdapter : RecyclerView.Adapter<MeetingsRecyclerAdapter.MeetingsViewHolder>() {

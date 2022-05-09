@@ -22,11 +22,11 @@ import org.jsoup.Jsoup
 import pl.mftau.mftau.R
 import pl.mftau.mftau.db.entities.DrawEntity
 import pl.mftau.mftau.db.entities.MemberEntity
-import pl.mftau.mftau.model.Meeting
-import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.model.Retreat
-import pl.mftau.mftau.model.repositories.EmausRepository
-import pl.mftau.mftau.model.repositories.FirebaseRepository
+import pl.mftau.mftau.model.local_db.Meeting
+import pl.mftau.mftau.model.local_db.Member
+import pl.mftau.mftau.model.local_db.Retreat
+import pl.mftau.mftau.model.local_db.repositories.EmausRepository
+import pl.mftau.mftau.model.local_db.repositories.FirebaseRepository
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.showNoInternetDialogWithTryAgain
@@ -53,7 +53,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     // region LoginFragment
     private val adminAddresses = arrayOf(
-        "rada@mftau.pl", "referat@mftau.pl", "webmaster@mftau.pl", "lider@mftau.pl"
+        "rada@mftau.pl", "referat@mftau.pl", "lider@mftau.pl", "sokolowskijbartek@gmail.com"
     )
 
     fun createUserValues(email: String): HashMap<String, Any> {

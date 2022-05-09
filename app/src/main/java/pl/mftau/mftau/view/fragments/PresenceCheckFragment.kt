@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.databinding.FragmentPresenceCheckBinding
-import pl.mftau.mftau.model.Meeting
+import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.view.adapters.PresenceCheckRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel

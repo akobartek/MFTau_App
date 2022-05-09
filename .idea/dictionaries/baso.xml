@@ -2,6 +2,9 @@
   <dictionary name="baso">
     <words>
       <w>mftau</w>
+      <w>participations</w>
+      <w>pesel</w>
+      <w>sanepid</w>
     </words>
   </dictionary>
 </component>

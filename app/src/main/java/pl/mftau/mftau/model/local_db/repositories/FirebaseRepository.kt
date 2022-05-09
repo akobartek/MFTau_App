@@ -1,4 +1,4 @@
-package pl.mftau.mftau.model.repositories
+package pl.mftau.mftau.model.local_db.repositories
 
 import android.app.Activity
 import android.app.Application
@@ -11,9 +11,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import pl.mftau.mftau.R
-import pl.mftau.mftau.model.Meeting
-import pl.mftau.mftau.model.Member
-import pl.mftau.mftau.model.Retreat
+import pl.mftau.mftau.model.local_db.Meeting
+import pl.mftau.mftau.model.local_db.Member
+import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.view.fragments.PresenceListFragment
 import java.io.InputStream

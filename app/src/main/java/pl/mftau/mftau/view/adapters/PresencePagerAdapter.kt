@@ -2,7 +2,7 @@ package pl.mftau.mftau.view.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.fragments.PresenceMemberFragment
 
 class PresencePagerAdapter(

@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemPresenceMeetingBinding
-import pl.mftau.mftau.model.Meeting
+import pl.mftau.mftau.model.local_db.Meeting
 
 class PresenceMeetingRecyclerAdapter :
     RecyclerView.Adapter<PresenceMeetingRecyclerAdapter.PresenceMeetingViewHolder>() {

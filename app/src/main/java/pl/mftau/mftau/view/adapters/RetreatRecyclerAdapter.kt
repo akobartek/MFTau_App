@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.databinding.ItemRetreatBinding
-import pl.mftau.mftau.model.Retreat
+import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.view.fragments.RetreatsFragmentDirections
 import pl.mftau.mftau.viewmodel.MainViewModel

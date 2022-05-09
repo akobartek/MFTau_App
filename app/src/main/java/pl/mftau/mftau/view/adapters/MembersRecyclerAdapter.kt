@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemMemberBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.fragments.MembersFragmentDirections
 
 class MembersRecyclerAdapter : RecyclerView.Adapter<MembersRecyclerAdapter.MembersViewHolder>() {

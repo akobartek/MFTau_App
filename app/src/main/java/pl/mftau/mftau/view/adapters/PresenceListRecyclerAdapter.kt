@@ -18,7 +18,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemPresenceShowBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.view.fragments.PresenceListFragmentDirections
 

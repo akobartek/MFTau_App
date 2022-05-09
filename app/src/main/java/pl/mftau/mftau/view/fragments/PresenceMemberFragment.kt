@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPresenceMemberBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.getColorsByName
 import pl.mftau.mftau.view.adapters.PresenceMeetingRecyclerAdapter

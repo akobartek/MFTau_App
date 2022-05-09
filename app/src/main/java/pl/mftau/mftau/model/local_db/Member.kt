@@ -1,4 +1,4 @@
-package pl.mftau.mftau.model
+package pl.mftau.mftau.model.local_db
 
 import android.os.Parcelable
 import android.widget.ImageView

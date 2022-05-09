@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMeetingEditorBinding
-import pl.mftau.mftau.model.Meeting
+import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.utils.hideKeyboard

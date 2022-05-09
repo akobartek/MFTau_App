@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPresenceListBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.adapters.PresenceListRecyclerAdapter
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.util.*

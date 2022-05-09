@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPresenceDetailsBinding
-import pl.mftau.mftau.model.Member
+import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.adapters.PresencePagerAdapter
 
 class PresenceDetailsFragment : BindingFragment<FragmentPresenceDetailsBinding>() {
