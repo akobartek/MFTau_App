@@ -88,9 +88,9 @@ dependencies {
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
 
     // Navigation
-    implementation 'androidx.fragment:fragment-ktx:1.5.0-beta01'
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+    implementation "androidx.fragment:fragment-ktx:1.5.0-beta01"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
 
     // Room database
     implementation "androidx.room:room-runtime:2.4.2"

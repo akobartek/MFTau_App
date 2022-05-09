@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="MyAppTheme">
-        <attr name="colorPrimary" format="color" />
-        <attr name="colorSecondary" format="color" />
-        <attr name="colorPrimaryDark" format="color" />
-        <attr name="colorAccent" format="color" />
-        <attr name="colorText" format="color" />
-        <attr name="colorButtonText" format="color" />
-        <attr name="colorIcons" format="color" />
-        <attr name="colorMenuIcons" format="color" />
-        <attr name="colorBackground" format="color" />
-        <attr name="colorListItemBackground" format="color" />
-        <attr name="logoFull" format="integer" />
     </declare-styleable>
 </resources>

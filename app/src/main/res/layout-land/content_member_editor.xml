@@ -5,7 +5,7 @@
     android:id="@+id/addMemberLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.MemberEditorFragment">
 
@@ -36,7 +36,7 @@
             android:id="@+id/memberNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
+            android:backgroundTint="@color/colorAccent"
             android:inputType="textPersonName|textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +47,7 @@
         android:layout_marginStart="28dp"
         android:text="@string/is_responsible"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="?attr/colorPrimaryDark"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="@+id/responsibleSwitch"
         app:layout_constraintStart_toEndOf="@+id/addMemberPhoto"
         app:layout_constraintTop_toTopOf="@+id/responsibleSwitch" />
@@ -80,7 +80,7 @@
             android:id="@+id/cityET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorAccent"
+            android:backgroundTint="@color/colorAccent"
             android:inputType="textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

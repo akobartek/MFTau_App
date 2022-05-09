@@ -29,17 +29,15 @@ class MainActivity : AppCompatActivity() {
     private var currentFragmentId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (PreferencesManager.getNightMode()) {
-            setTheme(R.style.AppTheme_Dark)
+        setTheme(R.style.AppTheme)
+        if (PreferencesManager.getNightMode())
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            setTheme(R.style.AppTheme_Light)
+        else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
 
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         if (!PreferencesManager.getNightMode() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val wic = WindowInsetsControllerCompat(window, window.decorView)

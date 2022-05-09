@@ -9,7 +9,7 @@
             android:viewportHeight="459">
             <path
                 android:name="pause_to_sound"
-                android:fillColor="?attr/colorMenuIcons"
+                android:fillColor="@color/colorMenuIcons"
                 android:pathData="M 32.786 459 L 163.929 459 L 163.929 0 L 32.786 0 L 32.786 459 Z M 295.071 0 L 295.071 459 L 426.214 459 L 426.214 0 L 295.071 0 Z" />
         </vector>
     </aapt:attr>

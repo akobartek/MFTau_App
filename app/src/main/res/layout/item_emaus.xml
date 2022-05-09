@@ -11,7 +11,7 @@
         android:id="@+id/drawItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorBackground">
+        android:background="@color/colorBackground">
 
         <ImageView
             android:id="@+id/drawFirstPicture"
@@ -48,7 +48,7 @@
             android:gravity="center"
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/colorText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drawSecondPicture"
             app:layout_constraintStart_toEndOf="@+id/drawFirstPicture"

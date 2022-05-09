@@ -62,7 +62,7 @@ fun CharSequence.isValidPassword(): Boolean {
 }
 
 fun Date.getDateFormatted(): String =
-    SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(this)
+    SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
 
 fun Activity.showNoInternetDialogWithTryAgain(function: () -> Unit): Unit =
     AlertDialog.Builder(this)

@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorBackground"
+        android:background="@color/colorBackground"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -26,11 +26,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorBackground"
-            app:tabIndicatorColor="?attr/colorText"
+            android:background="@color/colorBackground"
+            app:tabIndicatorColor="@color/colorText"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TextAppearance.MFTau.Tab"
-            app:tabTextColor="?attr/colorText"
+            app:tabTextColor="@color/colorText"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.appbar.AppBarLayout>
 

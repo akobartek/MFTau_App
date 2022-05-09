@@ -4,13 +4,13 @@
     android:viewportWidth="512.0012"
     android:viewportHeight="512">
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m391.441,43.309c-2.93,-2.93 -7.68,-2.93 -10.609,0 -2.926,2.93 -2.926,7.676 0,10.605l77.254,77.25c1.465,1.465 3.383,2.199 5.305,2.199 1.918,0 3.84,-0.734 5.305,-2.199 2.926,-2.93 2.926,-7.676 0,-10.605zM391.441,43.309" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m492.27,94.719 l-75.078,-75.078c-2.934,-2.93 -7.68,-2.93 -10.609,0 -2.93,2.93 -2.93,7.676 0,10.605l75.078,75.078c1.465,1.465 3.387,2.199 5.305,2.199 1.918,0 3.84,-0.734 5.305,-2.199 2.926,-2.926 2.926,-7.676 0,-10.605zM492.27,94.719" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m504.508,76.055c-1.918,0 -3.836,-0.73 -5.301,-2.195l-61.066,-61.066c-2.926,-2.926 -2.926,-7.672 0,-10.598 2.926,-2.926 7.672,-2.926 10.598,0l61.07,61.07c2.926,2.926 2.926,7.672 0,10.594 -1.465,1.465 -3.383,2.195 -5.301,2.195zM504.508,76.055" />
     <path
         android:fillColor="#b0693c"
@@ -73,19 +73,19 @@
         android:fillColor="#50475e"
         android:pathData="m487.281,43.262c-2.93,-2.93 -7.676,-2.93 -10.605,0 -2.93,2.93 -2.93,7.68 0,10.605 2.93,2.93 7.676,2.93 10.605,0 2.93,-2.926 2.93,-7.676 0,-10.605zM487.281,43.262" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m28.793,32.43c-0.883,-4.047 -4.883,-6.613 -8.926,-5.73 -4.047,0.887 -6.609,4.879 -5.727,8.93l24.18,110.859c0.766,3.508 3.871,5.902 7.32,5.902 0.531,0 1.066,-0.055 1.605,-0.176 4.047,-0.883 6.613,-4.879 5.73,-8.926zM28.793,32.43" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m149.984,122.129 l-24.18,-110.859c-0.883,-4.047 -4.887,-6.613 -8.926,-5.727 -4.047,0.883 -6.613,4.879 -5.73,8.926l24.184,110.859c0.766,3.508 3.871,5.902 7.32,5.902 0.527,0 1.066,-0.055 1.602,-0.172 4.047,-0.887 6.613,-4.883 5.73,-8.93zM149.984,122.129" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m52.965,143.234c3.156,14.473 -6.914,24.641 -21.383,27.797 -14.473,3.156 -27.859,-1.895 -31.016,-16.367 -3.156,-14.469 7.301,-23.918 21.77,-27.074s27.473,1.176 30.629,15.645zM52.965,143.234" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m149.973,122.074c3.156,14.473 -6.914,24.641 -21.383,27.797 -14.473,3.156 -27.859,-1.895 -31.016,-16.367 -3.156,-14.469 7.301,-23.918 21.77,-27.074 14.469,-3.16 27.473,1.176 30.629,15.645zM149.973,122.074" />
     <path
-        android:fillColor="?attr/colorMenuIcons"
+        android:fillColor="@color/colorMenuIcons"
         android:pathData="m130.094,30.93 l-111.664,24.359 -5.563,-25.504c-0.813,-3.723 1.547,-7.395 5.266,-8.207l98.191,-21.418c3.719,-0.809 7.395,1.547 8.207,5.27zM130.094,30.93" />
     <path
         android:fillColor="#e62753"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
+    android:background="@color/colorBackground"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.RetreatDetailsFragment">
@@ -31,7 +31,7 @@
                 android:id="@+id/retreatNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="3" />
@@ -53,7 +53,7 @@
                 android:id="@+id/retreatCityET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +74,7 @@
                 android:id="@+id/retreatAddressET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="2" />
@@ -96,7 +96,7 @@
                 android:id="@+id/retreatPriceET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:text="@string/pln"
-            android:textColor="?attr/colorText"
+            android:textColor="@color/colorText"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@id/priceInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +138,7 @@
                 android:id="@+id/beginDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
@@ -160,7 +160,7 @@
                 android:id="@+id/endDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
@@ -183,7 +183,7 @@
                 android:id="@+id/retreatTypeET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="2"
