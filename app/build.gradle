@@ -9,11 +9,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    namespace 'pl.mftau.mftau'
+    compileSdkVersion 32
     defaultConfig {
         applicationId "pl.mftau.mftau"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 24
         versionName "6.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

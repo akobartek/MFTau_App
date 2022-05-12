@@ -107,7 +107,7 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
                 findNavController().navigate(MainFragmentDirections.showPdfFragment("songbook"))
             }
             breviary.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.showBreviaryFragment("breviary"))
+                findNavController().navigate(MainFragmentDirections.showBreviarySelectFragment())
             }
             gospel.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.showGospelFragment())
@@ -125,7 +125,7 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
                 findNavController().navigate(MainFragmentDirections.showRetreatsFragment())
             }
             prayerBook.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.showPrayerFragment("prayer"))
+                findNavController().navigate(MainFragmentDirections.showPrayersSelectFragment())
             }
             website.setOnClickListener {
                 if (requireContext().isChromeCustomTabsSupported()) {

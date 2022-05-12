@@ -3,6 +3,7 @@
     android:id="@+id/listViewText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/dialog_items_background"
     android:padding="12dp"
-    android:textColor="@color/colorText"
+    android:textColor="@color/dialog_items_text_color"
     android:textSize="16sp" />

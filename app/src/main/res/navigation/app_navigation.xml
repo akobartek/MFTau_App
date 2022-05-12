@@ -18,19 +18,19 @@
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_top" />
         <action
-            android:id="@+id/showBreviaryFragment"
-            app:destination="@+id/listFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/showPrayerFragment"
-            app:destination="@+id/listFragment"
+            android:id="@+id/showPrayersSelectFragment"
+            app:destination="@+id/prayersSelectFragment"
             app:enterAnim="@anim/slide_in_top"
             app:exitAnim="@anim/slide_out_bottom"
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_top" />
+        <action
+            android:id="@+id/showBreviarySelectFragment"
+            app:destination="@+id/breviarySelectFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/showGospelFragment"
             app:destination="@+id/gospelFragment"
@@ -118,39 +118,47 @@
     </fragment>
 
     <fragment
-        android:id="@+id/listFragment"
-        android:name="pl.mftau.mftau.view.fragments.ListFragment"
-        tools:layout="@layout/fragment_list">
+        android:id="@+id/breviarySelectFragment"
+        android:name="pl.mftau.mftau.view.fragments.BreviarySelectFragment"
+        tools:layout="@layout/fragment_breviary_select">
 
-        <argument
-            android:name="listType"
-            app:argType="string" />
         <action
             android:id="@+id/showBreviaryFragment"
-            app:destination="@+id/breviaryFragment"
+            app:destination="@+id/breviaryTextFragment"
             app:enterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/breviaryTextFragment"
+        android:name="pl.mftau.mftau.view.fragments.BreviaryTextFragment"
+        tools:layout="@layout/fragment_breviary_text">
+
+        <argument
+            android:name="position"
+            app:argType="integer" />
+
+        <argument
+            android:name="daysFromToday"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/prayersSelectFragment"
+        android:name="pl.mftau.mftau.view.fragments.PrayersSelectFragment"
+        tools:layout="@layout/fragment_prayers_select">
+
         <action
-            android:id="@+id/showPrayerFragment"
+            android:id="@+id/showPrayersSelectFragment"
             app:destination="@+id/prayerFragment"
             app:enterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
-        android:id="@+id/breviaryFragment"
-        android:name="pl.mftau.mftau.view.fragments.BreviaryFragment"
-        tools:layout="@layout/fragment_breviary">
-
-        <argument
-            android:name="position"
-            app:argType="integer" />
-    </fragment>
-
-    <fragment
         android:id="@+id/prayerFragment"
-        android:name="pl.mftau.mftau.view.fragments.PrayerFragment"
-        tools:layout="@layout/fragment_prayer">
+        android:name="pl.mftau.mftau.view.fragments.PrayersFragment"
+        tools:layout="@layout/fragment_prayers">
 
         <argument
             android:name="position"

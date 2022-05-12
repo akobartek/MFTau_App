@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_yesterday_breviary"
+        android:title="@string/breviary_yesterday"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_today_breviary"
+        android:title="@string/breviary_today"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_tomorrow_breviary"
+        android:title="@string/breviary_tomorrow"
+        app:showAsAction="never" />
+</menu>

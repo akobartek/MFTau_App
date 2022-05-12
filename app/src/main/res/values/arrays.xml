@@ -2,7 +2,7 @@
 <resources>
     <string-array name="breviary_list">
         <item>@string/invitatory</item>
-        <!--<item>@string/office_of_readings</item>-->
+        <item>@string/office_of_readings</item>
         <item>@string/morning_prayer</item>
         <item>@string/midmorning_prayer</item>
         <item>@string/midday_prayer</item>

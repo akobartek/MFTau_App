@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".view.fragments.ListFragment">
+    tools:context=".view.fragments.PrayersSelectFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,18 +13,18 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/listToolbar"
+            android:id="@+id/breviarySelectToolbar"
             style="@style/MFTauToolbar">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/listToolbarTitle"
+                android:id="@+id/breviarySelectToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                tools:text="@string/breviary" />
+                android:text="@string/breviary_with_day" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/breviarySelectList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

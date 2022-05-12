@@ -2,7 +2,7 @@
 <resources>
     <!-- BASIC STRINGS -->
     <string name="statute">Статут</string>
-    <string name="prayer">Малітвы</string>
+    <string name="prayers">Малітвы</string>
     <string name="breviary">Брэвіярый</string>
     <string name="gospel">Евангелле</string>
     <string name="songbook">Песеннік</string>
@@ -22,6 +22,8 @@
     <string name="no_internet_reconnect_message">Узнікла праблема з падключэннем да Інтэрнэту, вы хочаце паспрабаваць яшчэ раз?</string>
     <string name="no_internet_data_message">Няма доступу ў Інтэрнэт, адлюстраваныя дадзеныя могуць састарэць!</string>
     <string name="try_again">Спрабаваць</string>
+    <string name="loading">Загрузка…</string>
+    <string name="load">Загрузіць</string>
 
     <!-- SLICE STRINGS -->
     <string name="slice_breviary_subtitle">Адкрыйце брэвіярый у прыкладанне MF Tau</string>
@@ -84,14 +86,19 @@
     <string name="awake_songbook_summary">Не выключайце экран на экране кнігі песень</string>
 
     <!-- BREVIARY STRINGS -->
-    <string name="invitatory">Выклік</string>
-    <string name="office_of_readings">Гадзіна чытання</string>
+    <string name="breviary_with_day">Брэвіярый (%s)</string>
+    <string name="breviary_yesterday">Учорашні брэвіярый</string>
+    <string name="breviary_today">Сённяшні брэвіярый</string>
+    <string name="breviary_tomorrow">Заўтрашні брэвіярый</string>
+    <string name="select_office">Выберыце Офіс</string>
+    <string name="invitatory">Заклік</string>
+    <string name="office_of_readings">Гадзіна чытанняў</string>
     <string name="morning_prayer">Ютрань</string>
-    <string name="midmorning_prayer">Ранішняя малітва</string>
-    <string name="midday_prayer">Паўдзённая малітва</string>
-    <string name="midafternoon_prayer">Малітва ў другой палове дня</string>
-    <string name="evening_prayer">Вячэрня</string>
-    <string name="night_prayer">Вячэрні богаслужэнне</string>
+    <string name="midmorning_prayer">Малітва перад поўднем</string>
+    <string name="midday_prayer">Малітва апоўдні</string>
+    <string name="midafternoon_prayer">Малітва пасля поўдня</string>
+    <string name="evening_prayer">Нешпары</string>
+    <string name="night_prayer">Камплета</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Евангелле на сёння</string>
@@ -195,7 +202,6 @@
     <string name="member_add_error">Памылка пры захаванні чалавека!</string>
     <string name="member_update_error">Памылка пры абнаўлення дадзеных!</string>
     <string name="member_photo_error">Памылка пры захаванні фота!</string>
-    <string name="loading">Загрузка…</string>
     <string name="unsaved_changes_dialog_msg">Адмяніць змены?</string>
     <string name="discard">Адмоўцеся</string>
     <string name="keep_editing">Працягвайце рэдагаваць</string>

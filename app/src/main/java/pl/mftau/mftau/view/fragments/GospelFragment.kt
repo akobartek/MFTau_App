@@ -7,6 +7,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,16 +18,16 @@ import androidx.navigation.fragment.findNavController
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentGospelBinding
 import pl.mftau.mftau.utils.PreferencesManager
+import pl.mftau.mftau.utils.showNoInternetDialogWithTryAgain
 import pl.mftau.mftau.utils.tryToRunFunctionOnInternet
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.GospelViewModel
 import java.util.*
 
 class GospelFragment : BindingFragment<FragmentGospelBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: GospelViewModel
     private lateinit var mTextToSpeech: TextToSpeech
 
-    private var mGospel: String? = null
     private var mIsSpeaking: Boolean = false
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -36,12 +37,11 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
         inflateToolbarMenu(binding.gospelToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[GospelViewModel::class.java]
 
             when {
                 savedInstanceState != null -> binding.gospelText.restoreState(savedInstanceState)
-                mViewModel.wasGospelLoaded() -> loadGospel()
-                else -> activity?.tryToRunFunctionOnInternet { loadGospel() }
+                else -> it.tryToRunFunctionOnInternet { loadGospel() }
             }
         }
 
@@ -64,7 +64,7 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
                     requireView().handler.post { updateToolbarIcon(binding.gospelToolbar.menu) }
             }
 
-            @Suppress("OverridingDeprecatedMember")
+            @Deprecated("This method is deprecated, but is required to implement")
             override fun onError(utteranceId: String?) {
             }
 
@@ -133,34 +133,29 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
             .setOnCancelListener { findNavController().navigateUp() }
             .create()
         loadingDialog.show()
-        mViewModel.loadGospelHtml(loadingDialog, binding.gospelText, requireActivity())
+        mViewModel.loadGospelHtml(
+            { textToShow ->
+                if (loadingDialog.isShowing) loadingDialog.hide()
+                binding.gospelText.apply {
+                    loadDataWithBaseURL(
+                        null, textToShow,
+                        "text/html", "UTF-8", null
+                    )
+                    visibility = View.VISIBLE
+                    scrollTo(0, 0)
+                    animate().alpha(1f).duration = 444L
+                }
+            }, {
+                if (loadingDialog.isShowing) loadingDialog.hide()
+                activity?.showNoInternetDialogWithTryAgain { loadGospel() }
+            })
     }
 
     private fun readGospel() {
-        if (!mViewModel.wasGospelLoaded())
-            return
-
-        if (mGospel == null) {
-            mGospel = mViewModel.getGospelHtml()
-            mGospel = mGospel!!.substring(mGospel!!.indexOf("<p>"), mGospel!!.length)
-                .replace("<p>", "")
-                .replace("</p>", "\n")
-                .replace("<br>", "")
-                .replace("<strong>", "")
-                .replace("</strong>", "")
-                .replace(":", ".")
-
-            val list = mGospel!!.split("; ").toMutableList()
-            val stringBuilder = StringBuilder()
-            for (sentence in list) {
-                stringBuilder.append(sentence.replaceFirstChar(Char::titlecase)).append(". ")
-            }
-            mGospel = stringBuilder.toString().trim()
-            mGospel = mGospel!!.substring(0, mGospel!!.length - 1)
+        mViewModel.getGospelToRead()?.let {
+            mTextToSpeech.speak(it, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
+                putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UtteranceID")
+            }, "UtteranceID")
         }
-
-        mTextToSpeech.speak(mGospel, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
-            putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UtteranceID")
-        }, "UtteranceID")
     }
 }

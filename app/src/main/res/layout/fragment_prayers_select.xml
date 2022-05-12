@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".view.fragments.BreviaryFragment">
+    tools:context=".view.fragments.PrayersSelectFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,20 +13,19 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/breviaryToolbar"
+            android:id="@+id/prayersSelectToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
-                android:id="@+id/breviaryToolbarTitle"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/prayersSelectToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                tools:text="@string/midmorning_prayer" />
+                android:text="@string/prayers" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <WebView
-        android:id="@+id/breviaryText"
+    <ListView
+        android:id="@+id/prayersSelectList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

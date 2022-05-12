@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -39,12 +40,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        if (!PreferencesManager.getNightMode() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (!PreferencesManager.getNightMode()) {
             val wic = WindowInsetsControllerCompat(window, window.decorView)
             wic.isAppearanceLightStatusBars = true
             wic.isAppearanceLightNavigationBars = true
-            window.statusBarColor = Color.WHITE
         }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
 
         mAuth = FirebaseAuth.getInstance()
         if (mAuth.currentUser != null)
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             "breviary" -> {
                 intent.putExtra("shortcut", "")
                 findNavController(R.id.navHostFragment).navigate(
-                    MainFragmentDirections.showBreviaryFragment("breviary")
+                    MainFragmentDirections.showBreviarySelectFragment()
                 )
             }
             "gospel" -> {
