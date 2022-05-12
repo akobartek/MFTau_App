@@ -126,10 +126,6 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
             findNavController(R.id.navHostFragment).navigate(R.id.moveBackToMeetingsList)
             true
-        } else if (currentFragmentId == R.id.pdfFragment) {
-            if (PreferencesManager.getAwakeSongbook())
-                window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            findNavController(R.id.navHostFragment).navigateUp()
         } else {
             hideKeyboard()
             findNavController(R.id.navHostFragment).navigateUp()

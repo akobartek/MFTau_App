@@ -2,8 +2,11 @@
     <!-- Light base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:fitsSystemWindows">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorBackground</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorOnSecondary">@color/colorBackground</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
@@ -15,6 +18,7 @@
         <item name="android:datePickerDialogTheme">@style/Widget.MFTau.Dialog</item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.MFTau.Dialog</item>
         <item name="android:itemBackground">@color/colorListItemBackground</item>
+        <item name="floatingActionButtonStyle">@style/Widget.MFTau.FloatingActionButton</item>
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.AppCompat">
@@ -59,6 +63,15 @@
         <item name="hintTextAppearance">@style/HintText</item>
         <item name="hintTextColor">@color/colorAccent</item>
         <item name="android:theme">@style/AppTheme.TextInputLayoutOverlay</item>
+    </style>
+
+    <style name="Widget.MFTau.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MFTau.SmallComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.MFTau.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="HintText" parent="TextAppearance.AppCompat">

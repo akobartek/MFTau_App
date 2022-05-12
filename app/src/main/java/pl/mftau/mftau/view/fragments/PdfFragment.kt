@@ -24,7 +24,7 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
         inflateToolbarMenu(binding.pdfToolbar)
 
         if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook" && PreferencesManager.getAwakeSongbook())
-            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding.pdfToolbarTitle.text = getString(
             if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook") R.string.songbook
@@ -37,6 +37,11 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("page", binding.pdfView.currentPage)
+    }
+
+    override fun onStop() {
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        super.onStop()
     }
 
     private fun loadPdfFile(savedInstanceState: Bundle?, isBtnPressed: Boolean) {

@@ -33,4 +33,6 @@ object PreferencesManager {
             .putBoolean(AWAKE_SONGBOOK, newValue)
             .apply()
     }
+
+    // TODO() -> WHICH WAY OF USING SONGBOOK USER PREFERS
 }
