@@ -59,7 +59,7 @@
 
     <style name="TextAppearance.MFTau.Tab" parent="@style/TextAppearance.Design.Tab">
         <item name="android:fontFamily">@font/mffont</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="textAllCaps">false</item>
     </style>
 

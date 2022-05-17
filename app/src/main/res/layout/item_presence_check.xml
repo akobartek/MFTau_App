@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     app:dragEdge="right"
-    app:mode="normal">
+    app:mode="same_level">
 
     <RelativeLayout
         android:id="@+id/swipeItemLayout"

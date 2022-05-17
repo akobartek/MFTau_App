@@ -248,7 +248,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
             beginDateText.setOnTouchListener(mTouchListener)
             endDateText.setOnTouchListener(mTouchListener)
             registerDateText.setOnTouchListener(mTouchListener)
-            retreatTypeTV.setOnTouchListener(mTouchListener)
+            retreatTypeInputLayout.setOnTouchListener(mTouchListener)
             advPaymentSwitch.setOnTouchListener(mTouchListener)
 
             retreatNameET.addTextChangedListener(ClearErrorTextWatcher(nameInputLayout))

@@ -18,6 +18,7 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
 import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 import pl.mftau.mftau.utils.openWebsiteInChromeCustomTabs
 import pl.mftau.mftau.viewmodel.MainViewModel
+import java.lang.NullPointerException
 
 class MainFragment : BindingFragment<FragmentMainBinding>() {
 
@@ -35,7 +36,7 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (mAuth.currentUser != null && mAuth.currentUser!!.isEmailVerified) {
+        if (mAuth.currentUser != null) {
             FirebaseFirestore.getInstance().collection(firestoreCollectionUsers)
                 .document(FirebaseAuth.getInstance().currentUser!!.uid)
                 .get()
@@ -136,19 +137,23 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
     }
 
     private fun showUIChanges(userType: Int) {
-        with(binding.contentMain) {
-            when (userType) {
-                MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
-                    hideViews(members, meetings)
-                    showViews(retreat)
-                }
-                MainViewModel.USER_TYPE_LEADER -> {
-                    showViews(members, meetings, retreat)
-                }
-                MainViewModel.USER_TYPE_NONE -> {
-                    hideViews(members, meetings, retreat)
+        try {
+            with(binding.contentMain) {
+                when (userType) {
+                    MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
+                        hideViews(members, meetings)
+                        showViews(retreat)
+                    }
+                    MainViewModel.USER_TYPE_LEADER -> {
+                        showViews(members, meetings, retreat)
+                    }
+                    MainViewModel.USER_TYPE_NONE -> {
+                        hideViews(members, meetings, retreat)
+                    }
                 }
             }
+        } catch (exc: NullPointerException) {
+            exc.printStackTrace()
         }
     }
 

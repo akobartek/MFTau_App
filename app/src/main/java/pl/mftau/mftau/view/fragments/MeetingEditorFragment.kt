@@ -115,6 +115,10 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
                     nameInputLayout.error = getString(R.string.empty_meeting_name_error)
                     return@setOnClickListener
                 }
+                if (meetingTypeTV.text.isNullOrBlank()) {
+                    meetingTypeInputLayout.error = getString(R.string.empty_meeting_type_error)
+                    return@setOnClickListener
+                }
 
                 if (mMeeting == null) {
                     showCheckPresenceDialog(meetingValues)
@@ -150,11 +154,12 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
 
             meetingNameET.setOnTouchListener(mTouchListener)
             meetingNotesET.setOnTouchListener(mTouchListener)
-            meetingTypeTV.setOnTouchListener(mTouchListener)
+            meetingTypeInputLayout.setOnTouchListener(mTouchListener)
             setDateIcon.setOnTouchListener(mTouchListener)
             dateText.setOnTouchListener(mTouchListener)
 
             meetingNameET.addTextChangedListener(ClearErrorTextWatcher(nameInputLayout))
+            meetingTypeTV.addTextChangedListener(ClearErrorTextWatcher(meetingTypeInputLayout))
         }
     }
 

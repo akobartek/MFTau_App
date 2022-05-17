@@ -156,6 +156,7 @@
     <string name="edit_meeting">Адрэдагаваць сустрэчу</string>
     <string name="delete_meeting">Выдаліць сустрэчу</string>
     <string name="empty_meeting_name_error">Запоўніце назву сустрэчы!</string>
+    <string name="empty_meeting_type_error">Запоўніце Tып сустрэчы!</string>
     <string name="empty_meeting_date_error">Абярыце дату сустрэчы!</string>
     <string name="meeting_saved">Сустрэча была захавана!</string>
     <string name="meeting_add_error">Памылка пры захавання сустрэчы!</string>

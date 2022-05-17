@@ -32,8 +32,8 @@ class PresenceMeetingRecyclerAdapter :
             meetingDate.text = meeting.getDateFormatted()
             when {
                 mPresenceList.contains(meeting.id) -> {
-                    absenceReason.visibility = View.GONE
-                    root.setBackgroundColor(
+                    absenceReason.visibility = View.INVISIBLE
+                    itemLayout.setBackgroundColor(
                         ContextCompat.getColor(
                             root.context, when (meeting.meetingType) {
                                 0 -> R.color.meetingType1_color1
@@ -47,7 +47,7 @@ class PresenceMeetingRecyclerAdapter :
                     absenceReason.visibility = View.VISIBLE
                     absenceReason.text =
                         root.context.getString(R.string.reason_for_absence, mAbsences[meeting.id])
-                    root.setBackgroundColor(
+                    itemLayout.setBackgroundColor(
                         ContextCompat.getColor(
                             root.context, when (meeting.meetingType) {
                                 0 -> R.color.meetingType1_color2
@@ -58,8 +58,8 @@ class PresenceMeetingRecyclerAdapter :
                     )
                 }
                 else -> {
-                    absenceReason.visibility = View.GONE
-                    root.setBackgroundColor(
+                    absenceReason.visibility = View.INVISIBLE
+                    itemLayout.setBackgroundColor(
                         ContextCompat.getColor(
                             root.context, when (meeting.meetingType) {
                                 0 -> R.color.meetingType1_color3

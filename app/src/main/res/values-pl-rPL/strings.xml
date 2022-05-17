@@ -156,6 +156,7 @@
     <string name="edit_meeting">Edytowanie spotkania</string>
     <string name="delete_meeting">Usuń spotkanie</string>
     <string name="empty_meeting_name_error">Uzupełnij nazwę spotkania!</string>
+    <string name="empty_meeting_type_error">Uzupełnij typ spotkania!</string>
     <string name="empty_meeting_date_error">Wybierz datę spotkania!</string>
     <string name="meeting_saved">Zapisano spotkanie!</string>
     <string name="meeting_add_error">Błąd w trakcie zapisywania spotkania!</string>

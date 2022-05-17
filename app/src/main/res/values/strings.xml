@@ -163,6 +163,7 @@
     <string name="edit_meeting">Edit meeting</string>
     <string name="delete_meeting">Delete meeting</string>
     <string name="empty_meeting_name_error">Name can not be empty!</string>
+    <string name="empty_meeting_type_error">Type can not be empty!</string>
     <string name="empty_meeting_date_error">You must to set date of meeting!</string>
     <string name="meeting_saved">Meeting saved successfully!</string>
     <string name="meeting_add_error">Error with saving meeting!</string>

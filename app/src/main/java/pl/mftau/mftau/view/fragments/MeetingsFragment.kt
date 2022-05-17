@@ -38,7 +38,7 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = mAdapter.getTabTitle(position)
-        }
+        }.attach()
 
         binding.addMeetingBtn.setOnClickListener {
             findNavController().navigate(MeetingsFragmentDirections.showMeetingEditorFragment(null))
