@@ -3,10 +3,9 @@ package pl.mftau.mftau.view.fragments
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import pl.mftau.mftau.R
@@ -23,7 +22,7 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
         FragmentMeetingsBinding.inflate(inflater, container, false)
 
     override fun setup(savedInstanceState: Bundle?) {
-        inflateToolbarMenu(binding.meetingsToolbar)
+        inflateToolbarMenu()
 
         activity?.let {
             mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
@@ -46,8 +45,8 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
         }
     }
 
-    private fun inflateToolbarMenu(toolbar: Toolbar) {
-        toolbar.apply {
+    private fun inflateToolbarMenu() {
+        binding.meetingsToolbar.apply {
             setNavigationOnClickListener { findNavController().navigateUp() }
             inflateMenu(R.menu.menu_meetings)
             setOnMenuItemClickListener {
@@ -67,7 +66,7 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
     }
 
     private fun showDeleteConfirmationDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.delete_meetings_dialog_msg)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()

@@ -10,11 +10,11 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentGospelBinding
 import pl.mftau.mftau.utils.PreferencesManager
@@ -128,7 +128,7 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
     }
 
     private fun loadGospel() {
-        val loadingDialog = AlertDialog.Builder(requireContext())
+        val loadingDialog = MaterialAlertDialogBuilder(requireContext())
             .setView(R.layout.dialog_loading)
             .setOnCancelListener { findNavController().navigateUp() }
             .create()

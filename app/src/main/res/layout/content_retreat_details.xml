@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/app_theme_background"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.RetreatDetailsFragment">
@@ -31,10 +31,10 @@
                 android:id="@+id/retreatNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
-                android:maxLines="3" />
+                android:maxLines="3"
+                android:textColor="@color/app_theme_primary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:hint="@string/retreat_city"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,9 +53,9 @@
                 android:id="@+id/retreatCityET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/app_theme_primary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:hint="@string/retreat_address"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,10 +74,10 @@
                 android:id="@+id/retreatAddressET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
-                android:maxLines="2" />
+                android:maxLines="2"
+                android:textColor="@color/app_theme_primary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -85,39 +85,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
             android:hint="@string/retreat_price"
-            app:layout_constraintEnd_toStartOf="@+id/plnTextView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/addressInputLayout"
+            app:suffixText="@string/pln"
+            app:suffixTextColor="@color/app_theme_primary">
 
             <pl.mftau.mftau.view.ui.MyTextInputEditText
                 android:id="@+id/retreatPriceET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
-                android:inputType="none" />
+                android:inputType="none"
+                android:textColor="@color/app_theme_primary" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/plnTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/pln"
-            android:textColor="@color/colorText"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@id/priceInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/priceInputLayout" />
 
         <ImageView
             android:id="@+id/setDateIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="28dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
             android:contentDescription="@string/calendar_description"
             android:src="@drawable/ic_calendar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -138,10 +128,10 @@
                 android:id="@+id/beginDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
+                android:textColor="@color/app_theme_primary"
                 tools:ignore="KeyboardInaccessibleWidget"
                 tools:text="11.11.2018" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -160,10 +150,10 @@
                 android:id="@+id/endDateText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
+                android:textColor="@color/app_theme_primary"
                 tools:ignore="KeyboardInaccessibleWidget"
                 tools:text="11.11.2018" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -173,20 +163,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setDateIcon">
+            app:layout_constraintTop_toBottomOf="@+id/beginDateInputLayout">
 
             <pl.mftau.mftau.view.ui.MyTextInputEditText
                 android:id="@+id/retreatTypeET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="2"
+                android:textColor="@color/app_theme_primary"
                 tools:text="@string/for_over_15years" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

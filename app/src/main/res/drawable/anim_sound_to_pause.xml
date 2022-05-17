@@ -9,7 +9,7 @@
             android:viewportHeight="459">
             <path
                 android:name="sound_to_pause"
-                android:fillColor="@color/colorMenuIcons"
+                android:fillColor="@color/app_theme_onSurfaceVariant"
                 android:pathData="M 0 153 L 0 306 L 102 306 L 229.5 433.5 L 229.5 25.5 L 102 153 L 0 153 Z M 344.25 229.5 C 344.25 183.6 318.75 145.35 280.5 127.5 L 280.5 331.5 C 318.75 313.65 344.25 275.4 344.25 229.5 Z M 280.5 5.1 L 280.5 58.65 C 354.45 81.6 408 147.899 408 229.5 C 408 311.101 354.45 377.4 280.5 400.35 L 280.5 453.9 C 382.5 430.949 459 339.15 459 229.5 C 459 119.85 382.5 28.049 280.5 5.1 Z"
                 android:strokeWidth="1" />
         </vector>

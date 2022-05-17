@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#402222</color>
-    <color name="colorSecondary">#391e1e</color>
-    <color name="colorPrimaryDark">#391e1e</color>
-    <color name="colorAccent">#391e1e</color>
-    <color name="colorText">#391e1e</color>
-    <color name="colorButtonText">#000000</color>
-    <color name="colorIcons">#4e342e</color>
-    <color name="colorMenuIcons">#777777</color>
-    <color name="colorBackground">#FFFFFF</color>
-    <color name="colorListItemBackground">#FFFFFF</color>
-    <color name="colorControlNormal">#391e1e</color>
-    <color name="colorControlActivated">#391e1e</color>
+    <color name="app_theme_primary">#803D09</color>
+    <color name="app_theme_onPrimary">#FFFFFF</color>
+    <color name="app_theme_primaryContainer">#FFDBC6</color>
+    <color name="app_theme_onPrimaryContainer">#331200</color>
+    <color name="app_theme_secondary">#96480B</color>
+    <color name="app_theme_onSecondary">#FFFFFF</color>
+    <color name="app_theme_secondaryContainer">#FFDBC6</color>
+    <color name="app_theme_onSecondaryContainer">#331200</color>
+    <color name="app_theme_tertiary">#9C4332</color>
+    <color name="app_theme_onTertiary">#FFFFFF</color>
+    <color name="app_theme_tertiaryContainer">#FFDAD1</color>
+    <color name="app_theme_onTertiaryContainer">#3F0300</color>
+    <color name="app_theme_error">#B3261E</color>
+    <color name="app_theme_errorContainer">#F9DEDC</color>
+    <color name="app_theme_onError">#FFFFFF</color>
+    <color name="app_theme_onErrorContainer">#410E0B</color>
+    <color name="app_theme_background">#FBFDFD</color>
+    <color name="app_theme_onBackground">#191C1D</color>
+    <color name="app_theme_surface">#FBFDFD</color>
+    <color name="app_theme_onSurface">#191C1D</color>
+    <color name="app_theme_surfaceVariant">#FFF5F5</color>
+    <color name="app_theme_onSurfaceVariant">#49454F</color>
+    <color name="app_theme_outline">#79747E</color>
+    <color name="app_theme_inverseOnSurface">#EFF1F1</color>
+    <color name="app_theme_inverseSurface">#2D3132</color>
+    <color name="app_theme_inversePrimary">#FFB689</color>
+    <color name="app_theme_shadow">#000000</color>
+    <color name="app_theme_primaryInverse">#FFB689</color>
 
     <color name="meetingType1_color1">#64ff11</color>
     <color name="meetingType1_color2">#4cc10d</color>

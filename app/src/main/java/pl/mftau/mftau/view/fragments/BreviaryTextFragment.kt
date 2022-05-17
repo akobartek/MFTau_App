@@ -1,7 +1,6 @@
 package pl.mftau.mftau.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogBreviarySelectOfficeBinding
 import pl.mftau.mftau.databinding.FragmentBreviaryTextBinding
@@ -21,7 +21,7 @@ class BreviaryTextFragment : BindingFragment<FragmentBreviaryTextBinding>() {
 
     private lateinit var mViewModel: BreviaryViewModel
     private val mLoadingDialog: AlertDialog by lazy {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setView(R.layout.dialog_loading)
             .setOnCancelListener { findNavController().navigateUp() }
             .create()
@@ -70,16 +70,15 @@ class BreviaryTextFragment : BindingFragment<FragmentBreviaryTextBinding>() {
         dialogBinding.selectOfficeList.apply {
             adapter = ArrayAdapter(
                 requireContext(),
-                R.layout.item_listview_select,
+                R.layout.dialog_item_listview_select,
                 offices.map { it.second })
             setItemChecked(0, true)
             onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 setItemChecked(position, true)
-                Log.d("xDDDD", dialogBinding.selectOfficeList.checkedItemPosition.toString())
             }
         }
 
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
             .setCancelable(false)
             .setPositiveButton(R.string.load) { dialog, _ ->

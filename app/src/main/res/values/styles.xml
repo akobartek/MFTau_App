@@ -1,85 +1,60 @@
 <resources>
-    <!-- Light base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- TODO() -> TRANSITIONS BETWEEN CARDS AND DETAILS -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:fitsSystemWindows">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorOnPrimary">@color/colorBackground</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorOnSecondary">@color/colorBackground</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorControlNormal</item>
-        <item name="colorControlActivated">@color/colorControlActivated</item>
-        <item name="preferenceTheme">@style/PrefsTheme</item>
-        <item name="alertDialogTheme">@style/Widget.MFTau.Dialog</item>
-        <item name="actionOverflowButtonStyle">@style/Widget.MFTau.OverflowButtonStyle</item>
-        <item name="textInputStyle">@style/Widget.MFTau.TextInputLayout</item>
-        <item name="android:datePickerDialogTheme">@style/Widget.MFTau.Dialog</item>
-        <item name="android:textAppearanceMedium">@style/TextAppearance.MFTau.Dialog</item>
-        <item name="android:itemBackground">@color/colorListItemBackground</item>
-        <item name="floatingActionButtonStyle">@style/Widget.MFTau.FloatingActionButton</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="colorPrimary">@color/app_theme_primary</item>
+        <item name="colorPrimaryDark">@color/app_theme_onPrimaryContainer</item>
+        <item name="colorOnPrimary">@color/app_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/app_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/app_theme_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/app_theme_secondary</item>
+        <item name="colorOnSecondary">@color/app_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/app_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/app_theme_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/app_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/app_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/app_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/app_theme_onTertiaryContainer</item>
+        <item name="colorError">@color/app_theme_error</item>
+        <item name="colorErrorContainer">@color/app_theme_errorContainer</item>
+        <item name="colorOnError">@color/app_theme_onError</item>
+        <item name="colorOnErrorContainer">@color/app_theme_onErrorContainer</item>
+        <item name="android:colorBackground">@color/app_theme_background</item>
+        <item name="colorOnBackground">@color/app_theme_onBackground</item>
+        <item name="colorSurface">@color/app_theme_surface</item>
+        <item name="colorOnSurface">@color/app_theme_onSurface</item>
+        <item name="colorSurfaceVariant">@color/app_theme_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/app_theme_onSurfaceVariant</item>
+        <item name="colorOutline">@color/app_theme_outline</item>
+        <item name="colorOnSurfaceInverse">@color/app_theme_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/app_theme_inverseSurface</item>
+        <!--        <item name="colorInversePrimary">@color/md_theme_light_inversePrimary</item>-->
+        <!--        <item name="colorShadow">@color/md_theme_light_shadow</item>-->
+        <item name="colorPrimaryInverse">@color/app_theme_primaryInverse</item>
+
+        <item name="preferenceTheme">@style/AppTheme.PrefsTheme</item>
+        <item name="materialAlertDialogTheme">@style/AppTheme.MaterialAlertDialog</item>
+        <item name="android:itemBackground">@color/app_theme_surfaceVariant</item>
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat">
+    <style name="AppTheme.Launcher" parent="Theme.Material3.DayNight">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
+    <style name="AppTheme.PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
         <item name="android:layout">@layout/fragment_preferences</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3" />
 
-    <style name="AppTheme.PopupOverlay" parent="Theme.MaterialComponents.DayNight" />
-
-    <style name="AppTheme.TextInputLayoutOverlay" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
-        <item name="colorAccent">#391e1e</item>
-    </style>
-
-    <style name="Widget.MFTau.OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorSecondary</item>
-    </style>
-
-    <style name="Widget.MFTau.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="colorAccent">#28292e</item>
-        <item name="colorSecondary">#28292e</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?colorError</item>
-    </style>
-
-    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorPrimary</item>
-    </style>
-
-    <style name="Widget.MFTau.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="boxStrokeColor">@color/colorAccent</item>
-        <item name="hintTextAppearance">@style/HintText</item>
-        <item name="hintTextColor">@color/colorAccent</item>
-        <item name="android:theme">@style/AppTheme.TextInputLayoutOverlay</item>
-    </style>
-
-    <style name="Widget.MFTau.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MFTau.SmallComponent</item>
-    </style>
-
-    <style name="ShapeAppearance.MFTau.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item>
-    </style>
-
-    <style name="HintText" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
-    <style name="TextAppearance.MFTau.Dialog" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">#FFFFFF</item>
+    <style name="AppTheme.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
     <style name="TextAppearance.MFTau.Tab" parent="@style/TextAppearance.Design.Tab">
@@ -97,26 +72,23 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/mffont</item>
-        <item name="android:textColor">@color/colorButtonText</item>
+        <item name="android:textColor">@color/app_theme_primary</item>
     </style>
 
-    <style name="MFTauToolbar">
+    <style name="MFTauToolbar" parent="Widget.Material3.Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?actionBarSize</item>
-        <item name="android:background">@color/colorBackground</item>
         <item name="layout_scrollFlags">enterAlways</item>
         <item name="navigationIcon">@drawable/ic_arrow_back</item>
-        <item name="popupTheme">@style/AppTheme.PopupOverlay</item>
     </style>
 
-    <style name="MFTauToolbarTitle">
+    <style name="MFTauToolbarTitle" parent="Theme.Material3.DayNight">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:fontFamily">@font/mffont</item>
         <item name="android:maxLines">2</item>
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.HeadlineSmall</item>
     </style>
 
     <style name="MFTauEmptyView">
@@ -126,14 +98,8 @@
         <item name="android:layout_marginEnd">60dp</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorIcons</item>
+        <item name="android:textColor">@color/app_theme_primary</item>
         <item name="android:textSize">15sp</item>
         <item name="android:visibility">invisible</item>
-    </style>
-
-    <style name="MFTauLoadingIndicator">
-        <item name="android:layout_width">42dp</item>
-        <item name="android:layout_height">42dp</item>
-        <item name="android:indeterminateTint">@color/colorAccent</item>
     </style>
 </resources>

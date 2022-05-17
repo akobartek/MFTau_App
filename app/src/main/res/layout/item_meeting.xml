@@ -13,14 +13,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="3dp"
-        app:cardUseCompatPadding="true">
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="2dp"
+        app:cardCornerRadius="12dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorListItemBackground">
+            android:background="@color/app_theme_surfaceVariant">
 
             <TextView
                 android:id="@+id/meetingName"
@@ -31,8 +31,8 @@
                 android:fontFamily="sans-serif-light"
                 android:paddingBottom="16dp"
                 android:text="@{meeting.name}"
-                android:textColor="@color/colorText"
-                android:textSize="22sp"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="@color/app_theme_onSurfaceVariant"
                 app:layout_constraintEnd_toStartOf="@+id/attendanceListBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/meetingDate"
@@ -47,8 +47,8 @@
                 android:layout_marginEnd="4dp"
                 android:fontFamily="sans-serif-condensed"
                 android:text="@{meeting.getDateFormatted}"
-                android:textColor="@color/colorText"
-                android:textSize="13sp"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/app_theme_onSurfaceVariant"
                 app:layout_constraintEnd_toStartOf="@+id/attendanceListBtn"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="11.11.2018" />
@@ -62,8 +62,8 @@
                 android:src="@drawable/ic_list"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/app_theme_onSurfaceVariant" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

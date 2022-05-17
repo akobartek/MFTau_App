@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".view.fragments.EmausFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +15,7 @@
             android:id="@+id/emausToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emausToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/emauses" />
@@ -31,7 +30,7 @@
         android:id="@+id/circularRevealView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
+        android:background="@color/app_theme_primaryContainer"
         android:visibility="invisible">
 
         <ImageView

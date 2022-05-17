@@ -14,7 +14,7 @@
             android:id="@+id/presenceCheckToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/presenceCheckToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/check_presence" />
@@ -32,5 +32,6 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:contentDescription="@string/save"
         android:src="@drawable/ic_done" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

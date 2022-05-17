@@ -9,14 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/presenceDetailsToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/presenceDetailsToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 tools:text="@string/presence_list_title" />
@@ -26,11 +25,10 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBackground"
-            app:tabIndicatorColor="@color/colorText"
+            app:tabIndicatorColor="@color/app_theme_onPrimaryContainer"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TextAppearance.MFTau.Tab"
-            app:tabTextColor="@color/colorText"
+            app:tabTextColor="@color/app_theme_onPrimaryContainer"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.appbar.AppBarLayout>
 

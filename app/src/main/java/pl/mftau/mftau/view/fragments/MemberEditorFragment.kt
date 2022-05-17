@@ -10,11 +10,11 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMemberEditorBinding
@@ -24,6 +24,7 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsResponsible
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName
 import pl.mftau.mftau.utils.GlideApp
 import pl.mftau.mftau.utils.hideKeyboard
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.io.InputStream
 
@@ -62,7 +63,7 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
             setupToolbarMenuIcons(binding.memberEditorToolbar.menu)
         }
 
-        setOnClickListeners()
+        setViewsListeners()
     }
 
     private fun inflateToolbarMenu(toolbar: Toolbar) {
@@ -111,16 +112,16 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
         }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setOnClickListeners() {
+    private fun setViewsListeners() {
         with(binding.contentMemberEditor) {
             binding.saveMemberBtn.setOnClickListener {
                 var errorOccurred = false
                 if (memberNameET.text.isNullOrBlank()) {
-                    memberNameET.error = getString(R.string.empty_name_error)
+                    nameInputLayout.error = getString(R.string.empty_name_error)
                     errorOccurred = true
                 }
                 if (cityET.text.isNullOrBlank()) {
-                    cityET.error = getString(R.string.empty_city_error)
+                    cityInputLayout.error = getString(R.string.empty_city_error)
                     errorOccurred = true
                 }
                 if (errorOccurred)
@@ -167,11 +168,14 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
             memberNameET.setOnTouchListener(mTouchListener)
             cityET.setOnTouchListener(mTouchListener)
             responsibleSwitch.setOnTouchListener(mTouchListener)
+
+            memberNameET.addTextChangedListener(ClearErrorTextWatcher(nameInputLayout))
+            cityET.addTextChangedListener(ClearErrorTextWatcher(cityInputLayout))
         }
     }
 
     private fun showDeleteConfirmationDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.member_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->

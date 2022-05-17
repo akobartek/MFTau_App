@@ -3,19 +3,16 @@ package pl.mftau.mftau.view.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
@@ -25,6 +22,7 @@ import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.utils.hideKeyboard
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,19 +51,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
             mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
 
-        binding.contentRetreatEditor.retreatTypeSpinner.adapter = object : ArrayAdapter<String>(
-            requireContext(), R.layout.item_spinner, resources.getStringArray(R.array.retreat_types)
-        ) {
-            override fun getDropDownView(
-                position: Int, convertView: View?, parent: ViewGroup
-            ): View {
-                val dropDownView = super.getDropDownView(position, convertView, parent)
-                (dropDownView as TextView).setTextColor(Color.BLACK)
-
-                return dropDownView
-            }
-        }
-
+        // TODO() -> SET CORRECT SIMPLE ITEMS AFTER CONNECTING TO REMOTE DATABASE
         arguments?.let { bundle ->
             mRetreat = RetreatEditorFragmentArgs.fromBundle(bundle).retreat
             binding.retreatEditorToolbarTitle.text =
@@ -80,7 +66,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
                     retreatCityET.setText(it.city)
                     retreatAddressET.setText(it.address)
                     retreatPriceET.setText(it.price.toString())
-                    retreatTypeSpinner.setSelection(it.retreatType)
+                    retreatTypeTV.setText(resources.getStringArray(R.array.retreat_types)[it.retreatType])
                     advPaymentSwitch.isChecked = it.advancePayment
                 }
             }
@@ -93,7 +79,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
             setupToolbarMenuIcons(binding.retreatEditorToolbar.menu)
         }
 
-        setOnClickListeners()
+        setViewsListeners()
     }
 
     private fun inflateToolbarMenu(toolbar: Toolbar) {
@@ -127,24 +113,24 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setOnClickListeners() {
+    private fun setViewsListeners() {
         with(binding.contentRetreatEditor) {
             binding.saveRetreatBtn.setOnClickListener {
                 var errorOccurred = false
                 if (retreatNameET.text.isNullOrBlank()) {
-                    retreatNameET.error = getString(R.string.empty_name_error)
+                    nameInputLayout.error = getString(R.string.empty_name_error)
                     errorOccurred = true
                 }
                 if (retreatCityET.text.isNullOrBlank()) {
-                    retreatCityET.error = getString(R.string.empty_city_error)
+                    cityInputLayout.error = getString(R.string.empty_city_error)
                     errorOccurred = true
                 }
                 if (retreatAddressET.text.isNullOrBlank()) {
-                    retreatAddressET.error = getString(R.string.empty_address_error)
+                    addressInputLayout.error = getString(R.string.empty_address_error)
                     errorOccurred = true
                 }
                 if (retreatPriceET.text.isNullOrBlank()) {
-                    retreatPriceET.error = getString(R.string.empty_price_error)
+                    priceInputLayout.error = getString(R.string.empty_price_error)
                     errorOccurred = true
                 }
                 when {
@@ -188,8 +174,8 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
                 retreatValues[FirestoreUtils.firestoreKeyEndDate] = Timestamp(endDate)
                 retreatValues[FirestoreUtils.firestoreKeyRegisterLimitDate] =
                     Timestamp(registerDate)
-                retreatValues[FirestoreUtils.firestoreKeyRetreatType] =
-                    retreatTypeSpinner.selectedItemPosition
+//                retreatValues[FirestoreUtils.firestoreKeyRetreatType] =
+//                    retreatTypeSpinner.selectedItemPosition
                 retreatValues[FirestoreUtils.firestoreKeyAdvancePayment] =
                     advPaymentSwitch.isChecked
 
@@ -203,7 +189,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
                                 beginDate == mRetreat!!.beginDate.toDate() &&
                                 endDate == mRetreat!!.endDate.toDate() &&
                                 registerDate == mRetreat!!.registerLimitDate.toDate() &&
-                                retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
+//                                retreatTypeSpinner.selectedItemPosition == mRetreat!!.retreatType &&
                                 advPaymentSwitch.isChecked == mRetreat!!.advancePayment)
                     ) mViewModel.updateRetreat(requireActivity(), mRetreat!!.id, retreatValues)
                 }
@@ -262,13 +248,18 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
             beginDateText.setOnTouchListener(mTouchListener)
             endDateText.setOnTouchListener(mTouchListener)
             registerDateText.setOnTouchListener(mTouchListener)
-            retreatTypeSpinner.setOnTouchListener(mTouchListener)
+            retreatTypeTV.setOnTouchListener(mTouchListener)
             advPaymentSwitch.setOnTouchListener(mTouchListener)
+
+            retreatNameET.addTextChangedListener(ClearErrorTextWatcher(nameInputLayout))
+            retreatCityET.addTextChangedListener(ClearErrorTextWatcher(cityInputLayout))
+            retreatAddressET.addTextChangedListener(ClearErrorTextWatcher(addressInputLayout))
+            retreatPriceET.addTextChangedListener(ClearErrorTextWatcher(priceInputLayout))
         }
     }
 
     private fun showSaveToCalendarDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.save_to_calendar)
             .setMessage(R.string.save_to_calendar_msg)
             .setCancelable(false)
@@ -313,7 +304,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
     }
 
     private fun showDeleteConfirmationDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.retreat_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->

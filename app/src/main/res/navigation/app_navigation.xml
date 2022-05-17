@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="pl.mftau.mftau.view.fragments.MainFragment"
-        tools:layout="@layout/fragment_main">
+        tools:layout="@layout/content_main">
 
         <action
             android:id="@+id/showPdfFragment"
@@ -197,6 +197,13 @@
         <argument
             android:name="emailType"
             app:argType="string" />
+        <action
+            android:id="@+id/showWebsiteFragment"
+            app:destination="@+id/websiteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 

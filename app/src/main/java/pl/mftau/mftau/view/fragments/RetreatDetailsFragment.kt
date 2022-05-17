@@ -12,12 +12,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogRetreatRegisterBinding
 import pl.mftau.mftau.databinding.FragmentRetreatDetailsBinding
 import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.util.*
 
@@ -88,7 +90,7 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
     private fun showRegisterDialog() {
         val dialogBinding = DialogRetreatRegisterBinding.inflate(layoutInflater)
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.retreat_register_title)
             .setMessage(R.string.retreat_register_msg)
             .setView(dialogBinding.root)
@@ -101,23 +103,27 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (dialogBinding.registerNameET.text.isNullOrBlank()) {
-                    dialogBinding.registerNameET.error = getString(R.string.empty_name_error)
+                    dialogBinding.registerNameInputLayout.error =
+                        getString(R.string.empty_name_error)
                     return@setOnClickListener
                 } else {
                     dialog.dismiss()
                     if (mRetreat.advancePayment) {
-                        showAdvancePaymentDialog(dialogBinding.registerNameET.text.toString().trim())
+                        showAdvancePaymentDialog(
+                            dialogBinding.registerNameET.text.toString().trim()
+                        )
                     } else {
                         sendRegisterEmail(dialogBinding.registerNameET.text.toString().trim())
                     }
                 }
             }
+            dialogBinding.registerNameET.addTextChangedListener(ClearErrorTextWatcher(dialogBinding.registerNameInputLayout))
         }
         dialog.show()
     }
 
     private fun showAdvancePaymentDialog(name: String) =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.advance_payment_title)
             .setMessage(R.string.advance_payment_msg)
             .setCancelable(false)
@@ -130,8 +136,7 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
 
     private fun sendRegisterEmail(name: String) {
         val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.data = Uri.parse("mailto:")
-        emailIntent.type = "message/rfc822"
+        emailIntent.setDataAndType(Uri.parse("mailto:"), "message/rfc822")
         emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("rada@mftau.pl"))
         emailIntent.putExtra(
             Intent.EXTRA_SUBJECT, "Zapisy na rekolekcje ${mRetreat.name}"
@@ -150,7 +155,7 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
     }
 
     private fun showSaveToCalendarDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.save_to_calendar)
             .setMessage(R.string.save_to_calendar_msg)
             .setCancelable(false)

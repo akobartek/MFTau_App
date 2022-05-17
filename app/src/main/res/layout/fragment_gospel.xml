@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".view.fragments.GospelFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +15,7 @@
             android:id="@+id/gospelToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/gospelToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/gospel_for_today" />
@@ -27,6 +26,6 @@
         android:id="@+id/gospelText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/app_theme_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".view.fragments.PdfFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,7 +15,7 @@
             android:id="@+id/pdfToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/pdfToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 tools:text="@string/songbook" />
@@ -26,6 +25,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/app_theme_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.github.barteksc.pdfviewer.PDFView

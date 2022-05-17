@@ -15,7 +15,7 @@
             android:id="@+id/preferencesToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/preferencesToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/preferences" />
@@ -26,5 +26,6 @@
         android:id="@android:id/list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/app_theme_background"
         tools:targetApi="n" />
 </LinearLayout>

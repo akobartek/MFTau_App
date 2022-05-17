@@ -4,13 +4,13 @@ import android.animation.Animator
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentEmausBinding
@@ -235,7 +235,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
     private fun showFullListDialog() {
         hideCircularReveal(binding.circularRevealView)
 
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.full_draws_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -249,7 +249,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
     }
 
     private fun showDeleteLastDrawDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.delete_last_draw_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -262,7 +262,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
             .show()
 
     private fun showResetDrawsDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.reset_draws_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -275,7 +275,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
             .show()
 
     private fun showNoPeopleDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.no_people_msg))
             .setCancelable(false)
             .setPositiveButton(getString(R.string.ok)) { dialog, _ ->

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPresenceListBinding
 import pl.mftau.mftau.model.local_db.Member
@@ -40,7 +41,7 @@ class PresenceListFragment : BindingFragment<FragmentPresenceListBinding>() {
         }
         mAdapter = PresenceListRecyclerAdapter()
 
-        mLoadingDialog = AlertDialog.Builder(requireContext())
+        mLoadingDialog = MaterialAlertDialogBuilder(requireContext())
             .setView(R.layout.dialog_loading)
             .setCancelable(false)
             .create()
@@ -69,7 +70,7 @@ class PresenceListFragment : BindingFragment<FragmentPresenceListBinding>() {
     }
 
     private fun setDataToChart() {
-        if (mMembers.isNullOrEmpty() || mPresence.isNullOrEmpty())
+        if (mMembers.isNullOrEmpty() || mPresence.isEmpty())
             return
 
         mAdapter.setLists(mMembers!!, mPresence, numberOfMeetings)

@@ -2,9 +2,9 @@ package pl.mftau.mftau.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -22,15 +22,15 @@ import pl.mftau.mftau.viewmodel.MainViewModel
 class MainFragment : BindingFragment<FragmentMainBinding>() {
 
     private lateinit var mViewModel: MainViewModel
-    private lateinit var mAuth: FirebaseAuth
+    private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMainBinding.inflate(inflater, container, false)
 
     override fun setup(savedInstanceState: Bundle?) {
-        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
-        mAuth = FirebaseAuth.getInstance()
+        inflateToolbarMenu()
         setOnClickListeners()
+        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
     }
 
     override fun onResume() {
@@ -65,44 +65,42 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
         }
     }
 
-    private fun setOnClickListeners() {
-        with(binding) {
-            menuBtn.setOnClickListener {
-                val popupMenu = PopupMenu(context, menuBtn)
-
-                if (FirebaseAuth.getInstance().currentUser != null)
-                    popupMenu.menuInflater.inflate(R.menu.menu_main_out, popupMenu.menu)
-                else
-                    popupMenu.menuInflater.inflate(R.menu.menu_main_in, popupMenu.menu)
-
-                popupMenu.setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.action_sign_in -> {
-                            findNavController().navigate(MainFragmentDirections.showLoginFragment())
-                            true
-                        }
-                        R.id.action_sign_out -> {
-                            mAuth.signOut()
-                            showUIChanges(MainViewModel.USER_TYPE_NONE)
-                            true
-                        }
-                        R.id.action_settings -> {
-                            findNavController().navigate(MainFragmentDirections.showPreferenceFragment())
-                            true
-                        }
-                        R.id.action_ask_for_pray -> {
-                            findNavController().navigate(MainFragmentDirections.showEmailFragment("pray"))
-                            true
-                        }
-                        R.id.action_report_error -> {
-                            findNavController().navigate(MainFragmentDirections.showEmailFragment("error"))
-                            true
-                        }
-                        else -> true
+    private fun inflateToolbarMenu() {
+        binding.mainToolbar.apply {
+            setMenuItemsVisibility(menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_sign_in -> {
+                        findNavController().navigate(MainFragmentDirections.showLoginFragment())
+                    }
+                    R.id.action_sign_out -> {
+                        mAuth.signOut()
+                        showUIChanges(MainViewModel.USER_TYPE_NONE)
+                    }
+                    R.id.action_settings -> {
+                        findNavController().navigate(MainFragmentDirections.showPreferenceFragment())
+                    }
+                    R.id.action_ask_for_pray -> {
+                        findNavController().navigate(MainFragmentDirections.showEmailFragment("pray"))
+                    }
+                    R.id.action_report_error -> {
+                        findNavController().navigate(MainFragmentDirections.showEmailFragment("error"))
                     }
                 }
-                popupMenu.show()
+                setMenuItemsVisibility(menu)
+                true
             }
+        }
+    }
+
+    private fun setMenuItemsVisibility(menu: Menu) {
+        val isUserLogged = FirebaseAuth.getInstance().currentUser != null
+        menu.findItem(R.id.action_sign_in).isVisible = !isUserLogged
+        menu.findItem(R.id.action_sign_out).isVisible = isUserLogged
+    }
+
+    private fun setOnClickListeners() {
+        with(binding.contentMain) {
             songBook.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.showPdfFragment("songbook"))
             }
@@ -138,16 +136,18 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
     }
 
     private fun showUIChanges(userType: Int) {
-        when (userType) {
-            MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
-                hideViews(binding.members, binding.meetings)
-                showViews(binding.retreat)
-            }
-            MainViewModel.USER_TYPE_LEADER -> {
-                showViews(binding.members, binding.meetings, binding.retreat)
-            }
-            MainViewModel.USER_TYPE_NONE -> {
-                hideViews(binding.members, binding.meetings, binding.retreat)
+        with(binding.contentMain) {
+            when (userType) {
+                MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
+                    hideViews(members, meetings)
+                    showViews(retreat)
+                }
+                MainViewModel.USER_TYPE_LEADER -> {
+                    showViews(members, meetings, retreat)
+                }
+                MainViewModel.USER_TYPE_NONE -> {
+                    hideViews(members, meetings, retreat)
+                }
             }
         }
     }

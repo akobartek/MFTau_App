@@ -19,7 +19,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="?actionBarSize" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/songTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,8 +28,7 @@
         android:fontFamily="@font/mffont"
         android:gravity="center"
         android:maxLines="2"
-        android:textColor="@color/colorText"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
         app:layout_constraintBottom_toTopOf="@id/guidePeekHeight"
         app:layout_constraintEnd_toStartOf="@+id/collapseSheetBtn"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,15 +58,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidePeekHeight">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/songText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:paddingStart="36dp"
-            android:paddingEnd="36dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="@color/colorButtonText"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
             tools:text="@tools:sample/lorem/random" />
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/chartLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/app_theme_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.PresenceListFragment">
 
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_presence_show" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/emptyView"
         style="@style/MFTauEmptyView"
         android:text="@string/empty_member_list"

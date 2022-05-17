@@ -1,11 +1,7 @@
 package pl.mftau.mftau.view.activities
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -13,6 +9,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import pl.mftau.mftau.R
@@ -40,13 +37,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        if (!PreferencesManager.getNightMode()) {
-            val wic = WindowInsetsControllerCompat(window, window.decorView)
-            wic.isAppearanceLightStatusBars = true
-            wic.isAppearanceLightNavigationBars = true
-        }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.colorBackground)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.colorBackground)
+        val wic = WindowInsetsControllerCompat(window, window.decorView)
+        wic.isAppearanceLightStatusBars = !PreferencesManager.getNightMode()
+        wic.isAppearanceLightNavigationBars = !PreferencesManager.getNightMode()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.app_theme_background)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.app_theme_background)
 
         mAuth = FirebaseAuth.getInstance()
         if (mAuth.currentUser != null)
@@ -104,8 +99,11 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         when (currentFragmentId) {
             R.id.mainFragment -> super.onBackPressed()
-            R.id.websiteFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
+            R.id.websiteFragment -> {
+                if ((supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                    .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed())
+                recreate()
+            }
             R.id.pdfFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
                 .childFragmentManager.fragments[0] as PdfFragment).onBackPressed()
             R.id.songbookSearchFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
@@ -133,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showUnsavedChangesDialog() =
-        AlertDialog.Builder(this@MainActivity)
+        MaterialAlertDialogBuilder(this@MainActivity)
             .setMessage(R.string.unsaved_changes_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.discard) { dialog, _ ->

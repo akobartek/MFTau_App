@@ -77,7 +77,7 @@ class GospelViewModel : ViewModel() {
     private fun checkGospelNightMode(): String {
         return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
-                    "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
+                    "<style type=\"text/css\">body{color: #fff; background-color: #160A01;}" +
                     "</style></head>" +
                     "<body>" +
                     mGospelHtml +

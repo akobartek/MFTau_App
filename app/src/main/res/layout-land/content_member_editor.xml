@@ -5,7 +5,7 @@
     android:id="@+id/addMemberLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/app_theme_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.MemberEditorFragment">
 
@@ -16,6 +16,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginBottom="60dp"
         android:contentDescription="@string/member_photo_description"
+        android:src="@drawable/ic_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,33 +37,34 @@
             android:id="@+id/memberNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
             android:inputType="textPersonName|textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/responsibleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
         android:text="@string/is_responsible"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorPrimaryDark"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:layout_constraintBottom_toBottomOf="@+id/responsibleSwitch"
         app:layout_constraintStart_toEndOf="@+id/addMemberPhoto"
         app:layout_constraintTop_toTopOf="@+id/responsibleSwitch" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/responsibleSwitch"
+        style="@style/Widget.Material3.CompoundButton.Switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:textAppearance="?android:textAppearanceMedium"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textOff="@string/no"
         android:textOn="@string/yes"
-        app:layout_constraintStart_toEndOf="@id/responsibleTextView"
         app:layout_constraintBottom_toBottomOf="@+id/addMemberPhoto"
-        app:layout_constraintTop_toTopOf="@+id/addMemberPhoto" />
+        app:layout_constraintStart_toEndOf="@id/responsibleTextView"
+        app:layout_constraintTop_toTopOf="@+id/addMemberPhoto"
+        app:thumbTint="@color/app_theme_primary"
+        app:trackTint="@color/app_theme_primaryContainer" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputLayout"
@@ -80,7 +82,6 @@
             android:id="@+id/cityET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
             android:inputType="textCapWords" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

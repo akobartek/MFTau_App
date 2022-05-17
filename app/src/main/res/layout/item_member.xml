@@ -14,16 +14,17 @@
         android:id="@+id/itemView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="2dp"
         android:clickable="true"
-        android:elevation="3dp"
         android:focusable="true"
-        app:cardUseCompatPadding="true">
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/colorListItemBackground">
+            android:background="@color/app_theme_surfaceVariant">
 
             <ImageView
                 android:id="@+id/memberPhoto"
@@ -47,8 +48,8 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="2"
                 android:text="@{member.name}"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorText"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textColor="@color/app_theme_onSurfaceVariant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/memberPhoto"
@@ -59,10 +60,12 @@
                 android:id="@+id/memberCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
                 android:text="@{member.city}"
-                android:textColor="@color/colorText"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="@color/app_theme_onSurfaceVariant"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Skomielna Czarna" />

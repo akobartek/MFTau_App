@@ -18,6 +18,8 @@ import pl.mftau.mftau.databinding.FragmentSongbookSearchBinding
 import pl.mftau.mftau.view.adapters.SongbookSearchAdapter
 import pl.mftau.mftau.viewmodel.SongbookSearchViewModel
 
+// TODO() -> REBUILD SONGBOOK - whole list of songs,
+//  (possibility to show PDF, save to favourites, have a list for play, layout for guitarists) -> bottom bar, search in
 class SongbookSearchFragment : BindingFragment<FragmentSongbookSearchBinding>() {
 
     private lateinit var mSearchView: SearchView

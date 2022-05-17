@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogAbsenceBinding
 import pl.mftau.mftau.databinding.ItemPresenceCheckBinding
 import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.fragments.PresenceCheckFragment
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 
 class PresenceCheckRecyclerAdapter :
     RecyclerView.Adapter<PresenceCheckRecyclerAdapter.PresenceCheckViewHolder>() {
@@ -89,7 +91,7 @@ class PresenceCheckRecyclerAdapter :
             val dialogBinding = DialogAbsenceBinding.inflate(LayoutInflater.from(root.context))
             dialogBinding.absenceReasonET.setText(absenceList[memberId])
 
-            val dialog = AlertDialog.Builder(root.context)
+            val dialog = MaterialAlertDialogBuilder(root.context)
                 .setTitle(root.context.getString(R.string.absence_dialog_title, memberName))
                 .setMessage(R.string.absence_dialog_message)
                 .setView(dialogBinding.root)
@@ -102,7 +104,7 @@ class PresenceCheckRecyclerAdapter :
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                     val reason = dialogBinding.absenceReasonET.text.toString().trim()
                     if (reason.isEmpty()) {
-                        dialogBinding.absenceReasonET.error =
+                        dialogBinding.absenceReasonInputLayout.error =
                             root.context.getString(R.string.reason_empty_error)
                         return@setOnClickListener
                     } else {
@@ -113,6 +115,9 @@ class PresenceCheckRecyclerAdapter :
                     }
                     PresenceCheckFragment.listHasChanged = true
                 }
+                dialogBinding.absenceReasonET.addTextChangedListener(
+                    ClearErrorTextWatcher(dialogBinding.absenceReasonInputLayout)
+                )
             }
             dialog.show()
         }

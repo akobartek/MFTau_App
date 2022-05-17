@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".view.fragments.RetreatsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,7 +14,7 @@
             android:id="@+id/retreatsToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/retreatsToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/retreats" />

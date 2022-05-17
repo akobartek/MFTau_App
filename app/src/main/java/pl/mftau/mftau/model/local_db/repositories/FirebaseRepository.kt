@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -168,7 +169,7 @@ class FirebaseRepository(val app: Application) {
             .add(memberValues)
             .addOnSuccessListener { documentReference ->
                 if (filePath != null) {
-                    val dialog = AlertDialog.Builder(activity)
+                    val dialog = MaterialAlertDialogBuilder(activity)
                         .setView(R.layout.dialog_loading)
                         .setCancelable(false)
                         .create()
@@ -188,7 +189,7 @@ class FirebaseRepository(val app: Application) {
     }
 
     fun updateMemberPhoto(activity: Activity, memberId: String, filePath: InputStream?) {
-        val dialog = AlertDialog.Builder(activity)
+        val dialog = MaterialAlertDialogBuilder(activity)
             .setView(R.layout.dialog_loading)
             .setCancelable(false)
             .create()
@@ -221,7 +222,7 @@ class FirebaseRepository(val app: Application) {
             .set(memberValues)
             .addOnSuccessListener {
                 if (filePath != null) {
-                    val dialog = AlertDialog.Builder(activity)
+                    val dialog = MaterialAlertDialogBuilder(activity)
                         .setView(R.layout.dialog_loading)
                         .setCancelable(false)
                         .create()

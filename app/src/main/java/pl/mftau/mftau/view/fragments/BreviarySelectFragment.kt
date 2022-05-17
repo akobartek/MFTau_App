@@ -37,7 +37,6 @@ class BreviarySelectFragment : BindingFragment<FragmentBreviarySelectBinding>() 
         setCorrectToolbarTitle()
         binding.breviarySelectToolbar.apply {
             setNavigationOnClickListener { findNavController().navigateUp() }
-            inflateMenu(R.menu.menu_breviary_select)
             setMenuItemsVisibility(menu)
             setOnMenuItemClickListener {
                 mDaysFromToday = when (it.itemId) {

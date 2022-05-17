@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_theme_background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".view.fragments.MainFragment">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/community_logo"
+        android:src="@drawable/logo_full"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".75" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/songBook"
+        style="@style/MainMenuButtons"
+        android:layout_marginEnd="24dp"
+        android:text="@string/songbook"
+        app:drawableTopCompat="@drawable/ic_songbook"
+        app:layout_constraintEnd_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/prayerBook"
+        style="@style/MainMenuButtons"
+        android:text="@string/prayers"
+        app:drawableTopCompat="@drawable/ic_pray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/statute"
+        style="@style/MainMenuButtons"
+        android:layout_marginStart="24dp"
+        android:text="@string/statute"
+        app:drawableTopCompat="@drawable/ic_statute"
+        app:layout_constraintStart_toEndOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/breviary"
+        style="@style/MainMenuButtons"
+        android:text="@string/breviary"
+        app:drawableTopCompat="@drawable/ic_breviary"
+        app:layout_constraintEnd_toEndOf="@+id/songBook"
+        app:layout_constraintStart_toStartOf="@+id/songBook"
+        app:layout_constraintTop_toBottomOf="@+id/songBook" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/gospel"
+        style="@style/MainMenuButtons"
+        android:text="@string/gospel"
+        app:drawableTopCompat="@drawable/ic_gospel"
+        app:layout_constraintEnd_toEndOf="@+id/prayerBook"
+        app:layout_constraintStart_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/prayerBook" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/website"
+        style="@style/MainMenuButtons"
+        android:text="@string/mftau_website"
+        app:drawableTopCompat="@drawable/ic_website"
+        app:layout_constraintEnd_toEndOf="@+id/statute"
+        app:layout_constraintStart_toStartOf="@+id/statute"
+        app:layout_constraintTop_toBottomOf="@+id/statute" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/members"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:text="@string/members"
+        app:drawableTopCompat="@drawable/ic_people"
+        app:layout_constraintEnd_toEndOf="@+id/songBook"
+        app:layout_constraintStart_toStartOf="@+id/songBook"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/meetings"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:text="@string/meetings"
+        app:drawableTopCompat="@drawable/ic_meeting"
+        app:layout_constraintEnd_toEndOf="@+id/statute"
+        app:layout_constraintStart_toStartOf="@+id/statute"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/retreat"
+        style="@style/MainMenuButtons"
+        android:alpha="0"
+        android:clickable="false"
+        android:text="@string/retreats"
+        app:drawableTopCompat="@drawable/ic_retreat"
+        app:layout_constraintEnd_toEndOf="@+id/prayerBook"
+        app:layout_constraintStart_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toBottomOf="@+id/breviary" />
+</androidx.constraintlayout.widget.ConstraintLayout>

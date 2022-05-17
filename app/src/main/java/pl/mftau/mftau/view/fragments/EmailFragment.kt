@@ -12,11 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentEmailBinding
 import pl.mftau.mftau.utils.*
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 
 class EmailFragment : BindingFragment<FragmentEmailBinding>() {
 
@@ -53,7 +54,6 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
         }
         binding.contentEmail.emailLayout.setOnClickListener { requireActivity().hideKeyboard() }
 
-
         val rodoSrodo = getString(R.string.rodo_srodo)
         val privacyPolicy = getString(R.string.privacy_policy)
         val ss = SpannableString(rodoSrodo)
@@ -62,7 +62,7 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
                 if (requireContext().isChromeCustomTabsSupported()) {
                     requireContext().openWebsiteInChromeCustomTabs("http://mftau.pl/polityka-prywatnosci/")
                 } else {
-                    findNavController().navigate(MainFragmentDirections.showWebsiteFragment("http://mftau.pl/polityka-prywatnosci/"))
+                    findNavController().navigate(EmailFragmentDirections.showWebsiteFragment("http://mftau.pl/polityka-prywatnosci/"))
                 }
             }
 
@@ -79,12 +79,17 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 
-        binding.contentEmail.privacyPolicyTV.text = ss
-        binding.contentEmail.privacyPolicyTV.movementMethod = LinkMovementMethod.getInstance()
+        with(binding.contentEmail) {
+            privacyPolicyTV.text = ss
+            privacyPolicyTV.movementMethod = LinkMovementMethod.getInstance()
+            emailNameET.addTextChangedListener(ClearErrorTextWatcher(emailNameInputLayout))
+            emailAdressET.addTextChangedListener(ClearErrorTextWatcher(emailAddressInputLayout))
+            emailIntentionET.addTextChangedListener(ClearErrorTextWatcher(emailIntentionInputLayout))
+        }
     }
 
     private fun showRodoDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.rodo_dialog_message)
             .setCancelable(false)
             .setPositiveButton(R.string.ok) { dialog, _ ->
@@ -96,46 +101,49 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
     private fun sendMail() {
         var isValid = true
 
-        val name = binding.contentEmail.emailNameET.text
-        if (name.isNullOrEmpty()) {
-            binding.contentEmail.emailNameET.error = getString(R.string.empty_email_name_error)
-            isValid = false
-        }
-        val emailAddress = binding.contentEmail.emailAdressET.text.toString().trim()
-        if (!emailAddress.isValidEmail()) {
-            binding.contentEmail.emailAdressET.error = getString(R.string.email_error)
-            isValid = false
-        }
-        val intention = binding.contentEmail.emailIntentionET.text
-        if (intention.isNullOrEmpty()) {
-            binding.contentEmail.emailIntentionET.error =
-                getString(R.string.empty_email_intention_error)
-            isValid = false
-        }
+        with(binding.contentEmail) {
+            val name = emailNameET.text
+            if (name.isNullOrEmpty()) {
+                emailNameInputLayout.error = getString(R.string.empty_email_name_error)
+                isValid = false
+            }
+            val emailAddress = emailAdressET.text.toString().trim()
+            if (!emailAddress.isValidEmail()) {
+                emailAddressInputLayout.error = getString(R.string.email_error)
+                isValid = false
+            }
+            val intention = emailIntentionET.text
+            if (intention.isNullOrEmpty()) {
+                emailIntentionInputLayout.error = getString(R.string.empty_email_intention_error)
+                isValid = false
+            }
 
-        if (!isValid) return
+            if (!isValid) return
 
-        val emailTextBuilder = StringBuilder()
-        emailTextBuilder.append("Nadawca: $emailAddress\n\n")
-        emailTextBuilder.append(intention.toString().trim())
+            val emailTextBuilder = StringBuilder()
+            emailTextBuilder.append("Nadawca: $emailAddress\n\n")
+            emailTextBuilder.append(intention.toString().trim())
 
-        val emailTo = when (mMailType) {
-            "pray" -> emailAddresses[0]
-            "error" -> emailAddresses[1]
-            else -> ""
-        }
+            val emailTo = when (mMailType) {
+                "pray" -> emailAddresses[0]
+                "error" -> emailAddresses[1]
+                else -> ""
+            }
 
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.data = Uri.parse("mailto:")
-        emailIntent.type = "message/rfc822"
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(emailTo))
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Wiadomość od ${name.toString().trim()}")
-        emailIntent.putExtra(Intent.EXTRA_TEXT, emailTextBuilder.toString())
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            emailIntent.apply {
+                setDataAndType(Uri.parse("mailto:"), "message/rfc822")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(emailTo))
+                putExtra(Intent.EXTRA_SUBJECT, "Wiadomość od ${name.toString().trim()}")
+                putExtra(Intent.EXTRA_TEXT, emailTextBuilder.toString())
+            }
 
-        try {
-            startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
-        } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, getString(R.string.send_mail_error), Toast.LENGTH_SHORT).show()
+            try {
+                startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+            } catch (ex: android.content.ActivityNotFoundException) {
+                Toast.makeText(context, getString(R.string.send_mail_error), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 }

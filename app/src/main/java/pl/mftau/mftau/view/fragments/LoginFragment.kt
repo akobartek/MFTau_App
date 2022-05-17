@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -24,6 +26,7 @@ import pl.mftau.mftau.utils.createUnderlinedString
 import pl.mftau.mftau.utils.hideKeyboard
 import pl.mftau.mftau.utils.isValidEmail
 import pl.mftau.mftau.utils.isValidPassword
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.MainViewModel
 
 class LoginFragment : BindingFragment<FragmentLoginBinding>() {
@@ -40,7 +43,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
 
         activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
         mAuth = FirebaseAuth.getInstance()
-        setOnClickListeners()
+        setViewsListeners()
 
         with(binding.contentLogin) {
             forgotPasswordTV.text = forgotPasswordTV.text.toString().createUnderlinedString()
@@ -48,12 +51,10 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
         }
     }
 
-    private fun setOnClickListeners() {
+    private fun setViewsListeners() {
         with(binding.contentLogin) {
             forgotPasswordTV.setOnClickListener { showResetPasswordDialog() }
-
             backToSignInTV.setOnClickListener { setSignUpViewVisible(false) }
-
             createAccountTV.setOnClickListener { setSignUpViewVisible(true) }
 
             loginBtn.setOnClickListener {
@@ -82,7 +83,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                             } else {
                                 Log.d("SignUpFailed", task.exception!!.toString())
                                 if (task.exception!! is FirebaseAuthUserCollisionException) {
-                                    emailET.apply {
+                                    emailInputLayout.apply {
                                         error = getString(R.string.sign_up_existing_user_error)
                                         requestFocus()
                                     }
@@ -116,13 +117,13 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                                 Log.d("SignInFailed", task.exception.toString())
                                 when (task.exception) {
                                     is FirebaseAuthInvalidUserException -> {
-                                        emailET.apply {
+                                        emailInputLayout.apply {
                                             error = getString(R.string.sign_in_no_user_error)
                                             requestFocus()
                                         }
                                     }
                                     is FirebaseAuthInvalidCredentialsException -> {
-                                        passwordET.apply {
+                                        passwordInputLayout.apply {
                                             error = getString(R.string.sign_in_wrong_password_error)
                                             requestFocus()
                                         }
@@ -141,6 +142,9 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
 
             loginLayout.setOnClickListener { requireActivity().hideKeyboard() }
             logo.setOnClickListener { requireActivity().hideKeyboard() }
+
+            emailET.addTextChangedListener(ClearErrorTextWatcher(emailInputLayout))
+            passwordET.addTextChangedListener(ClearErrorTextWatcher(passwordInputLayout))
         }
     }
 
@@ -186,8 +190,8 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                     .duration = 300
             }
 
-            emailET.error = null
-            passwordET.error = null
+            emailInputLayout.error = null
+            passwordInputLayout.error = null
         }
     }
 
@@ -195,11 +199,12 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
         var isNull = false
 
         if (!email.isValidEmail()) {
-            binding.contentLogin.emailET.error = getString(R.string.email_error)
+            binding.contentLogin.emailInputLayout.error = getString(R.string.email_error)
             isNull = true
         }
         if (password.isEmpty()) {
-            binding.contentLogin.passwordET.error = getString(R.string.password_error_empty)
+            binding.contentLogin.passwordInputLayout.error =
+                getString(R.string.password_error_empty)
             isNull = true
         }
         return isNull
@@ -209,21 +214,23 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
         var isValid = true
 
         if (!email.isValidEmail()) {
-            binding.contentLogin.emailET.error = getString(R.string.email_error)
+            binding.contentLogin.emailInputLayout.error = getString(R.string.email_error)
             isValid = false
         }
         if (password.length < 6) {
-            binding.contentLogin.passwordET.error = getString(R.string.password_error_too_short)
+            binding.contentLogin.passwordInputLayout.error =
+                getString(R.string.password_error_too_short)
             isValid = false
         } else if (!password.isValidPassword()) {
-            binding.contentLogin.passwordET.error = getString(R.string.password_error_wrong)
+            binding.contentLogin.passwordInputLayout.error =
+                getString(R.string.password_error_wrong)
             isValid = false
         }
         return isValid
     }
 
     private fun showSignupSuccessfulDialog() {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.sign_up_successful_dialog_title)
             .setMessage(R.string.sign_up_successful_dialog_message)
             .setCancelable(false)
@@ -236,7 +243,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
     }
 
     private fun showVerifyEmailDialog() {
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.verify_email_dialog_title)
             .setMessage(R.string.verify_email_dialog_message)
             .setCancelable(false)
@@ -261,8 +268,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
     @SuppressLint("InflateParams")
     private fun showResetPasswordDialog() {
         val dialogBinding = DialogResetPasswordBinding.inflate(layoutInflater)
-
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.reset_password_dialog_title)
             .setMessage(R.string.reset_password_dialog_message)
             .setView(dialogBinding.root)
@@ -270,12 +276,12 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
             .setPositiveButton(getString(R.string.send), null)
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog?.dismiss() }
             .create()
-
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 val email = dialogBinding.resetPasswordET.text.toString().trim()
                 if (!email.isValidEmail()) {
-                    dialogBinding.resetPasswordET.error = getString(R.string.email_error)
+                    dialogBinding.resetPasswordInputLayout.error = getString(R.string.email_error)
                     return@setOnClickListener
                 } else {
                     mAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
@@ -287,7 +293,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                                 Snackbar.LENGTH_LONG
                             ).show()
                         } else {
-                            dialogBinding.resetPasswordET.error =
+                            dialogBinding.resetPasswordInputLayout.error =
                                 getString(R.string.reset_password_error)
                         }
                     }

@@ -119,6 +119,7 @@
     <string name="retreat_price">Cena</string>
     <string name="begin">Początek</string>
     <string name="end">Koniec</string>
+    <string name="retreat_type">Rodzaj rekolekcji</string>
     <string name="for_over_15years">Dla wszystkich chętnych pow. 15 r.ż.</string>
     <string name="for_members">Dla członków MF Tau</string>
     <string name="for_responsible">Dla odpowiedzialnych MF Tau</string>
@@ -178,7 +179,7 @@
     <string name="delete_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
     <string name="delete_meetings">Usuń wszystkie spotkania</string>
     <string name="delete_meetings_successfully">Usunięto wszystkie spotkania!</string>
-    <string name="meeting_type_prompt">Wybierz typ spotkania</string>
+    <string name="meeting_type">Typ spotkania</string>
     <string name="set_date">Ustaw datę</string>
     <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
     <string name="meeting_delete_successfully">Spotkanie usunięte!</string>

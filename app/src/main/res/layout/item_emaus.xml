@@ -5,13 +5,15 @@
     android:id="@+id/drawItemView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="2dp"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/drawItemLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground">
+        android:background="@color/app_theme_surfaceVariant"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/drawFirstPicture"
@@ -47,8 +49,8 @@
             android:fontFamily="sans-serif-condensed-light"
             android:gravity="center"
             android:maxLines="3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorText"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            android:textColor="@color/app_theme_onSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drawSecondPicture"
             app:layout_constraintStart_toEndOf="@+id/drawFirstPicture"

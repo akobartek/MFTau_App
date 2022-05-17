@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".view.fragments.PresenceListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,7 +14,7 @@
             android:id="@+id/presenceListToolbar"
             style="@style/MFTauToolbar">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/presenceListToolbarTitle"
                 style="@style/MFTauToolbarTitle"
                 android:text="@string/presence" />

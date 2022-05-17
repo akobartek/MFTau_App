@@ -41,8 +41,13 @@ class WebsiteFragment : BindingFragment<FragmentWebsiteBinding>() {
         binding.webView.saveState(outState)
     }
 
-    fun onBackPressed() {
-        if (binding.webView.canGoBack()) binding.webView.goBack()
-        else findNavController().navigateUp()
+    fun onBackPressed(): Boolean {
+        return if (binding.webView.canGoBack()) {
+            binding.webView.goBack()
+            false
+        } else {
+            findNavController().navigateUp()
+            true
+        }
     }
 }

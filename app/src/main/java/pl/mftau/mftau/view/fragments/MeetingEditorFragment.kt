@@ -2,18 +2,15 @@ package pl.mftau.mftau.view.fragments
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMeetingEditorBinding
@@ -21,6 +18,7 @@ import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.utils.hideKeyboard
+import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,20 +44,6 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
         activity?.let {
             mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
         }
-        binding.contentMeetingEditor.meetingTypeSpinner.adapter =
-            object : ArrayAdapter<String>(
-                requireContext(),
-                R.layout.item_spinner,
-                resources.getStringArray(R.array.meeting_types)
-            ) {
-                override fun getDropDownView(
-                    position: Int, convertView: View?, parent: ViewGroup
-                ): View {
-                    val dropDownView = super.getDropDownView(position, convertView, parent)
-                    (dropDownView as TextView).setTextColor(Color.BLACK)
-                    return dropDownView
-                }
-            }
 
         arguments?.let { bundle ->
             mMeeting = MeetingEditorFragmentArgs.fromBundle(bundle).meeting
@@ -68,7 +52,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
             with(binding.contentMeetingEditor) {
                 mMeeting?.let {
                     meetingNameET.setText(it.name)
-                    meetingTypeSpinner.setSelection(it.meetingType)
+                    meetingTypeTV.setText(resources.getStringArray(R.array.meeting_types)[it.meetingType])
                     meetingNotesET.setText(it.notes)
                     mMeetingDate = it.date.toDate()
                 }
@@ -77,7 +61,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
         }
         binding.contentMeetingEditor.dateText.text = mMeetingDate.getDateFormatted()
 
-        setOnClickListeners()
+        setViewsListeners()
     }
 
     private fun inflateToolbarMenu(toolbar: Toolbar) {
@@ -110,7 +94,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setOnClickListeners() {
+    private fun setViewsListeners() {
         with(binding.contentMeetingEditor) {
             binding.saveMeetingBtn.setOnClickListener {
                 val meetingValues = HashMap<String, Any>()
@@ -120,14 +104,15 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
                     meetingNotesET.text.toString().trim()
                 meetingValues[FirestoreUtils.firestoreKeyDate] = Timestamp(mMeetingDate)
                 meetingValues[FirestoreUtils.firestoreKeyMeetingType] =
-                    meetingTypeSpinner.selectedItemPosition
+                    resources.getStringArray(R.array.meeting_types)
+                        .indexOf(meetingTypeTV.text.toString())
                 meetingValues[FirestoreUtils.firestoreKeyAttendanceList] =
                     mMeeting?.attendanceList ?: arrayListOf<String>()
                 meetingValues[FirestoreUtils.firestoreKeyAbsenceList] =
                     mMeeting?.absenceList ?: HashMap<String, String>()
 
                 if (meetingNameET.text.isNullOrBlank()) {
-                    meetingNameET.error = getString(R.string.empty_meeting_name_error)
+                    nameInputLayout.error = getString(R.string.empty_meeting_name_error)
                     return@setOnClickListener
                 }
 
@@ -165,14 +150,16 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
 
             meetingNameET.setOnTouchListener(mTouchListener)
             meetingNotesET.setOnTouchListener(mTouchListener)
-            meetingTypeSpinner.setOnTouchListener(mTouchListener)
+            meetingTypeTV.setOnTouchListener(mTouchListener)
             setDateIcon.setOnTouchListener(mTouchListener)
             dateText.setOnTouchListener(mTouchListener)
+
+            meetingNameET.addTextChangedListener(ClearErrorTextWatcher(nameInputLayout))
         }
     }
 
     private fun showCheckPresenceDialog(meetingValues: HashMap<String, Any>) =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.check_presence_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.yes) { dialog, _ ->
@@ -200,7 +187,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
             .show()
 
     private fun showDeleteConfirmationDialog() =
-        AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(R.string.meeting_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->

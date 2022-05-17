@@ -10,11 +10,11 @@ import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -65,7 +65,7 @@ fun Date.getDateFormatted(): String =
     SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
 
 fun Activity.showNoInternetDialogWithTryAgain(function: () -> Unit): Unit =
-    AlertDialog.Builder(this)
+    MaterialAlertDialogBuilder(this)
         .setTitle(R.string.no_internet_title)
         .setMessage(R.string.no_internet_reconnect_message)
         .setCancelable(false)
@@ -82,7 +82,7 @@ fun Activity.showNoInternetDialogWithTryAgain(function: () -> Unit): Unit =
         .show()
 
 fun Activity.showNoInternetDialogDataOutOfDate(): Unit =
-    AlertDialog.Builder(this)
+    MaterialAlertDialogBuilder(this)
         .setTitle(R.string.no_internet_title)
         .setMessage(R.string.no_internet_data_message)
         .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }

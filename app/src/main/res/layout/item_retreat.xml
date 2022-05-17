@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="3dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="2dp"
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorListItemBackground">
+        android:background="@color/app_theme_surfaceVariant">
 
         <TextView
             android:id="@+id/retreatName"
@@ -22,8 +22,8 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="sans-serif-light"
             android:paddingBottom="16dp"
-            android:textColor="@color/colorText"
-            android:textSize="22sp"
+            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/retreatCity"
@@ -39,8 +39,8 @@
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
             android:textAlignment="viewEnd"
-            android:textColor="@color/colorText"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/app_theme_onSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/retreatCity"
             app:layout_constraintTop_toTopOf="parent"
@@ -56,8 +56,8 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
-            android:textColor="@color/colorText"
-            android:textSize="13sp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/app_theme_onSurfaceVariant"
             app:layout_constraintEnd_toStartOf="@+id/retreatDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

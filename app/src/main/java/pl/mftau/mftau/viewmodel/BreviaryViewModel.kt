@@ -68,8 +68,8 @@ class BreviaryViewModel : ViewModel() {
     ) {
         viewModelScope.launch {
             try {
-                val breviaryUrl = "${buildBaseBreviaryUrl(daysFromToday, false)}${office}" +
-                        "/${mBreviaryUrlTypes[type]}.php3"
+                val breviaryUrl = buildBaseBreviaryUrl(daysFromToday, office == "") +
+                        "${office}/${mBreviaryUrlTypes[type]}.php3"
                 val document = withContext(Dispatchers.IO) {
                     Jsoup.connect(breviaryUrl).timeout(30000).get()
                 }
@@ -98,6 +98,18 @@ class BreviaryViewModel : ViewModel() {
     private fun getFinalBreviaryHtml(document: Document, isOfficeOfReadings: Boolean): String {
         val element =
             document.select("table").last { it.outerHtml().contains("Psalm ") }
+
+        if (isOfficeOfReadings) {
+            element.select("i").first { it.html().contains("Te Deum") }.parentNode().remove()
+            if (!element.html().contains("\"def1\"")) {
+                val def1Elem = document.getElementById("def1")
+                element.appendChild(def1Elem.child(0))
+                element.append("<br><br>")
+                element.appendChild(
+                    def1Elem.parent().select("table").first { it.html().contains("RESPONSORIUM") })
+            }
+        }
+
         // Remove all images
         element.select("img").remove()
         // Remove Premium
@@ -126,17 +138,6 @@ class BreviaryViewModel : ViewModel() {
             it.replaceWith(TextNode(it.text()))
         }
 
-        if (isOfficeOfReadings) {
-            element.select("i").first { it.html().contains("Te Deum") }.parentNode().remove()
-            if (!element.html().contains("\"def1\"")) {
-                val def1Elem = document.getElementById("def1")
-                element.appendChild(def1Elem.child(0))
-                element.append("<br><br>")
-                element.appendChild(
-                    def1Elem.parent().select("table").first { it.html().contains("RESPONSORIUM") })
-            }
-        }
-
         var breviary = element.html()
         for (i in 1..5)
             breviary = breviary.replaceFirst("class=\"c\"", "class=\"xD\"")
@@ -153,20 +154,17 @@ class BreviaryViewModel : ViewModel() {
             .replace("class=\"b\"", "style=\"text-indent:12pt\"")
             .replace("class=\"c\"", "style=\"text-indent:16pt\"")
             .replace("style=\"margin-left:15pt\"", "")
-            .replace("style=\"font-size:10pt\"", "")
-            .replace(
-                "style=\"font-size:10pt; border: 2px solid navy; background-color:#FAE6D2\"",
-                ""
-            )
-            .replace("style=\"font-size:8pt; background-color:#FAE6D2\"", "")
-            .replace("font-size:10pt; ", "")
+            .replace("font-size:10pt", "")
+            .replace("font-size: 10pt", "")
+            .replace("font-size:8pt", "")
+            .replace("font-size: 8pt", "")
             .replaceFirst("<br>", "")
     }
 
     private fun checkBreviaryNightMode(breviaryHtml: String): String {
         return if (PreferencesManager.getNightMode()) {
             val result = "<html><head>" +
-                    "<style type=\"text/css\">body{color: #fff; background-color: #28292e;}" +
+                    "<style type=\"text/css\">body{color: #fff; background-color: #160A01;}" +
                     "</style></head>" +
                     "<body>" +
                     breviaryHtml +

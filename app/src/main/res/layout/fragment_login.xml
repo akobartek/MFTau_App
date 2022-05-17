@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/app_theme_background"
     tools:context=".view.fragments.LoginFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/app_theme_background"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -19,5 +20,4 @@
     <include
         android:id="@+id/contentLogin"
         layout="@layout/content_login" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
