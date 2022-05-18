@@ -33,5 +33,6 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/add_retreat"
-        android:src="@drawable/ic_plus" />
+        android:src="@drawable/ic_plus"
+        android:visibility="gone" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

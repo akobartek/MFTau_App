@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -11,11 +12,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMeetingsBinding
 import pl.mftau.mftau.view.adapters.MeetingPagerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 
 class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private lateinit var mAdapter: MeetingPagerAdapter
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -25,7 +26,7 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
         inflateToolbarMenu()
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java]
         }
 
         mAdapter = MeetingPagerAdapter(
@@ -41,7 +42,10 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
         }.attach()
 
         binding.addMeetingBtn.setOnClickListener {
-            findNavController().navigate(MeetingsFragmentDirections.showMeetingEditorFragment(null))
+            val extras = FragmentNavigatorExtras(it to "shared_element_container")
+            findNavController().navigate(
+                MeetingsFragmentDirections.showMeetingEditorFragment(null), extras
+            )
         }
     }
 

@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMeetingEditorBinding
@@ -19,7 +21,7 @@ import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.utils.hideKeyboard
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
@@ -30,9 +32,18 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
         var meetingHasChanged = false
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private var mMeeting: Meeting? = null
     private var mMeetingDate = Date()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            if (MeetingEditorFragmentArgs.fromBundle(requireArguments()).meeting == null)
+                MaterialContainerTransform()
+            else
+                TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMeetingEditorBinding.inflate(inflater, container, false)
@@ -42,7 +53,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
         inflateToolbarMenu(binding.meetingEditorToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java]
         }
 
         arguments?.let { bundle ->
@@ -53,6 +64,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
                 mMeeting?.let {
                     meetingNameET.setText(it.name)
                     meetingTypeTV.setText(resources.getStringArray(R.array.meeting_types)[it.meetingType])
+                    meetingTypeTV.setSimpleItems(R.array.meeting_types)
                     meetingNotesET.setText(it.notes)
                     mMeetingDate = it.date.toDate()
                 }

@@ -16,12 +16,12 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentEmausBinding
 import pl.mftau.mftau.db.entities.MemberEntity
 import pl.mftau.mftau.view.adapters.EmausRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.EmausViewModel
 import kotlin.math.hypot
 
 class EmausFragment : BindingFragment<FragmentEmausBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: EmausViewModel
     private lateinit var mAdapter: EmausRecyclerAdapter
 
     var members: List<MemberEntity>? = null
@@ -34,7 +34,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
         inflateToolbarMenu(binding.emausToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[EmausViewModel::class.java]
         }
         mAdapter = EmausRecyclerAdapter()
         setupRecyclerView()

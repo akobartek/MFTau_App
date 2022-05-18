@@ -13,7 +13,7 @@ import pl.mftau.mftau.databinding.FragmentPresenceCheckBinding
 import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.view.adapters.PresenceCheckRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 
 class PresenceCheckFragment : BindingFragment<FragmentPresenceCheckBinding>() {
 
@@ -21,7 +21,7 @@ class PresenceCheckFragment : BindingFragment<FragmentPresenceCheckBinding>() {
         var listHasChanged = false
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private lateinit var mAdapter: PresenceCheckRecyclerAdapter
     private lateinit var mMeeting: Meeting
     private var mIsMeetingNew: Int = 0
@@ -33,7 +33,7 @@ class PresenceCheckFragment : BindingFragment<FragmentPresenceCheckBinding>() {
         binding.presenceCheckToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java]
         }
         arguments?.let { bundle ->
             mMeeting = PresenceCheckFragmentArgs.fromBundle(bundle).meeting

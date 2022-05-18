@@ -6,21 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.FirebaseFirestore
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ActivityMainBinding
-import pl.mftau.mftau.utils.PreferencesManager
-import pl.mftau.mftau.utils.checkNetworkConnection
-import pl.mftau.mftau.utils.hideKeyboard
-import pl.mftau.mftau.utils.showNoInternetDialogDataOutOfDate
+import pl.mftau.mftau.utils.*
 import pl.mftau.mftau.view.fragments.*
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val USER_TYPE_ADMIN = 3
+        const val USER_TYPE_LEADER = 2
+        const val USER_TYPE_MEMBER = 1
+        const val USER_TYPE_NONE = 0
+
+        var currentUserType = MutableLiveData(USER_TYPE_NONE)
+    }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mAuth: FirebaseAuth
@@ -89,6 +97,27 @@ class MainActivity : AppCompatActivity() {
 //                else -> Log.d("Search query: ", intent.getStringExtra(SearchManager.QUERY))
 //            }
 //        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mAuth.currentUser != null) {
+            FirebaseFirestore.getInstance().collection(FirestoreUtils.firestoreCollectionUsers)
+                .document(FirebaseAuth.getInstance().currentUser!!.uid)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful)
+                        currentUserType.postValue(when {
+                            (task.result?.get(FirestoreUtils.firestoreKeyIsAdmin) as Boolean) ->
+                                USER_TYPE_ADMIN
+                            (task.result?.get(FirestoreUtils.firestoreKeyIsLeader) as Boolean) ->
+                                USER_TYPE_LEADER
+                            (task.result?.get(FirestoreUtils.firestoreKeyIsMember) as Boolean) ->
+                                USER_TYPE_MEMBER
+                            else -> USER_TYPE_NONE
+                        })
+                }
+        } else currentUserType.postValue(USER_TYPE_NONE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

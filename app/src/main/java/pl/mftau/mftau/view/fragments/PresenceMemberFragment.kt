@@ -20,7 +20,7 @@ import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.getColorsByName
 import pl.mftau.mftau.view.adapters.PresenceMeetingRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 
 class PresenceMemberFragment : BindingFragment<FragmentPresenceMemberBinding>() {
 
@@ -35,7 +35,7 @@ class PresenceMemberFragment : BindingFragment<FragmentPresenceMemberBinding>() 
         }
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private lateinit var mAdapter: PresenceMeetingRecyclerAdapter
     private lateinit var mMember: Member
     private var mPresenceList = arrayListOf<String>()
@@ -47,7 +47,7 @@ class PresenceMemberFragment : BindingFragment<FragmentPresenceMemberBinding>() 
         FragmentPresenceMemberBinding.inflate(inflater, container, false)
 
     override fun setup(savedInstanceState: Bundle?) {
-        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
+        activity?.let { mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java] }
         arguments?.let {
             mMember = it.getParcelable("member")!!
             mMeetingType = it.getInt("meetingType")

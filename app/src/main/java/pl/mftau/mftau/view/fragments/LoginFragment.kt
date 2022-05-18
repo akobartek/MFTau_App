@@ -27,11 +27,11 @@ import pl.mftau.mftau.utils.hideKeyboard
 import pl.mftau.mftau.utils.isValidEmail
 import pl.mftau.mftau.utils.isValidPassword
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.LoginViewModel
 
 class LoginFragment : BindingFragment<FragmentLoginBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: LoginViewModel
     private lateinit var mAuth: FirebaseAuth
     private var isSigningUp: Boolean = false
 
@@ -41,7 +41,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         binding.loginToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
-        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
+        activity?.let { mViewModel = ViewModelProvider(it)[LoginViewModel::class.java] }
         mAuth = FirebaseAuth.getInstance()
         setViewsListeners()
 

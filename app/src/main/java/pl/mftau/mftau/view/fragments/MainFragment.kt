@@ -5,24 +5,17 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMainBinding
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsAdmin
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsLeader
-import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyIsMember
 import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 import pl.mftau.mftau.utils.openWebsiteInChromeCustomTabs
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.view.activities.MainActivity
 import java.lang.NullPointerException
 
 class MainFragment : BindingFragment<FragmentMainBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
     private val mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -31,39 +24,11 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         inflateToolbarMenu()
         setOnClickListeners()
-        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
     }
 
     override fun onResume() {
         super.onResume()
-        if (mAuth.currentUser != null) {
-            FirebaseFirestore.getInstance().collection(firestoreCollectionUsers)
-                .document(FirebaseAuth.getInstance().currentUser!!.uid)
-                .get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful)
-                        when {
-                            (task.result?.get(firestoreKeyIsAdmin) as Boolean) -> {
-                                showUIChanges(MainViewModel.USER_TYPE_ADMIN)
-                                mViewModel.currentUserType = MainViewModel.USER_TYPE_ADMIN
-                            }
-                            (task.result?.get(firestoreKeyIsLeader) as Boolean) -> {
-                                showUIChanges(MainViewModel.USER_TYPE_LEADER)
-                                mViewModel.currentUserType = MainViewModel.USER_TYPE_LEADER
-                            }
-                            (task.result?.get(firestoreKeyIsMember) as Boolean) -> {
-                                showUIChanges(MainViewModel.USER_TYPE_MEMBER)
-                                mViewModel.currentUserType = MainViewModel.USER_TYPE_MEMBER
-                            }
-                            else -> {
-                                showUIChanges(MainViewModel.USER_TYPE_NONE)
-                                mViewModel.currentUserType = MainViewModel.USER_TYPE_NONE
-                            }
-                        }
-                }
-        } else {
-            showUIChanges(MainViewModel.USER_TYPE_NONE)
-        }
+        MainActivity.currentUserType.observe(viewLifecycleOwner) { showUIChanges(it) }
     }
 
     private fun inflateToolbarMenu() {
@@ -76,7 +41,7 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
                     }
                     R.id.action_sign_out -> {
                         mAuth.signOut()
-                        showUIChanges(MainViewModel.USER_TYPE_NONE)
+                        MainActivity.currentUserType.postValue(MainActivity.USER_TYPE_NONE)
                     }
                     R.id.action_settings -> {
                         findNavController().navigate(MainFragmentDirections.showPreferenceFragment())
@@ -140,14 +105,14 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
         try {
             with(binding.contentMain) {
                 when (userType) {
-                    MainViewModel.USER_TYPE_ADMIN, MainViewModel.USER_TYPE_MEMBER -> {
+                    MainActivity.USER_TYPE_ADMIN, MainActivity.USER_TYPE_MEMBER -> {
                         hideViews(members, meetings)
                         showViews(retreat)
                     }
-                    MainViewModel.USER_TYPE_LEADER -> {
+                    MainActivity.USER_TYPE_LEADER -> {
                         showViews(members, meetings, retreat)
                     }
-                    MainViewModel.USER_TYPE_NONE -> {
+                    MainActivity.USER_TYPE_NONE -> {
                         hideViews(members, meetings, retreat)
                     }
                 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemMeetingBinding
@@ -33,8 +34,16 @@ class MeetingsRecyclerAdapter : RecyclerView.Adapter<MeetingsRecyclerAdapter.Mee
                 )
             }
             root.setOnClickListener {
-                it.findNavController()
-                    .navigate(MeetingsFragmentDirections.showMeetingEditorFragment(mMeetingList[position]))
+                meetingName.transitionName = "shared_name"
+                meetingDate.transitionName = "shared_date"
+                val extras = FragmentNavigatorExtras(
+                    meetingName to "shared_name",
+                    meetingDate to "shared_date"
+                )
+                it.findNavController().navigate(
+                    MeetingsFragmentDirections.showMeetingEditorFragment(mMeetingList[position]),
+                    extras
+                )
             }
         }
     }

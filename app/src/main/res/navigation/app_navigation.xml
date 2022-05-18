@@ -257,18 +257,10 @@
 
         <action
             android:id="@+id/showEmausFragment"
-            app:destination="@+id/emausFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:destination="@+id/emausFragment" />
         <action
             android:id="@+id/showMemberEditorFragment"
-            app:destination="@+id/memberEditorFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:destination="@+id/memberEditorFragment" />
     </fragment>
 
     <fragment
@@ -294,7 +286,6 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
-
     <fragment
         android:id="@+id/meetingsFragment"
         android:name="pl.mftau.mftau.view.fragments.MeetingsFragment"
@@ -309,11 +300,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/showMeetingEditorFragment"
-            app:destination="@+id/meetingEditorFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:destination="@+id/meetingEditorFragment" />
         <action
             android:id="@+id/showPresenceCheckFragment"
             app:destination="@+id/presenceCheckFragment"

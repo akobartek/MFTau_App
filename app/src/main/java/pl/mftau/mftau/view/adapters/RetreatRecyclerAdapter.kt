@@ -3,16 +3,12 @@ package pl.mftau.mftau.view.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.databinding.ItemRetreatBinding
 import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.getDateFormatted
-import pl.mftau.mftau.view.fragments.RetreatsFragmentDirections
-import pl.mftau.mftau.viewmodel.MainViewModel
 
-class RetreatRecyclerAdapter(private var userType: Int, val fragment: Fragment) :
+class RetreatRecyclerAdapter(val onClick: (Retreat) -> Unit) :
     RecyclerView.Adapter<RetreatRecyclerAdapter.RetreatViewHolder>() {
 
     private var mRetreats = listOf<Retreat>()
@@ -30,14 +26,7 @@ class RetreatRecyclerAdapter(private var userType: Int, val fragment: Fragment) 
             retreatDate.text = retreat.beginDate.toDate().getDateFormatted() + " - " +
                     retreat.endDate.toDate().getDateFormatted()
 
-            root.setOnClickListener {
-                if (userType != MainViewModel.USER_TYPE_ADMIN)
-                    fragment.findNavController()
-                        .navigate(RetreatsFragmentDirections.showDetailsFragment(retreat))
-                else
-                    fragment.findNavController()
-                        .navigate(RetreatsFragmentDirections.showEditorFragment(retreat))
-            }
+            root.setOnClickListener { onClick(retreat) }
         }
     }
 

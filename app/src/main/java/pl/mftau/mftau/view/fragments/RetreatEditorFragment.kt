@@ -23,7 +23,7 @@ import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.utils.hideKeyboard
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.RetreatsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +33,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
         var retreatHasChanged = false
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: RetreatsViewModel
     private var mRetreat: Retreat? = null
     private var beginDate: Date = Date()
     private var endDate: Date = Date()
@@ -48,7 +48,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
         inflateToolbarMenu(binding.retreatEditorToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[RetreatsViewModel::class.java]
         }
 
         // TODO() -> SET CORRECT SIMPLE ITEMS AFTER CONNECTING TO REMOTE DATABASE

@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.transition.MaterialElevationScale
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMeetingBinding
 import pl.mftau.mftau.view.adapters.MeetingsRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 
 class MeetingsListFragment : BindingFragment<FragmentMeetingBinding>() {
 
@@ -26,7 +28,7 @@ class MeetingsListFragment : BindingFragment<FragmentMeetingBinding>() {
         }
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private lateinit var mAdapter: MeetingsRecyclerAdapter
     private var mMeetingType: Int = 0
 
@@ -34,7 +36,7 @@ class MeetingsListFragment : BindingFragment<FragmentMeetingBinding>() {
         FragmentMeetingBinding.inflate(inflater, container, false)
 
     override fun setup(savedInstanceState: Bundle?) {
-        activity?.let { mViewModel = ViewModelProvider(it)[MainViewModel::class.java] }
+        activity?.let { mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java] }
         arguments?.let { mMeetingType = it.getInt("meetingType") }
         mAdapter = MeetingsRecyclerAdapter()
 
@@ -56,6 +58,11 @@ class MeetingsListFragment : BindingFragment<FragmentMeetingBinding>() {
         }
 
         mViewModel.getAllMeetings(mMeetingType).observe(viewLifecycleOwner) { meetings ->
+            binding.meetingsRecyclerView.layoutAnimation =
+                AnimationUtils.loadLayoutAnimation(
+                    binding.meetingsRecyclerView.context,
+                    R.anim.layout_animation_fall_down
+                )
             mAdapter.setMeetingList(meetings)
             binding.loadingIndicator.hide()
             binding.emptyView.visibility =

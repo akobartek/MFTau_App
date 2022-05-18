@@ -13,8 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMemberEditorBinding
@@ -25,7 +27,7 @@ import pl.mftau.mftau.utils.FirestoreUtils.firestoreKeyName
 import pl.mftau.mftau.utils.GlideApp
 import pl.mftau.mftau.utils.hideKeyboard
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MembersViewModel
 import java.io.InputStream
 
 class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
@@ -34,9 +36,18 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
         var personHasChanged = false
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MembersViewModel
     private var mMember: Member? = null
     private var mFilePath: InputStream? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            if (MemberEditorFragmentArgs.fromBundle(requireArguments()).member == null)
+                MaterialContainerTransform()
+            else
+                TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMemberEditorBinding.inflate(inflater, container, false)
@@ -46,7 +57,7 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
         inflateToolbarMenu(binding.memberEditorToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MembersViewModel::class.java]
         }
         arguments?.let { bundle ->
             mMember = MemberEditorFragmentArgs.fromBundle(bundle).member
@@ -157,7 +168,8 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
                 if (FirebaseAuth.getInstance().currentUser!!.email!! == "example@mftau.pl")
                     return@setOnClickListener
 
-                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 pickImageFromGalleryForResult.launch(intent)
             }
 

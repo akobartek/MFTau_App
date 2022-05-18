@@ -32,7 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="4" />
+                android:maxLines="4"
+                android:transitionName="shared_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:textSize="16sp"
+            android:transitionName="shared_date"
             app:layout_constraintBottom_toBottomOf="@+id/setDateIcon"
             app:layout_constraintStart_toEndOf="@+id/setDateIcon"
             app:layout_constraintTop_toTopOf="@+id/setDateIcon"

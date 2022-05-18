@@ -4,6 +4,7 @@ import android.os.Parcelable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.parcelize.Parcelize
@@ -29,16 +30,15 @@ data class Member(
 
                 GlideApp.with(view.context)
                     .load(storageReference)
-                    .circleCrop()
+                    .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.ic_user)
                     .into(view)
             } else {
-                val randomNumber = Random.nextInt(100)
                 val address = if (member != null) {
                     if (member.name.last() == 'a')
-                        "https://randomuser.me/api/portraits/women/$randomNumber.jpg"
+                        "https://randomuser.me/api/portraits/women/21.jpg"
                     else
-                        "https://randomuser.me/api/portraits/men/$randomNumber.jpg"
+                        "https://randomuser.me/api/portraits/men/37.jpg"
                 } else ""
 
                 GlideApp.with(view.context)

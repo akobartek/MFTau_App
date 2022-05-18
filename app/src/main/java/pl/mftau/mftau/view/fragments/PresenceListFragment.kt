@@ -14,7 +14,7 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPresenceListBinding
 import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.view.adapters.PresenceListRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MeetingsViewModel
 import java.util.*
 
 class PresenceListFragment : BindingFragment<FragmentPresenceListBinding>() {
@@ -23,7 +23,7 @@ class PresenceListFragment : BindingFragment<FragmentPresenceListBinding>() {
         var numberOfMeetings = arrayOfNulls<Int>(3)
     }
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MeetingsViewModel
     private lateinit var mAdapter: PresenceListRecyclerAdapter
     private lateinit var mLoadingDialog: AlertDialog
 
@@ -37,7 +37,7 @@ class PresenceListFragment : BindingFragment<FragmentPresenceListBinding>() {
         binding.presenceListToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MeetingsViewModel::class.java]
         }
         mAdapter = PresenceListRecyclerAdapter()
 

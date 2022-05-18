@@ -13,7 +13,8 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/emausToolbar"
-            style="@style/MFTauToolbar">
+            style="@style/MFTauToolbar"
+            app:navigationIcon="@drawable/ic_close">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/emausToolbarTitle"

@@ -17,6 +17,7 @@
         android:layout_marginBottom="60dp"
         android:contentDescription="@string/member_photo_description"
         android:src="@drawable/ic_user"
+        android:transitionName="shared_photo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +38,8 @@
             android:id="@+id/memberNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName|textCapWords" />
+            android:inputType="textPersonName|textCapWords"
+            android:transitionName="shared_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
@@ -82,6 +84,7 @@
             android:id="@+id/cityET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:transitionName="shared_city" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

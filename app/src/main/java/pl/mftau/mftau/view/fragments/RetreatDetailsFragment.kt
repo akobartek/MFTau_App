@@ -20,12 +20,12 @@ import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.RetreatsViewModel
 import java.util.*
 
 class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: RetreatsViewModel
     private lateinit var mRetreat: Retreat
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -35,7 +35,7 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
         inflateToolbarMenu(binding.retreatDetailsToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[RetreatsViewModel::class.java]
         }
         arguments?.let {
             mRetreat = RetreatDetailsFragmentArgs.fromBundle(it).retreat

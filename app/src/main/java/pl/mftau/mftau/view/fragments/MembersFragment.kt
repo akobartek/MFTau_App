@@ -7,19 +7,27 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialElevationScale
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMembersBinding
 import pl.mftau.mftau.view.adapters.MembersRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.MembersViewModel
 
 class MembersFragment : BindingFragment<FragmentMembersBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: MembersViewModel
     private lateinit var mAdapter: MembersRecyclerAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialElevationScale(false)
+        reenterTransition = MaterialElevationScale(true)
+    }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMembersBinding.inflate(inflater, container, false)
@@ -28,7 +36,7 @@ class MembersFragment : BindingFragment<FragmentMembersBinding>() {
         inflateToolbarMenu(binding.membersToolbar)
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
+            mViewModel = ViewModelProvider(it)[MembersViewModel::class.java]
         }
         mAdapter = MembersRecyclerAdapter()
 
@@ -50,7 +58,8 @@ class MembersFragment : BindingFragment<FragmentMembersBinding>() {
         mViewModel.getAllMembers().observe(viewLifecycleOwner) { members ->
             binding.contentMembers.membersRecyclerView.layoutAnimation =
                 AnimationUtils.loadLayoutAnimation(
-                    binding.contentMembers.membersRecyclerView.context, R.anim.layout_animation_fall_down
+                    binding.contentMembers.membersRecyclerView.context,
+                    R.anim.layout_animation_fall_down
                 )
             mAdapter.setMemberList(members)
             binding.contentMembers.membersRecyclerView.scheduleLayoutAnimation()
@@ -61,7 +70,10 @@ class MembersFragment : BindingFragment<FragmentMembersBinding>() {
         }
 
         binding.addMemberBtn.setOnClickListener {
-            findNavController().navigate(MembersFragmentDirections.showMemberEditorFragment(null))
+            val extras = FragmentNavigatorExtras(it to "shared_element_container")
+            findNavController().navigate(
+                MembersFragmentDirections.showMemberEditorFragment(null), extras
+            )
         }
     }
 

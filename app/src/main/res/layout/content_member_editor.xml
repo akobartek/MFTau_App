@@ -16,6 +16,7 @@
         android:layout_marginTop="12dp"
         android:contentDescription="@string/member_photo_description"
         android:src="@drawable/ic_user"
+        android:transitionName="shared_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +37,8 @@
             android:id="@+id/memberNameET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName|textCapWords" />
+            android:inputType="textPersonName|textCapWords"
+            android:transitionName="shared_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -58,8 +60,8 @@
         app:layout_constraintTop_toTopOf="@+id/responsibleSwitch" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
-        style="@style/Widget.Material3.CompoundButton.Switch"
         android:id="@+id/responsibleSwitch"
+        style="@style/Widget.Material3.CompoundButton.Switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -88,6 +90,7 @@
             android:id="@+id/cityET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:transitionName="shared_city" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

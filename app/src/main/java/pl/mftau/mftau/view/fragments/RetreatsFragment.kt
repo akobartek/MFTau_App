@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentRetreatsBinding
+import pl.mftau.mftau.view.activities.MainActivity
 import pl.mftau.mftau.view.adapters.RetreatRecyclerAdapter
-import pl.mftau.mftau.viewmodel.MainViewModel
+import pl.mftau.mftau.viewmodel.RetreatsViewModel
 import java.util.*
 
 class RetreatsFragment : BindingFragment<FragmentRetreatsBinding>() {
 
-    private lateinit var mViewModel: MainViewModel
+    private lateinit var mViewModel: RetreatsViewModel
     private lateinit var mAdapter: RetreatRecyclerAdapter
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -28,12 +29,22 @@ class RetreatsFragment : BindingFragment<FragmentRetreatsBinding>() {
         binding.retreatsToolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
         activity?.let {
-            mViewModel = ViewModelProvider(it)[MainViewModel::class.java]
-            mAdapter = RetreatRecyclerAdapter(mViewModel.currentUserType, this@RetreatsFragment)
+            mViewModel = ViewModelProvider(it)[RetreatsViewModel::class.java]
+            mAdapter = RetreatRecyclerAdapter { retreat ->
+                if (MainActivity.currentUserType.value != MainActivity.USER_TYPE_ADMIN)
+                    findNavController()
+                        .navigate(RetreatsFragmentDirections.showDetailsFragment(retreat))
+                else
+                    findNavController()
+                        .navigate(RetreatsFragmentDirections.showEditorFragment(retreat))
+            }
         }
 
-        if (mViewModel.currentUserType != MainViewModel.USER_TYPE_ADMIN) {
-            binding.addRetreatBtn.hide()
+        MainActivity.currentUserType.observe(viewLifecycleOwner) {
+            if (it != MainActivity.USER_TYPE_ADMIN)
+                binding.addRetreatBtn.hide()
+            else
+                binding.addRetreatBtn.show()
         }
 
         binding.contentRetreats.retreatRecyclerView.apply {
@@ -43,7 +54,7 @@ class RetreatsFragment : BindingFragment<FragmentRetreatsBinding>() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (mViewModel.currentUserType == MainViewModel.USER_TYPE_ADMIN) {
+                    if (MainActivity.currentUserType.value == MainActivity.USER_TYPE_ADMIN) {
                         if (dy < 0 && !binding.addRetreatBtn.isShown)
                             binding.addRetreatBtn.show()
                         else if (dy > 0 && binding.addRetreatBtn.isShown)
