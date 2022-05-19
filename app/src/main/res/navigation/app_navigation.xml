@@ -18,6 +18,13 @@
             app:popEnterAnim="@anim/slide_in_bottom"
             app:popExitAnim="@anim/slide_out_top" />
         <action
+            android:id="@+id/showSongBookFragment"
+            app:destination="@+id/songBookFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+        <action
             android:id="@+id/showPrayersSelectFragment"
             app:destination="@+id/prayersSelectFragment"
             app:enterAnim="@anim/slide_in_top"
@@ -99,8 +106,15 @@
             app:argType="string" />
 
         <action
-            android:id="@+id/showSongbookSearchFragment"
-            app:destination="@+id/songbookSearchFragment"
+            android:id="@+id/showSongBookFragment"
+            app:destination="@+id/songBookFragment"
+            app:enterAnim="@anim/fade_out"
+            app:exitAnim="@anim/fade_in"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
+        <action
+            android:id="@+id/showSongBookSearchFragment"
+            app:destination="@+id/songBookSearchFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -108,9 +122,30 @@
     </fragment>
 
     <fragment
-        android:id="@+id/songbookSearchFragment"
-        android:name="pl.mftau.mftau.view.fragments.SongbookSearchFragment"
-        tools:layout="@layout/fragment_songbook_search">
+        android:id="@+id/songBookFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongBookFragment"
+        tools:layout="@layout/fragment_song_book">
+
+        <action
+            android:id="@+id/showPdfFragment"
+            app:destination="@+id/pdfFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/showSongBookSearchFragment"
+            app:destination="@+id/songBookSearchFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/songBookSearchFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongBookSearchFragment"
+        tools:layout="@layout/fragment_song_book_search">
 
         <argument
             android:name="query"

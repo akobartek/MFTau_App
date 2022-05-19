@@ -5,7 +5,7 @@
     <string name="prayers">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
     <string name="gospel">Ewangelia</string>
-    <string name="songbook">Śpiewnik</string>
+    <string name="songBook">Śpiewnik</string>
     <string name="members">Członkowie</string>
     <string name="meetings">Spotkania</string>
     <string name="retreats">Rekolekcje</string>
@@ -69,11 +69,23 @@
     <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
 
     <!-- PDF STRINGS -->
-    <string name="search">Szukaj</string>
     <string name="scroll_up">Przewiń do początku</string>
-    <string name="songbook_search">Szukaj w śpiewniku</string>
+
+    <!-- SONG BOOK STRINGS -->
+    <string name="search">Szukaj</string>
+    <string name="song_book_search">Szukaj w śpiewniku</string>
     <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
     <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
+    <string name="show_as_list">Wyświetl utwory jako listę</string>
+    <string name="change_font_size">Zmień wielkość tekstu</string>
+    <string name="max_size_msg">Została już ustawiona maksymalna wielkość!</string>
+    <string name="min_size_msg">Została już ustawiona minimalna wielkość!</string>
+    <string name="cd_add_to_favourites">Dodaj do ulubionych</string>
+    <string name="cd_navigate_up">Cofnij do poprzedniego widoku</string>
+    <string name="cd_open_pdf">Otwórz śpiewnik w pliku PDF</string>
+    <string name="cd_show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
+    <string name="cd_show_playlist">Wyświetl przygotowaną playlistę</string>
+    <string name="cd_show_chords">Pokazuj chwyty dla instrumentów</string>
     <string name="cd_collapse_bottom_sheet">Zamknij okienko</string>
 
     <!-- PREFERENCES STRINGS -->
@@ -82,8 +94,10 @@
     <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
     <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
     <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
-    <string name="awake_songbook_title">Ciągły ekran śpiewnika</string>
-    <string name="awake_songbook_summary">Nie wygaszaj ekranu śpiewnika</string>
+    <string name="awake_song_book_title">Ciągły ekran śpiewnika</string>
+    <string name="awake_song_book_summary">Nie wygaszaj ekranu śpiewnika</string>
+    <string name="open_song_book_as_pdf_title">Otwieranie śpiewnika jako PDF</string>
+    <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Brewiarz (%s)</string>

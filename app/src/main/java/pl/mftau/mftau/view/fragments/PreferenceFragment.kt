@@ -39,9 +39,14 @@ class PreferenceFragment : PreferenceFragmentCompat() {
                 PreferencesManager.setRepeatGospel(newValue as Boolean)
                 true
             }
-        preferenceManager.findPreference<Preference>(getString(R.string.awake_songbook_key))
+        preferenceManager.findPreference<Preference>(getString(R.string.awake_song_book_key))
             ?.setOnPreferenceChangeListener { _, newValue ->
-                PreferencesManager.setAwakeSongbook(newValue as Boolean)
+                PreferencesManager.setAwakeSongBook(newValue as Boolean)
+                true
+            }
+        preferenceManager.findPreference<Preference>(getString(R.string.open_song_book_as_pdf_key))
+            ?.setOnPreferenceChangeListener { _, newValue ->
+                PreferencesManager.setOpenSongBookAsPdf(newValue as Boolean)
                 true
             }
     }

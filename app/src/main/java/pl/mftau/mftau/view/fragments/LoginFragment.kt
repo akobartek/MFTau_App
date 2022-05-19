@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,11 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogResetPasswordBinding
 import pl.mftau.mftau.databinding.FragmentLoginBinding
+import pl.mftau.mftau.utils.*
 import pl.mftau.mftau.utils.FirestoreUtils.firestoreCollectionUsers
-import pl.mftau.mftau.utils.createUnderlinedString
-import pl.mftau.mftau.utils.hideKeyboard
-import pl.mftau.mftau.utils.isValidEmail
-import pl.mftau.mftau.utils.isValidPassword
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.LoginViewModel
 
@@ -109,8 +105,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                                     showVerifyEmailDialog()
                                     loginBtn.isEnabled = true
                                 } else {
-                                    Toast.makeText(context, R.string.signed_in, Toast.LENGTH_SHORT)
-                                        .show()
+                                    requireContext().showShortToast(R.string.signed_in)
                                     findNavController().navigateUp()
                                 }
                             } else {
@@ -255,11 +250,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                 dialog.dismiss()
                 mAuth.currentUser?.sendEmailVerification()
                 mAuth.signOut()
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.message_sent),
-                    Toast.LENGTH_SHORT
-                ).show()
+                requireContext().showShortToast(R.string.message_sent)
             }
             .create()
             .show()

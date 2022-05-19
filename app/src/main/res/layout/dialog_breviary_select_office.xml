@@ -12,7 +12,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/mffont"
         android:text="@string/select_office"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
         android:textColor="@color/app_theme_onSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

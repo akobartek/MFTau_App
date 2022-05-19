@@ -1,6 +1,6 @@
 package pl.mftau.mftau.utils
 
-object SongbookUtils {
+object SongBookUtils {
 
     val songs = arrayOf(
         "Ref. Abba Ojcze, Abba Ojcze, Tatusiu.\nAbba Ojcze, Ojcze mój.\n\n" +
@@ -24,8 +24,8 @@ object SongbookUtils {
                 "Jak złamać ten lęk, co wrogiem jest:\nCzemu pragną i boją się.\n\n" +
                 "2. Chcą się spotkać, zjednoczyć, chcą w miłość wejść.\nTak jak Ojciec, jak Duch i jak Syn.\n" +
                 "Nie mogą, nie mogą ukrywać nic.\nCo ukryją, to zniszczy ich.\n\n" +
-                "3. Co dla siebie zostawią, to stratą jest. Co dla siebie zostawią\nCo ukryją - podzieli ich.\n" +
-                "Nie słabość, nie słabość przeszkadza im.\nLecz brak wiary w spotkaniu serc.\n",
+                "3. Co dla siebie zostawią, to stratą jest.\nCo ukryją - podzieli ich.\n" +
+                "Nie słabość, nie słabość przeszkadza im.\nLecz brak wiary w spotkaniu serc.\n\n",
         "1. Abyśmy byli jedno, błagamy Cię, Ojcze nasz.\nAbyśmy byli jedno, błagamy Cię, Ojcze nasz.\n\n" +
                 "Ref. Uczyń wszystkich nas\nnarzędziem Twego pokoju,\naby miłość Twa mieszkała w każdym z nas.\n\n" +
                 "2. Zachowaj nas od złego, - błagamy Cię, Ojcze nasz. /2x\n\n" +
@@ -344,7 +344,7 @@ object SongbookUtils {
         "Bóg zasiewa święte ziarno, Alleluja.\nJego słowa są mądrością, Alleluja.\nOtwórz swe oczy, Ludu Boży.\n" +
                 "Otwórz swe oczy, mówi Bóg.\nOtwórz swe uszy, Ludu Króla.\nBóg już jest tu\n\n",
         "Bóg, mój Pan, daje mi moc.\nOn swą dłonią przygarnia mnie.\nŻyciu memu nadaje sens.\nZ Nim w swym sercu kroczyć chcę.\n\n",
-        "Bóg, nasz Pan, jest dobry cały czas. /x2 \nWięc uwielbij Go. /x4 \n",
+        "Bóg, nasz Pan, jest dobry cały czas. /x2 \nWięc uwielbij Go. /x4 \n\n",
         "1. Do kogo mówisz, komu się uśmiechasz,\nświęty Franciszku.\nu ludzi nie ma, las szumi jak rzeka,\ntaszki świergocą i słychać Twój głos:\n\n" +
                 "Ref. Braciszkowie skrzydlaci\nchwalcie Boga, chwalcie Boga,\nbo czym my stworzenia zdołamy odpłacić,\n" +
                 "jeśli nie piosenką ubogą.\nZa słońce jasne, niebo czyste\ni łąki zieleń, i łąki zieleń. /x2\n\n" +
@@ -509,7 +509,7 @@ object SongbookUtils {
                 "Niby umarli, a oto żyjemy\nJakby karceni, lecz nie uśmiercani,\nJakby smutni, lecz zawsze radośni.\nBo zmartwychwstał Pan!\n\n" +
                 "4. Jakby ubodzy, lecz wzbogacający,\nNiby nic nie mamy, a posiadamy wszystko,\nLud odkupiony, święci wybrani.\nBo zmartwychwstał Pan!\n\n",
         "Czcijmy Jezusa, czcijmy Go. /x4\nPowstał z martwych /x2\ni On żyje na wielki już.\n" +
-                "Powstał z martwych, /x2\nwięc razem się radujmy,\n\nświętując zmartwychwstania ten dzień.\n",
+                "Powstał z martwych, /x2\nwięc razem się radujmy,\nświętując zmartwychwstania ten dzień.\n\n",
         "1. Czekam na Ciebie dobry Boże,\nprzyjdź do mnie, Panie, pośpiesz się.\nNiechaj mi łaska Twa pomoże,\nchcę czystym sercem przyjąć Cię.\n" +
                 "Przyjdź do mnie, Panie, mój dobry Boże,\nprzyjdź i nie spóźniaj się.\nPrzyjdź do mnie Panie, przyjdź z łaską swoją,\nprzyjdź i nie spóźniaj się.\n\n" +
                 "2. Wśród licznych trosk i niepokojów,\nkiedy już sił nie starcza nam,\nkarmisz nas, Panie, swoim Ciałem,\nTyś nasza moc, nasz Bóg i Pan.\n" +
@@ -1172,7 +1172,7 @@ object SongbookUtils {
                 "4. Ty jesteś pełnią życia,\ndaj nam Twojego chleba.\nDaj nam oddychać wiecznością,\nTwój oddech ożywia i wspiera\n\n" +
                 "5. Przyjdź Panie, przyjdź nareszcie,\njak przyszedłeś już kiedyś.\nA co dzień nowy wschód słońca,\nniech Ciebie nam zapowiada.\n\n",
         "Kiedy brakuje sił, na piękne słowa, czy gesty,\nstaję przed Tobą i\npo prostu dla Ciebie jestem. /x2\nI trwam przed Tobą wiernie trwam.\n" +
-                "Pieśnią wysławiam Cię znów,\nchoć moje słowa nie płyną z ust.\nUwielbiam Ciebie całym sercem mym,\nkażdą myślą mą chwałę oddaję Ci.\n",
+                "Pieśnią wysławiam Cię znów,\nchoć moje słowa nie płyną z ust.\nUwielbiam Ciebie całym sercem mym,\nkażdą myślą mą chwałę oddaję Ci.\n\n",
         "1. Kiedy ci smutno i nic nie wychodzi, mów:\n„Amen”, jak Maryja. /x2\n„Amen, widocznie Bóg tak chce”.\n\n" +
                 "Ref. Tak, jak Maryja (i Józef),\nwypełniaj wolę Boga (jedyną),\ni zanieś tam swój uśmiech (i serce),\ngdzie często płyną łzy.\n\n" +
                 "2. Gdy z ciebie szydzą i kiedy się śmieją, mów:\n\n3. Kiedy w twym sercu nic więcej, prócz bólu, mów:\n\n",
@@ -2635,7 +2635,7 @@ object SongbookUtils {
                 "6. Dzikie zwierzęta\nPtaki podniebne\n\n7. Królowie ziemscy\nWszystkie narody\n\n" +
                 "8. Chłopcy i dziewczęta\nStarcy i dzieci\n\n9. Niech Imię Pana wszyscy wychwalają,\nbo tylko Jego Imię jest wzniosłe.\n\n" +
                 "10. Oto pieśń pochwalna wszystkich Jego świętych,\nLudu Pana bliski śpiewaj Mu na chwałę.\n11. Amen, amen, amen, amen\n\n",
-        "Swojego Ducha, Panie, wylej na nas dziś. /x3\n",
+        "Swojego Ducha, Panie, wylej na nas dziś. /x3\n\n",
         "Ref. O Panie, jam Twój sługa,\nJam Twój sługa, syn Twojej służebnicy.\n\n" +
                 "1. Oto Mój sługa, którego wybrałem,\nUmiłowany Mój,W którym moje serce ma upodobanie.\n" +
                 "Położę Ducha Mojego na Nim,\nA On zaniesie prawo narodom.\n\n" +
@@ -3435,7 +3435,7 @@ object SongbookUtils {
         "1. Maleńkie mrówki kocha Bóg, od zguby chroni je.\nA jeśli mrówki kocha Bóg, to kocha także mnie.\n" +
                 "On kocha mnie, On kocha mnie, ja wiem, On kocha mnie.\nBo jeśli mrówki kocha Bóg, to kocha także mnie.\n\n" +
                 "2. Wróbelki małe kocha Bóg, od zguby chroni je.\nA jeśli ptaszki kocha Bóg, to kocha także mnie.\n" +
-                "On kocha mnie, On kocha mnie, ja wiem On kocha mnie.\nBo jeśli ptaszki kocha Bóg, to kocha także mnie.\n",
+                "On kocha mnie, On kocha mnie, ja wiem On kocha mnie.\nBo jeśli ptaszki kocha Bóg, to kocha także mnie.\n\n",
         "Na początku Bóg stworzył niebo, ziemię i światło.\n\nPorozdzielał toń wód i sklepienie niebieskie,\n" +
                 "dał rośliny, zwierzęta, błyszczące planety.\nPotem był człowiek.\nPierwszy dzień pracował, drugi dzień,\n" +
                 "trzeci dzień pracował, czwarty dzień,\npiąty dzień pracował, szósty dzień,\nw siódmym odpoczywał.\n\n",

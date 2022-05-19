@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentMainBinding
+import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.isChromeCustomTabsSupported
 import pl.mftau.mftau.utils.openWebsiteInChromeCustomTabs
 import pl.mftau.mftau.view.activities.MainActivity
@@ -68,7 +69,12 @@ class MainFragment : BindingFragment<FragmentMainBinding>() {
     private fun setOnClickListeners() {
         with(binding.contentMain) {
             songBook.setOnClickListener {
-                findNavController().navigate(MainFragmentDirections.showPdfFragment("songbook"))
+                findNavController().navigate(
+                    if (PreferencesManager.getOpenSongBookAsPdf())
+                        MainFragmentDirections.showPdfFragment("song_book")
+                    else
+                        MainFragmentDirections.showSongBookFragment()
+                )
             }
             breviary.setOnClickListener {
                 findNavController().navigate(MainFragmentDirections.showBreviarySelectFragment())

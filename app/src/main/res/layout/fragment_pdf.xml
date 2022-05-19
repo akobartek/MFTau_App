@@ -18,7 +18,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/pdfToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                tools:text="@string/songbook" />
+                tools:text="@string/songBook" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

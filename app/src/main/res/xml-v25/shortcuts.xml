@@ -18,9 +18,9 @@
 
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/shortcut_ic_songbook"
-        android:shortcutId="shortcut_songbook"
-        android:shortcutShortLabel="@string/songbook">
+        android:icon="@drawable/shortcut_ic_song_book"
+        android:shortcutId="shortcut_song_book"
+        android:shortcutShortLabel="@string/songBook">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="pl.mftau.mftau.view.activities.MainActivity"

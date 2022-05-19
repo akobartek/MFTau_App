@@ -15,11 +15,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemSongSearchBinding
-import pl.mftau.mftau.utils.SongbookUtils
+import pl.mftau.mftau.utils.SongBookUtils
 
-class SongbookSearchAdapter(
+class SongBookSearchAdapter(
     val emptyView: TextView, val showBottomSheet: (Int) -> Unit
-) : RecyclerView.Adapter<SongbookSearchAdapter.SongViewHolder>(), Filterable {
+) : RecyclerView.Adapter<SongBookSearchAdapter.SongViewHolder>(), Filterable {
 
     inner class SongViewHolder(val binding: ItemSongSearchBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -63,7 +63,7 @@ class SongbookSearchAdapter(
             songItemText.text = textLines
             songItemText.visibility = if (textLines.isEmpty()) View.GONE else View.VISIBLE
 
-            root.setOnClickListener { showBottomSheet(SongbookUtils.songTitles.indexOf(song.first)) }
+            root.setOnClickListener { showBottomSheet(SongBookUtils.songTitles.indexOf(song.first)) }
         }
     }
 
@@ -78,9 +78,9 @@ class SongbookSearchAdapter(
                     if (mQuery.isEmpty()) listOf()
                     else {
                         val filteredList = arrayListOf<Pair<String, String>>()
-                        for (index in SongbookUtils.songTitles.indices) {
-                            val title = SongbookUtils.songTitles[index]
-                            val text = SongbookUtils.songs[index]
+                        for (index in SongBookUtils.songTitles.indices) {
+                            val title = SongBookUtils.songTitles[index]
+                            val text = SongBookUtils.songs[index]
                             if (title.lowercase().contains(searchQuery) ||
                                 text.lowercase().contains(searchQuery)
                             ) filteredList.add(Pair(title, text))

@@ -1,10 +1,11 @@
+<!-- TODO() -> TRANSLATE TO MORE LANGUAGES -->
 <resources>
     <!-- BASIC STRINGS -->
     <string name="app_name" translatable="false">MF Tau</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statute</string>
     <string name="prayers">Prayers</string>
-    <string name="songbook">Songbook</string>
+    <string name="songBook">Song book</string>
     <string name="breviary">Breviary</string>
     <string name="gospel">Gospel</string>
     <string name="members">Members</string>
@@ -72,11 +73,24 @@
     <string name="reset_password_error">Operation failed, please check connection and the input!</string>
 
     <!-- PDF STRINGS -->
-    <string name="search">Search</string>
     <string name="scroll_up">Scroll document up</string>
-    <string name="songbook_search">Search in the songbook</string>
+
+    <!-- SONG BOOK STRINGS -->
+    <string name="search">Search</string>
+    <string name="song_book_search">Search in the song book</string>
     <string name="empty_search_list">No songs with this phrase found!</string>
     <string name="empty_search_query">If you want to search a song, type the query above!</string>
+    <string name="show_as_list">Show songs as list</string>
+    <string name="change_font_size">Change font size</string>
+    <string name="max_size_msg">Current size is the biggest possible!</string>
+    <string name="min_size_msg">Current size is the smallest possible!</string>
+    <string name="example_text" translatable="false">Ref. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
+    <string name="cd_add_to_favourites">Add to favourites</string>
+    <string name="cd_navigate_up">Navigate up</string>
+    <string name="cd_open_pdf">Open song book in PDF file</string>
+    <string name="cd_show_added_songs">Show songs added to song book</string>
+    <string name="cd_show_playlist">Show playlist</string>
+    <string name="cd_show_chords">Show chords for instruments</string>
     <string name="cd_collapse_bottom_sheet">Collapse bottom sheet</string>
 
     <!-- PREFERENCES STRINGS -->
@@ -87,9 +101,12 @@
     <string name="repeat_gospel_key" translatable="false">repeat_gospel</string>
     <string name="repeat_gospel_title">Repeat Gospel</string>
     <string name="repeat_gospel_summary">Repeat Gospel after the end of hearing</string>
-    <string name="awake_songbook_key" translatable="false">awake_songbook</string>
-    <string name="awake_songbook_title">Stay awake in songbook</string>
-    <string name="awake_songbook_summary">Do not turn off the songbook screen</string>
+    <string name="awake_song_book_key" translatable="false">awake_song_book</string>
+    <string name="awake_song_book_title">Stay awake in song book</string>
+    <string name="awake_song_book_summary">Do not turn off the song book screen</string>
+    <string name="open_song_book_as_pdf_key" translatable="false">open_song_book_as_pdf</string>
+    <string name="open_song_book_as_pdf_title">Opening song book as PDF</string>
+    <string name="open_song_book_as_pdf_summary">Default screen song book is PDF file</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Breviary (%s)</string>

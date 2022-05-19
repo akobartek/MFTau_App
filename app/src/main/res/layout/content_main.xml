@@ -25,8 +25,8 @@
         android:id="@+id/songBook"
         style="@style/MainMenuButtons"
         android:layout_marginEnd="24dp"
-        android:text="@string/songbook"
-        app:drawableTopCompat="@drawable/ic_songbook"
+        android:text="@string/songBook"
+        app:drawableTopCompat="@drawable/ic_song_book"
         app:layout_constraintEnd_toStartOf="@+id/prayerBook"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
 

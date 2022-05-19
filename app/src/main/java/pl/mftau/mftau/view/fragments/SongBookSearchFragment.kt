@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.activityViewModels
@@ -14,21 +15,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import pl.mftau.mftau.R
-import pl.mftau.mftau.databinding.FragmentSongbookSearchBinding
-import pl.mftau.mftau.view.adapters.SongbookSearchAdapter
-import pl.mftau.mftau.viewmodel.SongbookSearchViewModel
+import pl.mftau.mftau.databinding.FragmentSongBookSearchBinding
+import pl.mftau.mftau.view.adapters.SongBookSearchAdapter
+import pl.mftau.mftau.viewmodel.SongBookSearchViewModel
 
-// TODO() -> REBUILD SONGBOOK - whole list of songs,
-//  (possibility to show PDF, save to favourites, have a list for play, layout for guitarists) -> bottom bar, search in
-class SongbookSearchFragment : BindingFragment<FragmentSongbookSearchBinding>() {
+class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() {
 
     private lateinit var mSearchView: SearchView
     private lateinit var mSongBottomSheetBehavior: BottomSheetBehavior<*>
-    private lateinit var mRecyclerAdapter: SongbookSearchAdapter
-    private val mViewModel: SongbookSearchViewModel by activityViewModels()
+    private lateinit var mRecyclerAdapter: SongBookSearchAdapter
+    private val mViewModel: SongBookSearchViewModel by activityViewModels()
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentSongbookSearchBinding.inflate(inflater, container, false)
+        FragmentSongBookSearchBinding.inflate(inflater, container, false)
 
     @SuppressLint("SetTextI18n")
     override fun setup(savedInstanceState: Bundle?) {
@@ -37,8 +36,9 @@ class SongbookSearchFragment : BindingFragment<FragmentSongbookSearchBinding>() 
         mSongBottomSheetBehavior = BottomSheetBehavior.from(binding.songBottomSheet)
         mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        mRecyclerAdapter = SongbookSearchAdapter(binding.contentSongbookSearch.emptyView, ::openSongBottomSheet)
-        binding.contentSongbookSearch.songsRecyclerView.apply {
+        mRecyclerAdapter =
+            SongBookSearchAdapter(binding.contentSongBookSearch.emptyView, ::openSongBottomSheet)
+        binding.contentSongBookSearch.songsRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
             adapter = mRecyclerAdapter
@@ -51,8 +51,8 @@ class SongbookSearchFragment : BindingFragment<FragmentSongbookSearchBinding>() 
             }
         }
 
-        mViewModel.query.postValue(SongbookSearchFragmentArgs.fromBundle(requireArguments()).query)
-        binding.contentSongbookSearch.loadingIndicator.hide()
+        mViewModel.query.postValue(SongBookSearchFragmentArgs.fromBundle(requireArguments()).query)
+        binding.contentSongBookSearch.loadingIndicator.hide()
     }
 
     private fun inflateToolbarMenu(toolbar: Toolbar) {

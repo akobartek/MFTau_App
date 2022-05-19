@@ -16,6 +16,7 @@ import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.model.local_db.Member
 import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
+import pl.mftau.mftau.utils.showShortToast
 import pl.mftau.mftau.view.fragments.PresenceListFragment
 import java.io.InputStream
 
@@ -51,32 +52,16 @@ class FirebaseRepository(val app: Application) {
     fun addRetreat(activity: Activity, retreatValues: HashMap<String, Any>) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
             .add(retreatValues)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.retreat_added), Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.retreat_add_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.retreat_added) }
+            .addOnFailureListener { activity.showShortToast(R.string.retreat_add_error) }
     }
 
     fun updateRetreat(activity: Activity, retreatId: String, retreatValues: HashMap<String, Any>) {
         mFirestore.collection(FirestoreUtils.firestoreCollectionRetreats)
             .document(retreatId)
             .set(retreatValues)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.retreat_updated), Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.retreat_update_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.retreat_updated) }
+            .addOnFailureListener { activity.showShortToast(R.string.retreat_update_error) }
     }
 
     fun deleteRetreat(activity: Activity, retreatId: String, withToast: Boolean) {
@@ -84,18 +69,10 @@ class FirebaseRepository(val app: Application) {
             .document(retreatId)
             .delete()
             .addOnSuccessListener {
-                if (withToast)
-                    Toast.makeText(
-                        activity,
-                        activity.getString(R.string.retreat_delete_successfully),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                if (withToast) activity.showShortToast(R.string.retreat_delete_successfully)
             }
             .addOnFailureListener {
-                if (withToast)
-                    Toast.makeText(
-                        activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT
-                    ).show()
+                if (withToast) activity.showShortToast(R.string.delete_error)
             }
     }
     // endregion Retreats
@@ -176,16 +153,10 @@ class FirebaseRepository(val app: Application) {
                     dialog.show()
                     putPhoto(activity, documentReference.id, filePath, dialog)
                 } else {
-                    Toast.makeText(
-                        activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT
-                    ).show()
+                    activity.showShortToast(R.string.member_added)
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.member_add_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnFailureListener { activity.showShortToast(R.string.member_add_error) }
     }
 
     fun updateMemberPhoto(activity: Activity, memberId: String, filePath: InputStream?) {
@@ -237,16 +208,10 @@ class FirebaseRepository(val app: Application) {
                             putPhoto(activity, memberId, filePath, dialog)
                         }
                 } else {
-                    Toast.makeText(
-                        activity, activity.getString(R.string.member_added), Toast.LENGTH_SHORT
-                    ).show()
+                    activity.showShortToast(R.string.member_added)
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.member_update_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnFailureListener { activity.showShortToast(R.string.member_update_error) }
     }
 
 
@@ -257,18 +222,11 @@ class FirebaseRepository(val app: Application) {
             .putStream(filePath!!)
             .addOnSuccessListener {
                 dialog.dismiss()
-                Toast.makeText(
-                    activity,
-                    activity.getString(R.string.member_with_photo_saved),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                activity.showShortToast(R.string.member_with_photo_saved)
             }
             .addOnFailureListener {
                 dialog.dismiss()
-                Toast.makeText(
-                    activity, activity.getString(R.string.member_photo_error), Toast.LENGTH_SHORT
-                ).show()
+                activity.showShortToast(R.string.member_photo_error)
             }
     }
 
@@ -285,19 +243,9 @@ class FirebaseRepository(val app: Application) {
             .addOnSuccessListener {
                 mStorageRef.child("${FirestoreUtils.firestoreCollectionMembers}/$memberId.jpg")
                     .delete()
-                    .addOnCompleteListener {
-                        Toast.makeText(
-                            activity,
-                            activity.getString(R.string.member_delete_successfully),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    .addOnCompleteListener { activity.showShortToast(R.string.member_delete_successfully) }
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.delete_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnFailureListener { activity.showShortToast(R.string.delete_error) }
     }
     //endregion Members
 
@@ -369,16 +317,8 @@ class FirebaseRepository(val app: Application) {
             .document(FirestoreUtils.meetingTypes[meetingType])
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .add(meetingValues)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.meeting_saved) }
+            .addOnFailureListener { activity.showShortToast(R.string.meeting_add_error) }
     }
 
     fun addMeetingWithAttendanceList(
@@ -397,9 +337,7 @@ class FirebaseRepository(val app: Application) {
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .add(meetingValues)
             .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_saved), Toast.LENGTH_SHORT
-                ).show()
+                activity.showShortToast(R.string.meeting_saved)
 
                 val mNewMeetingId = it.id
                 val meetingDocument =
@@ -423,11 +361,7 @@ class FirebaseRepository(val app: Application) {
                     meetingValues[FirestoreUtils.firestoreKeyAbsenceList]
                 )
             }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_add_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnFailureListener { activity.showShortToast(R.string.meeting_add_error) }
     }
 
     fun updateMeeting(
@@ -444,16 +378,8 @@ class FirebaseRepository(val app: Application) {
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(meetingId)
             .set(meetingValues)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.meeting_updated) }
+            .addOnFailureListener { activity.showShortToast(R.string.meeting_update_error) }
     }
 
     fun updateAttendanceList(
@@ -473,16 +399,8 @@ class FirebaseRepository(val app: Application) {
 
         meetingDocument.update(FirestoreUtils.firestoreKeyAttendanceList, attendanceList)
         meetingDocument.update(FirestoreUtils.firestoreKeyAbsenceList, absenceList)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_updated), Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity, activity.getString(R.string.meeting_update_error), Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.meeting_updated) }
+            .addOnFailureListener { activity.showShortToast(R.string.meeting_update_error) }
     }
 
     fun deleteMeeting(activity: Activity, meetingId: String, meetingType: Int) {
@@ -497,20 +415,8 @@ class FirebaseRepository(val app: Application) {
             .collection(FirestoreUtils.firestoreCollectionMeetings)
             .document(meetingId)
             .delete()
-            .addOnSuccessListener {
-                Toast.makeText(
-                    activity,
-                    activity.getString(R.string.meeting_delete_successfully),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(
-                    activity,
-                    activity.getString(R.string.delete_error),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            .addOnSuccessListener { activity.showShortToast(R.string.meeting_delete_successfully) }
+            .addOnFailureListener { activity.showShortToast(R.string.delete_error) }
     }
 
     fun clearMeetings() {

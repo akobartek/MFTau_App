@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +18,7 @@ import pl.mftau.mftau.databinding.FragmentRetreatDetailsBinding
 import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.PermissionUtils
 import pl.mftau.mftau.utils.getDateFormatted
+import pl.mftau.mftau.utils.showShortToast
 import pl.mftau.mftau.view.ui.ClearErrorTextWatcher
 import pl.mftau.mftau.viewmodel.RetreatsViewModel
 import java.util.*
@@ -150,7 +150,7 @@ class RetreatDetailsFragment : BindingFragment<FragmentRetreatDetailsBinding>() 
         try {
             startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
         } catch (ex: android.content.ActivityNotFoundException) {
-            Toast.makeText(context, getString(R.string.send_mail_error), Toast.LENGTH_SHORT).show()
+            requireContext().showShortToast(R.string.send_mail_error)
         }
     }
 

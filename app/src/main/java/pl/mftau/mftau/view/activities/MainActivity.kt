@@ -135,8 +135,8 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.pdfFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
                 .childFragmentManager.fragments[0] as PdfFragment).onBackPressed()
-            R.id.songbookSearchFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                .childFragmentManager.fragments[0] as SongbookSearchFragment).onBackPressed()
+            R.id.songBookSearchFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                .childFragmentManager.fragments[0] as SongBookSearchFragment).onBackPressed()
             else -> onSupportNavigateUp()
         }
     }

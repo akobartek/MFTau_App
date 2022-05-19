@@ -23,13 +23,12 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         inflateToolbarMenu(binding.pdfToolbar)
 
-        if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook" && PreferencesManager.getAwakeSongbook())
+        if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "song_book" && PreferencesManager.getAwakeSongBook())
             requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        binding.pdfToolbarTitle.text = getString(
-            if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook") R.string.songbook
-            else R.string.statute
-        )
+        binding.pdfToolbarTitle.text =
+            if (PdfFragmentArgs.fromBundle(requireArguments()).pdf == "song_book") ""
+            else getString(R.string.statute)
 
         loadPdfFile(savedInstanceState, false)
     }
@@ -46,7 +45,7 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
 
     private fun loadPdfFile(savedInstanceState: Bundle?, isBtnPressed: Boolean) {
         when (PdfFragmentArgs.fromBundle(requireArguments()).pdf) {
-            "songbook" -> {
+            "song_book" -> {
                 binding.pdfView.fromAsset("spiewnik.pdf")
                     .defaultPage(if (isBtnPressed) 4 else savedInstanceState?.getInt("page") ?: 4)
                     .nightMode(PreferencesManager.getNightMode())
@@ -70,12 +69,21 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
                         loadPdfFile(null, true)
                         true
                     }
+                    R.id.action_show_as_list -> {
+                        if (PreferencesManager.getOpenSongBookAsPdf())
+                            findNavController().navigate(PdfFragmentDirections.showSongBookFragment())
+                        else
+                            findNavController().navigateUp()
+                        true
+                    }
                     else -> false
                 }
             }
         }
+        toolbar.menu.findItem(R.id.action_show_as_list)?.isVisible =
+            PdfFragmentArgs.fromBundle(requireArguments()).pdf == "song_book"
         toolbar.menu.findItem(R.id.action_search)?.isVisible =
-            PdfFragmentArgs.fromBundle(requireArguments()).pdf == "songbook"
+            PdfFragmentArgs.fromBundle(requireArguments()).pdf == "song_book"
         val searchManager =
             requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchView = toolbar.menu.findItem(R.id.action_search).actionView as SearchView
@@ -85,7 +93,7 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
         mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 findNavController().navigate(
-                    PdfFragmentDirections.showSongbookSearchFragment(query ?: "")
+                    PdfFragmentDirections.showSongBookSearchFragment(query ?: "")
                 )
                 return false
             }

@@ -9,7 +9,12 @@ import android.net.Uri
 import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -19,6 +24,10 @@ import pl.mftau.mftau.R
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+
+fun Context.showShortToast(stringRes: Int) {
+    Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
+}
 
 fun Context.openWebsiteInChromeCustomTabs(website: String) {
     CustomTabsIntent.Builder().apply {
@@ -117,3 +126,45 @@ fun Activity.tryToRunFunctionOnInternet(function: () -> Unit) {
 fun Activity.hideKeyboard() =
     (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+
+fun View.expand() {
+    val matchParentMeasureSpec =
+        View.MeasureSpec.makeMeasureSpec((parent as View).width, View.MeasureSpec.EXACTLY)
+    val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+    measure(matchParentMeasureSpec, wrapContentMeasureSpec)
+    val targetHeight = measuredHeight
+
+    visibility = View.VISIBLE
+    val animation = object : Animation() {
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+            layoutParams.height = if (interpolatedTime == 1f)
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            else
+                (targetHeight * interpolatedTime).toInt()
+            requestLayout()
+        }
+
+        override fun willChangeBounds(): Boolean = true
+    }
+    animation.duration = 700
+    startAnimation(animation)
+}
+
+fun View.collapse() {
+    val initialHeight = measuredHeight
+
+    val animation = object : Animation() {
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
+            if (interpolatedTime == 1f) {
+                visibility = View.GONE
+            } else {
+                layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                requestLayout()
+            }
+        }
+
+        override fun willChangeBounds(): Boolean = true
+    }
+    animation.duration = 700
+    startAnimation(animation)
+}

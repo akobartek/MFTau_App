@@ -141,8 +141,7 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
             try {
                 startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
             } catch (ex: android.content.ActivityNotFoundException) {
-                Toast.makeText(context, getString(R.string.send_mail_error), Toast.LENGTH_SHORT)
-                    .show()
+                requireContext().showShortToast(R.string.send_mail_error)
             }
         }
     }

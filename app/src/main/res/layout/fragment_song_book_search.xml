@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.SongbookSearchFragment">
+    tools:context=".view.fragments.SongBookSearchFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,13 +18,13 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/searchToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                tools:text="@string/songbook_search" />
+                tools:text="@string/song_book_search" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
-        android:id="@+id/contentSongbookSearch"
-        layout="@layout/content_songbook_search" />
+        android:id="@+id/contentSongBookSearch"
+        layout="@layout/content_song_book_search" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/songBottomSheet"

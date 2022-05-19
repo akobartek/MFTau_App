@@ -1,5 +1,4 @@
 <resources>
-    <!-- TODO() -> TRANSITIONS BETWEEN CARDS AND DETAILS -->
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:fitsSystemWindows">true</item>
