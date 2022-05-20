@@ -41,7 +41,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/cd_add_to_favourites"
+                android:contentDescription="@string/add_to_playlist"
                 android:padding="8dp"
                 android:src="@drawable/anim_playlist_add_to_remove" />
         </RelativeLayout>

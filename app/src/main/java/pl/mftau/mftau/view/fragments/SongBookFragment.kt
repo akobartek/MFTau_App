@@ -13,6 +13,7 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogSongChangeTextSizeBinding
 import pl.mftau.mftau.databinding.FragmentSongBookBinding
 import pl.mftau.mftau.utils.PreferencesManager
+import pl.mftau.mftau.utils.showChangeTextSizeDialog
 import pl.mftau.mftau.utils.showShortToast
 import pl.mftau.mftau.view.adapters.SongBookRecyclerAdapter
 import pl.mftau.mftau.view.ui.SongBookBottomAppBar
@@ -20,8 +21,6 @@ import pl.mftau.mftau.view.ui.SongBookBottomAppBar
 class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
 
     private lateinit var mRecyclerAdapter: SongBookRecyclerAdapter
-    private val mMinTextSize = 12f
-    private val mMaxTextSize = 32f
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSongBookBinding.inflate(inflater, container, false)
@@ -36,7 +35,7 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     else
                         findNavController().navigate(SongBookFragmentDirections.showPdfFragment("song_book"))
                 },
-                {/* TODO() */}, {/* TODO() */},
+                {/* TODO() */ }, {/* TODO() */ },
                 {
                     binding.songsRecyclerView.layoutAnimation =
                         AnimationUtils.loadLayoutAnimation(
@@ -46,44 +45,22 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     PreferencesManager.setSongBookShowCords(it)
                     mRecyclerAdapter.updateShowChords(it)
                 },
-                { showChangeTextSizeDialog(mRecyclerAdapter.getCurrentTextSize()) },
-                {/* TODO() */}
+                {
+                    showChangeTextSizeDialog(mRecyclerAdapter.getCurrentTextSize()) {
+                        mRecyclerAdapter.updateTextSize(it)
+                    }
+                },
+                {/* TODO() */ }
             )
         }
 
-        mRecyclerAdapter = SongBookRecyclerAdapter()
         binding.songsRecyclerView.apply {
+            mRecyclerAdapter = SongBookRecyclerAdapter {
+                smoothScrollBy(0, it, null, 1111)
+            }
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
             adapter = mRecyclerAdapter
         }
-    }
-
-    private fun showChangeTextSizeDialog(currentSize: Float) {
-        var newSize = currentSize
-        val dialogBinding = DialogSongChangeTextSizeBinding.inflate(layoutInflater)
-        dialogBinding.sizeDownBtn.setOnClickListener {
-            if (newSize != mMinTextSize) {
-                newSize--
-                dialogBinding.exampleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, newSize)
-            } else requireContext().showShortToast(R.string.min_size_msg)
-        }
-        dialogBinding.sizeUpBtn.setOnClickListener {
-            if (newSize != mMaxTextSize) {
-                newSize++
-                dialogBinding.exampleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, newSize)
-            } else requireContext().showShortToast(R.string.max_size_msg)
-        }
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.change_font_size)
-            .setView(dialogBinding.root)
-            .setPositiveButton(R.string.save) { dialog, _ ->
-                dialog.dismiss()
-                if (newSize != currentSize) mRecyclerAdapter.updateTextSize(newSize)
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .create()
-            .show()
     }
 }

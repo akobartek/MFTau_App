@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Build
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -18,15 +20,20 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.DialogSongChangeTextSizeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
 
-fun Context.showShortToast(stringRes: Int) {
-    Toast.makeText(this, stringRes, Toast.LENGTH_SHORT).show()
+fun Context.showShortToast(stringRes: Int, oldToast: Toast? = null): Toast {
+    oldToast?.cancel()
+    val toast = Toast.makeText(this, stringRes, Toast.LENGTH_SHORT)
+    toast.show()
+    return toast
 }
 
 fun Context.openWebsiteInChromeCustomTabs(website: String) {
@@ -127,7 +134,7 @@ fun Activity.hideKeyboard() =
     (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
-fun View.expand() {
+fun View.expand(onAnimationEnd: () -> Unit = {}) {
     val matchParentMeasureSpec =
         View.MeasureSpec.makeMeasureSpec((parent as View).width, View.MeasureSpec.EXACTLY)
     val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -147,6 +154,15 @@ fun View.expand() {
         override fun willChangeBounds(): Boolean = true
     }
     animation.duration = 444
+    animation.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(p0: Animation?) {}
+
+        override fun onAnimationEnd(p0: Animation?) {
+            onAnimationEnd()
+        }
+
+        override fun onAnimationRepeat(p0: Animation?) {}
+    })
     startAnimation(animation)
 }
 
@@ -167,4 +183,37 @@ fun View.collapse() {
     }
     animation.duration = 444
     startAnimation(animation)
+}
+
+fun Fragment.showChangeTextSizeDialog(currentSize: Float, updateTextSize: (Float) -> Unit) {
+    var toast: Toast? = null
+    val minTextSize = 12f
+    val maxTextSize = 32f
+    var newSize = currentSize
+
+    val dialogBinding = DialogSongChangeTextSizeBinding.inflate(layoutInflater)
+    dialogBinding.sizeDownBtn.setOnClickListener {
+        Log.d("xDDDD", "showChangeTextSizeDialog: $newSize, $currentSize")
+        if (newSize != minTextSize) {
+            newSize -= 2
+            dialogBinding.exampleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, newSize)
+        } else toast = requireContext().showShortToast(R.string.min_size_msg, toast)
+    }
+    dialogBinding.sizeUpBtn.setOnClickListener {
+        if (newSize != maxTextSize) {
+            newSize += 2
+            dialogBinding.exampleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, newSize)
+        } else toast = requireContext().showShortToast(R.string.max_size_msg, toast)
+    }
+
+    MaterialAlertDialogBuilder(requireContext())
+        .setTitle(R.string.change_font_size)
+        .setView(dialogBinding.root)
+        .setPositiveButton(R.string.save) { dialog, _ ->
+            dialog.dismiss()
+            if (newSize != currentSize) updateTextSize(newSize)
+        }
+        .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+        .create()
+        .show()
 }

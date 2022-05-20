@@ -15,7 +15,8 @@ import pl.mftau.mftau.utils.SongBookUtils
 import pl.mftau.mftau.utils.collapse
 import pl.mftau.mftau.utils.expand
 
-class SongBookRecyclerAdapter : RecyclerView.Adapter<SongBookRecyclerAdapter.SongViewHolder>() {
+class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
+    RecyclerView.Adapter<SongBookRecyclerAdapter.SongViewHolder>() {
 
     inner class SongViewHolder(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -29,6 +30,7 @@ class SongBookRecyclerAdapter : RecyclerView.Adapter<SongBookRecyclerAdapter.Son
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         with(holder.binding) {
             songCardToExpand.visibility = View.GONE
+            songCardToExpand.collapse()
             // TODO() -> CHECK IF IT IS ON PLAYLIST AND SET CORRECT ICON
             addToPlaylistBtn.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -46,7 +48,10 @@ class SongBookRecyclerAdapter : RecyclerView.Adapter<SongBookRecyclerAdapter.Son
             songChords.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize)
 
             songHeader.setOnClickListener {
-                if (songCardToExpand.visibility == View.GONE) songCardToExpand.expand()
+                if (songCardToExpand.visibility == View.GONE)
+                    songCardToExpand.expand {
+                        scrollFun(songHeader.height * if (position >= itemCount - 3) 3 else 1)
+                    }
                 else songCardToExpand.collapse()
             }
 

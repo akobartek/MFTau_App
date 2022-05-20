@@ -84,14 +84,17 @@
     <string name="change_font_size">Change font size</string>
     <string name="max_size_msg">Current size is the biggest possible!</string>
     <string name="min_size_msg">Current size is the smallest possible!</string>
-    <string name="example_text" translatable="false">Ref. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
-    <string name="cd_add_to_favourites">Add to favourites</string>
+    <string name="example_text">Example text:\n\nRef. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
     <string name="cd_navigate_up">Navigate up</string>
-    <string name="cd_open_pdf">Open song book in PDF file</string>
-    <string name="cd_show_added_songs">Show songs added to song book</string>
-    <string name="cd_show_playlist">Show playlist</string>
-    <string name="cd_show_chords">Show chords for instruments</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="remove_from_playlist">Remove from playlist</string>
+    <string name="open_pdf">Open song book in PDF file</string>
+    <string name="show_added_songs">Show songs added to song book</string>
+    <string name="show_playlist">Show playlist</string>
+    <string name="show_chords">Show chords</string>
+    <string name="hide_chords">Hide chords</string>
     <string name="cd_collapse_bottom_sheet">Collapse bottom sheet</string>
+    <string name="cd_open_popup_menu">Open popup menu</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>

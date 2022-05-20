@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_show_chords"
+        android:icon="@drawable/ic_note"
+        android:title="@string/show_chords" />
+
+    <item
+        android:id="@+id/action_hide_chords"
+        android:icon="@drawable/ic_note_outline"
+        android:title="@string/hide_chords" />
+
+    <item
+        android:id="@+id/action_change_font_size"
+        android:icon="@drawable/ic_format_size"
+        android:title="@string/change_font_size" />
+
+    <item
+        android:id="@+id/action_add_to_playlist"
+        android:icon="@drawable/ic_playlist_add"
+        android:title="@string/add_to_playlist" />
+
+    <item
+        android:id="@+id/action_remove_from_playlist"
+        android:icon="@drawable/ic_playlist_remove"
+        android:title="@string/remove_from_playlist" />
+</menu>

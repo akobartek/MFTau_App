@@ -80,13 +80,17 @@
     <string name="change_font_size">Zmień wielkość tekstu</string>
     <string name="max_size_msg">Została już ustawiona maksymalna wielkość!</string>
     <string name="min_size_msg">Została już ustawiona minimalna wielkość!</string>
-    <string name="cd_add_to_favourites">Dodaj do ulubionych</string>
+    <string name="example_text">Przykładowy tekst:\n\nRef. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
     <string name="cd_navigate_up">Cofnij do poprzedniego widoku</string>
-    <string name="cd_open_pdf">Otwórz śpiewnik w pliku PDF</string>
-    <string name="cd_show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
-    <string name="cd_show_playlist">Wyświetl przygotowaną playlistę</string>
-    <string name="cd_show_chords">Pokazuj chwyty dla instrumentów</string>
+    <string name="add_to_playlist">Dodaj do playlisty</string>
+    <string name="remove_from_playlist">Usuń z playlisty</string>
+    <string name="open_pdf">Otwórz śpiewnik w pliku PDF</string>
+    <string name="show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
+    <string name="show_playlist">Wyświetl przygotowaną playlistę</string>
+    <string name="show_chords">Pokaż chwyty</string>
+    <string name="hide_chords">Ukryj chwyty</string>
     <string name="cd_collapse_bottom_sheet">Zamknij okienko</string>
+    <string name="cd_open_popup_menu">Pokaż dodatkowe opcje</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>

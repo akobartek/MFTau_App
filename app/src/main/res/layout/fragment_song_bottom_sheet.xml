@@ -24,14 +24,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="48dp"
         android:fontFamily="@font/mffont"
         android:gravity="center"
         android:maxLines="2"
         android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
         app:layout_constraintBottom_toTopOf="@id/guidePeekHeight"
-        app:layout_constraintEnd_toStartOf="@+id/collapseSheetBtn"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/openMenuBtn"
+        app:layout_constraintStart_toEndOf="@+id/collapseSheetBtn"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/lorem/random" />
 
@@ -39,7 +38,19 @@
         android:id="@+id/collapseSheetBtn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cd_collapse_bottom_sheet"
+        android:rotation="180"
+        android:scaleType="center"
+        app:layout_constraintBottom_toTopOf="@id/guidePeekHeight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_up" />
+
+    <ImageButton
+        android:id="@+id/openMenuBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="?selectableItemBackgroundBorderless"
         android:contentDescription="@string/cd_collapse_bottom_sheet"
         android:rotation="180"
@@ -47,25 +58,65 @@
         app:layout_constraintBottom_toTopOf="@id/guidePeekHeight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_up" />
+        app:srcCompat="@drawable/ic_menu" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidePeekHeight">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/songText"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
+            android:layout_height="match_parent"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            tools:text="@tools:sample/lorem/random" />
+            android:paddingEnd="8dp">
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toStartOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/songText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="16dp"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/app_theme_onSurfaceVariant"
+                    android:textSize="18sp"
+                    tools:text="@tools:sample/lorem/random" />
+            </HorizontalScrollView>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/app_theme_primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/songChords"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/songChords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:minWidth="32dp"
+                android:textColor="@color/app_theme_onSurfaceVariant"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="X D X D Xd" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,19 +34,19 @@ fun SongBookBottomAppBar(
             IconButton(onClick = { openPdfFragment() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_pdf),
-                    contentDescription = stringResource(id = R.string.cd_open_pdf)
+                    contentDescription = stringResource(id = R.string.open_pdf)
                 )
             }
             IconButton(onClick = { showAddedSongs() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_songs_added),
-                    contentDescription = stringResource(id = R.string.cd_show_added_songs)
+                    contentDescription = stringResource(id = R.string.show_added_songs)
                 )
             }
             IconButton(onClick = { showPlaylist() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_playlist_play),
-                    contentDescription = stringResource(id = R.string.cd_show_playlist)
+                    contentDescription = stringResource(id = R.string.show_playlist)
                 )
             }
             IconButton(onClick = {
@@ -57,7 +57,7 @@ fun SongBookBottomAppBar(
                     painter = painterResource(
                         id = if (areChordsVisible) R.drawable.ic_note else R.drawable.ic_note_outline
                     ),
-                    contentDescription = stringResource(id = R.string.cd_show_chords)
+                    contentDescription = stringResource(id = R.string.show_chords)
                 )
             }
             IconButton(onClick = { showChangeFontDialog() }) {
