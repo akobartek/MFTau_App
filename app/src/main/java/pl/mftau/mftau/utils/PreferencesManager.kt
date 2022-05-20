@@ -10,6 +10,7 @@ object PreferencesManager {
     private const val REPEAT_GOSPEL = "repeat_gospel_key"
     private const val AWAKE_SONG_BOOK = "awake_song_book_key"
     private const val OPEN_SONG_BOOK_AS_PDF = "open_song_book_as_pdf_key"
+    private const val SONG_BOOK_SHOW_CORDS = "song_book_show_cords_key"
 
     private val sharedPref: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(MFTauApplication.instance)
@@ -39,6 +40,13 @@ object PreferencesManager {
     fun setOpenSongBookAsPdf(newValue: Boolean) {
         sharedPref.edit()
             .putBoolean(OPEN_SONG_BOOK_AS_PDF, newValue)
+            .apply()
+    }
+
+    fun getSongBookShowCords() = sharedPref.getBoolean(SONG_BOOK_SHOW_CORDS, false)
+    fun setSongBookShowCords(newValue: Boolean) {
+        sharedPref.edit()
+            .putBoolean(SONG_BOOK_SHOW_CORDS, newValue)
             .apply()
     }
 }

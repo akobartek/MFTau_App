@@ -146,7 +146,7 @@ fun View.expand() {
 
         override fun willChangeBounds(): Boolean = true
     }
-    animation.duration = 700
+    animation.duration = 444
     startAnimation(animation)
 }
 
@@ -165,6 +165,6 @@ fun View.collapse() {
 
         override fun willChangeBounds(): Boolean = true
     }
-    animation.duration = 700
+    animation.duration = 444
     startAnimation(animation)
 }

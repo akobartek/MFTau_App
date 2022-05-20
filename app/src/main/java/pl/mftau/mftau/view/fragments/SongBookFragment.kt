@@ -36,17 +36,18 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     else
                         findNavController().navigate(SongBookFragmentDirections.showPdfFragment("song_book"))
                 },
-                {}, {},
+                {/* TODO() */}, {/* TODO() */},
                 {
                     binding.songsRecyclerView.layoutAnimation =
                         AnimationUtils.loadLayoutAnimation(
                             binding.songsRecyclerView.context,
                             R.anim.layout_animation_fall_down
                         )
+                    PreferencesManager.setSongBookShowCords(it)
                     mRecyclerAdapter.updateShowChords(it)
                 },
                 { showChangeTextSizeDialog(mRecyclerAdapter.getCurrentTextSize()) },
-                {}
+                {/* TODO() */}
             )
         }
 
