@@ -134,7 +134,7 @@ fun Activity.hideKeyboard() =
     (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 
-fun View.expand(onAnimationEnd: () -> Unit = {}) {
+fun View.expand(duration: Long = 444L, onAnimationEnd: () -> Unit = {}) {
     val matchParentMeasureSpec =
         View.MeasureSpec.makeMeasureSpec((parent as View).width, View.MeasureSpec.EXACTLY)
     val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -153,7 +153,7 @@ fun View.expand(onAnimationEnd: () -> Unit = {}) {
 
         override fun willChangeBounds(): Boolean = true
     }
-    animation.duration = 444
+    animation.duration = duration
     animation.setAnimationListener(object : Animation.AnimationListener {
         override fun onAnimationStart(p0: Animation?) {}
 
@@ -166,7 +166,7 @@ fun View.expand(onAnimationEnd: () -> Unit = {}) {
     startAnimation(animation)
 }
 
-fun View.collapse() {
+fun View.collapse(duration: Long = 444L) {
     val initialHeight = measuredHeight
 
     val animation = object : Animation() {
@@ -181,7 +181,7 @@ fun View.collapse() {
 
         override fun willChangeBounds(): Boolean = true
     }
-    animation.duration = 444
+    animation.duration = duration
     startAnimation(animation)
 }
 

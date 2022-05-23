@@ -7,10 +7,10 @@ import pl.mftau.mftau.db.entities.MemberEntity
 @Dao
 interface MembersDao {
 
-    @Query("SELECT * FROM members_table;")
+    @Query("SELECT * FROM members;")
     fun getAllMembers(): LiveData<List<MemberEntity>>
 
-    @Query("SELECT name FROM members_table WHERE id = :memberId;")
+    @Query("SELECT name FROM members WHERE id = :memberId;")
     suspend fun getNameById(memberId: String): String
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -28,6 +28,6 @@ interface MembersDao {
     @Delete
     suspend fun deleteMembers(vararg member: MemberEntity)
 
-    @Query("DELETE FROM members_table")
+    @Query("DELETE FROM members")
     suspend fun deleteAllMembers()
 }

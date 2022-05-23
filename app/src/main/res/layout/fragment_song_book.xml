@@ -9,15 +9,58 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:clipToPadding="false"
+        android:paddingTop="60dp"
         app:fastScrollEnabled="true"
         app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb"
         app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track"
         app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb"
         app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track"
         tools:listitem="@layout/item_song" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/songBookToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/app_theme_surface"
+                    android:hint="@string/song_book_search"
+                    android:inputType="text"
+                    android:lines="1"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="@string/song_book_search" />
+
+                <ImageButton
+                    android:id="@+id/filterIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/song_book_filter"
+                    android:src="@drawable/ic_filter" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/songBookBottomAppBar"

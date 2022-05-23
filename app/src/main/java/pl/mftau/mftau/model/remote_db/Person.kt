@@ -6,6 +6,7 @@ data class Person(
     val PersonId: Int,
     var FirstName: String,
     var LastName: String,
+    var Gender: Char,
     var Address: String?,
     var CorrespondenceAddress: String?,
     var Pesel: Long?,

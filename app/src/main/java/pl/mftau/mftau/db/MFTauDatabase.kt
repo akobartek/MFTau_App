@@ -10,26 +10,31 @@ import pl.mftau.mftau.db.converters.Converters
 import pl.mftau.mftau.db.converters.ListConverters
 import pl.mftau.mftau.db.daos.DrawsDao
 import pl.mftau.mftau.db.daos.MembersDao
-import pl.mftau.mftau.db.entities.DrawEntity
-import pl.mftau.mftau.db.entities.MemberEntity
+import pl.mftau.mftau.db.daos.SongBookDao
+import pl.mftau.mftau.db.entities.*
 
-@Database(entities = [MemberEntity::class, DrawEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [MemberEntity::class, DrawEntity::class, SongEntity::class, SongPlaylistEntity::class, SongFavouriteEntity::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class, ListConverters::class)
-abstract class EmausDatabase : RoomDatabase() {
+abstract class MFTauDatabase : RoomDatabase() {
 
     abstract fun drawsDao(): DrawsDao
     abstract fun membersDao(): MembersDao
+    abstract fun songBookDao(): SongBookDao
 
     companion object {
-        private var INSTANCE: EmausDatabase? = null
+        private var INSTANCE: MFTauDatabase? = null
 
         @WorkerThread
-        fun getInstance(context: Context): EmausDatabase? {
+        fun getInstance(context: Context): MFTauDatabase? {
             if (INSTANCE == null) {
-                synchronized(EmausDatabase::class) {
+                synchronized(MFTauDatabase::class) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext,
-                        EmausDatabase::class.java, "emaus_database.db"
+                        MFTauDatabase::class.java, "mf_tau_database.db"
                     ).build()
                 }
             }

@@ -3,7 +3,7 @@ package pl.mftau.mftau.model.local_db.repositories
 import android.app.Application
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import pl.mftau.mftau.db.EmausDatabase
+import pl.mftau.mftau.db.MFTauDatabase
 import pl.mftau.mftau.db.daos.DrawsDao
 import pl.mftau.mftau.db.daos.MembersDao
 import pl.mftau.mftau.db.entities.DrawEntity
@@ -17,7 +17,7 @@ class EmausRepository(application: Application) {
     private var mLastDraws: LiveData<List<String>>
 
     init {
-        val db = EmausDatabase.getInstance(application)!!
+        val db = MFTauDatabase.getInstance(application)!!
         mMembersDao = db.membersDao()
         mDrawsDao = db.drawsDao()
         mAllMembers = mMembersDao.getAllMembers()

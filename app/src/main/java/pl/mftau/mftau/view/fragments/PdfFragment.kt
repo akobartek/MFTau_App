@@ -3,6 +3,7 @@ package pl.mftau.mftau.view.fragments
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentPdfBinding
 import pl.mftau.mftau.utils.PreferencesManager
+import java.lang.Exception
 
 class PdfFragment : BindingFragment<FragmentPdfBinding>() {
 
@@ -35,7 +37,18 @@ class PdfFragment : BindingFragment<FragmentPdfBinding>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("page", binding.pdfView.currentPage)
+        if (findNavController().currentDestination?.id == R.id.pdfFragment)
+            outState.putInt("page", binding.pdfView.currentPage)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::mSearchView.isInitialized) {
+            mSearchView.apply {
+                setQuery("", false)
+                isIconified = true
+            }
+        }
     }
 
     override fun onStop() {

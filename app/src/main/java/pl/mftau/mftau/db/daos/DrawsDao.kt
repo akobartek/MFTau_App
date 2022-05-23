@@ -8,19 +8,19 @@ import java.util.*
 @Dao
 interface DrawsDao {
 
-    @Query("SELECT * FROM draws_table;")
+    @Query("SELECT * FROM draws;")
     fun getAll(): LiveData<List<DrawEntity>>
 
-    @Query("SELECT MAX(number_of_draw) FROM draws_table;")
+    @Query("SELECT MAX(number_of_draw) FROM draws;")
     suspend fun getMaxNumberOfDraw(): Int?
 
-    @Query("SELECT MAX(draw_date) FROM draws_table;")
+    @Query("SELECT MAX(draw_date) FROM draws;")
     suspend fun getLastDrawDate(): Date
 
-    @Query("SELECT draws FROM draws_table WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws_table);")
+    @Query("SELECT draws FROM draws WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws);")
     fun getLastDraws(): LiveData<List<String>>
 
-    @Query("SELECT odd_person_id FROM draws_table WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws_table);")
+    @Query("SELECT odd_person_id FROM draws WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws);")
     suspend fun getOddPersonId(): String?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -29,9 +29,9 @@ interface DrawsDao {
     @Delete
     suspend fun deleteDraws(vararg draw: DrawEntity)
 
-    @Query("DELETE FROM draws_table WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws_table);")
+    @Query("DELETE FROM draws WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws);")
     suspend fun deleteLastDraw()
 
-    @Query("DELETE FROM draws_table;")
+    @Query("DELETE FROM draws;")
     suspend fun deleteAllDraws()
 }

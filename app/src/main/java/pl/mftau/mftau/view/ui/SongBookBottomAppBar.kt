@@ -55,7 +55,7 @@ fun SongBookBottomAppBar(
             }) {
                 Icon(
                     painter = painterResource(
-                        id = if (areChordsVisible) R.drawable.ic_note else R.drawable.ic_note_outline
+                        id = if (areChordsVisible) R.drawable.ic_note_outline else R.drawable.ic_note
                     ),
                     contentDescription = stringResource(id = R.string.show_chords)
                 )

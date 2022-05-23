@@ -25,4 +25,14 @@
         android:id="@+id/action_remove_from_playlist"
         android:icon="@drawable/ic_playlist_remove"
         android:title="@string/remove_from_playlist" />
+
+    <item
+        android:id="@+id/action_add_to_favourites"
+        android:icon="@drawable/ic_star"
+        android:title="@string/add_to_favourites" />
+
+    <item
+        android:id="@+id/action_remove_from_favourites"
+        android:icon="@drawable/ic_star_outline"
+        android:title="@string/remove_from_favourites" />
 </menu>

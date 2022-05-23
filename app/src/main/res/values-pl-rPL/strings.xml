@@ -74,6 +74,7 @@
     <!-- SONG BOOK STRINGS -->
     <string name="search">Szukaj</string>
     <string name="song_book_search">Szukaj w śpiewniku</string>
+    <string name="song_book_filter">Filtrowanie śpiewnika</string>
     <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
     <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
     <string name="show_as_list">Wyświetl utwory jako listę</string>
@@ -83,7 +84,9 @@
     <string name="example_text">Przykładowy tekst:\n\nRef. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
     <string name="cd_navigate_up">Cofnij do poprzedniego widoku</string>
     <string name="add_to_playlist">Dodaj do playlisty</string>
+    <string name="add_to_favourites">Dodaj do ulubionych</string>
     <string name="remove_from_playlist">Usuń z playlisty</string>
+    <string name="remove_from_favourites">Usuń z ulubionych</string>
     <string name="open_pdf">Otwórz śpiewnik w pliku PDF</string>
     <string name="show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
     <string name="show_playlist">Wyświetl przygotowaną playlistę</string>
@@ -91,6 +94,20 @@
     <string name="hide_chords">Ukryj chwyty</string>
     <string name="cd_collapse_bottom_sheet">Zamknij okienko</string>
     <string name="cd_open_popup_menu">Pokaż dodatkowe opcje</string>
+    <string name="category_all">Wszystkie</string>
+    <string name="category_favourites">Ulubione</string>
+    <string name="category_francis">Franciszkańskie</string>
+    <string name="category_holy_spirit">Duch Święty</string>
+    <string name="category_communion">Komunia</string>
+    <string name="category_worship">Uwielbienie</string>
+    <string name="category_adoration">Adoracja</string>
+    <string name="category_atonement">Pokutne i postne</string>
+    <string name="category_easter">Wielkanocne</string>
+    <string name="category_advent">Adwentowe</string>
+    <string name="category_mary">Maryjne</string>
+    <string name="category_gifts">Przygotowanie darów</string>
+    <string name="category_kids">Dla dzieci</string>
+    <string name="category_carols">Kolędy</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>

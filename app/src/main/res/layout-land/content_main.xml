@@ -22,40 +22,32 @@
         app:layout_constraintWidth_percent=".75" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/songBook"
+        android:id="@+id/website"
         style="@style/MainMenuButtons"
         android:layout_marginEnd="24dp"
-        android:text="@string/songBook"
-        app:layout_constraintEnd_toStartOf="@+id/gospel"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_song_book" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/gospel"
-        style="@style/MainMenuButtons"
-        android:layout_marginEnd="12dp"
-        android:text="@string/gospel"
-        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_gospel" />
+        android:text="@string/mftau_website"
+        app:drawableTopCompat="@drawable/ic_website"
+        app:layout_constraintEnd_toStartOf="@+id/prayerBook"
+        app:layout_constraintTop_toTopOf="@+id/gospel" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/prayerBook"
         style="@style/MainMenuButtons"
-        android:layout_marginStart="12dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/prayers"
-        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_pray" />
+        app:drawableTopCompat="@drawable/ic_pray"
+        app:layout_constraintEnd_toStartOf="@+id/gospel"
+        app:layout_constraintTop_toTopOf="@+id/gospel" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/statute"
+        android:id="@+id/gospel"
         style="@style/MainMenuButtons"
-        android:layout_marginStart="24dp"
-        android:text="@string/statute"
-        app:layout_constraintStart_toEndOf="@+id/prayerBook"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_statute" />
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:text="@string/gospel"
+        app:drawableTopCompat="@drawable/ic_gospel"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerVerticalGuideline"
@@ -65,22 +57,44 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/breviary"
+        android:id="@+id/songBook"
         style="@style/MainMenuButtons"
-        android:layout_marginEnd="24dp"
-        android:text="@string/breviary"
-        app:layout_constraintEnd_toStartOf="@+id/songBook"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_breviary" />
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/songBook"
+        app:drawableTopCompat="@drawable/ic_song_book"
+        app:layout_constraintStart_toEndOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/website"
+        android:id="@+id/breviary"
         style="@style/MainMenuButtons"
         android:layout_marginStart="24dp"
-        android:text="@string/mftau_website"
-        app:layout_constraintStart_toEndOf="@+id/statute"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:drawableTopCompat="@drawable/ic_website" />
+        android:text="@string/breviary"
+        app:drawableTopCompat="@drawable/ic_breviary"
+        app:layout_constraintStart_toEndOf="@+id/songBook"
+        app:layout_constraintTop_toTopOf="@+id/songBook" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/statute"
+        style="@style/MainMenuButtons"
+        android:layout_marginStart="24dp"
+        android:text="@string/statute"
+        app:drawableTopCompat="@drawable/ic_statute"
+        app:layout_constraintStart_toEndOf="@+id/breviary"
+        app:layout_constraintTop_toTopOf="@+id/songBook" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/retreat"
+        style="@style/MainMenuButtons"
+        android:layout_marginTop="16dp"
+        android:alpha="0"
+        android:clickable="false"
+        android:text="@string/retreats"
+        app:drawableTopCompat="@drawable/ic_retreat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/songBook" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/members"
@@ -89,9 +103,9 @@
         android:alpha="0"
         android:clickable="false"
         android:text="@string/members"
+        app:drawableTopCompat="@drawable/ic_people"
         app:layout_constraintEnd_toStartOf="@+id/retreat"
-        app:layout_constraintTop_toBottomOf="@+id/songBook"
-        app:drawableTopCompat="@drawable/ic_people" />
+        app:layout_constraintTop_toTopOf="@+id/retreat" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/meetings"
@@ -100,18 +114,7 @@
         android:alpha="0"
         android:clickable="false"
         android:text="@string/meetings"
+        app:drawableTopCompat="@drawable/ic_meeting"
         app:layout_constraintStart_toEndOf="@+id/retreat"
-        app:layout_constraintTop_toBottomOf="@+id/songBook"
-        app:drawableTopCompat="@drawable/ic_meeting" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/retreat"
-        style="@style/MainMenuButtons"
-        android:alpha="0"
-        android:clickable="false"
-        android:text="@string/retreats"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/songBook"
-        app:drawableTopCompat="@drawable/ic_retreat" />
+        app:layout_constraintTop_toTopOf="@+id/retreat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

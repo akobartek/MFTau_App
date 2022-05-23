@@ -17,7 +17,8 @@
         <RelativeLayout
             android:id="@+id/songHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/songTitle"
@@ -25,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
                 android:layout_toStartOf="@+id/addToPlaylistBtn"
                 android:fontFamily="sans-serif"
                 android:padding="8dp"
@@ -38,12 +38,25 @@
                 android:id="@+id/addToPlaylistBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/addToFavouritesBtn"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_to_playlist"
+                android:padding="4dp"
+                android:src="@drawable/anim_playlist_add_to_remove"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/addToFavouritesBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/add_to_playlist"
-                android:padding="8dp"
-                android:src="@drawable/anim_playlist_add_to_remove" />
+                android:contentDescription="@string/add_to_favourites"
+                android:padding="4dp"
+                android:src="@drawable/anim_favorites_add"
+                tools:ignore="TouchTargetSizeCheck" />
         </RelativeLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import pl.mftau.mftau.db.converters.ListConverters
 import java.util.*
 
-@Entity(tableName = "draws_table")
+@Entity(tableName = "draws")
 data class DrawEntity(
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @ColumnInfo(name = "number_of_draw") @NonNull var numberOfDraw: Int,

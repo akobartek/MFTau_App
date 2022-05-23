@@ -38,5 +38,6 @@
     <color name="meetingType3_color1">#ff5b5b</color>
     <color name="meetingType3_color2">#c64545</color>
     <color name="meetingType3_color3">#993535</color>
+
     <color name="black">#000000</color>
 </resources>
