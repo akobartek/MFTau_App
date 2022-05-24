@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.activityViewModels
@@ -16,15 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentSongBookSearchBinding
+import pl.mftau.mftau.model.local_db.Song
 import pl.mftau.mftau.view.adapters.SongBookSearchAdapter
-import pl.mftau.mftau.viewmodel.SongBookSearchViewModel
+import pl.mftau.mftau.viewmodel.SongBookViewModel
 
 class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() {
 
     private lateinit var mSearchView: SearchView
     private lateinit var mSongBottomSheetBehavior: BottomSheetBehavior<*>
     private lateinit var mRecyclerAdapter: SongBookSearchAdapter
-    private val mViewModel: SongBookSearchViewModel by activityViewModels()
+    private val mViewModel: SongBookViewModel by activityViewModels()
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSongBookSearchBinding.inflate(inflater, container, false)
@@ -36,22 +36,25 @@ class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() 
         mSongBottomSheetBehavior = BottomSheetBehavior.from(binding.songBottomSheet)
         mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        mRecyclerAdapter =
-            SongBookSearchAdapter(binding.contentSongBookSearch.emptyView, ::openSongBottomSheet)
-        binding.contentSongBookSearch.songsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            itemAnimator = DefaultItemAnimator()
-            adapter = mRecyclerAdapter
+        binding.contentSongBookSearch.apply {
+            mRecyclerAdapter =
+                SongBookSearchAdapter(mViewModel, emptyView, ::openBottomSheet)
+            songsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                itemAnimator = DefaultItemAnimator()
+                adapter = mRecyclerAdapter
+            }
         }
 
-        mViewModel.query.observe(viewLifecycleOwner) { query ->
+        mViewModel.searchQuery.observe(viewLifecycleOwner) { query ->
             if (query != null) {
                 mRecyclerAdapter.filter.filter(query)
+                mViewModel.bottomSheetSong.postValue(null)
                 binding.searchToolbarTitle.text = "'$query'"
             }
         }
 
-        mViewModel.query.postValue(SongBookSearchFragmentArgs.fromBundle(requireArguments()).query)
+        mViewModel.searchQuery.postValue(SongBookSearchFragmentArgs.fromBundle(requireArguments()).query)
         binding.contentSongBookSearch.loadingIndicator.hide()
     }
 
@@ -70,7 +73,7 @@ class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() 
             override fun onQueryTextSubmit(query: String): Boolean {
                 if (::mSongBottomSheetBehavior.isInitialized && mSongBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
                     mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                mViewModel.query.postValue(query)
+                mViewModel.searchQuery.postValue(query)
                 return false
             }
 
@@ -78,15 +81,16 @@ class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() 
         })
     }
 
-    private fun openSongBottomSheet(songIndex: Int) {
-        mViewModel.song.postValue(songIndex)
+    private fun openBottomSheet(song: Song) {
+        mViewModel.bottomSheetSong.postValue(song)
         mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     fun onBackPressed() {
         if (::mSearchView.isInitialized && !mSearchView.isIconified) mSearchView.onActionViewCollapsed()
-        else if (::mSongBottomSheetBehavior.isInitialized && mSongBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+        else if (::mSongBottomSheetBehavior.isInitialized && mSongBottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+            mRecyclerAdapter.filter.filter(mViewModel.searchQuery.value)
             mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        else findNavController().navigateUp()
+        } else findNavController().navigateUp()
     }
 }

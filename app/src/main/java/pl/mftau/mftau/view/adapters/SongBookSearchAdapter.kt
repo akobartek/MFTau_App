@@ -15,15 +15,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemSongSearchBinding
-import pl.mftau.mftau.utils.SongBookUtils
+import pl.mftau.mftau.model.local_db.Song
+import pl.mftau.mftau.viewmodel.SongBookViewModel
 
 class SongBookSearchAdapter(
-    val emptyView: TextView, val showBottomSheet: (Int) -> Unit
+    val viewModel: SongBookViewModel, val emptyView: TextView, val showBottomSheet: (Song) -> Unit
 ) : RecyclerView.Adapter<SongBookSearchAdapter.SongViewHolder>(), Filterable {
 
-    inner class SongViewHolder(val binding: ItemSongSearchBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class SongViewHolder(val binding: ItemSongSearchBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    private var mResults = listOf<Pair<String, String>>()
+    private var mAllSongs = listOf<Song>()
+    private var mResults = listOf<Triple<String, String, Int>>()
     private var mQuery = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SongViewHolder(
@@ -32,10 +35,10 @@ class SongBookSearchAdapter(
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         with(holder.binding) {
-            val song = mResults.getOrNull(position) ?: return
+            val triple = mResults.getOrNull(position) ?: return
 
-            val songTitle = SpannableString(song.first)
-            val searchTitle = song.first.lowercase()
+            val songTitle = SpannableString(triple.first)
+            val searchTitle = triple.first.lowercase()
             if (searchTitle.contains(mQuery))
                 songTitle.setSpan(
                     BackgroundColorSpan(Color.RED),
@@ -45,7 +48,7 @@ class SongBookSearchAdapter(
                 )
 
             val textLines = SpannableStringBuilder()
-            song.second.split("\n").forEach {
+            triple.second.split("\n").forEach {
                 val line = it.lowercase()
                 if (line.contains(mQuery)) {
                     val spannable = SpannableString(it + "\n")
@@ -63,7 +66,7 @@ class SongBookSearchAdapter(
             songItemText.text = textLines
             songItemText.visibility = if (textLines.isEmpty()) View.GONE else View.VISIBLE
 
-            root.setOnClickListener { showBottomSheet(SongBookUtils.songTitles.indexOf(song.first)) }
+            root.setOnClickListener { showBottomSheet(mAllSongs[triple.third]) }
         }
     }
 
@@ -74,28 +77,26 @@ class SongBookSearchAdapter(
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
                 mQuery = charSequence.toString()
                 val searchQuery = mQuery.lowercase()
+                mAllSongs = viewModel.getSongsToShow()
                 mResults =
                     if (mQuery.isEmpty()) listOf()
                     else {
-                        val filteredList = arrayListOf<Pair<String, String>>()
-                        for (index in SongBookUtils.songTitles.indices) {
-                            val title = SongBookUtils.songTitles[index]
-                            val text = SongBookUtils.songs[index]
+                        val filteredList = arrayListOf<Triple<String, String, Int>>()
+                        mAllSongs.forEachIndexed { index, song ->
+                            val title = song.title
+                            val text = song.text
                             if (title.lowercase().contains(searchQuery) ||
                                 text.lowercase().contains(searchQuery)
-                            ) filteredList.add(Pair(title, text))
+                            ) filteredList.add(Triple(title, text, index))
                         }
                         filteredList
                     }
-                val filterResults = FilterResults()
-                filterResults.values = mResults
-                return filterResults
+                return FilterResults().apply { values = mResults }
             }
 
             @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
                 @Suppress("UNCHECKED_CAST")
-                mResults = results?.values as List<Pair<String, String>>? ?: listOf()
                 emptyView.apply {
                     visibility = if (mResults.isEmpty()) View.VISIBLE else View.INVISIBLE
                     text =

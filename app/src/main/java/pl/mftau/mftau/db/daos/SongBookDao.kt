@@ -22,25 +22,28 @@ interface SongBookDao {
     suspend fun deleteSong(song: SongEntity)
 
 
-    @Query("SELECT * FROM playlist_songs;")
-    fun getPlaylist(): LiveData<List<SongPlaylistEntity>>
+    @Query("SELECT * FROM playlist_songs ORDER BY place;")
+    fun getPlaylist(): List<SongPlaylistEntity>
+
+    @Query("SELECT COUNT(*) FROM playlist_songs;")
+    fun getNumberOfSongsInPlaylist(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToPlaylist(song: SongPlaylistEntity)
 
-    @Delete
-    suspend fun deleteFromPlaylist(song: SongPlaylistEntity)
+    @Query("DELETE FROM playlist_songs WHERE isInSongBook = :isInSongBook AND name = :name")
+    suspend fun deleteFromPlaylist(isInSongBook: Boolean, name: String)
 
     @Query("DELETE FROM playlist_songs")
     suspend fun clearPlaylist()
 
 
     @Query("SELECT * FROM favourite_songs;")
-    fun getFavouriteSongs(): LiveData<List<SongFavouriteEntity>>
+    fun getFavouriteSongs(): List<SongFavouriteEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToFavourites(song: SongFavouriteEntity)
 
-    @Delete
-    suspend fun deleteFromFavourites(song: SongFavouriteEntity)
+    @Query("DELETE FROM favourite_songs WHERE isInSongBook = :isInSongBook AND name = :name")
+    suspend fun deleteFromFavourites(isInSongBook: Boolean, name: String)
 }

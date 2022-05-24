@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,10 +20,17 @@ import pl.mftau.mftau.databinding.FragmentSongBookBinding
 import pl.mftau.mftau.utils.*
 import pl.mftau.mftau.view.adapters.SongBookRecyclerAdapter
 import pl.mftau.mftau.view.ui.SongBookBottomAppBar
+import pl.mftau.mftau.viewmodel.SongBookViewModel
 
 class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
 
     private lateinit var mRecyclerAdapter: SongBookRecyclerAdapter
+    private val mViewModel: SongBookViewModel by activityViewModels()
+    private val mLoadingDialog: AlertDialog by lazy {
+        MaterialAlertDialogBuilder(requireContext())
+            .setView(R.layout.dialog_loading)
+            .create()
+    }
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSongBookBinding.inflate(inflater, container, false)
@@ -56,8 +64,10 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
             )
         }
 
+        mLoadingDialog.show()
+
         binding.songsRecyclerView.apply {
-            mRecyclerAdapter = SongBookRecyclerAdapter {
+            mRecyclerAdapter = SongBookRecyclerAdapter(mViewModel) {
                 smoothScrollBy(0, it, null, 1111)
             }
             layoutManager = LinearLayoutManager(requireContext())
@@ -67,13 +77,12 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     if (dy < 0 && binding.songBookToolbar.visibility == View.GONE)
                         binding.songBookToolbar.expand(222)
-                    else if (dy > 0 && binding.songBookToolbar.visibility == View.VISIBLE)
+                    else if (dy > 77 && binding.songBookToolbar.visibility == View.VISIBLE)
                         binding.songBookToolbar.collapse(222)
                     super.onScrolled(recyclerView, dx, dy)
                 }
             })
         }
-        mRecyclerAdapter.updateFilter(0)
 
         binding.filterIcon.setOnClickListener { openFilterDialog() }
 
@@ -94,6 +103,10 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
 
     override fun onResume() {
         super.onResume()
+        mViewModel.userSongs.observe(viewLifecycleOwner) {
+            mRecyclerAdapter.updateFilter()
+            mLoadingDialog.hide()
+        }
         binding.searchView.apply {
             setQuery("", false)
             isIconified = true

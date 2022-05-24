@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favourite_songs")
 data class SongFavouriteEntity(
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
-    @ColumnInfo(name = "isInSongbook") @NonNull var isInSongbook: Boolean,
+    @ColumnInfo(name = "isInSongBook") @NonNull var isInSongBook: Boolean,
     @ColumnInfo(name = "name") @NonNull var name: String
 )

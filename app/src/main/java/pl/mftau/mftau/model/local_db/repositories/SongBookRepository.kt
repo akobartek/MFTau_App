@@ -13,18 +13,14 @@ class SongBookRepository(application: Application) {
 
     private var mSongBookDao: SongBookDao
     private var mAllSongs: LiveData<List<SongEntity>>
-    private var mPlaylist: LiveData<List<SongPlaylistEntity>>
-    private var mFavouriteSongs: LiveData<List<SongFavouriteEntity>>
 
     init {
         val db = MFTauDatabase.getInstance(application)!!
         mSongBookDao = db.songBookDao()
         mAllSongs = mSongBookDao.getAllSongs()
-        mPlaylist = mSongBookDao.getPlaylist()
-        mFavouriteSongs = mSongBookDao.getFavouriteSongs()
     }
 
-    
+
     fun getAllSongs(): LiveData<List<SongEntity>> = mAllSongs
 
     @WorkerThread
@@ -40,28 +36,30 @@ class SongBookRepository(application: Application) {
         mSongBookDao.deleteSong(song)
 
 
-    fun getPlaylist(): LiveData<List<SongPlaylistEntity>> = mPlaylist
+    fun getPlaylist(): List<SongPlaylistEntity> = mSongBookDao.getPlaylist()
+
+    fun getNumberOfSongsInPlaylist(): Int = mSongBookDao.getNumberOfSongsInPlaylist()
 
     @WorkerThread
     suspend fun insertToPlaylist(song: SongPlaylistEntity) =
         mSongBookDao.insertToPlaylist(song)
 
     @WorkerThread
-    suspend fun deleteFromPlaylist(song: SongPlaylistEntity) =
-        mSongBookDao.deleteFromPlaylist(song)
+    suspend fun deleteFromPlaylist(isInSongBook: Boolean, name: String) =
+        mSongBookDao.deleteFromPlaylist(isInSongBook, name)
 
     @WorkerThread
     suspend fun clearPlaylist() =
         mSongBookDao.clearPlaylist()
 
 
-    fun getFavouriteSongs(): LiveData<List<SongFavouriteEntity>> = mFavouriteSongs
+    fun getFavouriteSongs(): List<SongFavouriteEntity> = mSongBookDao.getFavouriteSongs()
 
     @WorkerThread
     suspend fun insertToFavourites(song: SongFavouriteEntity) =
         mSongBookDao.insertToFavourites(song)
 
     @WorkerThread
-    suspend fun deleteFromFavourites(song: SongFavouriteEntity) =
-        mSongBookDao.deleteFromFavourites(song)
+    suspend fun deleteFromFavourites(isInSongBook: Boolean, name: String) =
+        mSongBookDao.deleteFromFavourites(isInSongBook, name)
 }

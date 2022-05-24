@@ -8,22 +8,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemSongBinding
+import pl.mftau.mftau.model.local_db.Song
 import pl.mftau.mftau.utils.PreferencesManager
 import pl.mftau.mftau.utils.SongBookUtils
 import pl.mftau.mftau.utils.collapse
 import pl.mftau.mftau.utils.expand
+import pl.mftau.mftau.viewmodel.SongBookViewModel
 
-class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
+class SongBookRecyclerAdapter(val viewModel: SongBookViewModel, val scrollFun: (Int) -> Unit) :
     RecyclerView.Adapter<SongBookRecyclerAdapter.SongViewHolder>(), Filterable {
 
     inner class SongViewHolder(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private var mResults = listOf<Triple<String, String, String>>()
-    private var mCurrentFilter = SongBookUtils.Topics.ALL
+    private var mResults = arrayListOf<Song>()
+    private var mCurrentFilter = SongBookUtils.Topic.ALL
     private var mShowCords = PreferencesManager.getSongBookShowCords()
     private var mTextSize = 18f
 
@@ -32,29 +35,22 @@ class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
     )
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
+        val song = mResults[position]
         with(holder.binding) {
             songCardToExpand.visibility = View.GONE
             songCardToExpand.collapse()
-            // TODO() -> CHECK IF IT IS ON PLAYLIST AND SET CORRECT ICON
-            addToPlaylistBtn.setImageDrawable(
-                ContextCompat.getDrawable(
-                    root.context, R.drawable.anim_playlist_add_to_remove
-                )
-            )
-            addToFavouritesBtn.setImageDrawable(
-                ContextCompat.getDrawable(
-                    root.context, R.drawable.anim_favorites_add
-                )
-            )
 
             divider.visibility = if (mShowCords) View.VISIBLE else View.INVISIBLE
             songChords.visibility = if (mShowCords) View.VISIBLE else View.GONE
 
-            songTitle.text = mResults[position].first
-            songText.text = mResults[position].second.dropLast(2)
+            songTitle.text = song.title
+            songText.text = song.text.dropLast(2)
             songText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize)
-            songChords.text = mResults[position].third
+            songChords.text = song.chords
             songChords.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize)
+
+            setCorrectPlaylistDrawable(addToPlaylistBtn, song.isOnPlaylist)
+            setCorrectFavouriteDrawable(addToFavouritesBtn, song.isFavourite)
 
             songHeader.setOnClickListener {
                 if (songCardToExpand.visibility == View.GONE)
@@ -65,23 +61,23 @@ class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
             }
 
             addToPlaylistBtn.setOnClickListener {
-                // TODO() -> CHECK IF IT IS ON PLAYLIST AND SET CORRECT ICON
-//                addToPlaylistBtn.setImageDrawable(
-//                    ContextCompat.getDrawable(
-//                        root.context, R.drawable.anim_playlist_remove_to_add
-//                    )
-//                )
+                setCorrectPlaylistDrawable(addToPlaylistBtn, song.isOnPlaylist)
                 (addToPlaylistBtn.drawable as AnimatedVectorDrawable).start()
+                if (song.isOnPlaylist) viewModel.removeFromPlaylist(song)
+                else viewModel.addToPlaylist(song)
+
+                song.isOnPlaylist = !song.isOnPlaylist
+                mResults[position] = song
             }
 
             addToFavouritesBtn.setOnClickListener {
-                // TODO() -> CHECK IF IT IS FAVOURITE AND SET CORRECT ICON
-//                addToPlaylistBtn.setImageDrawable(
-//                    ContextCompat.getDrawable(
-//                        root.context, R.drawable.anim_playlist_remove_to_add
-//                    )
-//                )
+                setCorrectFavouriteDrawable(addToFavouritesBtn, song.isFavourite)
                 (addToFavouritesBtn.drawable as AnimatedVectorDrawable).start()
+                if (song.isFavourite) viewModel.removeFromFavourites(song)
+                else viewModel.addToFavourites(song)
+
+                song.isFavourite = !song.isFavourite
+                mResults[position] = song
             }
         }
     }
@@ -90,18 +86,7 @@ class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
 
     override fun getFilter(): Filter = object : Filter() {
         override fun performFiltering(p0: CharSequence?): FilterResults {
-            // TODO() FILTERING DATABASE SONGS
-            // TODO() FAVOURITES
-            mResults =
-                if (mCurrentFilter == SongBookUtils.Topics.FAVOURITES) {
-                    listOf()
-                } else SongBookUtils.topics[mCurrentFilter]?.map {
-                    Triple(
-                        SongBookUtils.songTitles[it - 1],
-                        SongBookUtils.songs[it - 1],
-                        SongBookUtils.chords[it - 1]
-                    )
-                } ?: listOf()
+            mResults = viewModel.getSongsToShow(mCurrentFilter)
             return FilterResults().apply { values = mResults }
         }
 
@@ -109,6 +94,24 @@ class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
         override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
             notifyDataSetChanged()
         }
+    }
+
+    private fun setCorrectPlaylistDrawable(button: ImageButton, isOnPlaylist: Boolean) {
+        button.setImageDrawable(
+            ContextCompat.getDrawable(
+                button.context,
+                if (isOnPlaylist) R.drawable.anim_playlist_remove else R.drawable.anim_playlist_add
+            )
+        )
+    }
+
+    private fun setCorrectFavouriteDrawable(button: ImageButton, isFavourite: Boolean) {
+        button.setImageDrawable(
+            ContextCompat.getDrawable(
+                button.context,
+                if (isFavourite) R.drawable.anim_favourites_remove else R.drawable.anim_favorites_add
+            )
+        )
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -125,8 +128,9 @@ class SongBookRecyclerAdapter(val scrollFun: (Int) -> Unit) :
         notifyDataSetChanged()
     }
 
-    fun updateFilter(filterPosition: Int) {
-        mCurrentFilter = SongBookUtils.Topics.values().first { it.value == filterPosition }
+    fun updateFilter(filterPosition: Int = -1) {
+        if (filterPosition != -1)
+            mCurrentFilter = SongBookUtils.Topic.values().first { it.value == filterPosition }
         filter.filter("")
     }
 

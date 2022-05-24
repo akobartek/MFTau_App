@@ -43,7 +43,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/add_to_playlist"
                 android:padding="4dp"
-                android:src="@drawable/anim_playlist_add_to_remove"
+                android:src="@drawable/anim_playlist_remove"
                 tools:ignore="TouchTargetSizeCheck" />
 
             <ImageButton

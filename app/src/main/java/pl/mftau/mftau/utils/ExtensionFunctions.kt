@@ -17,17 +17,27 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogSongChangeTextSizeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
+
+fun AndroidViewModel.runDBOperation(operation: suspend () -> Unit) {
+    viewModelScope.launch { withContext(Dispatchers.IO) { operation() } }
+}
 
 fun Context.showShortToast(stringRes: Int, oldToast: Toast? = null): Toast {
     oldToast?.cancel()

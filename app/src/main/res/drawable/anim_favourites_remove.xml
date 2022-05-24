@@ -16,7 +16,7 @@
     <target android:name="path">
         <aapt:attr name="android:animation">
             <objectAnimator
-                android:duration="800"
+                android:duration="700"
                 android:interpolator="@android:anim/anticipate_overshoot_interpolator"
                 android:propertyName="pathData"
                 android:valueFrom="M 12 17.27 L 18.18 21 L 16.54 13.97 L 19.27 11.605 L 22 9.24 L 14.81 8.63 L 12 2 L 9.19 8.63 L 2 9.24 L 7.46 13.97 L 5.82 21 L 12 17.27 M 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495 L 12.005 12.495"

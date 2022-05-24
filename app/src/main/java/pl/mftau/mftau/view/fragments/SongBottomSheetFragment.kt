@@ -13,13 +13,12 @@ import androidx.fragment.app.activityViewModels
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentSongBottomSheetBinding
 import pl.mftau.mftau.utils.PreferencesManager
-import pl.mftau.mftau.utils.SongBookUtils
 import pl.mftau.mftau.utils.showChangeTextSizeDialog
-import pl.mftau.mftau.viewmodel.SongBookSearchViewModel
+import pl.mftau.mftau.viewmodel.SongBookViewModel
 
 class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>() {
 
-    private val mViewModel: SongBookSearchViewModel by activityViewModels()
+    private val mViewModel: SongBookViewModel by activityViewModels()
     private var mCurrentTextSize = 18f
 
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -28,10 +27,12 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
     @SuppressLint("RestrictedApi")
     override fun setup(savedInstanceState: Bundle?) {
         with(binding) {
-            mViewModel.song.observe(viewLifecycleOwner) {
-                songTitle.text = SongBookUtils.songTitles[it]
-                songText.text = SongBookUtils.songs[it]
-                songChords.text = SongBookUtils.chords[it]
+            mViewModel.bottomSheetSong.observe(viewLifecycleOwner) {
+                if (it == null) return@observe
+
+                songTitle.text = it.title
+                songText.text = it.text
+                songChords.text = it.chords
             }
 
             setChordsVisibility()
@@ -39,6 +40,7 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
             collapseSheetBtn.setOnClickListener { requireActivity().onBackPressed() }
 
             openMenuBtn.setOnClickListener {
+                val song = mViewModel.bottomSheetSong.value ?: return@setOnClickListener
                 val popupMenu = PopupMenu(requireContext(), it)
                 popupMenu.inflate(R.menu.menu_song_popup)
 
@@ -46,7 +48,16 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
                     !PreferencesManager.getSongBookShowCords()
                 popupMenu.menu.findItem(R.id.action_hide_chords).isVisible =
                     PreferencesManager.getSongBookShowCords()
-                // TODO() -> SET CORRECT PLAYLIST MENU ICONS VISIBILITY
+
+                popupMenu.menu.findItem(R.id.action_add_to_playlist).isVisible =
+                    !song.isOnPlaylist
+                popupMenu.menu.findItem(R.id.action_remove_from_playlist).isVisible =
+                    song.isOnPlaylist
+
+                popupMenu.menu.findItem(R.id.action_add_to_favourites).isVisible =
+                    !song.isFavourite
+                popupMenu.menu.findItem(R.id.action_remove_from_favourites).isVisible =
+                    song.isFavourite
 
                 popupMenu.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
@@ -65,9 +76,21 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
                                 songChords.setTextSize(TypedValue.COMPLEX_UNIT_SP, mCurrentTextSize)
                             }
                         }
-                        R.id.action_add_to_playlist -> { /* TODO() */
+                        R.id.action_add_to_playlist -> {
+                            mViewModel.addToPlaylist(song)
+                            song.isOnPlaylist = true
                         }
-                        R.id.action_remove_from_playlist -> { /* TODO() */
+                        R.id.action_remove_from_playlist -> {
+                            mViewModel.removeFromPlaylist(song)
+                            song.isOnPlaylist = false
+                        }
+                        R.id.action_add_to_favourites -> {
+                            mViewModel.addToFavourites(song)
+                            song.isFavourite = true
+                        }
+                        R.id.action_remove_from_favourites -> {
+                            mViewModel.removeFromFavourites(song)
+                            song.isFavourite = false
                         }
                     }
                     true

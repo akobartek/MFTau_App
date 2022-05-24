@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "playlist_songs")
 data class SongPlaylistEntity(
     @PrimaryKey(autoGenerate = true) var id: Long? = null,
-    @ColumnInfo(name = "isInSongbook") @NonNull var isInSongbook: Boolean,
-    @ColumnInfo(name = "name") @NonNull var name: String
+    @ColumnInfo(name = "isInSongBook") @NonNull var isInSongBook: Boolean,
+    @ColumnInfo(name = "name") @NonNull var name: String,
+    @ColumnInfo(name = "place") @NonNull var place: Int
 )
