@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionName="shared_element_editor">
+    android:transitionName="shared_element_user"
+    tools:context=".view.fragments.SongBookUserFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,20 +14,27 @@
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/songEditorToolbar"
+            android:id="@+id/songBookUserToolbar"
             style="@style/MFTauToolbar"
-            app:menu="@menu/menu_song_editor"
             app:navigationIcon="@drawable/ic_close">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/songEditorToolbarTitle"
+                android:id="@+id/songBookUserToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                android:layout_gravity="start"
-                tools:text="@string/edit_song" />
+                android:text="@string/my_songs" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
-        android:id="@+id/contentSongEditor"
-        layout="@layout/content_song_editor" />
+        android:id="@+id/contentSongBookUser"
+        layout="@layout/content_song_book_user" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addSongBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="40dp"
+        android:contentDescription="@string/add_song"
+        android:src="@drawable/ic_plus" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

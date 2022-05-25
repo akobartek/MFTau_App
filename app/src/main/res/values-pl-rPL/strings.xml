@@ -117,6 +117,8 @@
     <string name="show_preview">Pokaż podgląd</string>
     <string name="empty_field_error">To pole nie może być puste!</string>
     <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
+    <string name="my_songs">Moje utwory</string>
+    <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>

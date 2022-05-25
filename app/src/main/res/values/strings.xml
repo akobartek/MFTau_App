@@ -121,6 +121,8 @@
     <string name="show_preview">Show preview</string>
     <string name="empty_field_error">This field cannot be empty!</string>
     <string name="song_delete_dialog_msg">Are you sure you want to delete this song?</string>
+    <string name="my_songs">My songs</string>
+    <string name="empty_user_songs_list">There are no songs added before!</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>

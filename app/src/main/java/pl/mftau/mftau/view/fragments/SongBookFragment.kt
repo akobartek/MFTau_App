@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialElevationScale
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentSongBookBinding
 import pl.mftau.mftau.utils.*
@@ -33,6 +34,12 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
             .create()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = MaterialElevationScale(false)
+        reenterTransition = MaterialElevationScale(true)
+    }
+
     override fun attachBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSongBookBinding.inflate(inflater, container, false)
 
@@ -46,7 +53,13 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     else
                         findNavController().navigate(SongBookFragmentDirections.showPdfFragment("song_book"))
                 },
-                {/* TODO() */ },
+                {
+                    binding.songBookBottomAppBar.transitionName = "shared_element_user"
+                    findNavController().navigate(
+                        SongBookFragmentDirections.showSongBookUserFragment(),
+                        FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_user")
+                    )
+                },
                 {/* TODO() */ },
                 {
                     binding.songsRecyclerView.layoutAnimation =
@@ -63,9 +76,10 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     }
                 },
                 {
+                    binding.songBookBottomAppBar.transitionName = "shared_element_editor"
                     findNavController().navigate(
                         SongBookFragmentDirections.showSongEditorFragment(null),
-                        FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_container")
+                        FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_editor")
                     )
                 }
             )
@@ -89,6 +103,8 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     super.onScrolled(recyclerView, dx, dy)
                 }
             })
+            layoutAnimation =
+                AnimationUtils.loadLayoutAnimation(this.context, R.anim.layout_animation_fall_down)
         }
 
         binding.filterIcon.setOnClickListener { openFilterDialog() }
@@ -112,6 +128,7 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
         super.onResume()
         mViewModel.userSongs.observe(viewLifecycleOwner) {
             mRecyclerAdapter.updateFilter()
+            binding.songsRecyclerView.scheduleLayoutAnimation()
             mLoadingDialog.hide()
         }
         binding.searchView.apply {

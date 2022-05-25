@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="2dp"
+    app:cardCornerRadius="8dp">
+
+    <FrameLayout
+        android:id="@+id/songHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_theme_surfaceVariant">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/songTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="12dp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textStyle="bold"
+            tools:text="113. CZY WY WIECIE, ŻE JESTEŚCIE ŚWIĄTYNIĄ" />
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

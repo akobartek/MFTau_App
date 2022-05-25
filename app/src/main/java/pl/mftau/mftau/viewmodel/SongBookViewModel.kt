@@ -150,4 +150,13 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
 
         return ArrayList(songs.sortedWith(compareBy { it.isOriginallyInSongBook }))
     }
+
+    fun getSongsFromEntities(entities: List<SongEntity>): List<Song> {
+        return entities.map {
+            Song(
+                it.title, it.text, it.chords, false,
+                databaseId = it.id!!, databaseTopics = it.topics
+            )
+        }
+    }
 }

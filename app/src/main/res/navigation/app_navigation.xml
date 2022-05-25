@@ -141,6 +141,9 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
         <action
+            android:id="@+id/showSongBookUserFragment"
+            app:destination="@+id/songBookUserFragment" />
+        <action
             android:id="@+id/showSongEditorFragment"
             app:destination="@+id/songEditorFragment" />
     </fragment>
@@ -153,6 +156,16 @@
         <argument
             android:name="query"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/songBookUserFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongBookUserFragment"
+        tools:layout="@layout/fragment_song_book_user">
+
+        <action
+            android:id="@+id/showSongEditorFragment"
+            app:destination="@+id/songEditorFragment" />
     </fragment>
 
     <fragment

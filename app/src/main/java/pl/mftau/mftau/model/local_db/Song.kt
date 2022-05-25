@@ -9,8 +9,8 @@ data class Song(
     var text: String,
     var chords: String,
     var isOriginallyInSongBook: Boolean,
-    var isOnPlaylist: Boolean,
-    var isFavourite: Boolean,
+    var isOnPlaylist: Boolean = false,
+    var isFavourite: Boolean = false,
     var databaseId: Long = -1,
     var databaseTopics: String = ""
 ): Parcelable
