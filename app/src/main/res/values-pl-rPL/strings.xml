@@ -108,6 +108,15 @@
     <string name="category_gifts">Przygotowanie darów</string>
     <string name="category_kids">Dla dzieci</string>
     <string name="category_carols">Kolędy</string>
+    <string name="add_song">Dodaj utwór</string>
+    <string name="edit_song">Edytuj utwór</string>
+    <string name="select_topics">Wybierz tematy:</string>
+    <string name="song_title">Tytuł</string>
+    <string name="song_text">Tekst utworu</string>
+    <string name="song_chords">Akordy</string>
+    <string name="show_preview">Pokaż podgląd</string>
+    <string name="empty_field_error">To pole nie może być puste!</string>
+    <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>

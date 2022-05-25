@@ -27,8 +27,17 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
     fun updateSong(songEntity: SongEntity) =
         runDBOperation { mSongBookRepository.updateSong(songEntity) }
 
-    fun deleteSong(songEntity: SongEntity) =
-        runDBOperation { mSongBookRepository.deleteSong(songEntity) }
+    fun deleteSong(song: Song) =
+        runDBOperation {
+            val songEntity = SongEntity(
+                id = song.databaseId,
+                title = song.title,
+                text = song.text,
+                chords = song.chords,
+                topics = song.databaseTopics
+            )
+            mSongBookRepository.deleteSong(songEntity)
+        }
 
 
     fun addToPlaylist(song: Song) =

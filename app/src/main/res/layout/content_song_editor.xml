@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_theme_surface"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="24dp"
+                android:hint="@string/song_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <pl.mftau.mftau.view.ui.MyTextInputEditText
+                    android:id="@+id/titleET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textCapWords" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/topicsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/select_topics"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleInputLayout" />
+
+            <HorizontalScrollView
+                android:id="@+id/topicsScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topicsTitle">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/topicsChipGroup"
+                    style="@style/Widget.Material3.ChipGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true"
+                    app:singleSelection="false">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_francis"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="SAINT_FRANCIS"
+                        android:text="@string/category_francis" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_holy_spirit"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="HOLY_SPIRIT"
+                        android:text="@string/category_holy_spirit"
+                        tools:checked="true" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_communion"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="COMMUNION"
+                        android:text="@string/category_communion" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_worship"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="WORSHIP"
+                        android:text="@string/category_worship" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_adoration"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_adoration" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_atonement"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="ATONEMENT"
+                        android:text="@string/category_atonement" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_easter"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="EASTER"
+                        android:text="@string/category_easter" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_advent"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="ADVENT"
+                        android:text="@string/category_advent" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_mary"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="MARY"
+                        android:text="@string/category_mary" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_gifts"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="GIFTS"
+                        android:text="@string/category_gifts" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_kids"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="KIDS"
+                        android:text="@string/category_kids" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_carols"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="CAROLS"
+                        android:text="@string/category_carols" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/song_text"
+                app:layout_constraintEnd_toStartOf="@+id/chordsInputLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topicsScrollView">
+
+                <pl.mftau.mftau.view.ui.MyTextInputEditText
+                    android:id="@+id/textET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textCapSentences|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/chordsInputLayout"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/song_chords"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/topicsScrollView">
+
+                <pl.mftau.mftau.view.ui.MyTextInputEditText
+                    android:id="@+id/chordsET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/titlePreview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/mffont"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem/random" />
+
+            <HorizontalScrollView
+                android:id="@+id/textPreviewScrollView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/divider">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingBottom="16dp"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/app_theme_onSurfaceVariant"
+                    android:textSize="18sp"
+                    tools:text="@tools:sample/lorem/random" />
+            </HorizontalScrollView>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/app_theme_primary"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/chordsPreview"
+                app:layout_constraintTop_toBottomOf="@+id/titlePreview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/chordsPreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-condensed"
+                android:minWidth="32dp"
+                android:textColor="@color/app_theme_onSurfaceVariant"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/divider"
+                tools:text="X D X D Xd" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

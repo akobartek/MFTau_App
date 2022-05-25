@@ -159,6 +159,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="showSongBookFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="showWebsiteFragment">
                               <value>
                                 <LayoutPositions />
@@ -279,6 +284,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="showSongBookFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="showSongBookSearchFragment">
                               <value>
                                 <LayoutPositions />
@@ -449,6 +459,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="showPdfFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="showSongBookSearchFragment">
                               <value>
                                 <LayoutPositions />
@@ -464,8 +479,20 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="685" />
-                            <option name="y" value="1654" />
+                            <option name="x" value="487" />
+                            <option name="y" value="1861" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="songEditorDialog">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="702" />
+                            <option name="y" value="1513" />
                           </Point>
                         </option>
                       </LayoutPositions>

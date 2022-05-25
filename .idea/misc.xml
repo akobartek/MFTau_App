@@ -27,9 +27,11 @@
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_calendar.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_calendar_save.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_close.xml" value="0.2475" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_delete.xml" value="0.25" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_dice.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_dice_grey.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_done.xml" value="0.2475" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_drag_handle.xml" value="0.25" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_filter.xml" value="0.25" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_format_size.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_gospel.xml" value="0.2475" />
@@ -52,6 +54,7 @@
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_playlist_remove.xml" value="0.266" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_plus.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_pray.xml" value="0.2475" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_preview.xml" value="0.258" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_register.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_retreat.xml" value="0.2475" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/drawable/ic_save.xml" value="0.2475" />
@@ -88,9 +91,11 @@
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_retreat_editor.xml" value="0.3" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_retreats.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_song_book_search.xml" value="0.3180846515604959" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_song_editor.xml" value="0.4" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/content_songbook_search.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_absence.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_breviary_select_office.xml" value="0.3763586956521739" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_fragment_song_editor.xml" value="0.3180846515604959" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_item_listview_select.xml" value="0.3875" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_loading.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/dialog_reset_password.xml" value="0.3763586956521739" />
@@ -125,7 +130,8 @@
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_retreats.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_book.xml" value="0.4" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_book_search.xml" value="0.3180846515604959" />
-        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_bottom_sheet.xml" value="0.3" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_bottom_sheet.xml" value="0.132" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_song_editor.xml" value="0.3180846515604959" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_songbook_search.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/fragment_website.xml" value="0.3763586956521739" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/layout/item_emaus.xml" value="0.3763586956521739" />
@@ -155,7 +161,9 @@
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/menu/menu_retreat_edit.xml" value="0.3180846515604959" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/menu/menu_search.xml" value="0.3875" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/menu/menu_song_book.xml" value="0.3180846515604959" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/menu/menu_song_editor.xml" value="0.3180846515604959" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/menu/menu_song_popup.xml" value="0.3172295852928602" />
+        <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.25" />
         <entry key="..\:/Users/baso/StudioProjects/MFTau_App/app/src/main/res/xml/preferences.xml" value="0.3763586956521739" />
       </map>
     </option>

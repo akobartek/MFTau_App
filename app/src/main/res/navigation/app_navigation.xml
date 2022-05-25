@@ -140,6 +140,9 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/showSongEditorFragment"
+            app:destination="@+id/songEditorFragment" />
     </fragment>
 
     <fragment
@@ -150,6 +153,16 @@
         <argument
             android:name="query"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/songEditorFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongEditorFragment"
+        tools:layout="@layout/fragment_song_editor">
+        <argument
+            android:name="song"
+            app:argType="pl.mftau.mftau.model.local_db.Song"
+            app:nullable="true" />
     </fragment>
 
     <fragment

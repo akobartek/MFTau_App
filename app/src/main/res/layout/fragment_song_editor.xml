@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="shared_element_container">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/songEditorToolbar"
+            style="@style/MFTauToolbar"
+            app:menu="@menu/menu_song_editor"
+            app:navigationIcon="@drawable/ic_close">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/songEditorToolbarTitle"
+                style="@style/MFTauToolbarTitle"
+                android:layout_gravity="start"
+                tools:text="@string/edit_song" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/contentSongEditor"
+        layout="@layout/content_song_editor" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

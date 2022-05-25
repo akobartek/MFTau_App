@@ -44,7 +44,7 @@ class SongBookRecyclerAdapter(val viewModel: SongBookViewModel, val scrollFun: (
             songChords.visibility = if (mShowCords) View.VISIBLE else View.GONE
 
             songTitle.text = song.title
-            songText.text = song.text.dropLast(2)
+            songText.text = if (song.isOriginallyInSongBook) song.text.dropLast(2) else song.text
             songText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize)
             songChords.text = song.chords
             songChords.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize)

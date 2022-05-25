@@ -112,6 +112,15 @@
     <string name="category_gifts">Gifts preps</string>
     <string name="category_kids">For kids</string>
     <string name="category_carols">Carols</string>
+    <string name="add_song">Add song</string>
+    <string name="edit_song">Edit song</string>
+    <string name="select_topics">Select topics:</string>
+    <string name="song_title">Title</string>
+    <string name="song_text">Song text</string>
+    <string name="song_chords">Chords</string>
+    <string name="show_preview">Show preview</string>
+    <string name="empty_field_error">This field cannot be empty!</string>
+    <string name="song_delete_dialog_msg">Are you sure you want to delete this song?</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>

@@ -2,6 +2,7 @@ package pl.mftau.mftau.view.ui
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,13 +71,17 @@ fun SongBookBottomAppBar(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddNewSongFragment() },
-                elevation = BottomAppBarDefaults.floatingActionButtonElevation()
+                elevation = BottomAppBarDefaults.floatingActionButtonElevation(),
+                containerColor = colorResource(id = R.color.app_theme_primaryContainer),
+                contentColor = colorResource(id = R.color.app_theme_onPrimaryContainer)
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_plus),
                     contentDescription = "Localized description"
                 )
             }
-        }
+        },
+        containerColor = colorResource(id = R.color.app_theme_surface),
+        contentColor = colorResource(id = R.color.app_theme_onSurface)
     )
 }

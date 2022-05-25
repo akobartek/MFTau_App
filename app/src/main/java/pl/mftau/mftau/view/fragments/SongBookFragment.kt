@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +46,8 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                     else
                         findNavController().navigate(SongBookFragmentDirections.showPdfFragment("song_book"))
                 },
-                {/* TODO() */ }, {/* TODO() */ },
+                {/* TODO() */ },
+                {/* TODO() */ },
                 {
                     binding.songsRecyclerView.layoutAnimation =
                         AnimationUtils.loadLayoutAnimation(
@@ -60,7 +62,12 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                         mRecyclerAdapter.updateTextSize(it)
                     }
                 },
-                {/* TODO() */ }
+                {
+                    findNavController().navigate(
+                        SongBookFragmentDirections.showSongEditorFragment(null),
+                        FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_container")
+                    )
+                }
             )
         }
 
