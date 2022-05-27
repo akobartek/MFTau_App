@@ -17,7 +17,6 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -30,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.mftau.mftau.R
-import pl.mftau.mftau.databinding.DialogSongChangeTextSizeBinding
+import pl.mftau.mftau.databinding.DialogSongBookChangeTextSizeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -201,7 +200,7 @@ fun Fragment.showChangeTextSizeDialog(currentSize: Float, updateTextSize: (Float
     val maxTextSize = 32f
     var newSize = currentSize
 
-    val dialogBinding = DialogSongChangeTextSizeBinding.inflate(layoutInflater)
+    val dialogBinding = DialogSongBookChangeTextSizeBinding.inflate(layoutInflater)
     dialogBinding.sizeDownBtn.setOnClickListener {
         Log.d("xDDDD", "showChangeTextSizeDialog: $newSize, $currentSize")
         if (newSize != minTextSize) {

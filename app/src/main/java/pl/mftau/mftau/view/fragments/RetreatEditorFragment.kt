@@ -305,7 +305,7 @@ class RetreatEditorFragment : BindingFragment<FragmentRetreatEditorBinding>() {
 
     private fun showDeleteConfirmationDialog() =
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.retreat_delete_dialog_msg)
+            .setTitle(R.string.retreat_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()

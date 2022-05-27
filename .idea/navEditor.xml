@@ -464,7 +464,17 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="showSongBookPlaylistFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="showSongBookSearchFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="showSongBookUserFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -475,6 +485,30 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="songBookImportedPlaylistFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="780" />
+                            <option name="y" value="1141" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="songBookPlaylistFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="506" />
+                            <option name="y" value="1131" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionName="shared_element_playlist"
-    tools:context=".view.fragments.SongBookPlaylistFragment">
+    android:transitionName="shared_element_import"
+    tools:context=".view.fragments.SongBookImportedPlaylistFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -16,27 +16,16 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/songBookPlaylistToolbar"
             style="@style/MFTauToolbar"
-            app:menu="@menu/menu_playlist"
             app:navigationIcon="@drawable/ic_close">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/songBookPlaylistToolbarTitle"
                 style="@style/MFTauToolbarTitle"
-                android:text="@string/my_playlist" />
+                android:text="@string/imported_playlist" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/contentPlaylist"
         layout="@layout/content_song_book_playlist" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/importPlaylistBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="40dp"
-        android:contentDescription="@string/import_playlist"
-        android:src="@drawable/ic_import"
-        android:transitionName="shared_element_import" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="4dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/mffont"
+        android:text="@string/song_book_filter"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+        android:textColor="@color/app_theme_onSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/topicsChipGroup"
+        style="@style/Widget.Material3.ChipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginTop="4dp"
+        app:chipSpacingHorizontal="4dp"
+        app:chipSpacingVertical="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_all"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="0"
+            android:text="@string/category_all"
+            tools:checked="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_favourites"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="1"
+            android:text="@string/category_favourites" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_francis"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="2"
+            android:text="@string/category_francis" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_holy_spirit"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="3"
+            android:text="@string/category_holy_spirit" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_communion"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="4"
+            android:text="@string/category_communion" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_worship"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="5"
+            android:text="@string/category_worship" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_adoration"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="6"
+            android:text="@string/category_adoration" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_atonement"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="7"
+            android:text="@string/category_atonement" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_easter"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="8"
+            android:text="@string/category_easter" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_advent"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="9"
+            android:text="@string/category_advent" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_mary"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="10"
+            android:text="@string/category_mary" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_gifts"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="11"
+            android:text="@string/category_gifts" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_kids"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="12"
+            android:text="@string/category_kids" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_carols"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="13"
+            android:text="@string/category_carols" />
+    </com.google.android.material.chip.ChipGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

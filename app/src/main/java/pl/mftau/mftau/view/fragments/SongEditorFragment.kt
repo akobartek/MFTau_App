@@ -94,9 +94,9 @@ class SongEditorFragment : BindingFragment<FragmentSongEditorBinding>() {
                     .joinToString("+", "+")
             } else ""
             SongEntity(
-                title = titleET.text.toString(),
-                text = textET.text.toString(),
-                chords = chordsET.text.toString(),
+                title = titleET.text.toString().trim(),
+                text = textET.text.toString().trim(),
+                chords = chordsET.text.toString().trim(),
                 topics = topics
             )
         }
@@ -129,8 +129,7 @@ class SongEditorFragment : BindingFragment<FragmentSongEditorBinding>() {
 
     private fun showDeleteConfirmationDialog(song: Song) =
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.member_delete_dialog_msg)
-            .setCancelable(false)
+            .setTitle(R.string.song_delete_dialog_msg)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 mViewModel.deleteSong(song)
                 dialog.dismiss()

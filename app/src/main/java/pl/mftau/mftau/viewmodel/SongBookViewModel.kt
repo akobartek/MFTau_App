@@ -18,7 +18,7 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
     val bottomSheetSong = MutableLiveData<Song?>()
     val searchQuery = MutableLiveData<String>(null)
 
-    val userSongs = mSongBookRepository.getAllSongs()
+    val userSongs = mSongBookRepository.getLiveAllSongs()
 
 
     fun insertNewSong(songEntity: SongEntity) =
@@ -44,8 +44,7 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
         runDBOperation {
             val songPlaylistEntity = SongPlaylistEntity(
                 isInSongBook = song.isOriginallyInSongBook,
-                name = if (song.isOriginallyInSongBook) song.title else song.databaseId.toString(),
-                place = mSongBookRepository.getNumberOfSongsInPlaylist()
+                name = if (song.isOriginallyInSongBook) song.title else song.databaseId.toString()
             )
             mSongBookRepository.insertToPlaylist(songPlaylistEntity)
         }
@@ -55,13 +54,6 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
             val name = if (song.isOriginallyInSongBook) song.title else song.databaseId.toString()
             mSongBookRepository.deleteFromPlaylist(song.isOriginallyInSongBook, name)
         }
-
-    fun clearPlaylist() =
-        runDBOperation { mSongBookRepository.clearPlaylist() }
-
-    fun copyPlaylistToClipboard() {
-        // TODO()
-    }
 
 
     fun addToFavourites(song: Song) =

@@ -205,7 +205,7 @@ class MeetingEditorFragment : BindingFragment<FragmentMeetingEditorBinding>() {
 
     private fun showDeleteConfirmationDialog() =
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.meeting_delete_dialog_msg)
+            .setTitle(R.string.meeting_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()

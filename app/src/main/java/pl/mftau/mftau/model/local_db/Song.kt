@@ -8,7 +8,7 @@ data class Song(
     var title: String,
     var text: String,
     var chords: String,
-    var isOriginallyInSongBook: Boolean,
+    var isOriginallyInSongBook: Boolean = false,
     var isOnPlaylist: Boolean = false,
     var isFavourite: Boolean = false,
     var databaseId: Long = -1,

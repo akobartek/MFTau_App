@@ -71,7 +71,7 @@ class MeetingsFragment : BindingFragment<FragmentMeetingsBinding>() {
 
     private fun showDeleteConfirmationDialog() =
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.delete_meetings_dialog_msg)
+            .setTitle(R.string.delete_meetings_dialog_msg)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()
                 clearMeetings()

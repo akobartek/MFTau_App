@@ -119,6 +119,19 @@
     <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
     <string name="my_songs">Moje utwory</string>
     <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>
+    <string name="my_playlist">Moja lista</string>
+    <string name="empty_playlist">Twoja lista jest pusta!</string>
+    <string name="clear_playlist">Wyczyść listę</string>
+    <string name="clear">Wyczyść</string>
+    <string name="playlist_clear_dialog_msg">Jesteś pewny wyczyszczenia swojej listy?</string>
+    <string name="share_playlist">Udostępnij listę</string>
+    <string name="share_playlist_dialog_msg">Wyślij poniższy kod żeby udostępnij listę:\n%s</string>
+    <string name="import_playlist">Pobieranie listy</string>
+    <string name="import_btn">Pobierz</string>
+    <string name="playlist_code">Kod listy</string>
+    <string name="import_playlist_dialog_msg">Wpisz otrzymany kod poniżej:</string>
+    <string name="import_incorrect_code_error">Niepoprawny format kodu!</string>
+    <string name="imported_playlist">Pobrana lista</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>
@@ -268,6 +281,6 @@
     <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
     <string name="delete_last_draw">Usuń ostatnie losowanie</string>
     <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
-    <string name="copy_draws">Skopiuj losowania</string>
-    <string name="copied_draws">Skopiowano do schowka!</string>
+    <string name="copy_to_clipboard">Skopiuj losowania</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka!</string>
 </resources>

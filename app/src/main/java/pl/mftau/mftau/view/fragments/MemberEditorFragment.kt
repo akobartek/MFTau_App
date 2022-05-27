@@ -188,7 +188,7 @@ class MemberEditorFragment : BindingFragment<FragmentMemberEditorBinding>() {
 
     private fun showDeleteConfirmationDialog() =
         MaterialAlertDialogBuilder(requireContext())
-            .setMessage(R.string.member_delete_dialog_msg)
+            .setTitle(R.string.member_delete_dialog_msg)
             .setCancelable(false)
             .setPositiveButton(R.string.delete) { dialog, _ ->
                 dialog.dismiss()

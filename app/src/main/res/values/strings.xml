@@ -123,6 +123,19 @@
     <string name="song_delete_dialog_msg">Are you sure you want to delete this song?</string>
     <string name="my_songs">My songs</string>
     <string name="empty_user_songs_list">There are no songs added before!</string>
+    <string name="my_playlist">My playlist</string>
+    <string name="empty_playlist">Your playlist is empty!</string>
+    <string name="clear_playlist">Clear playlist</string>
+    <string name="clear">Clear</string>
+    <string name="playlist_clear_dialog_msg">Are you sure you want to clear your playlist?</string>
+    <string name="share_playlist">Share playlist</string>
+    <string name="share_playlist_dialog_msg">Send this code to share your playlist:\n%s</string>
+    <string name="import_playlist">Import playlist</string>
+    <string name="import_btn">Import</string>
+    <string name="playlist_code">Playlist code</string>
+    <string name="import_playlist_dialog_msg">Enter the code you received below:</string>
+    <string name="import_incorrect_code_error">Incorrect code format!</string>
+    <string name="imported_playlist">Imported playlist</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>
@@ -277,6 +290,6 @@
     <string name="reset_draws_msg">Are you sure you want to reset all draws?</string>
     <string name="delete_last_draw">Delete last draw</string>
     <string name="delete_last_draw_msg">Are you sure you want to delete last draw?</string>
-    <string name="copy_draws">Copy to clipboard</string>
-    <string name="copied_draws">Copied to clipboard!</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_to_clipboard">Copied to clipboard!</string>
 </resources>

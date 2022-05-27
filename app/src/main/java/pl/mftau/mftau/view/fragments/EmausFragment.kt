@@ -72,7 +72,7 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
                     R.id.action_copy_draws -> {
                         mViewModel.copyDrawsToClipboard(members, draws)
                         Snackbar.make(
-                            binding.contentEmaus.emausLayout, R.string.copied_draws, Snackbar.LENGTH_LONG
+                            binding.contentEmaus.emausLayout, R.string.copied_to_clipboard, Snackbar.LENGTH_LONG
                         ).show()
                         true
                     }

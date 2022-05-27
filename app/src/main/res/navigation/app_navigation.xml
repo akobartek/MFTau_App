@@ -144,6 +144,9 @@
             android:id="@+id/showSongBookUserFragment"
             app:destination="@+id/songBookUserFragment" />
         <action
+            android:id="@+id/showSongBookPlaylistFragment"
+            app:destination="@+id/songBookPlaylistFragment" />
+        <action
             android:id="@+id/showSongEditorFragment"
             app:destination="@+id/songEditorFragment" />
     </fragment>
@@ -176,6 +179,26 @@
             android:name="song"
             app:argType="pl.mftau.mftau.model.local_db.Song"
             app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/songBookPlaylistFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongBookPlaylistFragment"
+        tools:layout="@layout/fragment_song_book_playlist">
+
+        <action
+            android:id="@+id/showImportedPlaylistFragment"
+            app:destination="@+id/songBookImportedPlaylistFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/songBookImportedPlaylistFragment"
+        android:name="pl.mftau.mftau.view.fragments.SongBookImportedPlaylistFragment"
+        tools:layout="@layout/fragment_song_book_imported_playlist">
+
+        <argument
+            android:name="code"
+            app:argType="string" />
     </fragment>
 
     <fragment

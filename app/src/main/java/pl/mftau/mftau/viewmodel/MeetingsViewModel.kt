@@ -37,10 +37,9 @@ class MeetingsViewModel(val app: Application) : AndroidViewModel(app) {
     fun updateAttendanceList(
         activity: Activity, meetingId: String, meetingType: Int,
         attendanceList: ArrayList<String>, absenceList: HashMap<String, String>
-    ) =
-        mFirebaseRepository.updateAttendanceList(
-            activity, meetingId, meetingType, attendanceList, absenceList
-        )
+    ) = mFirebaseRepository.updateAttendanceList(
+        activity, meetingId, meetingType, attendanceList, absenceList
+    )
 
     fun deleteMeeting(activity: Activity, meetingId: String, meetingType: Int) =
         mFirebaseRepository.deleteMeeting(activity, meetingId, meetingType)

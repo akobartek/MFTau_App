@@ -3,7 +3,6 @@ package pl.mftau.mftau.model.local_db.repositories
 import android.app.Activity
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -14,6 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import pl.mftau.mftau.R
 import pl.mftau.mftau.model.local_db.Meeting
 import pl.mftau.mftau.model.local_db.Member
+import pl.mftau.mftau.model.local_db.Playlist
 import pl.mftau.mftau.model.local_db.Retreat
 import pl.mftau.mftau.utils.FirestoreUtils
 import pl.mftau.mftau.utils.showShortToast
@@ -26,7 +26,35 @@ class FirebaseRepository(val app: Application) {
     private val mFirestore = FirebaseFirestore.getInstance()
     private val mStorageRef = FirebaseStorage.getInstance().reference
 
-    // region Retreats
+    // region Playlists
+    /**
+     * Playlists methods.
+     */
+    fun addPlaylist(values: HashMap<String, Any>): MutableLiveData<String> {
+        val mutableLiveData = MutableLiveData<String>()
+        val documentId =
+            mFirestore.collection(FirestoreUtils.firestoreCollectionPlaylists).document().id
+        mFirestore.collection(FirestoreUtils.firestoreCollectionPlaylists)
+            .document(documentId)
+            .set(values)
+        mutableLiveData.postValue("fs $documentId")
+        return mutableLiveData
+    }
+
+    fun getPlaylistById(playlistId: String): MutableLiveData<Playlist?> {
+        val mutableLiveData = MutableLiveData<Playlist?>()
+        mFirestore.collection(FirestoreUtils.firestoreCollectionPlaylists)
+            .document(playlistId)
+            .get()
+            .addOnCompleteListener {
+                mutableLiveData.postValue(it.result.toObject(Playlist::class.java))
+            }
+        return mutableLiveData
+    }
+
+// endregion Playlists
+
+// region Retreats
     /**
      * Retreats methods.
      */
@@ -75,9 +103,9 @@ class FirebaseRepository(val app: Application) {
                 if (withToast) activity.showShortToast(R.string.delete_error)
             }
     }
-    // endregion Retreats
+// endregion Retreats
 
-    // region Members
+// region Members
     /**
      * Members methods.
      */
@@ -247,9 +275,9 @@ class FirebaseRepository(val app: Application) {
             }
             .addOnFailureListener { activity.showShortToast(R.string.delete_error) }
     }
-    //endregion Members
+//endregion Members
 
-    //region Meetings
+//region Meetings
     /**
      * Meetings methods.
      */
@@ -484,5 +512,5 @@ class FirebaseRepository(val app: Application) {
         }
         return mutableLiveData
     }
-    // endregion Meetings
+// endregion Meetings
 }

@@ -10,7 +10,10 @@ import pl.mftau.mftau.db.entities.SongPlaylistEntity
 interface SongBookDao {
 
     @Query("SELECT * FROM songs;")
-    fun getAllSongs(): LiveData<List<SongEntity>>
+    fun getAllSongsAsLiveData(): LiveData<List<SongEntity>>
+
+    @Query("SELECT * FROM songs;")
+    suspend fun getAllSongs(): List<SongEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(song: SongEntity)
@@ -22,8 +25,11 @@ interface SongBookDao {
     suspend fun deleteSong(song: SongEntity)
 
 
-    @Query("SELECT * FROM playlist_songs ORDER BY place;")
+    @Query("SELECT * FROM playlist_songs;")
     fun getPlaylist(): List<SongPlaylistEntity>
+
+    @Query("SELECT * FROM playlist_songs;")
+    fun getPlaylistAsLiveData(): LiveData<List<SongPlaylistEntity>>
 
     @Query("SELECT COUNT(*) FROM playlist_songs;")
     fun getNumberOfSongsInPlaylist(): Int

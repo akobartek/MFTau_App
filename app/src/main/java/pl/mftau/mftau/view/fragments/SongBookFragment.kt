@@ -15,9 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialElevationScale
 import pl.mftau.mftau.R
+import pl.mftau.mftau.databinding.DialogSongBookFilterBinding
 import pl.mftau.mftau.databinding.FragmentSongBookBinding
 import pl.mftau.mftau.utils.*
 import pl.mftau.mftau.view.adapters.SongBookRecyclerAdapter
@@ -60,7 +62,13 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
                         FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_user")
                     )
                 },
-                {/* TODO() */ },
+                {
+                    binding.songBookBottomAppBar.transitionName = "shared_element_playlist"
+                    findNavController().navigate(
+                        SongBookFragmentDirections.showSongBookPlaylistFragment(),
+                        FragmentNavigatorExtras(binding.songBookBottomAppBar to "shared_element_playlist")
+                    )
+                },
                 {
                     binding.songsRecyclerView.layoutAnimation =
                         AnimationUtils.loadLayoutAnimation(
@@ -138,20 +146,24 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
     }
 
     private fun openFilterDialog() {
+        val dialogBinding = DialogSongBookFilterBinding.inflate(layoutInflater)
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.song_book_filter)
-            .setSingleChoiceItems(
-                R.array.song_types, mRecyclerAdapter.getCurrentFilterPosition().value, null
-            )
+            .setView(dialogBinding.root)
             .setPositiveButton(R.string.save) { dialog, _ ->
-                mRecyclerAdapter.updateFilter((dialog as AlertDialog).listView.checkedItemPosition)
+                val selectedChip =
+                    dialogBinding.topicsChipGroup.findViewById<Chip>(dialogBinding.topicsChipGroup.checkedChipId)
+                mRecyclerAdapter.updateFilter(Integer.valueOf(selectedChip.tag.toString()))
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
-        dialog.setOnShowListener { dialog.listView.smoothScrollToPosition(0) }
+        dialog.setOnShowListener {
+            dialogBinding.topicsChipGroup
+                .findViewWithTag<Chip>(mRecyclerAdapter.getCurrentFilterPosition().value.toString())
+                ?.isChecked = true
+        }
         dialog.show()
     }
 }
