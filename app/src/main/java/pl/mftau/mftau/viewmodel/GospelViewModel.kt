@@ -25,7 +25,7 @@ class GospelViewModel : ViewModel() {
                     var counter = 3
                     while (mGospelHtml == null) {
                         val elementHtml = document.getElementById("tabnowy0$counter")?.html()
-                            ?: document.getElementById("tabstary0$counter").html()
+                            ?: document.getElementById("tabstary0$counter")!!.html()
                         if (elementHtml.contains("Ewangelia (")) mGospelHtml = elementHtml
                         else ++counter
                     }

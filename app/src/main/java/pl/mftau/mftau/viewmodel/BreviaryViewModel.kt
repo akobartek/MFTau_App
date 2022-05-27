@@ -39,12 +39,12 @@ class BreviaryViewModel : ViewModel() {
                     val officesDivs = document.select("div")
                         .last { it.html().contains("OFICJUM") }
                         .selectFirst("table")
-                        .selectFirst("tbody")
-                        .select("div")
-                    officesDivs.forEach {
+                        ?.selectFirst("tbody")
+                        ?.select("div")
+                    officesDivs?.forEach {
                         offices.add(
                             Pair(
-                                it.selectFirst("a").attr("href")
+                                it.selectFirst("a")!!.attr("href")
                                     .split("/")[1].replace("\n", ""),
                                 it.text()
                             )
@@ -100,13 +100,16 @@ class BreviaryViewModel : ViewModel() {
             document.select("table").last { it.outerHtml().contains("Psalm ") }
 
         if (isOfficeOfReadings) {
-            element.select("i").first { it.html().contains("Te Deum") }.parentNode().remove()
+            element.select("i").first { it.html().contains("Te Deum") }.parentNode()?.remove()
             if (!element.html().contains("\"def1\"")) {
                 val def1Elem = document.getElementById("def1")
-                element.appendChild(def1Elem.child(0))
-                element.append("<br><br>")
-                element.appendChild(
-                    def1Elem.parent().select("table").first { it.html().contains("RESPONSORIUM") })
+                def1Elem?.let { elem ->
+                    element.appendChild(elem.child(0))
+                    element.append("<br><br>")
+                    element.appendChild(
+                        elem.parent()!!.select("table")
+                            .first { it.html().contains("RESPONSORIUM") })
+                }
             }
         }
 
@@ -115,15 +118,12 @@ class BreviaryViewModel : ViewModel() {
         // Remove Premium
         element.select("a")
             .filter { it.attr("href").contains("premium") || it.attr("href").contains("access") }
-            .forEach {
-                val node = it.parentNode()
-                node.remove()
-            }
+            .forEach { it.parentNode()?.remove() }
         // Remove different variants
         element.select("ul").forEach { ulElem ->
             val idsToRemove = ulElem.select("a").map { it.attr("rel") }
             idsToRemove.forEachIndexed { index, id ->
-                if (index > 0) element.getElementById(id).remove()
+                if (index > 0) element.getElementById(id)?.remove()
             }
             ulElem.remove()
         }

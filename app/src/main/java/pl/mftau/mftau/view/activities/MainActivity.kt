@@ -153,6 +153,10 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
             findNavController(R.id.navHostFragment).navigate(R.id.moveBackToMeetingsList)
             true
+        } else if (currentFragmentId == R.id.breviaryTextFragment) {
+            findNavController(R.id.navHostFragment).navigateUp()
+            recreate()
+            true
         } else {
             hideKeyboard()
             findNavController(R.id.navHostFragment).navigateUp()

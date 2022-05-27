@@ -103,11 +103,10 @@ class BreviaryTextFragment : BindingFragment<FragmentBreviaryTextBinding>() {
                 if (mLoadingDialog.isShowing) mLoadingDialog.hide()
                 binding.breviaryText.apply {
                     loadDataWithBaseURL(
-                        null, textToShow, "text/html", "UTF-8", null
+                        null, textToShow, "text/html", null, null
                     )
                     visibility = View.VISIBLE
                     scrollTo(0, 0)
-                    animate().alpha(1f).duration = 444L
                 }
             }, {
                 if (mLoadingDialog.isShowing) mLoadingDialog.hide()

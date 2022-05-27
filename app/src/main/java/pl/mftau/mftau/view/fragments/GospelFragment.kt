@@ -4,6 +4,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
@@ -25,7 +26,7 @@ import java.util.*
 
 class GospelFragment : BindingFragment<FragmentGospelBinding>() {
 
-    private lateinit var mViewModel: GospelViewModel
+    private val mViewModel: GospelViewModel by activityViewModels()
     private lateinit var mTextToSpeech: TextToSpeech
 
     private var mIsSpeaking: Boolean = false
@@ -36,14 +37,7 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
     override fun setup(savedInstanceState: Bundle?) {
         inflateToolbarMenu(binding.gospelToolbar)
 
-        activity?.let {
-            mViewModel = ViewModelProvider(it)[GospelViewModel::class.java]
-
-            when {
-                savedInstanceState != null -> binding.gospelText.restoreState(savedInstanceState)
-                else -> it.tryToRunFunctionOnInternet { loadGospel() }
-            }
-        }
+        requireActivity().tryToRunFunctionOnInternet { loadGospel() }
 
         mTextToSpeech = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
@@ -70,11 +64,6 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
 
             override fun onStart(utteranceId: String?) {}
         })
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.gospelText.saveState(outState)
     }
 
     override fun onDestroy() {
@@ -137,13 +126,14 @@ class GospelFragment : BindingFragment<FragmentGospelBinding>() {
             { textToShow ->
                 if (loadingDialog.isShowing) loadingDialog.hide()
                 binding.gospelText.apply {
-                    loadDataWithBaseURL(
-                        null, textToShow,
-                        "text/html", "UTF-8", null
-                    )
+                    @Suppress("DEPRECATION")
+                    text =
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+                            Html.fromHtml(textToShow, Html.FROM_HTML_MODE_LEGACY)
+                        else
+                            Html.fromHtml(textToShow)
                     visibility = View.VISIBLE
                     scrollTo(0, 0)
-                    animate().alpha(1f).duration = 444L
                 }
             }, {
                 if (loadingDialog.isShowing) loadingDialog.hide()
