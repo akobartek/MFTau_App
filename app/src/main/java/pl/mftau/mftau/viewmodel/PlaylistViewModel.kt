@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.runBlocking
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.*
 import pl.mftau.mftau.db.entities.SongEntity
 import pl.mftau.mftau.db.entities.SongPlaylistEntity
 import pl.mftau.mftau.model.local_db.Playlist
@@ -44,34 +45,39 @@ class PlaylistViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
 
-    fun getPlaylistAsSongs(entities: List<SongPlaylistEntity>): List<Song> = runBlocking {
+    fun getPlaylistAsSongs(entities: List<SongPlaylistEntity>): List<Song> {
+        val result = arrayListOf<Song>()
         var userSongs = listOf<SongEntity>()
-        if (entities.any { !it.isInSongBook })
-            userSongs = mSongBookRepository.getAllSongs()
-
-        entities.map { entity ->
-            if (entity.isInSongBook) {
-                val index = SongBookUtils.songTitles.indexOf(entity.name)
-                Song(
-                    entity.name,
-                    SongBookUtils.songs[index],
-                    SongBookUtils.chords[index],
-                    isOriginallyInSongBook = true,
-                    isOnPlaylist = true
-                )
-            } else {
-                val userSong = userSongs.first { it.id.toString() == entity.name }
-                Song(
-                    userSong.title,
-                    userSong.text,
-                    userSong.chords,
-                    isOriginallyInSongBook = false,
-                    isOnPlaylist = true,
-                    databaseId = userSong.id!!,
-                    databaseTopics = userSong.topics
-                )
+        viewModelScope.launch {
+            coroutineScope {
+                if (entities.any { !it.isInSongBook })
+                    userSongs = mSongBookRepository.getAllSongs()
             }
+            result.addAll(entities.map { entity ->
+                if (entity.isInSongBook) {
+                    val index = SongBookUtils.songTitles.indexOf(entity.name)
+                    Song(
+                        entity.name,
+                        SongBookUtils.songs[index],
+                        SongBookUtils.chords[index],
+                        isOriginallyInSongBook = true,
+                        isOnPlaylist = true
+                    )
+                } else {
+                    val userSong = userSongs.first { it.id.toString() == entity.name }
+                    Song(
+                        userSong.title,
+                        userSong.text,
+                        userSong.chords,
+                        isOriginallyInSongBook = false,
+                        isOnPlaylist = true,
+                        databaseId = userSong.id!!,
+                        databaseTopics = userSong.topics
+                    )
+                }
+            })
         }
+        return result
     }
 
     fun getImportedPlaylistFromSongbook(code: String): List<Song> =

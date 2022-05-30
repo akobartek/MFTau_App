@@ -30,7 +30,7 @@ class GospelViewModel : ViewModel() {
                         else ++counter
                     }
                 }
-                onLoadSuccess(checkGospelNightMode())
+                onLoadSuccess(mGospelHtml ?: "")
             } catch (exc: Exception) {
                 exc.printStackTrace()
                 onLoadFailed()
@@ -72,19 +72,5 @@ class GospelViewModel : ViewModel() {
         val year = calendar.get(Calendar.YEAR).toString()
 
         return "http://niezbednik.niedziela.pl/liturgia/$year-$month-$day/"
-    }
-
-    private fun checkGospelNightMode(): String {
-        return if (PreferencesManager.getNightMode()) {
-            val result = "<html><head>" +
-                    "<style type=\"text/css\">body{color: #fff; background-color: #160A01;}" +
-                    "</style></head>" +
-                    "<body>" +
-                    mGospelHtml +
-                    "</body></html>"
-            result.replace("black", "white")
-        } else {
-            mGospelHtml ?: ""
-        }
     }
 }

@@ -136,6 +136,8 @@
     <string name="import_playlist_dialog_msg">Enter the code you received below:</string>
     <string name="import_incorrect_code_error">Incorrect code format!</string>
     <string name="imported_playlist">Imported playlist</string>
+    <string name="song_transposition_down">Transpose half a tone down</string>
+    <string name="song_transposition_up">Transpose half a tone up</string>
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>
