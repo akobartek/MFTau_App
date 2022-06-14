@@ -271,7 +271,8 @@
 
     <fragment
         android:id="@+id/preferencesFragment"
-        android:name="pl.mftau.mftau.view.fragments.PreferenceFragment" />
+        android:name="pl.mftau.mftau.view.fragments.PreferenceFragment"
+        tools:layout="@layout/fragment_preferences"/>
 
     <fragment
         android:id="@+id/emailFragment"

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
@@ -19,7 +19,7 @@ import pl.mftau.mftau.viewmodel.BreviaryViewModel
 
 class BreviaryTextFragment : BindingFragment<FragmentBreviaryTextBinding>() {
 
-    private lateinit var mViewModel: BreviaryViewModel
+    private val mViewModel: BreviaryViewModel by activityViewModels()
     private val mLoadingDialog: AlertDialog by lazy {
         MaterialAlertDialogBuilder(requireContext())
             .setView(R.layout.dialog_loading)
@@ -36,12 +36,9 @@ class BreviaryTextFragment : BindingFragment<FragmentBreviaryTextBinding>() {
         binding.breviaryToolbarTitle.text =
             resources.getStringArray(R.array.breviary_list)[position]
 
-        activity?.let {
-            mViewModel = ViewModelProvider(it)[BreviaryViewModel::class.java]
-            when {
-                savedInstanceState != null -> binding.breviaryText.restoreState(savedInstanceState)
-                else -> activity?.tryToRunFunctionOnInternet { checkIfThereAreMultipleOffices() }
-            }
+        when {
+            savedInstanceState != null -> binding.breviaryText.restoreState(savedInstanceState)
+            else -> requireActivity().tryToRunFunctionOnInternet { checkIfThereAreMultipleOffices() }
         }
     }
 

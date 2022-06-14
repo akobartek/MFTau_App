@@ -3,6 +3,32 @@ package pl.mftau.mftau.utils
 object PrayerUtils {
 
     val prayerBook = arrayOf(
+        "Kyrie eleison, Christe eleison, Kyrie eleison.\nChryste, usłysz nas. Chryste, wysłuchaj nas.\n" +
+                "Ojcze z nieba, Boże,   - zmiłuj się nad nami.\nSynu, Odkupicielu świata, Boże,\n" +
+                "Duchu Święty, Boże,\nŚwięta Trójco, Jedyny Boże,\n\nŚwięta Maryjo,   - módl się za nami.\n" +
+                "Święta Boża Rodzicielko,\nŚwięta Panno nad pannami,\nMatko Chrystusowa,\nMatko Kościoła,\n" +
+                "Matko miłosierdzia,\nMatko łaski Bożej,\nMatko nadziei,\nMatko nieskalana,\n" +
+                "Matko najczystsza,\nMatko dziewicza,\nMatko nienaruszona,\nMatko najmilsza,\n" +
+                "Matko przedziwna,\nMatko dobrej rady,\nMatko Stworzyciela,\nMatko Zbawiciela,\n" +
+                "Panno roztropna,\nPanno czcigodna,\nPanno wsławiona,\nPanno można,\n" +
+                "Panno łaskawa,\nPanno wierna,\nZwierciadło sprawiedliwości,\nStolico mądrości,\n" +
+                "Przyczyno naszej radości,\nPrzybytku Ducha Świętego,\nPrzybytku chwalebny,\n" +
+                "Przybytku sławny pobożności,\nRóżo duchowna,\nWieżo Dawidowa,\nWieżo z kości słoniowej,\n" +
+                "Domie złoty,\nArko przymierza,\nBramo niebieska,\nGwiazdo zaranna,\n" +
+                "Uzdrowienie chorych,\nUcieczko grzesznych,\nPociecho migrantów,\nPocieszycielko strapionych,\n" +
+                "Wspomożenie wiernych,\nKrólowo Aniołów,\nKrólowo Patriarchów,\nKrólowo Proroków,\n" +
+                "Królowo Apostołów,\nKrólowo Męczenników,\nKrólowo Wyznawców,\nKrólowo Dziewic,\n" +
+                "Królowo Wszystkich Świętych,\nKrólowo bez zmazy pierworodnej poczęta,\nKrólowo Wniebowzięta,\n" +
+                "Królowo Różańca świętego,\nKrólowo rodzin,\nKrólowo pokoju,\nKrólowo Polski,\n\n" +
+                "Baranku Boży, który gładzisz grzechy świata,\n- przepuść nam, Panie.\n" +
+                "Baranku Boży, który gładzisz grzechy świata,\n- wysłuchaj nas, Panie.\n" +
+                "Baranku Boży, który gładzisz grzechy świata,\n- zmiłuj się nad nami.\n\n" +
+                "P: Módl się za nami, święta Boża Rodzicielko.\n" +
+                "W: Abyśmy się stali godnymi obietnic Chrystusowych.\n\n" +
+                "Módlmy się: Panie, nasz Boże, daj nam, sługom swoim, cieszyć się trwałym zdrowiem duszy i ciała, " +
+                "i za wstawiennictwem Najświętszej Maryi, zawsze Dziewicy, uwolnij nas od doczesnych utrapień " +
+                "i obdarz wieczną radością. Przez Chrystusa, Pana naszego. Amen.\n\n" +
+                "Pod Twoją obronę…\n\n",
         "O Panie, uczyń z nas narzędzia swojego pokoju,\n" +
                 "Abyśmy siali miłość tam, gdzie panuje nienawiść;\n" +
                 "Wybaczenie tam, gdzie panuje krzywda;\n" +
@@ -268,6 +294,7 @@ object PrayerUtils {
     )
 
     val prayerNames = arrayOf(
+        "Litania Loretańska",
         "Modlitwa franciszkańska",
         "Wielbimy Cię",
         "Pieśń słoneczna",
