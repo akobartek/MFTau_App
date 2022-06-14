@@ -34,6 +34,12 @@ class PreferenceFragment : PreferenceFragmentCompat() {
                 PreferencesManager.setNightMode(newValue)
                 true
             }
+        preferenceManager.findPreference<Preference>(getString(R.string.dynamic_colors_key))
+            ?.setOnPreferenceChangeListener { _, newValue ->
+                PreferencesManager.setDynamicColors(newValue as Boolean)
+                requireActivity().recreate()
+                true
+            }
         preferenceManager.findPreference<Preference>(getString(R.string.repeat_gospel_key))
             ?.setOnPreferenceChangeListener { _, newValue ->
                 PreferencesManager.setRepeatGospel(newValue as Boolean)

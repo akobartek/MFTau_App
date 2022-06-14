@@ -60,13 +60,46 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu" />
 
+    <LinearLayout
+        android:id="@+id/transpositionLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guidePeekHeight"
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/transpositionDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/song_transposition_down"
+            android:padding="8dp"
+            android:rotation="180"
+            android:src="@drawable/ic_arrow_up"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/transpositionUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/song_transposition_up"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_up"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidePeekHeight">
+        app:layout_constraintTop_toBottomOf="@id/transpositionLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -90,7 +123,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:paddingBottom="16dp"
                     android:scrollHorizontally="true"
-                    android:textColor="@color/app_theme_onSurfaceVariant"
+                    android:textColor="?colorOnSurfaceVariant"
                     android:textSize="18sp"
                     tools:text="@tools:sample/lorem/random" />
             </HorizontalScrollView>
@@ -100,7 +133,7 @@
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="4dp"
-                android:background="@color/app_theme_primary"
+                android:background="?colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/songChords"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -112,7 +145,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-condensed"
                 android:minWidth="32dp"
-                android:textColor="@color/app_theme_onSurfaceVariant"
+                android:textColor="?colorOnSurfaceVariant"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

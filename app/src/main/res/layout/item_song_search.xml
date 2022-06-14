@@ -14,7 +14,7 @@
         android:id="@+id/songItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_theme_surfaceVariant"
+        android:background="?colorSurfaceVariant"
         android:paddingBottom="8dp">
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_marginEnd="12dp"
             android:fontFamily="sans-serif-light"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textColor="?colorOnSurfaceVariant"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             android:fontFamily="sans-serif-condensed-light"
             android:maxLines="2"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textColor="?colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/songItemTitle"

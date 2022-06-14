@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.RetreatDetailsFragment">
@@ -34,7 +34,7 @@
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="3"
-                android:textColor="@color/app_theme_primary" />
+                android:textColor="?colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/app_theme_primary" />
+                android:textColor="?colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +77,7 @@
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="2"
-                android:textColor="@color/app_theme_primary" />
+                android:textColor="?colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +92,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addressInputLayout"
             app:suffixText="@string/pln"
-            app:suffixTextColor="@color/app_theme_primary">
+            app:suffixTextColor="?colorPrimary">
 
             <pl.mftau.mftau.view.ui.MyTextInputEditText
                 android:id="@+id/retreatPriceET"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:inputType="none"
-                android:textColor="@color/app_theme_primary" />
+                android:textColor="?colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -131,7 +131,7 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/app_theme_primary"
+                android:textColor="?colorPrimary"
                 tools:ignore="KeyboardInaccessibleWidget"
                 tools:text="11.11.2018" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -153,7 +153,7 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/app_theme_primary"
+                android:textColor="?colorPrimary"
                 tools:ignore="KeyboardInaccessibleWidget"
                 tools:text="11.11.2018" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -176,7 +176,7 @@
                 android:enabled="false"
                 android:inputType="none"
                 android:maxLines="2"
-                android:textColor="@color/app_theme_primary"
+                android:textColor="?colorPrimary"
                 tools:text="@string/for_over_15years" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

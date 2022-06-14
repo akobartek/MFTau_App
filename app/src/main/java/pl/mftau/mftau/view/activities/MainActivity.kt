@@ -2,9 +2,9 @@ package pl.mftau.mftau.view.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
     private var currentFragmentId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        setTheme(if (PreferencesManager.getDynamicColors()) R.style.AppTheme_Dynamic else R.style.AppTheme)
+        // Fix Android problem with resetting UI when WebView is initialized
+        WebView(applicationContext)
         if (PreferencesManager.getNightMode())
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         else
@@ -48,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         val wic = WindowInsetsControllerCompat(window, window.decorView)
         wic.isAppearanceLightStatusBars = !PreferencesManager.getNightMode()
         wic.isAppearanceLightNavigationBars = !PreferencesManager.getNightMode()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.app_theme_background)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.app_theme_background)
+        window.statusBarColor = getAttributeColor(R.attr.colorBackground)
+        window.navigationBarColor = getAttributeColor(R.attr.colorBackground)
 
         mAuth = FirebaseAuth.getInstance()
         if (mAuth.currentUser != null)
@@ -101,21 +103,27 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        updateCurrentUserType()
+    }
+
+    private fun updateCurrentUserType() {
         if (mAuth.currentUser != null) {
             FirebaseFirestore.getInstance().collection(FirestoreUtils.firestoreCollectionUsers)
                 .document(FirebaseAuth.getInstance().currentUser!!.uid)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful)
-                        currentUserType.postValue(when {
-                            (task.result?.get(FirestoreUtils.firestoreKeyIsAdmin) as Boolean) ->
-                                USER_TYPE_ADMIN
-                            (task.result?.get(FirestoreUtils.firestoreKeyIsLeader) as Boolean) ->
-                                USER_TYPE_LEADER
-                            (task.result?.get(FirestoreUtils.firestoreKeyIsMember) as Boolean) ->
-                                USER_TYPE_MEMBER
-                            else -> USER_TYPE_NONE
-                        })
+                        currentUserType.postValue(
+                            when {
+                                (task.result?.get(FirestoreUtils.firestoreKeyIsAdmin) as Boolean) ->
+                                    USER_TYPE_ADMIN
+                                (task.result?.get(FirestoreUtils.firestoreKeyIsLeader) as Boolean) ->
+                                    USER_TYPE_LEADER
+                                (task.result?.get(FirestoreUtils.firestoreKeyIsMember) as Boolean) ->
+                                    USER_TYPE_MEMBER
+                                else -> USER_TYPE_NONE
+                            }
+                        )
                 }
         } else currentUserType.postValue(USER_TYPE_NONE)
     }
@@ -130,8 +138,8 @@ class MainActivity : AppCompatActivity() {
             R.id.mainFragment -> super.onBackPressed()
             R.id.websiteFragment -> {
                 if ((supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                    .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed())
-                recreate()
+                        .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
+                ) recreate()
             }
             R.id.pdfFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
                 .childFragmentManager.fragments[0] as PdfFragment).onBackPressed()
@@ -157,6 +165,9 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.navHostFragment).navigateUp()
             recreate()
             true
+        } else if (currentFragmentId == R.id.loginFragment) {
+            updateCurrentUserType()
+            findNavController(R.id.navHostFragment).navigateUp()
         } else {
             hideKeyboard()
             findNavController(R.id.navHostFragment).navigateUp()

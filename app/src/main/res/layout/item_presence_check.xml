@@ -12,7 +12,7 @@
         android:id="@+id/swipeItemLayout"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@color/app_theme_primaryContainer">
+        android:background="?colorPrimaryContainer">
 
         <ImageView
             android:id="@+id/absenceBtn"

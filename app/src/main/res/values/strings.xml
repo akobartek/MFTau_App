@@ -3,6 +3,7 @@
     <!-- BASIC STRINGS -->
     <string name="app_name" translatable="false">MF Tau</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
+    <string name="community_name">Franciscan\nYouth\nTAU</string>
     <string name="statute">Statute</string>
     <string name="prayers">Prayers</string>
     <string name="songBook">Song book</string>
@@ -144,6 +145,9 @@
     <string name="night_mode_key" translatable="false">night_mode</string>
     <string name="night_mode_title">Night mode</string>
     <string name="night_mode_summary">Turn on night mode in the app</string>
+    <string name="dynamic_colors_key" translatable="false">dynamic_colors</string>
+    <string name="dynamic_colors_title">Dynamic colors</string>
+    <string name="dynamic_colors_summary">Connect app to system\'s colors</string>
     <string name="repeat_gospel_key" translatable="false">repeat_gospel</string>
     <string name="repeat_gospel_title">Repeat Gospel</string>
     <string name="repeat_gospel_summary">Repeat Gospel after the end of hearing</string>

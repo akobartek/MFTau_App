@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/app_theme_surface"
+    android:background="?colorSurface"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -10,7 +10,7 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
-        android:indeterminateTint="@color/app_theme_onSurface" />
+        android:indeterminateTint="?colorOnSurface" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,5 +18,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
         android:text="@string/loading"
-        android:textColor="@color/app_theme_onSurface" />
+        android:textColor="?colorOnSurface" />
 </LinearLayout>

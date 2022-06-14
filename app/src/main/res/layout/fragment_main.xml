@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     tools:context=".view.fragments.MainFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_theme_background"
+        android:background="?colorBackground"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.MaterialToolbar

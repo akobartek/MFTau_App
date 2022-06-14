@@ -106,7 +106,7 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>() {
                                     loginBtn.isEnabled = true
                                 } else {
                                     requireContext().showShortToast(R.string.signed_in)
-                                    findNavController().navigateUp()
+                                    requireActivity().onBackPressed()
                                 }
                             } else {
                                 Log.d("SignInFailed", task.exception.toString())

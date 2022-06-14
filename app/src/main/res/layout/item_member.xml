@@ -24,7 +24,7 @@
             android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/app_theme_surfaceVariant">
+            android:background="?colorSurfaceVariant">
 
             <ImageView
                 android:id="@+id/memberPhoto"
@@ -49,7 +49,7 @@
                 android:maxLines="2"
                 android:text="@{member.name}"
                 android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                android:textColor="@color/app_theme_onSurfaceVariant"
+                android:textColor="?colorOnSurfaceVariant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/memberPhoto"
@@ -65,7 +65,7 @@
                 android:fontFamily="sans-serif-light"
                 android:text="@{member.city}"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                android:textColor="@color/app_theme_onSurfaceVariant"
+                android:textColor="?colorOnSurfaceVariant"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Skomielna Czarna" />

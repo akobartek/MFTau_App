@@ -35,8 +35,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical">
+                android:background="?colorSurface"
+                android:gravity="center_vertical"
+                android:paddingEnd="8dp"
+                tools:ignore="RtlSymmetry">
 
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
@@ -44,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="2"
-                    android:backgroundTint="@color/app_theme_surface"
+                    android:backgroundTint="?colorSurface"
                     android:hint="@string/song_book_search"
                     android:inputType="text"
                     android:lines="1"

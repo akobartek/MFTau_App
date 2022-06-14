@@ -26,6 +26,6 @@
         android:id="@android:id/list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_theme_background"
+        android:background="?colorBackground"
         tools:targetApi="n" />
 </LinearLayout>

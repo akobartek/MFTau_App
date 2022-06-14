@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     android:fillViewport="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.RetreatEditorFragment">
@@ -86,7 +86,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addressInputLayout"
             app:suffixText="@string/pln"
-            app:suffixTextColor="@color/app_theme_primary">
+            app:suffixTextColor="?colorPrimary">
 
             <pl.mftau.mftau.view.ui.MyTextInputEditText
                 android:id="@+id/retreatPriceET"
@@ -198,11 +198,11 @@
             android:layout_marginTop="12dp"
             android:switchPadding="16dp"
             android:text="@string/advance_payment_required"
-            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textColor="?colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/retreatTypeInputLayout"
-            app:thumbTint="@color/app_theme_primary"
-            app:trackTint="@color/app_theme_primaryContainer" />
+            app:thumbTint="?colorPrimary"
+            app:trackTint="?colorPrimaryContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

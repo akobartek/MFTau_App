@@ -12,7 +12,7 @@
         android:id="@+id/songHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_theme_surfaceVariant">
+        android:background="?colorSurfaceVariant">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/songTitle"
@@ -21,7 +21,7 @@
             android:fontFamily="sans-serif"
             android:padding="12dp"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textColor="?colorOnSurfaceVariant"
             android:textStyle="bold"
             tools:text="113. CZY WY WIECIE, ŻE JESTEŚCIE ŚWIĄTYNIĄ" />
     </FrameLayout>

@@ -156,8 +156,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_download" />
-                            <entry key="sourceFile" value="C:\Users\User\Downloads\ic_no_songs.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="logo_mini" />
+                            <entry key="sourceFile" value="C:\Users\baso\Downloads\Logo MF Tau 2016\mini\podstawowe RGB\mftau.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -4,22 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.MainFragment">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
         android:contentDescription="@string/community_logo"
-        android:src="@drawable/logo_full"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".75" />
+        android:src="@drawable/logo_mini"
+        app:layout_constraintEnd_toStartOf="@+id/centerVerticalGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/mffont"
+        android:text="@string/community_name"
+        android:textColor="?colorPrimary"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="@+id/logo"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="@+id/logo" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/website"

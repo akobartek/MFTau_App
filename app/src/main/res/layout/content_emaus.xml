@@ -5,7 +5,7 @@
     android:id="@+id/emausLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.EmausFragment">
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:textColor="@color/app_theme_onSurfaceVariant"
+        android:textColor="?colorOnSurfaceVariant"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
         android:layout_marginEnd="20dp"
         android:text="@string/empty_draw_list"
         android:textAlignment="center"
-        android:textColor="@color/app_theme_primary"
+        android:textColor="?colorPrimary"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/drawItemLayout"
         android:layout_width="match_parent"
-        android:background="@color/app_theme_surfaceVariant"
+        android:background="?colorSurfaceVariant"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:maxLines="3"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-            android:textColor="@color/app_theme_onSurfaceVariant"
+            android:textColor="?colorOnSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/drawSecondPicture"
             app:layout_constraintStart_toEndOf="@+id/drawFirstPicture"

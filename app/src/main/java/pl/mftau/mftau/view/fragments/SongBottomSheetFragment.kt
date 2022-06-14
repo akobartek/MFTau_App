@@ -13,6 +13,9 @@ import androidx.fragment.app.activityViewModels
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentSongBottomSheetBinding
 import pl.mftau.mftau.utils.PreferencesManager
+import pl.mftau.mftau.utils.SongBookUtils.getTransposedChords
+import pl.mftau.mftau.utils.collapse
+import pl.mftau.mftau.utils.expand
 import pl.mftau.mftau.utils.showChangeTextSizeDialog
 import pl.mftau.mftau.viewmodel.SongBookViewModel
 
@@ -98,6 +101,30 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
                 val helper = MenuPopupHelper(requireContext(), popupMenu.menu as MenuBuilder, it)
                 helper.setForceShowIcon(true)
                 helper.show()
+            }
+
+            songChords.setOnLongClickListener {
+                if (transpositionLayout.visibility == View.GONE) transpositionLayout.expand()
+                else transpositionLayout.collapse()
+                true
+            }
+
+            transpositionDown.setOnClickListener {
+                mViewModel.bottomSheetSong.apply {
+                    val song = value?.apply {
+                        chords = chords.getTransposedChords(-1)
+                    }
+                    postValue(song)
+                }
+            }
+
+            transpositionUp.setOnClickListener {
+                mViewModel.bottomSheetSong.apply {
+                    val song = value?.apply {
+                        chords = chords.getTransposedChords(1)
+                    }
+                    postValue(song)
+                }
             }
         }
     }

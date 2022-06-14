@@ -2,12 +2,14 @@ package pl.mftau.mftau.view.ui
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import pl.mftau.mftau.R
 import pl.mftau.mftau.utils.PreferencesManager
+import pl.mftau.mftau.utils.getAttributeColor
 
 @Preview(showBackground = true)
 @Composable
@@ -72,8 +74,8 @@ fun SongBookBottomAppBar(
             FloatingActionButton(
                 onClick = { showAddNewSongFragment() },
                 elevation = BottomAppBarDefaults.floatingActionButtonElevation(),
-                containerColor = colorResource(id = R.color.app_theme_primaryContainer),
-                contentColor = colorResource(id = R.color.app_theme_onPrimaryContainer)
+                containerColor = Color(LocalContext.current.getAttributeColor(R.attr.colorPrimaryContainer)),
+                contentColor = Color(LocalContext.current.getAttributeColor(R.attr.colorOnPrimaryContainer))
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_plus),
@@ -81,7 +83,7 @@ fun SongBookBottomAppBar(
                 )
             }
         },
-        containerColor = colorResource(id = R.color.app_theme_surface),
-        contentColor = colorResource(id = R.color.app_theme_onSurface)
+        containerColor = Color(LocalContext.current.getAttributeColor(R.attr.colorSurface)),
+        contentColor = Color(LocalContext.current.getAttributeColor(R.attr.colorOnSurface))
     )
 }

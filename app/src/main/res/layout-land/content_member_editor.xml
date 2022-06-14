@@ -5,7 +5,7 @@
     android:id="@+id/addMemberLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_background"
+    android:background="?colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.fragments.MemberEditorFragment">
 
@@ -65,8 +65,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/addMemberPhoto"
         app:layout_constraintStart_toEndOf="@id/responsibleTextView"
         app:layout_constraintTop_toTopOf="@+id/addMemberPhoto"
-        app:thumbTint="@color/app_theme_primary"
-        app:trackTint="@color/app_theme_primaryContainer" />
+        app:thumbTint="?colorPrimary"
+        app:trackTint="?colorPrimaryContainer" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputLayout"

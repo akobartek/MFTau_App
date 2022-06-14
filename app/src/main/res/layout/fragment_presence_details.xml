@@ -26,10 +26,10 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/app_theme_onPrimaryContainer"
+            app:tabIndicatorColor="?colorOnPrimaryContainer"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/TextAppearance.MFTau.Tab"
-            app:tabTextColor="@color/app_theme_onPrimaryContainer"
+            app:tabTextColor="?colorOnPrimaryContainer"
             tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.appbar.AppBarLayout>
 

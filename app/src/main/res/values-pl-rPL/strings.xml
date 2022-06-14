@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- BASIC STRINGS -->
+    <string name="community_name">Młodzież\nFranciszkańska\nTAU</string>
     <string name="statute">Statut</string>
     <string name="prayers">Modlitwy</string>
     <string name="breviary">Brewiarz</string>
@@ -139,6 +140,8 @@
     <string name="preferences">Ustawienia</string>
     <string name="night_mode_title">Tryb nocny</string>
     <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
+    <string name="dynamic_colors_title">Dynamiczne kolory</string>
+    <string name="dynamic_colors_summary">Podłącz aplikację do systemu kolorów</string>
     <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
     <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
     <string name="awake_song_book_title">Ciągły ekran śpiewnika</string>

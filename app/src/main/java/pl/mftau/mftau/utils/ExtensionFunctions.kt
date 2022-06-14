@@ -17,6 +17,7 @@ import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.AttrRes
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -68,6 +69,12 @@ fun Context.isChromeCustomTabsSupported(): Boolean {
 
 fun Context.getColorsByName(vararg colorNames: String) = colorNames.map { name ->
     ContextCompat.getColor(this, resources.getIdentifier(name, "color", packageName))
+}
+
+fun Context.getAttributeColor(@AttrRes attributeId: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attributeId, typedValue, true)
+    return if (typedValue.resourceId == 0) typedValue.data else ContextCompat.getColor(this, typedValue.resourceId)
 }
 
 fun String.createUnderlinedString(): SpannableString {

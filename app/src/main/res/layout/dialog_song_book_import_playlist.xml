@@ -14,7 +14,7 @@
         android:fontFamily="@font/mffont"
         android:text="@string/import_playlist"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
-        android:textColor="@color/app_theme_onSurface"
+        android:textColor="?colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/import_playlist_dialog_msg"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        android:textColor="@color/app_theme_onSurface"
+        android:textColor="?colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 

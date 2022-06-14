@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:width="@dimen/icon_size"
     android:height="@dimen/icon_size"
+    android:tint="?colorPrimary"
     android:viewportWidth="21.797"
     android:viewportHeight="21.797">
     <path

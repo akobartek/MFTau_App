@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/night_mode_key"
+            android:summary="@string/night_mode_summary"
+            android:title="@string/night_mode_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/dynamic_colors_key"
+            android:summary="@string/dynamic_colors_summary"
+            android:title="@string/dynamic_colors_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/repeat_gospel_key"
+            android:summary="@string/repeat_gospel_summary"
+            android:title="@string/repeat_gospel_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/awake_song_book_key"
+            android:summary="@string/awake_song_book_summary"
+            android:title="@string/awake_song_book_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/open_song_book_as_pdf_key"
+            android:summary="@string/open_song_book_as_pdf_summary"
+            android:title="@string/open_song_book_as_pdf_title"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</PreferenceScreen>
