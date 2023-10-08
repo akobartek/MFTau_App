@@ -37,8 +37,7 @@ class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() 
         mSongBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         binding.contentSongBookSearch.apply {
-            mRecyclerAdapter =
-                SongBookSearchAdapter(mViewModel, emptyView, ::openBottomSheet)
+            mRecyclerAdapter = SongBookSearchAdapter(emptyView, ::openBottomSheet)
             songsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 itemAnimator = DefaultItemAnimator()
@@ -52,6 +51,9 @@ class SongBookSearchFragment : BindingFragment<FragmentSongBookSearchBinding>() 
                 mViewModel.bottomSheetSong.postValue(null)
                 binding.searchToolbarTitle.text = "'$query'"
             }
+        }
+        mViewModel.visibleSongs.observe(viewLifecycleOwner) { songs ->
+            mRecyclerAdapter.updateList(songs, mViewModel.searchQuery.value ?: "")
         }
 
         mViewModel.searchQuery.postValue(SongBookSearchFragmentArgs.fromBundle(requireArguments()).query)

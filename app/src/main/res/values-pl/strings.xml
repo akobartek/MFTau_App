@@ -148,6 +148,8 @@
     <string name="awake_song_book_summary">Nie wygaszaj ekranu śpiewnika</string>
     <string name="open_song_book_as_pdf_title">Otwieranie śpiewnika jako PDF</string>
     <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
+    <string name="language_setting_title">Język aplikacji</string>
+    <string name="language_setting_summary">Obecnie: %s</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Brewiarz (%s)</string>
@@ -288,4 +290,8 @@
     <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
     <string name="copy_to_clipboard">Skopiuj losowania</string>
     <string name="copied_to_clipboard">Skopiowano do schowka!</string>
+
+    <!-- LANGUAGES STRINGS -->
+    <string name="lang_pl">Polski</string>
+    <string name="lang_en">Angielski</string>
 </resources>

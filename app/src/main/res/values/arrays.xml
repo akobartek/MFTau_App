@@ -39,4 +39,14 @@
         <item>@string/for_members</item>
         <item>@string/for_responsible</item>
     </string-array>
+
+    <string-array name="languages_entries">
+        <item>@string/lang_pl</item>
+        <item>@string/lang_en</item>
+    </string-array>
+
+    <string-array name="languages_values">
+        <item>pl</item>
+        <item>en</item>
+    </string-array>
 </resources>

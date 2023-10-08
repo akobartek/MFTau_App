@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import pl.mftau.mftau.R
@@ -54,6 +56,23 @@ class PreferenceFragment : PreferenceFragmentCompat() {
             ?.setOnPreferenceChangeListener { _, newValue ->
                 PreferencesManager.setOpenSongBookAsPdf(newValue as Boolean)
                 true
+            }
+        preferenceManager.findPreference<ListPreference>(getString(R.string.language_setting_key))
+            ?.apply {
+                val currentLocale =
+                    when (AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag()) {
+                        "en" -> getString(R.string.lang_en)
+                        "pl" -> getString(R.string.lang_pl)
+                        else -> null
+                    }
+                currentLocale?.let {
+                    summary = getString(R.string.language_setting_summary, it)
+                }
+                setOnPreferenceChangeListener { _, newValue ->
+                    val newLocale = LocaleListCompat.forLanguageTags(newValue as String)
+                    AppCompatDelegate.setApplicationLocales(newLocale)
+                    true
+                }
             }
     }
 }

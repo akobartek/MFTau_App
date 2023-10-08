@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,6 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogSongBookImportPlaylistBinding
 import pl.mftau.mftau.databinding.FragmentSongBookPlaylistBinding
@@ -56,13 +58,19 @@ class SongBookPlaylistFragment : BindingFragment<FragmentSongBookPlaylistBinding
                 AnimationUtils.loadLayoutAnimation(this.context, R.anim.layout_animation_fall_down)
         }
 
-        mViewModel.playlist.observe(viewLifecycleOwner) {
-            mAdapter.setPlayList(mViewModel.getPlaylistAsSongs(it))
+        lifecycleScope.launch {
+            mViewModel.playlist.collect { playlist ->
+                mViewModel.fetchPlaylist(playlist)
+            }
+        }
+
+        mViewModel.visibleSongs.observe(viewLifecycleOwner) { songs ->
+            mAdapter.setPlayList(songs)
             binding.contentPlaylist.playlistRecyclerView.scheduleLayoutAnimation()
 
             binding.contentPlaylist.loadingIndicator.hide()
             binding.contentPlaylist.emptyView.visibility =
-                if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                if (songs.isEmpty()) View.VISIBLE else View.INVISIBLE
         }
 
         binding.songBookPlaylistToolbar.setNavigationOnClickListener { findNavController().navigateUp() }

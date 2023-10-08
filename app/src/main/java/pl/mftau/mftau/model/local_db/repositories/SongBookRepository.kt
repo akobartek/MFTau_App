@@ -2,8 +2,8 @@ package pl.mftau.mftau.model.local_db.repositories
 
 import android.app.Application
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
 import androidx.room.withTransaction
+import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.db.MFTauDatabase
 import pl.mftau.mftau.db.daos.SongBookDao
 import pl.mftau.mftau.db.entities.SongEntity
@@ -14,21 +14,13 @@ class SongBookRepository(application: Application) {
 
     private val db: MFTauDatabase
     private var mSongBookDao: SongBookDao
-    private var mAllSongs: LiveData<List<SongEntity>>
-    private var mPlaylist: LiveData<List<SongPlaylistEntity>>
 
     init {
         db = MFTauDatabase.getInstance(application)!!
         mSongBookDao = db.songBookDao()
-        mAllSongs = mSongBookDao.getAllSongsAsLiveData()
-        mPlaylist = mSongBookDao.getPlaylistAsLiveData()
     }
 
-
-    fun getLiveAllSongs(): LiveData<List<SongEntity>> = mAllSongs
-
-    @WorkerThread
-    suspend fun getAllSongs(): List<SongEntity> = mSongBookDao.getAllSongs()
+    fun getAllSongs(): Flow<List<SongEntity>> = mSongBookDao.getAllSongs()
 
     @WorkerThread
     suspend fun insertSong(song: SongEntity) =
@@ -48,9 +40,7 @@ class SongBookRepository(application: Application) {
     }
 
 
-    fun getPlaylist(): List<SongPlaylistEntity> = mSongBookDao.getPlaylist()
-
-    fun getLivePlaylist(): LiveData<List<SongPlaylistEntity>> = mPlaylist
+    fun getPlaylist(): Flow<List<SongPlaylistEntity>> = mSongBookDao.getPlaylist()
 
     fun getNumberOfSongsInPlaylist(): Int = mSongBookDao.getNumberOfSongsInPlaylist()
 
@@ -67,7 +57,7 @@ class SongBookRepository(application: Application) {
         mSongBookDao.clearPlaylist()
 
 
-    fun getFavouriteSongs(): List<SongFavouriteEntity> = mSongBookDao.getFavouriteSongs()
+    fun getFavouriteSongs(): Flow<List<SongFavouriteEntity>> = mSongBookDao.getFavouriteSongs()
 
     @WorkerThread
     suspend fun insertToFavourites(song: SongFavouriteEntity) =

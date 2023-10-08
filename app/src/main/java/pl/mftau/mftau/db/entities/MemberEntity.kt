@@ -1,13 +1,12 @@
 package pl.mftau.mftau.db.entities
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "members")
 data class MemberEntity(
-    @PrimaryKey @NonNull var id: String,
-    @ColumnInfo(name = "name") @NonNull var name: String,
-    @ColumnInfo(name = "draws_history") @NonNull var drawsList: ArrayList<String>
+    @PrimaryKey var id: String,
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "draws_history") var drawsList: ArrayList<String>
 )

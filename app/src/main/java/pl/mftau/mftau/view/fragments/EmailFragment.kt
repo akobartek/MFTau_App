@@ -11,7 +11,6 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import pl.mftau.mftau.R
@@ -83,7 +82,6 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
             privacyPolicyTV.text = ss
             privacyPolicyTV.movementMethod = LinkMovementMethod.getInstance()
             emailNameET.addTextChangedListener(ClearErrorTextWatcher(emailNameInputLayout))
-            emailAdressET.addTextChangedListener(ClearErrorTextWatcher(emailAddressInputLayout))
             emailIntentionET.addTextChangedListener(ClearErrorTextWatcher(emailIntentionInputLayout))
         }
     }
@@ -107,11 +105,6 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
                 emailNameInputLayout.error = getString(R.string.empty_email_name_error)
                 isValid = false
             }
-            val emailAddress = emailAdressET.text.toString().trim()
-            if (!emailAddress.isValidEmail()) {
-                emailAddressInputLayout.error = getString(R.string.email_error)
-                isValid = false
-            }
             val intention = emailIntentionET.text
             if (intention.isNullOrEmpty()) {
                 emailIntentionInputLayout.error = getString(R.string.empty_email_intention_error)
@@ -121,7 +114,7 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
             if (!isValid) return
 
             val emailTextBuilder = StringBuilder()
-            emailTextBuilder.append("Nadawca: $emailAddress\n\n")
+            emailTextBuilder.append("Nadawca: $name\n\n")
             emailTextBuilder.append(intention.toString().trim())
 
             val emailTo = when (mMailType) {
@@ -130,16 +123,16 @@ class EmailFragment : BindingFragment<FragmentEmailBinding>() {
                 else -> ""
             }
 
-            val emailIntent = Intent(Intent.ACTION_SEND)
+            val emailIntent = Intent(Intent.ACTION_SENDTO)
             emailIntent.apply {
-                setDataAndType(Uri.parse("mailto:"), "message/rfc822")
+                data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(emailTo))
                 putExtra(Intent.EXTRA_SUBJECT, "Wiadomość od ${name.toString().trim()}")
                 putExtra(Intent.EXTRA_TEXT, emailTextBuilder.toString())
             }
 
             try {
-                startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)))
+                startActivity(emailIntent)
             } catch (ex: android.content.ActivityNotFoundException) {
                 requireContext().showShortToast(R.string.send_mail_error)
             }

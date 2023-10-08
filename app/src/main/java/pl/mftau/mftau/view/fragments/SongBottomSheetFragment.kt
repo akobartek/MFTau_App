@@ -40,7 +40,9 @@ class SongBottomSheetFragment : BindingFragment<FragmentSongBottomSheetBinding>(
 
             setChordsVisibility()
 
-            collapseSheetBtn.setOnClickListener { requireActivity().onBackPressed() }
+            collapseSheetBtn.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
 
             openMenuBtn.setOnClickListener {
                 val song = mViewModel.bottomSheetSong.value ?: return@setOnClickListener

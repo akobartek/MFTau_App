@@ -29,25 +29,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailAddressInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:hint="@string/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailNameInputLayout">
-
-        <pl.mftau.mftau.view.ui.MyTextInputEditText
-            android:id="@+id/emailAdressET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailIntentionInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -57,14 +38,16 @@
         android:hint="@string/intention"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAddressInputLayout">
+        app:layout_constraintTop_toBottomOf="@+id/emailNameInputLayout">
 
         <pl.mftau.mftau.view.ui.MyTextInputEditText
             android:id="@+id/emailIntentionET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="top"
             android:inputType="textMultiLine|textCapSentences"
-            android:maxLines="8" />
+            android:lines="5"
+            android:maxLines="10" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox

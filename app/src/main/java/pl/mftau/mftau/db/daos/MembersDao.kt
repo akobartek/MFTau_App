@@ -1,14 +1,14 @@
 package pl.mftau.mftau.db.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.db.entities.MemberEntity
 
 @Dao
 interface MembersDao {
 
     @Query("SELECT * FROM members;")
-    fun getAllMembers(): LiveData<List<MemberEntity>>
+    fun getAllMembers(): Flow<List<MemberEntity>>
 
     @Query("SELECT name FROM members WHERE id = :memberId;")
     suspend fun getNameById(memberId: String): String

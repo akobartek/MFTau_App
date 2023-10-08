@@ -15,7 +15,7 @@ import pl.mftau.mftau.viewmodel.PlaylistViewModel
 import java.util.*
 
 class SongBookPlaylistRecyclerAdapter(
-    val viewModel: PlaylistViewModel,
+    private val viewModel: PlaylistViewModel,
     private val isPlaylistImported: Boolean,
     val startDrag: (viewHolder: RecyclerView.ViewHolder) -> Unit = {}
 ) : RecyclerView.Adapter<SongBookPlaylistRecyclerAdapter.SongViewHolder>() {
@@ -23,7 +23,7 @@ class SongBookPlaylistRecyclerAdapter(
     inner class SongViewHolder(val binding: ItemSongPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var mPlaylist = listOf<Song>()
+    private var mPlaylist = arrayListOf<Song>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SongViewHolder(
         ItemSongPlaylistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -85,10 +85,12 @@ class SongBookPlaylistRecyclerAdapter(
 
     fun getCurrentPlaylist() = mPlaylist
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setPlayList(playlist: List<Song>) {
-        mPlaylist = playlist
-        notifyDataSetChanged()
+        val currentSize = mPlaylist.size
+        mPlaylist.clear()
+        mPlaylist.addAll(playlist)
+        notifyItemRangeRemoved(0, currentSize)
+        notifyItemRangeInserted(0, playlist.size)
     }
 
     fun moveItem(fromPosition: Int, toPosition: Int) {

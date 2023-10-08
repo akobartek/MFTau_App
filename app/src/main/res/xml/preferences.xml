@@ -30,5 +30,12 @@
             android:summary="@string/open_song_book_as_pdf_summary"
             android:title="@string/open_song_book_as_pdf_title"
             app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:entries="@array/languages_entries"
+            android:entryValues="@array/languages_values"
+            android:key="@string/language_setting_key"
+            android:title="@string/language_setting_title"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>

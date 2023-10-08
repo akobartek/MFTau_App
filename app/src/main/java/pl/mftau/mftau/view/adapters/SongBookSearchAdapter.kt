@@ -1,6 +1,5 @@
 package pl.mftau.mftau.view.adapters
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
@@ -16,16 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.ItemSongSearchBinding
 import pl.mftau.mftau.model.local_db.Song
-import pl.mftau.mftau.viewmodel.SongBookViewModel
 
-class SongBookSearchAdapter(
-    val viewModel: SongBookViewModel, val emptyView: TextView, val showBottomSheet: (Song) -> Unit
-) : RecyclerView.Adapter<SongBookSearchAdapter.SongViewHolder>(), Filterable {
+class SongBookSearchAdapter(val emptyView: TextView, val showBottomSheet: (Song) -> Unit) :
+    RecyclerView.Adapter<SongBookSearchAdapter.SongViewHolder>(), Filterable {
 
     inner class SongViewHolder(val binding: ItemSongSearchBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var mAllSongs = listOf<Song>()
+    private var mAllSongs = arrayListOf<Song>()
     private var mResults = listOf<Triple<String, String, Int>>()
     private var mQuery = ""
 
@@ -72,12 +69,17 @@ class SongBookSearchAdapter(
 
     override fun getItemCount(): Int = mResults.size
 
+    fun updateList(newList: ArrayList<Song>, query: String) {
+        mAllSongs.clear()
+        mAllSongs.addAll(newList)
+        filter.filter(query)
+    }
+
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence?): FilterResults {
                 mQuery = charSequence.toString()
                 val searchQuery = mQuery.lowercase()
-                mAllSongs = viewModel.getSongsToShow()
                 mResults =
                     if (mQuery.isEmpty()) listOf()
                     else {
@@ -94,9 +96,7 @@ class SongBookSearchAdapter(
                 return FilterResults().apply { values = mResults }
             }
 
-            @SuppressLint("NotifyDataSetChanged")
             override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
-                @Suppress("UNCHECKED_CAST")
                 emptyView.apply {
                     visibility = if (mResults.isEmpty()) View.VISIBLE else View.INVISIBLE
                     text =
@@ -105,7 +105,8 @@ class SongBookSearchAdapter(
                             else R.string.empty_search_list
                         )
                 }
-                notifyDataSetChanged()
+                notifyItemRangeRemoved(0, itemCount)
+                notifyItemRangeInserted(0, results?.count ?: 0)
             }
         }
     }

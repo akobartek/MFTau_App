@@ -1,7 +1,7 @@
 package pl.mftau.mftau.db.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.db.entities.SongEntity
 import pl.mftau.mftau.db.entities.SongFavouriteEntity
 import pl.mftau.mftau.db.entities.SongPlaylistEntity
@@ -10,10 +10,7 @@ import pl.mftau.mftau.db.entities.SongPlaylistEntity
 interface SongBookDao {
 
     @Query("SELECT * FROM songs;")
-    fun getAllSongsAsLiveData(): LiveData<List<SongEntity>>
-
-    @Query("SELECT * FROM songs;")
-    suspend fun getAllSongs(): List<SongEntity>
+    fun getAllSongs(): Flow<List<SongEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSong(song: SongEntity)
@@ -26,10 +23,7 @@ interface SongBookDao {
 
 
     @Query("SELECT * FROM playlist_songs;")
-    fun getPlaylist(): List<SongPlaylistEntity>
-
-    @Query("SELECT * FROM playlist_songs;")
-    fun getPlaylistAsLiveData(): LiveData<List<SongPlaylistEntity>>
+    fun getPlaylist(): Flow<List<SongPlaylistEntity>>
 
     @Query("SELECT COUNT(*) FROM playlist_songs;")
     fun getNumberOfSongsInPlaylist(): Int
@@ -45,7 +39,7 @@ interface SongBookDao {
 
 
     @Query("SELECT * FROM favourite_songs;")
-    fun getFavouriteSongs(): List<SongFavouriteEntity>
+    fun getFavouriteSongs(): Flow<List<SongFavouriteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToFavourites(song: SongFavouriteEntity)

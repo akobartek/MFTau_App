@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.DialogSongBookFilterBinding
 import pl.mftau.mftau.databinding.FragmentSongBookBinding
@@ -130,15 +132,21 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
 
             override fun onQueryTextChange(newText: String?): Boolean = false
         })
+
+        lifecycleScope.launch {
+            mViewModel.combinedFlow.collect {
+                mViewModel.fetchSongs()
+            }
+        }
+        mViewModel.visibleSongs.observe(viewLifecycleOwner) { songs ->
+            mRecyclerAdapter.updateList(songs)
+            binding.songsRecyclerView.scheduleLayoutAnimation()
+            mLoadingDialog.hide()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        mViewModel.userSongs.observe(viewLifecycleOwner) {
-            mRecyclerAdapter.updateFilter()
-            binding.songsRecyclerView.scheduleLayoutAnimation()
-            mLoadingDialog.hide()
-        }
         binding.searchView.apply {
             setQuery("", false)
             isIconified = true
@@ -152,7 +160,7 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
             .setPositiveButton(R.string.save) { dialog, _ ->
                 val selectedChip =
                     dialogBinding.topicsChipGroup.findViewById<Chip>(dialogBinding.topicsChipGroup.checkedChipId)
-                mRecyclerAdapter.updateFilter(Integer.valueOf(selectedChip.tag.toString()))
+                mViewModel.fetchSongs(Integer.valueOf(selectedChip.tag.toString()))
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) { dialog, _ ->
@@ -161,7 +169,7 @@ class SongBookFragment : BindingFragment<FragmentSongBookBinding>() {
             .create()
         dialog.setOnShowListener {
             dialogBinding.topicsChipGroup
-                .findViewWithTag<Chip>(mRecyclerAdapter.getCurrentFilterPosition().value.toString())
+                .findViewWithTag<Chip>(mViewModel.getFilter().value.toString())
                 ?.isChecked = true
         }
         dialog.show()

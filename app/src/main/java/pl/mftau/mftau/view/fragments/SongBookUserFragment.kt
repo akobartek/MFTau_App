@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentSongBookUserBinding
 import pl.mftau.mftau.view.adapters.SongBookUserRecyclerAdapter
@@ -53,13 +55,15 @@ class SongBookUserFragment : BindingFragment<FragmentSongBookUserBinding>() {
                 AnimationUtils.loadLayoutAnimation(this.context, R.anim.layout_animation_fall_down)
         }
 
-        mViewModel.userSongs.observe(viewLifecycleOwner) {
-            mAdapter.setSongsList(mViewModel.getSongsFromEntities(it))
-            binding.contentSongBookUser.userSongsRecyclerView.scheduleLayoutAnimation()
+        lifecycleScope.launch {
+            mViewModel.combinedFlow.collect { songBook ->
+                mAdapter.setSongsList(mViewModel.getSongsFromEntities(songBook.userSongs))
+                binding.contentSongBookUser.userSongsRecyclerView.scheduleLayoutAnimation()
 
-            binding.contentSongBookUser.loadingIndicator.hide()
-            binding.contentSongBookUser.emptyView.visibility =
-                if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                binding.contentSongBookUser.loadingIndicator.hide()
+                binding.contentSongBookUser.emptyView.visibility =
+                    if (songBook.userSongs.isEmpty()) View.VISIBLE else View.INVISIBLE
+            }
         }
 
         binding.songBookUserToolbar.setNavigationOnClickListener {

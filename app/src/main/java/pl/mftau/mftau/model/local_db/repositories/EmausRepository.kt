@@ -2,7 +2,7 @@ package pl.mftau.mftau.model.local_db.repositories
 
 import android.app.Application
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.db.MFTauDatabase
 import pl.mftau.mftau.db.daos.DrawsDao
 import pl.mftau.mftau.db.daos.MembersDao
@@ -13,8 +13,8 @@ class EmausRepository(application: Application) {
 
     private var mMembersDao: MembersDao
     private var mDrawsDao: DrawsDao
-    private var mAllMembers: LiveData<List<MemberEntity>>
-    private var mLastDraws: LiveData<List<String>>
+    private var mAllMembers: Flow<List<MemberEntity>>
+    private var mLastDraws: Flow<List<String>>
 
     init {
         val db = MFTauDatabase.getInstance(application)!!
@@ -24,9 +24,9 @@ class EmausRepository(application: Application) {
         mLastDraws = mDrawsDao.getLastDraws()
     }
 
-    fun getAllMembers(): LiveData<List<MemberEntity>> = mAllMembers
+    fun getAllMembers(): Flow<List<MemberEntity>> = mAllMembers
 
-    fun getLastDraws(): LiveData<List<String>> = mLastDraws
+    fun getLastDraws(): Flow<List<String>> = mLastDraws
 
     @WorkerThread
     suspend fun getMemberNameById(id: String): String = mMembersDao.getNameById(id)

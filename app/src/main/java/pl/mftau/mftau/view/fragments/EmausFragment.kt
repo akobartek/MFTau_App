@@ -6,12 +6,14 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.databinding.FragmentEmausBinding
 import pl.mftau.mftau.db.entities.MemberEntity
@@ -39,25 +41,29 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
         mAdapter = EmausRecyclerAdapter()
         setupRecyclerView()
 
-        mViewModel.getAllMembersFromDatabase().observe(viewLifecycleOwner) { databaseList ->
-            if (databaseList.isEmpty()) {
-                loadMembersFromFirebase()
-            } else {
-                members = databaseList
-                trySetAdapter()
+        lifecycleScope.launch {
+            mViewModel.getAllMembersFromDatabase().collect { databaseList ->
+                if (databaseList.isEmpty()) {
+                    loadMembersFromFirebase()
+                } else {
+                    members = databaseList
+                    trySetAdapter()
+                }
             }
         }
-        mViewModel.getLastDrawsFromDatabase().observe(viewLifecycleOwner) { allDraws ->
-            if (allDraws.isNullOrEmpty()) {
-                draws = null
-                binding.contentEmaus.drawsEmptyView.visibility = View.VISIBLE
-                binding.contentEmaus.drawsRecyclerView.visibility = View.INVISIBLE
-                binding.contentEmaus.oddPerson.visibility = View.INVISIBLE
-            } else {
-                draws = allDraws.toString().replace("[", "").replace("]", "").split(",")
-                trySetAdapter()
+        lifecycleScope.launch {
+            mViewModel.getLastDrawsFromDatabase().collect { allDraws ->
+                if (allDraws.isEmpty()) {
+                    draws = null
+                    binding.contentEmaus.drawsEmptyView.visibility = View.VISIBLE
+                    binding.contentEmaus.drawsRecyclerView.visibility = View.INVISIBLE
+                    binding.contentEmaus.oddPerson.visibility = View.INVISIBLE
+                } else {
+                    draws = allDraws.toString().replace("[", "").replace("]", "").split(",")
+                    trySetAdapter()
+                }
+                setupToolbarMenuIcons(binding.emausToolbar.menu)
             }
-            setupToolbarMenuIcons(binding.emausToolbar.menu)
         }
 
         setOnClickListeners()
@@ -139,14 +145,14 @@ class EmausFragment : BindingFragment<FragmentEmausBinding>() {
             centerX, centerY, 0f, finalRadius
         )
         revealAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(p0: Animator?) {}
-            override fun onAnimationEnd(p0: Animator?) {
+            override fun onAnimationRepeat(p0: Animator) {}
+            override fun onAnimationEnd(p0: Animator) {
                 if (!mViewModel.startDraw(members))
                     showFullListDialog()
             }
 
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationStart(p0: Animator?) {
+            override fun onAnimationCancel(p0: Animator) {}
+            override fun onAnimationStart(p0: Animator) {
                 binding.startDrawBtn.hide()
             }
         })

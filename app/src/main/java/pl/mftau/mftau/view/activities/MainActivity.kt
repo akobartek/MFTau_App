@@ -3,6 +3,7 @@ package pl.mftau.mftau.view.activities
 import android.os.Bundle
 import android.view.MenuItem
 import android.webkit.WebView
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.WindowInsetsControllerCompat
@@ -86,19 +87,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        if (intent.action != null && intent.action == SearchIntents.ACTION_SEARCH) {
-//            when (intent.getStringExtra(SearchManager.QUERY)) {
-//                "brewiarz", "breviary" -> {
-//                    intent.action = null
-//                    findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showListFragment("breviary"))
-//                }
-//                "śpiewnik" -> {
-//                    intent.action = null
-//                    findNavController(R.id.navHostFragment).navigate(MainFragmentDirections.showPdfFragment("songBook"))
-//                }
-//                else -> Log.d("Search query: ", intent.getStringExtra(SearchManager.QUERY))
-//            }
-//        }
+        onBackPressedDispatcher.addCallback {
+            when (currentFragmentId) {
+                R.id.mainFragment -> finish()
+                R.id.websiteFragment -> {
+                    if ((supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                            .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
+                    ) recreate()
+                }
+                R.id.pdfFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                    .childFragmentManager.fragments[0] as PdfFragment).onBackPressed()
+                R.id.songBookSearchFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
+                    .childFragmentManager.fragments[0] as SongBookSearchFragment).onBackPressed()
+                else -> onSupportNavigateUp()
+            }
+        }
     }
 
     override fun onResume() {
@@ -131,22 +134,6 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(findNavController(R.id.navHostFragment))
                 || super.onOptionsItemSelected(item)
-    }
-
-    override fun onBackPressed() {
-        when (currentFragmentId) {
-            R.id.mainFragment -> super.onBackPressed()
-            R.id.websiteFragment -> {
-                if ((supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                        .childFragmentManager.fragments[0] as WebsiteFragment).onBackPressed()
-                ) recreate()
-            }
-            R.id.pdfFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                .childFragmentManager.fragments[0] as PdfFragment).onBackPressed()
-            R.id.songBookSearchFragment -> (supportFragmentManager.findFragmentById(R.id.navHostFragment)!!
-                .childFragmentManager.fragments[0] as SongBookSearchFragment).onBackPressed()
-            else -> onSupportNavigateUp()
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

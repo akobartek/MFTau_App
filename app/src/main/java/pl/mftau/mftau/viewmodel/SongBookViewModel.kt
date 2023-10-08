@@ -3,10 +3,17 @@ package pl.mftau.mftau.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.db.entities.SongEntity
 import pl.mftau.mftau.db.entities.SongFavouriteEntity
 import pl.mftau.mftau.db.entities.SongPlaylistEntity
 import pl.mftau.mftau.model.local_db.Song
+import pl.mftau.mftau.model.local_db.SongBook
 import pl.mftau.mftau.model.local_db.repositories.SongBookRepository
 import pl.mftau.mftau.utils.SongBookUtils
 import pl.mftau.mftau.utils.runDBOperation
@@ -18,8 +25,23 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
     val bottomSheetSong = MutableLiveData<Song?>()
     val searchQuery = MutableLiveData<String>(null)
 
-    val userSongs = mSongBookRepository.getLiveAllSongs()
+    private val mUserSongs = mSongBookRepository.getAllSongs()
+    private val mPlaylist = mSongBookRepository.getPlaylist()
+    private val mFavouriteSongs = mSongBookRepository.getFavouriteSongs()
 
+    val combinedFlow = combine(mUserSongs, mPlaylist, mFavouriteSongs) { t1, t2, t3 ->
+        SongBook(t1, t2, t3)
+    }
+
+    val visibleSongs = MutableLiveData<ArrayList<Song>>()
+
+    private var mCurrentFilter = SongBookUtils.Topic.ALL
+    fun fetchSongs(filterPosition: Int = -1) {
+        if (filterPosition != -1)
+            mCurrentFilter = SongBookUtils.Topic.entries.first { it.value == filterPosition }
+        updateSongsToShow(mCurrentFilter)
+    }
+    fun getFilter() = mCurrentFilter
 
     fun insertNewSong(songEntity: SongEntity) =
         runDBOperation { mSongBookRepository.insertSong(songEntity) }
@@ -72,75 +94,76 @@ class SongBookViewModel(val app: Application) : AndroidViewModel(app) {
         }
 
 
-    fun getSongsToShow(topic: SongBookUtils.Topic = SongBookUtils.Topic.ALL): ArrayList<Song> {
-        val songs = arrayListOf<Song>()
-        val playlist = mSongBookRepository.getPlaylist()
-        val favouriteSongs = mSongBookRepository.getFavouriteSongs()
+    private fun updateSongsToShow(topic: SongBookUtils.Topic = SongBookUtils.Topic.ALL) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val songs = arrayListOf<Song>()
+            val playlist = combinedFlow.first().playlist
+            val favouriteSongs = combinedFlow.first().favourites
 
-        if (topic != SongBookUtils.Topic.FAVOURITES) {
-            userSongs.value?.forEach {
-                if (it.topics.contains(topic.toString()))
-                    songs.add(
-                        Song(
-                            it.title, it.text, it.chords, false,
-                            playlist.any { song ->
-                                !song.isInSongBook && song.name == it.id!!.toString()
-                            },
-                            favouriteSongs.any { song ->
-                                !song.isInSongBook && song.name == it.id!!.toString()
-                            },
-                            databaseId = it.id!!, databaseTopics = it.topics
+            if (topic != SongBookUtils.Topic.FAVOURITES) {
+                combinedFlow.first().userSongs.forEach {
+                    if (it.topics.contains(topic.toString()))
+                        songs.add(
+                            Song(
+                                it.title, it.text, it.chords, false,
+                                playlist.any { song ->
+                                    !song.isInSongBook && song.name == it.id!!.toString()
+                                },
+                                favouriteSongs.any { song ->
+                                    !song.isInSongBook && song.name == it.id!!.toString()
+                                },
+                                databaseId = it.id!!, databaseTopics = it.topics
+                            )
                         )
+                }
+                songs.addAll(SongBookUtils.topics[topic]?.map {
+                    Song(
+                        SongBookUtils.songTitles[it - 1],
+                        SongBookUtils.songs[it - 1],
+                        SongBookUtils.chords[it - 1],
+                        true,
+                        playlist.any { song ->
+                            song.isInSongBook && song.name == SongBookUtils.songTitles[it - 1]
+                        },
+                        favouriteSongs.any { song ->
+                            song.isInSongBook && song.name == SongBookUtils.songTitles[it - 1]
+                        },
                     )
-            }
-            songs.addAll(SongBookUtils.topics[topic]?.map {
-                Song(
-                    SongBookUtils.songTitles[it - 1],
-                    SongBookUtils.songs[it - 1],
-                    SongBookUtils.chords[it - 1],
-                    true,
-                    playlist.any { song ->
-                        song.isInSongBook && song.name == SongBookUtils.songTitles[it - 1]
-                    },
-                    favouriteSongs.any { song ->
-                        song.isInSongBook && song.name == SongBookUtils.songTitles[it - 1]
-                    },
-                )
-            } ?: listOf())
-        } else {
-            favouriteSongs.forEach { fav ->
-                if (fav.isInSongBook) {
-                    val index = SongBookUtils.songTitles.indexOf(fav.name)
-                    songs.add(
-                        Song(
-                            fav.name,
-                            SongBookUtils.songs[index],
-                            SongBookUtils.chords[index],
-                            true,
-                            playlist.any { song -> song.isInSongBook && song.name == fav.name },
-                            true
+                } ?: listOf())
+            } else {
+                favouriteSongs.forEach { fav ->
+                    if (fav.isInSongBook) {
+                        val index = SongBookUtils.songTitles.indexOf(fav.name)
+                        songs.add(
+                            Song(
+                                fav.name,
+                                SongBookUtils.songs[index],
+                                SongBookUtils.chords[index],
+                                true,
+                                playlist.any { song -> song.isInSongBook && song.name == fav.name },
+                                true
+                            )
                         )
-                    )
-                } else {
-                    val userSong =
-                        userSongs.value!!.first { it.id.toString() == fav.name }
-                    songs.add(
-                        Song(
-                            userSong.title,
-                            userSong.text,
-                            userSong.chords,
-                            false,
-                            playlist.any { song -> !song.isInSongBook && song.name == fav.name },
-                            true,
-                            userSong.id!!,
-                            userSong.topics
+                    } else {
+                        val userSong =
+                            combinedFlow.first().userSongs.first { it.id.toString() == fav.name }
+                        songs.add(
+                            Song(
+                                userSong.title,
+                                userSong.text,
+                                userSong.chords,
+                                false,
+                                playlist.any { song -> !song.isInSongBook && song.name == fav.name },
+                                true,
+                                userSong.id!!,
+                                userSong.topics
+                            )
                         )
-                    )
+                    }
                 }
             }
+            visibleSongs.postValue(ArrayList(songs.sortedWith(compareBy { it.isOriginallyInSongBook })))
         }
-
-        return ArrayList(songs.sortedWith(compareBy { it.isOriginallyInSongBook }))
     }
 
     fun getSongsFromEntities(entities: List<SongEntity>): List<Song> {

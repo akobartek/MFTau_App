@@ -1,6 +1,5 @@
 package pl.mftau.mftau.view.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -16,7 +15,7 @@ class SongBookUserRecyclerAdapter :
     inner class SongViewHolder(val binding: ItemSongUserBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var mUserSongs = listOf<Song>()
+    private var mUserSongs = arrayListOf<Song>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SongViewHolder(
         ItemSongUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -40,9 +39,11 @@ class SongBookUserRecyclerAdapter :
 
     override fun getItemCount(): Int = mUserSongs.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setSongsList(songs: List<Song>) {
-        mUserSongs = songs
-        notifyDataSetChanged()
+        val currentSize = mUserSongs.size
+        mUserSongs.clear()
+        mUserSongs.addAll(songs)
+        notifyItemRangeRemoved(0, currentSize)
+        notifyItemRangeInserted(0, songs.size)
     }
 }

@@ -27,7 +27,7 @@ fun SongBookBottomAppBar(
     }
 
     BottomAppBar(
-        icons = {
+        actions = {
             IconButton(onClick = { navigateUp() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
@@ -73,7 +73,6 @@ fun SongBookBottomAppBar(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddNewSongFragment() },
-                elevation = BottomAppBarDefaults.floatingActionButtonElevation(),
                 containerColor = Color(LocalContext.current.getAttributeColor(R.attr.colorPrimaryContainer)),
                 contentColor = Color(LocalContext.current.getAttributeColor(R.attr.colorOnPrimaryContainer))
             ) {

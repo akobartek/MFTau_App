@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.last
 import pl.mftau.mftau.db.entities.SongEntity
 import pl.mftau.mftau.db.entities.SongPlaylistEntity
 import pl.mftau.mftau.model.local_db.Playlist
@@ -21,7 +22,10 @@ class PlaylistViewModel(val app: Application) : AndroidViewModel(app) {
     private val mFirebaseRepository = FirebaseRepository(app)
     private val mSongBookRepository = SongBookRepository(app)
 
-    val playlist = mSongBookRepository.getLivePlaylist()
+    val playlist = mSongBookRepository.getPlaylist()
+    private val mUserSongs = mSongBookRepository.getAllSongs()
+
+    val visibleSongs = MutableLiveData<ArrayList<Song>>()
 
     fun removeFromPlaylist(song: Song) =
         runDBOperation {
@@ -32,11 +36,11 @@ class PlaylistViewModel(val app: Application) : AndroidViewModel(app) {
     fun clearPlaylist() =
         runDBOperation { mSongBookRepository.clearPlaylist() }
 
-    fun getPlaylistShareCode(playlist: List<Song>): LiveData<String> {
-        return if (playlist.all { it.isOriginallyInSongBook })
-            MutableLiveData(playlist.joinToString("~", "sb ") { it.title.split(".")[0] })
+    fun getPlaylistShareCode(songs: List<Song>): LiveData<String> {
+        return if (songs.all { it.isOriginallyInSongBook })
+            MutableLiveData(songs.joinToString("~", "sb ") { it.title.split(".")[0] })
         else {
-            val firestoreList = playlist.map {
+            val firestoreList = songs.map {
                 SongEntity(title = it.title, text = it.text, chords = it.chords)
             }
             val hashMap = hashMapOf<String, Any>(FirestoreUtils.firestoreKeySongs to firestoreList)
@@ -44,15 +48,11 @@ class PlaylistViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-
-    fun getPlaylistAsSongs(entities: List<SongPlaylistEntity>): List<Song> {
+    fun fetchPlaylist(entities: List<SongPlaylistEntity>) {
         val result = arrayListOf<Song>()
-        var userSongs = listOf<SongEntity>()
-        viewModelScope.launch {
-            coroutineScope {
-                if (entities.any { !it.isInSongBook })
-                    userSongs = mSongBookRepository.getAllSongs()
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            val userSongs = mUserSongs.last()
+
             result.addAll(entities.map { entity ->
                 if (entity.isInSongBook) {
                     val index = SongBookUtils.songTitles.indexOf(entity.name)
@@ -77,7 +77,7 @@ class PlaylistViewModel(val app: Application) : AndroidViewModel(app) {
                 }
             })
         }
-        return result
+        visibleSongs.postValue(result)
     }
 
     fun getImportedPlaylistFromSongbook(code: String): List<Song> =

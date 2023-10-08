@@ -1,7 +1,7 @@
 package pl.mftau.mftau.db.daos
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.db.entities.DrawEntity
 import java.util.*
 
@@ -9,7 +9,7 @@ import java.util.*
 interface DrawsDao {
 
     @Query("SELECT * FROM draws;")
-    fun getAll(): LiveData<List<DrawEntity>>
+    fun getAll(): Flow<List<DrawEntity>>
 
     @Query("SELECT MAX(number_of_draw) FROM draws;")
     suspend fun getMaxNumberOfDraw(): Int?
@@ -18,7 +18,7 @@ interface DrawsDao {
     suspend fun getLastDrawDate(): Date
 
     @Query("SELECT draws FROM draws WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws);")
-    fun getLastDraws(): LiveData<List<String>>
+    fun getLastDraws(): Flow<List<String>>
 
     @Query("SELECT odd_person_id FROM draws WHERE number_of_draw = (SELECT MAX(number_of_draw) FROM draws);")
     suspend fun getOddPersonId(): String?

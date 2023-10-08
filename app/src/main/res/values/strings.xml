@@ -157,6 +157,9 @@
     <string name="open_song_book_as_pdf_key" translatable="false">open_song_book_as_pdf</string>
     <string name="open_song_book_as_pdf_title">Opening song book as PDF</string>
     <string name="open_song_book_as_pdf_summary">Default screen song book is PDF file</string>
+    <string name="language_setting_key" translatable="false">language_selection</string>
+    <string name="language_setting_title">App language</string>
+    <string name="language_setting_summary">Current: %s</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Breviary (%s)</string>
@@ -298,4 +301,8 @@
     <string name="delete_last_draw_msg">Are you sure you want to delete last draw?</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard!</string>
+
+    <!-- LANGUAGES STRINGS -->
+    <string name="lang_pl">Polish</string>
+    <string name="lang_en">English</string>
 </resources>
