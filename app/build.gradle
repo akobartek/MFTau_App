@@ -29,7 +29,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled = true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -116,7 +117,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.6.0-rc01"
 
     // Firebase dependencies
-    implementation platform("com.google.firebase:firebase-bom:30.0.0")
+    implementation platform("com.google.firebase:firebase-bom:31.4.0")
     implementation "com.google.firebase:firebase-core"
     implementation "com.google.firebase:firebase-auth"
     implementation "com.google.firebase:firebase-firestore"
