@@ -1,0 +1,54 @@
+[versions]
+agp = "8.3.0-alpha10"
+kotlin = "1.9.0"
+
+appcompat = "1.6.1"
+material = "1.10.0"
+core-ktx = "1.12.0"
+lifecycle-runtime-ktx = "2.6.2"
+coroutines = "1.7.3"
+datastore = "1.0.0"
+browser = "1.6.0"
+
+activity-compose = "1.8.0"
+compose-bom = "2023.10.01"
+
+jsoup = "1.16.2"
+
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+
+
+[libraries]
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+coroutines-core = { group = "org.jetbrains.kotlin", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { group = "org.jetbrains.kotlin", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
+browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+animation = { group = "androidx.compose.animation", name = "animation" }
+material3 = { group = "androidx.compose.material3", name = "material3" }
+materialIcons = { group = "androidx.compose.material3", name = "material-icons-extended" }
+
+jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

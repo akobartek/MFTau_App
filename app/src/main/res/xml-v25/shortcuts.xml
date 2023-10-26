@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_ic_gospel"
+        android:shortcutId="shortcut_gospel"
+        android:shortcutShortLabel="@string/gospel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="pl.mftau.mftau.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="gospel" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_ic_song_book"
+        android:shortcutId="shortcut_song_book"
+        android:shortcutShortLabel="@string/songBook">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="pl.mftau.mftau.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="songBook" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_ic_breviary"
+        android:shortcutId="shortcut_breviary"
+        android:shortcutShortLabel="@string/breviary">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="pl.mftau.mftau.MainActivity"
+            android:targetPackage="pl.mftau.mftau">
+            <extra
+                android:name="shortcut"
+                android:value="breviary" />
+        </intent>
+    </shortcut>
+</shortcuts>
