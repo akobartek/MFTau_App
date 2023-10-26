@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_theme_primary">#542809</color>
+    <color name="app_theme_onPrimary">#ffffff</color>
+    <color name="app_theme_primaryContainer">#ffdbc9</color>
+    <color name="app_theme_onPrimaryContainer">#321200</color>
+    <color name="app_theme_secondary">#803d09</color>
+    <color name="app_theme_onSecondary">#ffffff</color>
+    <color name="app_theme_secondaryContainer">#ffdcc4</color>
+    <color name="app_theme_onSecondaryContainer">#2f1400</color>
+    <color name="app_theme_tertiary">#542809</color>
+    <color name="app_theme_onTertiary">#ffffff</color>
+    <color name="app_theme_tertiaryContainer">#ffdbc8</color>
+    <color name="app_theme_onTertiaryContainer">#321200</color>
+    <color name="app_theme_error">#ba1a1a</color>
+    <color name="app_theme_errorContainer">#ffdad6</color>
+    <color name="app_theme_onError">#ffffff</color>
+    <color name="app_theme_onErrorContainer">#410002</color>
+    <color name="app_theme_background">#fffbff</color>
+    <color name="app_theme_onBackground">#201a17</color>
+    <color name="app_theme_surface">#fffbff</color>
+    <color name="app_theme_onSurface">#191C1D</color>
+    <color name="app_theme_surfaceVariant">#FFF5F5</color>
+    <color name="app_theme_onSurfaceVariant">#49454F</color>
+    <color name="app_theme_outline">#79747E</color>
+    <color name="app_theme_inverseOnSurface">#EFF1F1</color>
+    <color name="app_theme_inverseSurface">#2D3132</color>
+    <color name="app_theme_inversePrimary">#ffb68c</color>
+    <color name="app_theme_shadow">#000000</color>
+    <color name="app_theme_primaryInverse">#ffb68c</color>
+</resources>

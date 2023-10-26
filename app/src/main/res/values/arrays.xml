@@ -34,12 +34,6 @@
         <item>@string/other</item>
     </string-array>
 
-    <string-array name="retreat_types">
-        <item>@string/for_over_15years</item>
-        <item>@string/for_members</item>
-        <item>@string/for_responsible</item>
-    </string-array>
-
     <string-array name="languages_entries">
         <item>@string/lang_pl</item>
         <item>@string/lang_en</item>
