@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.materialIcons)
 
+    implementation(libs.voyager.navigator)
+    implementation(libs.voyager.transitions)
     implementation(libs.jsoup)
 
     testImplementation(libs.junit)

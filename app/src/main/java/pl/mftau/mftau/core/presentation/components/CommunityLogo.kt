@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.components
+package pl.mftau.mftau.core.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

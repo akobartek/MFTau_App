@@ -3,11 +3,9 @@ package pl.mftau.mftau
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import pl.mftau.mftau.core.components.MainScreen
+import cafe.adriel.voyager.navigator.Navigator
+import pl.mftau.mftau.core.presentation.screens.MainScreen
+import pl.mftau.mftau.ui.CustomTransition
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,12 +19,8 @@ class MainActivity : ComponentActivity() {
                 darkTheme = false,
                 dynamicColor = false
             ) {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainScreen()
+                Navigator(screen = MainScreen()) { navigator ->
+                    CustomTransition(navigator = navigator)
                 }
             }
         }

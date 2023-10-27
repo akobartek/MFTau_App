@@ -1,5 +1,7 @@
-package pl.mftau.mftau.core.components
+package pl.mftau.mftau.core.presentation.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,43 +31,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
+import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
+import pl.mftau.mftau.core.presentation.components.CommunityLogo
+import pl.mftau.mftau.core.utils.isChromeCustomTabsSupported
+import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabs
+import pl.mftau.mftau.gospel.presentation.GospelScreen
+import pl.mftau.mftau.prayers.presentation.PrayersScreen
+import pl.mftau.mftau.songbook.presentation.SongsListScreen
 import pl.mftau.mftau.ui.WindowInfo
 import pl.mftau.mftau.ui.rememberWindowInfo
 import pl.mftau.mftau.ui.theme.MFTauTheme
 import pl.mftau.mftau.ui.theme.mfTauFont
 
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    MFTauTheme(dynamicColor = false) {
-        MainScreen()
+class MainScreen : Screen {
+    @Composable
+    override fun Content() {
+        MainScreenLayout()
     }
 }
 
-@Preview(showBackground = true, device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420")
 @Composable
-fun DarkMainScreenPreview() {
-    MFTauTheme(dynamicColor = false, darkTheme = false) {
-        MainScreen()
-    }
-}
-
-private data class ButtonData(
-    val title: String,
-    val icon: ImageVector
-)
-
-@Composable
-fun MainScreen(
+private fun MainScreenLayout(
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
     var dropdownExpanded by remember { mutableStateOf(false) }
     val windowInfo = rememberWindowInfo()
 
@@ -94,37 +93,51 @@ fun MainScreen(
                     // TODO() -> CHANGE STRING IF USER LOGGED IN
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.sign_in)) },
-                        onClick = { /*TODO*/ }
+                        onClick = { navigator.push(LoginScreen()) }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.settings)) },
-                        onClick = { /*TODO*/ }
+                        onClick = { navigator.push(SettingsScreen()) }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.ask_for_pray)) },
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navigator.push(EmailScreen(EmailScreen.EmailScreenType.AskForPray))
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.report_error)) },
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navigator.push(EmailScreen(EmailScreen.EmailScreenType.ReportError))
+                        }
                     )
                 }
             }
         }
-        CommunityLogo(modifier.padding(top = 4.dp))
-        Spacer(modifier = Modifier.height(32.dp))
         if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
-            FirstButtonsRow(onItemClick = { /*TODO*/ })
+            CommunityLogo(modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.height(40.dp))
+
+            FirstButtonsRow()
             Spacer(modifier = Modifier.height(24.dp))
-            SecondButtonsRow(onItemClick = { /*TODO*/ })
+            SecondButtonsRow()
         } else {
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                FirstButtonsRow(onItemClick = { /*TODO*/ })
-                SecondButtonsRow(onItemClick = { /*TODO*/ })
+                CommunityLogo(modifier.padding(top = 4.dp))
+                Spacer(modifier = Modifier.height(32.dp))
+
+                FirstButtonsRow()
+                SecondButtonsRow()
             }
         }
     }
 }
+
+private data class ButtonData(
+    val title: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit = {}
+)
 
 @Composable
 private fun MainScreenButton(
@@ -154,7 +167,6 @@ private fun MainScreenButton(
 @Composable
 private fun ButtonsRow(
     buttonsData: List<ButtonData>,
-    onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -164,7 +176,7 @@ private fun ButtonsRow(
         buttonsData.forEach { buttonData ->
             MainScreenButton(
                 buttonData = buttonData,
-                modifier = Modifier.clickable { onItemClick() }
+                modifier = Modifier.clickable { buttonData.onClick() }
             )
         }
     }
@@ -172,50 +184,85 @@ private fun ButtonsRow(
 
 @Composable
 fun FirstButtonsRow(
-    onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+    val context = LocalContext.current
+
     ButtonsRow(
         buttonsData = listOf(
             ButtonData(
-                stringResource(id = R.string.mftau_website),
-                Icons.Outlined.OpenInBrowser
+                title = stringResource(id = R.string.mftau_website),
+                icon = Icons.Outlined.OpenInBrowser,
+                onClick = {
+                    val website = "https://mftau.pl/"
+                    if (context.isChromeCustomTabsSupported()) {
+                        context.openWebsiteInChromeCustomTabs(website)
+                    } else
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(website)))
+                }
             ),
             ButtonData(
-                stringResource(id = R.string.song_book),
-                Icons.Outlined.LibraryMusic
+                title = stringResource(id = R.string.gospel),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_gospel),
+                onClick = { navigator.push(GospelScreen()) }
             ),
             ButtonData(
-                stringResource(id = R.string.prayers),
-                ImageVector.vectorResource(id = R.drawable.ic_pray)
+                title = stringResource(id = R.string.statute),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_statute),
+                onClick = {
+                    // TODO() -> OPENING PDF
+                }
             )
         ),
-        onItemClick = { onItemClick() },
         modifier = modifier
     )
 }
 
 @Composable
 fun SecondButtonsRow(
-    onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.currentOrThrow
+
     ButtonsRow(
         buttonsData = listOf(
             ButtonData(
-                stringResource(id = R.string.statute),
-                ImageVector.vectorResource(id = R.drawable.ic_statute)
+                title = stringResource(id = R.string.prayers),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_pray),
+                onClick = { navigator.push(PrayersScreen()) }
             ),
             ButtonData(
-                stringResource(id = R.string.gospel),
-                ImageVector.vectorResource(id = R.drawable.ic_gospel)
+                title = stringResource(id = R.string.song_book),
+                icon = Icons.Outlined.LibraryMusic,
+                onClick = { navigator.push(SongsListScreen()) }
             ),
             ButtonData(
-                stringResource(id = R.string.breviary),
-                ImageVector.vectorResource(id = R.drawable.ic_breviary)
+                title = stringResource(id = R.string.breviary),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_breviary),
+                onClick = { navigator.push(BreviarySelectScreen()) }
             )
         ),
-        onItemClick = { onItemClick() },
         modifier = modifier
     )
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    MFTauTheme(dynamicColor = false) {
+        MainScreenLayout()
+    }
+}
+
+@Preview(
+    showBackground = true,
+    device = "spec:id=reference_phone,shape=Normal,width=891,height=411,unit=dp,dpi=420"
+)
+@Composable
+fun DarkMainScreenPreview() {
+    MFTauTheme(dynamicColor = false, darkTheme = false) {
+        MainScreenLayout()
+    }
 }

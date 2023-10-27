@@ -12,6 +12,7 @@ browser = "1.6.0"
 activity-compose = "1.8.0"
 compose-bom = "2023.10.01"
 
+voyager = "1.0.0-rc08"
 jsoup = "1.16.2"
 
 junit = "4.13.2"
@@ -37,6 +38,8 @@ animation = { group = "androidx.compose.animation", name = "animation" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 materialIcons = { group = "androidx.compose.material", name = "material-icons-extended" }
 
+voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }

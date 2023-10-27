@@ -1,4 +1,4 @@
-package pl.mftau.mftau.data
+package pl.mftau.mftau.core.data
 
 import android.util.Log
 import androidx.datastore.core.DataStore
