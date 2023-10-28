@@ -8,19 +8,21 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 data class UserPreferences(
-    val nightMode: Boolean,
-    val dynamicColors: Boolean,
-    val repeatGospel: Boolean,
-    val keepSongBookAwake: Boolean
+    val nightMode: Boolean = false,
+    val dynamicColors: Boolean = false,
+    val repeatGospel: Boolean = false,
+    val keepSongBookAwake: Boolean = false
 )
 
-const val NIGHT_MODE_KEY = "night_mode"
-const val DYNAMIC_COLORS_KEY = "dynamic_colors"
-const val REPEAT_GOSPEL_KEY = "repeat_gospel"
-const val KEEP_SONG_BOOK_AWAKE_KEY = "keep_song_book_awake"
+const val DATA_STORE_NAME = "user_preferences"
+private const val NIGHT_MODE_KEY = "night_mode"
+private const val DYNAMIC_COLORS_KEY = "dynamic_colors"
+private const val REPEAT_GOSPEL_KEY = "repeat_gospel"
+private const val KEEP_SONG_BOOK_AWAKE_KEY = "keep_song_book_awake"
 
 class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
@@ -32,22 +34,28 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     }
 
     val preferencesFlow: Flow<UserPreferences> = dataStore.data
-        .catch {exc ->
+        .catch { exc ->
             Log.e(TAG, "Error occurred while reading preferences:", exc)
             emit(emptyPreferences())
         }.map { preferences ->
             mapUserPreferences(preferences)
         }
 
+    suspend fun getNightMode() =
+        dataStore.data.firstOrNull()?.get(PreferencesKeys.NIGHT_MODE) ?: false
+
     suspend fun updateNightMode(nightMode: Boolean) {
         updatePreference(nightMode, PreferencesKeys.NIGHT_MODE)
     }
+
     suspend fun updateDynamicColors(dynamicColors: Boolean) {
         updatePreference(dynamicColors, PreferencesKeys.DYNAMIC_COLORS)
     }
+
     suspend fun updateRepeatGospel(repeatGospel: Boolean) {
         updatePreference(repeatGospel, PreferencesKeys.REPEAT_GOSPEL)
     }
+
     suspend fun updateKeepSongBookAwake(keepSongBookAwake: Boolean) {
         updatePreference(keepSongBookAwake, PreferencesKeys.KEEP_SONG_BOOK_AWAKE)
     }

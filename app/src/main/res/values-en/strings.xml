@@ -26,6 +26,7 @@
     <string name="no_internet_data_message">No network access, the displayed data may be out of date!</string>
     <string name="try_again">Try again</string>
     <string name="loading">Loading…</string>
+    <string name="save">Save</string>
     <string name="load">Load</string>
     <string name="choose_pdf_viewer">Choose PDF viewer</string>
     <string name="no_pdf_viewer_dialog_title">No PDF viewer found</string>
@@ -141,7 +142,7 @@
     <string name="night_mode_title">Night mode</string>
     <string name="night_mode_summary">Turn on night mode in the app</string>
     <string name="dynamic_colors_title">Dynamic colors</string>
-    <string name="dynamic_colors_summary">Connect app to system\'s colors</string>
+    <string name="dynamic_colors_summary">Connect app to system colors</string>
     <string name="repeat_gospel_title">Repeat Gospel</string>
     <string name="repeat_gospel_summary">Repeat Gospel after the end of hearing</string>
     <string name="awake_song_book_title">Stay awake in song book</string>
@@ -150,6 +151,7 @@
     <string name="open_song_book_as_pdf_summary">Default screen song book is PDF file</string>
     <string name="language_setting_title">App language</string>
     <string name="language_setting_summary">Current: %s</string>
+    <string name="language_setting_dialog_title">Choose your language</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Breviary (%s)</string>
@@ -193,7 +195,6 @@
     <string name="check_presence">Check presence</string>
     <string name="show_presence">Show presence</string>
     <string name="justify_absence">Justify absence</string>
-    <string name="save">Save</string>
     <string name="absence_dialog_title">%s - justification</string>
     <string name="absence_dialog_message">Give the reason for absence:</string>
     <string name="reason">Reason</string>
@@ -253,6 +254,7 @@
     <string name="copied_to_clipboard">Copied to clipboard!</string>
 
     <!-- LANGUAGES STRINGS -->
+    <string name="lang_system">System default</string>
     <string name="lang_pl">Polish</string>
     <string name="lang_en">English</string>
 </resources>

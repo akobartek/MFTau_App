@@ -34,13 +34,15 @@
         <item>@string/other</item>
     </string-array>
 
-    <string-array name="languages_entries">
+    <string-array name="languages">
         <item>@string/lang_pl</item>
         <item>@string/lang_en</item>
+        <item>@string/lang_system</item>
     </string-array>
 
-    <string-array name="languages_values">
+    <string-array name="languages_codes">
         <item>pl</item>
         <item>en</item>
+        <item />
     </string-array>
 </resources>

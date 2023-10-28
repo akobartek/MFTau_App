@@ -29,6 +29,7 @@
     <string name="no_internet_data_message">Brak dostępu do Internetu, wyświetlane dane mogą być nieaktualne!</string>
     <string name="try_again">Spróbuj</string>
     <string name="loading">Ładowanie…</string>
+    <string name="save">Zapisz</string>
     <string name="load">Załaduj</string>
     <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
     <string name="no_pdf_viewer_dialog_title">Brak przeglądarek PDF</string>
@@ -153,6 +154,7 @@
     <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
     <string name="language_setting_title">Język aplikacji</string>
     <string name="language_setting_summary">Obecnie: %s</string>
+    <string name="language_setting_dialog_title">Wybierz twój język</string>
 
     <!-- BREVIARY STRINGS -->
     <string name="breviary_with_day">Brewiarz (%s)</string>
@@ -196,7 +198,6 @@
     <string name="check_presence">Sprawdź obecność</string>
     <string name="show_presence">Pokaż obecności</string>
     <string name="justify_absence">Usprawiedliwianie nieobecności</string>
-    <string name="save">Zapisz</string>
     <string name="absence_dialog_title">%s - usprawiedliwienie</string>
     <string name="absence_dialog_message">Podaj powód nieobecności:</string>
     <string name="reason">Powód</string>
@@ -256,6 +257,7 @@
     <string name="copied_to_clipboard">Skopiowano do schowka!</string>
 
     <!-- LANGUAGES STRINGS -->
+    <string name="lang_system">Domyślny język systemu</string>
     <string name="lang_pl">Polski</string>
     <string name="lang_en">Angielski</string>
 </resources>

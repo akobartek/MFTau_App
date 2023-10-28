@@ -1,6 +1,5 @@
 package pl.mftau.mftau.core.presentation.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,7 +44,7 @@ import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.utils.openPdf
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.gospel.presentation.GospelScreen
-import pl.mftau.mftau.prayers.presentation.PrayersScreen
+import pl.mftau.mftau.prayers.presentation.PrayersListScreen
 import pl.mftau.mftau.songbook.presentation.SongsListScreen
 import pl.mftau.mftau.ui.WindowInfo
 import pl.mftau.mftau.ui.rememberWindowInfo
@@ -90,21 +89,29 @@ private fun MainScreenLayout(
                     // TODO() -> CHANGE STRING IF USER LOGGED IN
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.sign_in)) },
-                        onClick = { navigator.push(LoginScreen()) }
+                        onClick = {
+                            dropdownExpanded = false
+                            navigator.push(LoginScreen())
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.settings)) },
-                        onClick = { navigator.push(SettingsScreen()) }
+                        onClick = {
+                            dropdownExpanded = false
+                            navigator.push(SettingsScreen())
+                        }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.ask_for_pray)) },
                         onClick = {
+                            dropdownExpanded = false
                             navigator.push(EmailScreen(EmailScreen.EmailScreenType.AskForPray))
                         }
                     )
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.report_error)) },
                         onClick = {
+                            dropdownExpanded = false
                             navigator.push(EmailScreen(EmailScreen.EmailScreenType.ReportError))
                         }
                     )
@@ -237,7 +244,7 @@ fun SecondButtonsRow(
             ButtonData(
                 title = stringResource(id = R.string.prayers),
                 icon = ImageVector.vectorResource(id = R.drawable.ic_pray),
-                onClick = { navigator.push(PrayersScreen()) }
+                onClick = { navigator.push(PrayersListScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.song_book),

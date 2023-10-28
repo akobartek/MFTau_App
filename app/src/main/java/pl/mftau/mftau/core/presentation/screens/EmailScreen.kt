@@ -51,7 +51,6 @@ import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.ui.theme.mfTauFont
 import java.io.Serializable
 
-
 data class EmailScreen(val screenType: EmailScreenType) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -84,7 +83,6 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
                             ),
                             fontFamily = mfTauFont
                         )
-
                     },
                     navigationIcon = {
                         IconButton(onClick = { navigator.pop() }) {
