@@ -3,6 +3,8 @@ package pl.mftau.mftau
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import cafe.adriel.voyager.navigator.Navigator
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.ui.CustomTransition
@@ -16,11 +18,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MFTauTheme(
-                darkTheme = false,
+                darkTheme = true,
                 dynamicColor = false
             ) {
-                Navigator(screen = MainScreen()) { navigator ->
-                    CustomTransition(navigator = navigator)
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    Navigator(screen = MainScreen()) { navigator ->
+                        CustomTransition(navigator = navigator)
+                    }
                 }
             }
         }

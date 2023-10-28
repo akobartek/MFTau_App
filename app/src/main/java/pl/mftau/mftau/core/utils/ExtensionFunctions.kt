@@ -1,13 +1,26 @@
 package pl.mftau.mftau.core.utils
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.FileProvider
+import pl.mftau.mftau.R
+import java.io.File
+import java.io.FileOutputStream
 
-fun Context.openWebsiteInChromeCustomTabs(website: String) {
+fun Context.openWebsiteInChromeCustomTabsIfSupported(website: String) {
+    if (isChromeCustomTabsSupported())
+        openWebsiteInChromeCustomTabs(website)
+    else
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(website)))
+}
+
+private fun Context.openWebsiteInChromeCustomTabs(website: String) {
     CustomTabsIntent.Builder().apply {
         val params = CustomTabColorSchemeParams.Builder().apply {
             val color = Color.parseColor("#28292e")
@@ -19,9 +32,46 @@ fun Context.openWebsiteInChromeCustomTabs(website: String) {
     }.build().launchUrl(this, Uri.parse(website))
 }
 
-fun Context.isChromeCustomTabsSupported(): Boolean {
+private fun Context.isChromeCustomTabsSupported(): Boolean {
     val serviceIntent = Intent("android.support.customtabs.action.CustomTabsService")
     serviceIntent.setPackage("com.android.chrome")
     val resolveInfo = packageManager.resolveService(serviceIntent, 0)
     return resolveInfo != null
+}
+
+fun Context.openPdf(fileName: String): Boolean {
+    val inputStream = assets.open(fileName)
+    inputStream.use { stream ->
+        val file = File(cacheDir, fileName)
+        FileOutputStream(file).use { output ->
+            val buffer = ByteArray(4 * 1024) // or other buffer size
+            var read: Int
+            while (stream.read(buffer).also { read = it } != -1) {
+                output.write(buffer, 0, read)
+            }
+            output.flush()
+        }
+    }
+
+    val cacheFile = File(cacheDir, fileName)
+
+    val uri = FileProvider.getUriForFile(this, "$packageName.provider", cacheFile)
+    try {
+        if (uri != null) {
+            val pdfViewIntent = Intent(Intent.ACTION_VIEW)
+            pdfViewIntent.data = uri
+            pdfViewIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivity(
+                Intent.createChooser(
+                    pdfViewIntent,
+                    getString(R.string.choose_pdf_viewer)
+                )
+            )
+            return true
+        }
+        return false
+    } catch (exc: ActivityNotFoundException) {
+        Log.e("openPdf", exc.toString())
+        return false
+    }
 }

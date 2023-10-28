@@ -5,6 +5,7 @@
     <string name="community_name">Młodzież\nFranciszkańska\nTAU</string>
     <string name="cd_more_options_btn">Więcej opcji</string>
     <string name="cd_main_screen_btn">Przejdź na ekran %s</string>
+    <string name="cd_back_arrow_btn">Cofnij na poprzedni ekran</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statut</string>
     <string name="prayers">Modlitwy</string>
@@ -29,18 +30,22 @@
     <string name="try_again">Spróbuj</string>
     <string name="loading">Ładowanie…</string>
     <string name="load">Załaduj</string>
+    <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
+    <string name="no_pdf_viewer_dialog_title">Brak przeglądarek PDF</string>
+    <string name="no_pdf_viewer_dialog_msg">Na telefonie nie znaleziono żadnej przeglądarki plików PDF. Jeśli chcesz otworzyć ten plik, musisz najpierw zainstalować przeglądarkę.</string>
 
     <!-- EMAIL STRINGS -->
-    <string name="send_mail">Wyślij maila…</string>
+    <string name="send_mail">Wyślij maila</string>
     <string name="send_mail_error">Nie znaleziono żadnego klienta mailowego!</string>
     <string name="email_name">Imię</string>
     <string name="intention">Intencja</string>
     <string name="error_description">Opis problemu</string>
-    <string name="empty_email_name_error">Podaj swoje imię!</string>
-    <string name="empty_email_intention_error">Wpisz intencję!</string>
-    <string name="rodo_srodo">Oświadczam, iż zapoznałem(-am) się z zasadami ochrony danych osobowych i akceptuję je.</string>
-    <string name="privacy_policy">zasadami ochrony danych osobowych</string>
-    <string name="rodo_dialog_message">Aby wysłać wiadomość musisz zaakceptować zasady ochrony danych osobowych!</string>
+    <string name="empty_email_name_error">Imię nie może być puste!</string>
+    <string name="empty_email_intention_error">Intencja nie może być pusta!</string>
+    <string name="empty_email_description_error">Opis nie może być pusty!</string>
+    <string name="privacy_policy_part1">Oświadczam, iż zapoznałem(-am) się i akceptuję\u0020</string>
+    <string name="privacy_policy_part2">zasady ochrony danych osobowych</string>
+    <string name="rodo_error_message">Aby wysłać wiadomość musisz zaakceptować zasady ochrony danych osobowych!</string>
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>

@@ -4,6 +4,7 @@
     <string name="community_name">Franciscan\nYouth\nTAU</string>
     <string name="cd_more_options_btn">More options</string>
     <string name="cd_main_screen_btn">Open %s screen</string>
+    <string name="cd_back_arrow_btn">Back to previous screen</string>
     <string name="statute">Statute</string>
     <string name="prayers">Prayers</string>
     <string name="song_book">Song book</string>
@@ -26,18 +27,22 @@
     <string name="try_again">Try again</string>
     <string name="loading">Loading…</string>
     <string name="load">Load</string>
+    <string name="choose_pdf_viewer">Choose PDF viewer</string>
+    <string name="no_pdf_viewer_dialog_title">No PDF viewer found</string>
+    <string name="no_pdf_viewer_dialog_msg">No PDF viewer was found on the phone. If you want to open this file, you must first install a viewer.</string>
 
     <!-- EMAIL STRINGS -->
-    <string name="send_mail">Send mail…</string>
+    <string name="send_mail">Send mail</string>
     <string name="send_mail_error">There is no email client installed!</string>
     <string name="email_name">Name</string>
     <string name="intention">Intention</string>
     <string name="error_description">Error description</string>
-    <string name="empty_email_name_error">Name can not be empty!</string>
-    <string name="empty_email_intention_error">Intention can not be empty!</string>
-    <string name="rodo_srodo">I declare that I have read and accepted the privacy policy.</string>
-    <string name="privacy_policy">privacy policy</string>
-    <string name="rodo_dialog_message">If you want to send message, you have to accept the privacy policy first!</string>
+    <string name="empty_email_name_error">Name cannot be empty!</string>
+    <string name="empty_email_intention_error">Intention cannot be empty!</string>
+    <string name="empty_email_description_error">Description cannot be empty!</string>
+    <string name="privacy_policy_part1">I declare that I have read and accepted\u0020</string>
+    <string name="privacy_policy_part2">the privacy policy</string>
+    <string name="rodo_error_message">If you want to send message, you have to accept the privacy policy first!</string>
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>

@@ -1,7 +1,5 @@
 package pl.mftau.mftau.core.presentation.screens
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,9 +40,10 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
+import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
-import pl.mftau.mftau.core.utils.isChromeCustomTabsSupported
-import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabs
+import pl.mftau.mftau.core.utils.openPdf
+import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.prayers.presentation.PrayersScreen
 import pl.mftau.mftau.songbook.presentation.SongsListScreen
@@ -70,9 +69,7 @@ private fun MainScreenLayout(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier = modifier.fillMaxSize()
     ) {
         Row {
             Spacer(modifier = Modifier.weight(1f))
@@ -188,6 +185,7 @@ fun FirstButtonsRow(
 ) {
     val navigator = LocalNavigator.currentOrThrow
     val context = LocalContext.current
+    var pdfDialogVisible by remember { mutableStateOf(false) }
 
     ButtonsRow(
         buttonsData = listOf(
@@ -195,11 +193,7 @@ fun FirstButtonsRow(
                 title = stringResource(id = R.string.mftau_website),
                 icon = Icons.Outlined.OpenInBrowser,
                 onClick = {
-                    val website = "https://mftau.pl/"
-                    if (context.isChromeCustomTabsSupported()) {
-                        context.openWebsiteInChromeCustomTabs(website)
-                    } else
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(website)))
+                    context.openWebsiteInChromeCustomTabsIfSupported("https://mftau.pl/")
                 }
             ),
             ButtonData(
@@ -211,12 +205,25 @@ fun FirstButtonsRow(
                 title = stringResource(id = R.string.statute),
                 icon = ImageVector.vectorResource(id = R.drawable.ic_statute),
                 onClick = {
-                    // TODO() -> OPENING PDF
+                    if (!context.openPdf("statut.pdf"))
+                        pdfDialogVisible = true
                 }
             )
         ),
         modifier = modifier
     )
+    if (pdfDialogVisible)
+        BasicAlertDialog(
+            dialogTitleId = R.string.no_pdf_viewer_dialog_title,
+            dialogTextId = R.string.no_pdf_viewer_dialog_msg,
+            confirmBtnTextId = R.string.search,
+            onConfirmation = {
+                pdfDialogVisible = false
+                context.openWebsiteInChromeCustomTabsIfSupported("https://play.google.com/store/search?q=pdf")
+            },
+            dismissBtnTextId = R.string.cancel,
+            onDismissRequest = { pdfDialogVisible = false }
+        )
 }
 
 @Composable
