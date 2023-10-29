@@ -1,6 +1,7 @@
 package pl.mftau.mftau.core.presentation.screenmodels
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import kotlinx.coroutines.flow.update
 
 data class EmailScreenState(
     val name: String = "",
@@ -10,22 +11,18 @@ data class EmailScreenState(
     val gdprChecked: Boolean = false
 )
 
-class EmailScreenModel: StateScreenModel<EmailScreenState>(EmailScreenState()) {
+class EmailScreenModel : StateScreenModel<EmailScreenState>(EmailScreenState()) {
 
     fun updateName(value: String) {
-        mutableState.value = mutableState.value.copy(
-            name = value
-        )
+        mutableState.update { it.copy(name = value) }
     }
+
     fun updateText(value: String) {
-        mutableState.value = mutableState.value.copy(
-            text = value
-        )
+        mutableState.update { it.copy(text = value) }
     }
+
     fun updateGdpr(value: Boolean) {
-        mutableState.value = mutableState.value.copy(
-            gdprChecked = value
-        )
+        mutableState.update { it.copy(gdprChecked = value) }
     }
 
     fun validateInput(): Boolean {

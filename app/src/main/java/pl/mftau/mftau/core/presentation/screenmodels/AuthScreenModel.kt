@@ -1,6 +1,7 @@
 package pl.mftau.mftau.core.presentation.screenmodels
 
 import cafe.adriel.voyager.core.model.StateScreenModel
+import kotlinx.coroutines.flow.update
 
 data class AuthScreenState(
     val email: String = "",
@@ -14,24 +15,16 @@ data class AuthScreenState(
 class AuthScreenModel : StateScreenModel<AuthScreenState>(AuthScreenState()) {
 
     fun updateEmail(value: String) {
-        mutableState.value = mutableState.value.copy(
-            email = value
-        )
+        mutableState.update { it.copy(email = value) }
     }
     fun updatePassword(value: String) {
-        mutableState.value = mutableState.value.copy(
-            password = value
-        )
+        mutableState.update { it.copy(password = value) }
     }
     fun updatePasswordHidden() {
-        mutableState.value = mutableState.value.copy(
-            passwordHidden = !mutableState.value.passwordHidden
-        )
+        mutableState.update { it.copy(passwordHidden = !it.passwordHidden) }
     }
     fun updateSigningState(value: Boolean) {
-        mutableState.value = mutableState.value.copy(
-            isSigningUp = value
-        )
+        mutableState.update { it.copy(isSigningUp = value) }
     }
 
     fun validateInput(): Boolean {
