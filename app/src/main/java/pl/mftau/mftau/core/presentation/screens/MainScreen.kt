@@ -91,7 +91,7 @@ private fun MainScreenLayout(
                         text = { Text(text = stringResource(id = R.string.sign_in)) },
                         onClick = {
                             dropdownExpanded = false
-                            navigator.push(LoginScreen())
+                            navigator.push(AuthScreen())
                         }
                     )
                     DropdownMenuItem(

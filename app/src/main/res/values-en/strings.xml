@@ -48,6 +48,8 @@
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="show_password">Show password</string>
+    <string name="hide_password">Hide password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="back_to_sign_in">Return to sign in</string>
     <string name="create_account">Create account</string>

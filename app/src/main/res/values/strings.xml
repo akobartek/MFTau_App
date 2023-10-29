@@ -51,6 +51,8 @@
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
     <string name="password">Hasło</string>
+    <string name="show_password">Pokaż hasło</string>
+    <string name="hide_password">Ukryj hasło</string>
     <string name="back_to_sign_in">Powrót do logowania</string>
     <string name="forgot_password">Nie pamiętasz hasła?</string>
     <string name="create_account">Utwórz konto</string>
