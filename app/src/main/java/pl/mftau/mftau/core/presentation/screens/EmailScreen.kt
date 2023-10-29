@@ -142,7 +142,7 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
             ) {
                 OutlinedTextField(
                     value = state.name,
-                    onValueChange = { value -> screenModel.updateName(value) },
+                    onValueChange = screenModel::updateName,
                     label = { Text(text = stringResource(id = R.string.email_name)) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
                     isError = state.nameError,
@@ -154,7 +154,7 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
                 )
                 OutlinedTextField(
                     value = state.text,
-                    onValueChange = { value -> screenModel.updateText(value) },
+                    onValueChange = screenModel::updateText,
                     label = {
                         Text(
                             text = stringResource(
@@ -190,7 +190,7 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
                 ) {
                     Checkbox(
                         checked = state.gdprChecked,
-                        onCheckedChange = { value -> screenModel.updateGdpr(value) },
+                        onCheckedChange = screenModel::updateGdpr,
                         modifier = Modifier.offset(x = (-12).dp)
                     )
 

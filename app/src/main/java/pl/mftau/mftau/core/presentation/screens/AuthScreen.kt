@@ -80,7 +80,7 @@ class AuthScreen : Screen {
                 CommunityLogo(modifier = Modifier.padding(top = 16.dp))
                 OutlinedTextField(
                     value = state.email,
-                    onValueChange = { value -> screenModel.updateEmail(value) },
+                    onValueChange = screenModel::updateEmail,
                     singleLine = true,
                     label = { Text(text = stringResource(id = R.string.email)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -95,14 +95,14 @@ class AuthScreen : Screen {
                 )
                 OutlinedTextField(
                     value = state.password,
-                    onValueChange = { value -> screenModel.updatePassword(value) },
+                    onValueChange = screenModel::updatePassword,
                     singleLine = true,
                     label = { Text(text = stringResource(id = R.string.password)) },
                     visualTransformation = if (state.passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
                     trailingIcon = {
-                        IconButton(onClick = { screenModel.updatePasswordHidden() }) {
+                        IconButton(onClick = screenModel::updatePasswordHidden) {
                             if (state.passwordHidden)
                                 Icon(
                                     imageVector = Icons.Filled.Visibility,

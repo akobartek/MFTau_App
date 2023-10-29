@@ -113,19 +113,19 @@ class SettingsScreen : Screen {
                         title = stringResource(id = R.string.dynamic_colors_title),
                         summary = stringResource(id = R.string.dynamic_colors_summary),
                         checked = preferences.value.dynamicColors,
-                        onCheckedChange = { value -> screenModel.updateDynamicColors(value) }
+                        onCheckedChange = screenModel::updateDynamicColors
                     )
                 SwitchPreferenceRow(
                     title = stringResource(id = R.string.repeat_gospel_title),
                     summary = stringResource(id = R.string.repeat_gospel_summary),
                     checked = preferences.value.repeatGospel,
-                    onCheckedChange = { value -> screenModel.updateRepeatGospel(value) }
+                    onCheckedChange = screenModel::updateRepeatGospel
                 )
                 SwitchPreferenceRow(
                     title = stringResource(id = R.string.awake_song_book_title),
                     summary = stringResource(id = R.string.awake_song_book_summary),
                     checked = preferences.value.keepSongBookAwake,
-                    onCheckedChange = { value -> screenModel.updateKeepSongBookAwake(value) }
+                    onCheckedChange = screenModel::updateKeepSongBookAwake
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                     LanguagePreferenceRow()
