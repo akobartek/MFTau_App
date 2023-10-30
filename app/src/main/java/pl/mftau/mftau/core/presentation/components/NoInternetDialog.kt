@@ -1,0 +1,39 @@
+package pl.mftau.mftau.core.presentation.components
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SignalCellularConnectedNoInternet0Bar
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import pl.mftau.mftau.R
+
+@Composable
+fun NoInternetDialog(
+    reconnect: () -> Unit,
+    cancel: () -> Unit
+) {
+    AlertDialog(
+        icon = {
+            Icon(
+                imageVector = Icons.Default.SignalCellularConnectedNoInternet0Bar,
+                contentDescription = null
+            )
+        },
+        title = { Text(text = stringResource(id = R.string.no_internet_title)) },
+        text = { Text(text = stringResource(id = R.string.no_internet_reconnect_message)) },
+        onDismissRequest = {},
+        confirmButton = {
+            TextButton(onClick = { reconnect() }) {
+                Text(stringResource(id = R.string.try_again))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { cancel() }) {
+                Text(stringResource(id = R.string.cancel))
+            }
+        }
+    )
+}

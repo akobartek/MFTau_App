@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.outlined.LibraryMusic
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.OpenInBrowser
@@ -221,6 +223,7 @@ fun FirstButtonsRow(
     )
     if (pdfDialogVisible)
         BasicAlertDialog(
+            imageVector = Icons.Default.ErrorOutline,
             dialogTitleId = R.string.no_pdf_viewer_dialog_title,
             dialogTextId = R.string.no_pdf_viewer_dialog_msg,
             confirmBtnTextId = R.string.search,

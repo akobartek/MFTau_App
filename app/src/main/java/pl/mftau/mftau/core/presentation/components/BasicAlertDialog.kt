@@ -1,13 +1,16 @@
 package pl.mftau.mftau.core.presentation.components
 
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 
 @Composable
 fun BasicAlertDialog(
+    imageVector: ImageVector,
     dismissible: Boolean = true,
     dialogTitleId: Int,
     dialogTextId: Int,
@@ -17,27 +20,18 @@ fun BasicAlertDialog(
     onDismissRequest: () -> Unit = {}
 ) {
     AlertDialog(
-        title = {
-            Text(text = stringResource(id = dialogTitleId))
-        },
-        text = {
-            Text(text = stringResource(id = dialogTextId))
-        },
-        onDismissRequest = {
-            if (dismissible) onDismissRequest()
-        },
+        icon = { Icon(imageVector = imageVector, contentDescription = null) },
+        title = { Text(text = stringResource(id = dialogTitleId)) },
+        text = { Text(text = stringResource(id = dialogTextId)) },
+        onDismissRequest = { if (dismissible) onDismissRequest() },
         confirmButton = {
-            TextButton(
-                onClick = { onConfirmation() }
-            ) {
+            TextButton(onClick = { onConfirmation() }) {
                 Text(stringResource(id = confirmBtnTextId))
             }
         },
         dismissButton = {
             if (dismissBtnTextId != null)
-                TextButton(
-                    onClick = { onDismissRequest() }
-                ) {
+                TextButton(onClick = { onDismissRequest() }) {
                     Text(stringResource(id = dismissBtnTextId))
                 }
         }

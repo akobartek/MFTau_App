@@ -44,6 +44,12 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     suspend fun getNightMode() =
         dataStore.data.firstOrNull()?.get(PreferencesKeys.NIGHT_MODE) ?: false
 
+    suspend fun getRepeatGospel() =
+        dataStore.data.firstOrNull()?.get(PreferencesKeys.REPEAT_GOSPEL) ?: false
+
+    suspend fun getKeepSongBookAwake() =
+        dataStore.data.firstOrNull()?.get(PreferencesKeys.KEEP_SONG_BOOK_AWAKE) ?: false
+
     suspend fun updateNightMode(nightMode: Boolean) {
         updatePreference(nightMode, PreferencesKeys.NIGHT_MODE)
     }

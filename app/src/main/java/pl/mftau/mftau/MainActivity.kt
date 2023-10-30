@@ -12,7 +12,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import cafe.adriel.voyager.navigator.Navigator
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import pl.mftau.mftau.core.data.DATA_STORE_NAME

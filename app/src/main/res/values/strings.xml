@@ -176,6 +176,7 @@
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Ewangelia na dziś</string>
     <string name="listen_gospel">Słuchaj Ewangelii</string>
+    <string name="language_not_supported">Wystąpił błąd w trakcie odczytywania</string>
 
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>

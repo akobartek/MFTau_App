@@ -58,7 +58,6 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 
 class SettingsScreen : Screen {
 
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -222,12 +221,8 @@ private fun LanguagePreferenceRow() {
 
     if (dialogVisible) {
         AlertDialog(
-            icon = {
-                Icon(imageVector = Icons.Default.Language, contentDescription = null)
-            },
-            title = {
-                Text(text = stringResource(id = R.string.language_setting_dialog_title))
-            },
+            icon = { Icon(imageVector = Icons.Default.Language, contentDescription = null) },
+            title = { Text(text = stringResource(id = R.string.language_setting_dialog_title)) },
             text = {
                 Column(Modifier.selectableGroup()) {
                     languages.forEach { lang ->
@@ -270,9 +265,7 @@ private fun LanguagePreferenceRow() {
                 }
             },
             dismissButton = {
-                TextButton(
-                    onClick = { dialogVisible = false }
-                ) {
+                TextButton(onClick = { dialogVisible = false }) {
                     Text(stringResource(id = R.string.cancel))
                 }
             }

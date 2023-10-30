@@ -173,6 +173,7 @@
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Gospel for today</string>
     <string name="listen_gospel">Listen to the Gospel</string>
+    <string name="language_not_supported">Language not supported</string>
 
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">There are no meetings saved!</string>

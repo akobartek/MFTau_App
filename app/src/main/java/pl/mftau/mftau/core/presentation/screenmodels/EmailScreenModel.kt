@@ -3,15 +3,15 @@ package pl.mftau.mftau.core.presentation.screenmodels
 import cafe.adriel.voyager.core.model.StateScreenModel
 import kotlinx.coroutines.flow.update
 
-data class EmailScreenState(
-    val name: String = "",
-    val nameError: Boolean = false,
-    val text: String = "",
-    val textError: Boolean = false,
-    val gdprChecked: Boolean = false
-)
+class EmailScreenModel : StateScreenModel<EmailScreenModel.EmailScreenState>(EmailScreenState()) {
 
-class EmailScreenModel : StateScreenModel<EmailScreenState>(EmailScreenState()) {
+    data class EmailScreenState(
+        val name: String = "",
+        val nameError: Boolean = false,
+        val text: String = "",
+        val textError: Boolean = false,
+        val gdprChecked: Boolean = false
+    )
 
     fun updateName(value: String) {
         mutableState.update { it.copy(name = value) }
