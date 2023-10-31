@@ -147,7 +147,7 @@
     <string name="night_mode_title">Tryb nocny</string>
     <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
     <string name="dynamic_colors_title">Dynamiczne kolory</string>
-    <string name="dynamic_colors_summary">Podłącz aplikację do systemu kolorów</string>
+    <string name="dynamic_colors_summary">Podłącz aplikację do kolorów systemu</string>
     <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
     <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
     <string name="awake_song_book_title">Ciągły ekran śpiewnika</string>

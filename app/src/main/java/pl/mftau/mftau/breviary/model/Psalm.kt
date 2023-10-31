@@ -1,11 +1,13 @@
 package pl.mftau.mftau.breviary.model
 
-import android.text.SpannableString
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 
 data class Psalm(
-    val antiphon: SpannableString,
-    val number: String,
-    val title: String,
-    val subtitle: String,
-    val text: String
+    var antiphon: AnnotatedString = buildAnnotatedString { },
+    var number: String = "",
+    var title: String = "",
+    var subtitle: String = "",
+    var text: AnnotatedString = buildAnnotatedString {  },
+    var breviaryPages: String? = null
 )

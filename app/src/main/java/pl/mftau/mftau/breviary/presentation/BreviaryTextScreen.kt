@@ -1,5 +1,6 @@
 package pl.mftau.mftau.breviary.presentation
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -33,17 +34,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.model.Breviary
+import pl.mftau.mftau.breviary.model.BreviaryType
+import pl.mftau.mftau.breviary.model.Invitatory
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
+import pl.mftau.mftau.ui.theme.TauSecondaryDark
+import pl.mftau.mftau.ui.theme.TauSecondaryLight
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 data class BreviaryTextScreen(
@@ -54,10 +64,15 @@ data class BreviaryTextScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val color =
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                TauSecondaryDark
+            else TauSecondaryLight
         val screenModel = rememberScreenModel {
             BreviaryScreenModel(
-                position = position,
-                daysFromToday = daysFromToday
+                type = BreviaryType.fromPosition(position),
+                daysFromToday = daysFromToday,
+                accentColor = color
             )
         }
         val state by screenModel.state.collectAsState()
@@ -89,17 +104,20 @@ data class BreviaryTextScreen(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(vertical = 8.dp)
             ) {
                 when (state) {
-                    is BreviaryScreenModel.State.Cancelled -> navigator.pop()
+                    is BreviaryScreenModel.State.Cancelled -> {}
                     is BreviaryScreenModel.State.Loading -> LoadingIndicator()
 
                     is BreviaryScreenModel.State.MultipleOffices ->
                         MultipleOfficesDialog(
                             offices = (state as BreviaryScreenModel.State.MultipleOffices).offices,
-                            onSelect = screenModel::officeLinkSelected,
-                            onCancel = screenModel::cancelScreen
+                            onSelect = screenModel::officeSelected,
+                            onCancel = {
+                                screenModel.cancelScreen()
+                                navigator.pop()
+                            }
                         )
 
                     is BreviaryScreenModel.State.BreviaryAvailable ->
@@ -108,18 +126,14 @@ data class BreviaryTextScreen(
                     is BreviaryScreenModel.State.Failure ->
                         NoInternetDialog(
                             onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                            onCancel = screenModel::cancelScreen
+                            onCancel = {
+                                screenModel.cancelScreen()
+                                navigator.pop()
+                            }
                         )
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun BreviaryLayout(breviary: Breviary) {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        Text(text = "SUCCESS")
     }
 }
 
@@ -149,14 +163,17 @@ private fun MultipleOfficesDialog(
                     ) {
                         Text(
                             text = text,
+                            color =
+                            if (selectedOfficeLink == link) MaterialTheme.colorScheme.onSecondaryContainer
+                            else MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .padding(vertical = 2.dp)
                                 .fillMaxWidth()
                                 .clickable { selectedOfficeLink = link }
                                 .background(
-                                    color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.primary
-                                    else MaterialTheme.colorScheme.primaryContainer,
+                                    color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.secondaryContainer
+                                    else MaterialTheme.colorScheme.background,
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .padding(8.dp)
@@ -177,5 +194,56 @@ private fun MultipleOfficesDialog(
             }
         },
         modifier = Modifier.heightIn(0.dp, 560.dp)
+    )
+}
+
+@Composable
+private fun BreviaryLayout(breviary: Breviary) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = 32.dp)
+    ) {
+        when (breviary) {
+            is Invitatory -> InvitatoryLayout(invitatory = breviary)
+            else -> Text(text = "SUCCESS")
+        }
+    }
+}
+
+@Composable
+private fun InvitatoryLayout(invitatory: Invitatory) {
+    Text(
+        text = invitatory.beginning,
+        fontSize = 15.sp
+    )
+    Text(
+        text = "${invitatory.psalm.number}\n${invitatory.psalm.title}",
+        color = MaterialTheme.colorScheme.secondary,
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth()
+    )
+    Text(
+        text = invitatory.psalm.subtitle,
+        fontStyle = FontStyle.Italic,
+        fontSize = 14.sp
+    )
+    Text(
+        text = invitatory.psalm.breviaryPages ?: "",
+        fontSize = 11.sp,
+        modifier = Modifier.padding(vertical = 16.dp)
+    )
+    Text(
+        text = invitatory.psalm.text,
+        fontSize = 15.sp,
+        modifier = Modifier.padding(vertical = 16.dp)
+    )
+    Text(
+        text = invitatory.ending,
+        fontSize = 15.sp
     )
 }

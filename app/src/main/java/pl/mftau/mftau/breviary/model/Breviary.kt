@@ -1,11 +1,12 @@
 package pl.mftau.mftau.breviary.model
 
-import android.text.SpannableString
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 
 abstract class Breviary
 
 data class Invitatory(
-    val beginning: SpannableString,
-    val psalm: Psalm,
-    val ending: SpannableString
+    val beginning: AnnotatedString = buildAnnotatedString { },
+    val psalm: Psalm = Psalm(),
+    val ending: AnnotatedString = buildAnnotatedString { }
 ) : Breviary()
