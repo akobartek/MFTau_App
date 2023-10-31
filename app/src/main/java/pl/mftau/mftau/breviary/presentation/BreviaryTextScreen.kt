@@ -1,16 +1,20 @@
 package pl.mftau.mftau.breviary.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,6 +32,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,6 +42,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -126,45 +134,37 @@ private fun MultipleOfficesDialog(
     onSelect: (String) -> Unit,
     onCancel: () -> Unit
 ) {
-    var selectedOfficeLink = offices.keys.iterator().next()
+    var selectedOfficeLink by remember { mutableStateOf(offices.keys.iterator().next()) }
 
     AlertDialog(
         icon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_breviary),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(24.dp)
             )
         },
         title = { Text(text = stringResource(id = R.string.select_office)) },
         text = {
-            Column(Modifier.selectableGroup()) {
+            Column(Modifier.verticalScroll(rememberScrollState())) {
                 offices.forEach { (link, text) ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .selectable(
-                                selected = (link == selectedOfficeLink),
-                                onClick = { selectedOfficeLink = link },
-                                role = Role.Tab
-                            )
-                            .padding(horizontal = 8.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if (selectedOfficeLink == link)
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier
-                                    .padding(start = 16.dp)
-                                    .background(MaterialTheme.colorScheme.primary)
-                            )
-                        else
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
+                        Text(
+                            text = text,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier
+                                .padding(vertical = 2.dp)
+                                .clickable { selectedOfficeLink = link }
+                                .background(
+                                    color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.primaryContainer,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                                .padding(8.dp)
+                        )
                     }
                 }
             }
@@ -179,6 +179,7 @@ private fun MultipleOfficesDialog(
             TextButton(onClick = { onCancel() }) {
                 Text(stringResource(id = R.string.cancel))
             }
-        }
+        },
+        modifier = Modifier.fillMaxHeight(0.75f)
     )
 }
