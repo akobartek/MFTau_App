@@ -9,13 +9,14 @@ import pl.mftau.mftau.gospel.data.Gospel
 import pl.mftau.mftau.gospel.data.GospelRepository
 import pl.mftau.mftau.gospel.data.GospelRepositoryImpl
 
-class GospelScreenModel(private val gospelRepository: GospelRepository = GospelRepositoryImpl()) :
-    StateScreenModel<GospelScreenModel.State>(State.Loading) {
+class GospelScreenModel(
+    private val repository: GospelRepository = GospelRepositoryImpl()
+) : StateScreenModel<GospelScreenModel.State>(State.Loading) {
 
     sealed class State {
         data object Loading : State()
         data class Success(val gospel: Gospel) : State()
-        data class Failure(val throwable: Throwable) : State()
+        data object Failure : State()
     }
 
     init {
@@ -24,12 +25,11 @@ class GospelScreenModel(private val gospelRepository: GospelRepository = GospelR
 
     fun loadGospel() {
         screenModelScope.launch {
-            val result = gospelRepository.loadGospel().first()
+            val result = repository.loadGospel().first()
             mutableState.update {
                 if (result.isSuccess)
                     State.Success(result.getOrDefault(Gospel()))
-                else
-                    State.Failure(result.exceptionOrNull() ?: Throwable())
+                else State.Failure
             }
         }
     }

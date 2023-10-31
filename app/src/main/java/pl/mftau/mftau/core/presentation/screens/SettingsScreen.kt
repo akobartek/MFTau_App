@@ -57,7 +57,6 @@ import pl.mftau.mftau.dataStore
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class SettingsScreen : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -194,9 +193,7 @@ private fun LanguagePreferenceRow() {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                dialogVisible = true
-            }
+            .clickable { dialogVisible = true }
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -227,7 +224,7 @@ private fun LanguagePreferenceRow() {
                 Column(Modifier.selectableGroup()) {
                     languages.forEach { lang ->
                         Row(
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .height(48.dp)
                                 .selectable(

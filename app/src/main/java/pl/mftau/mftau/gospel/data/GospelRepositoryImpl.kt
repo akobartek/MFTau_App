@@ -10,7 +10,9 @@ import java.util.Calendar
 class GospelRepositoryImpl : GospelRepository {
     override fun loadGospel(): Flow<Result<Gospel>> = flow {
         try {
-            val document = Jsoup.connect(buildGospelUrl()).timeout(30000).get()
+            val document = Jsoup.connect(buildGospelUrl())
+                .timeout(30000)
+                .get()
             var counter = 3 // minimum value for the gospel
             while (true) {
                 val element = document.getElementById("tabnowy0$counter")

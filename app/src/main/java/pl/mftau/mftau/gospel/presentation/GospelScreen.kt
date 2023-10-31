@@ -48,8 +48,11 @@ import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.dataStore
 import pl.mftau.mftau.gospel.data.Gospel
 import pl.mftau.mftau.ui.theme.mfTauFont
+import java.util.Locale
 
 class GospelScreen : Screen {
+
+    private var mTextToSpeech: MyTextToSpeech? = null
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -62,12 +65,17 @@ class GospelScreen : Screen {
         val state by screenModel.state.collectAsState()
         var isPlaying by remember { mutableStateOf(false) }
 
-        val textToSpeech = MyTextToSpeech(context) {}
-        textToSpeech.setup {
+        mTextToSpeech = MyTextToSpeech(context) { status ->
+            if (status != TextToSpeech.ERROR) {
+                mTextToSpeech?.setLanguage(Locale("pl_PL"))
+                mTextToSpeech?.setSpeechRate(0.9f)
+            }
+        }
+        mTextToSpeech?.setProgressListener {
             coroutineScope.launch {
                 if (PreferencesRepository(context.dataStore).getRepeatGospel()) {
                     delay(1000)
-                    readGospel(screenModel.getGospelToRead(), textToSpeech)
+                    readGospel(screenModel.getGospelToRead(), mTextToSpeech)
                 } else isPlaying = false
             }
         }
@@ -75,9 +83,9 @@ class GospelScreen : Screen {
         LifecycleEffect(
             onDisposed = {
                 isPlaying = false
-                if (textToSpeech.isSpeaking) {
-                    textToSpeech.stop()
-                    textToSpeech.shutdown()
+                if (mTextToSpeech?.isSpeaking == true) {
+                    mTextToSpeech?.stop()
+                    mTextToSpeech?.shutdown()
                 }
             }
         )
@@ -107,8 +115,8 @@ class GospelScreen : Screen {
                             IconButton(onClick = {
                                 isPlaying = !isPlaying
                                 if (isPlaying)
-                                    readGospel(screenModel.getGospelToRead(), textToSpeech)
-                                else textToSpeech.stop()
+                                    readGospel(screenModel.getGospelToRead(), mTextToSpeech)
+                                else mTextToSpeech?.stop()
                             }) {
                                 Crossfade(targetState = isPlaying, label = "") {
                                     Icon(
@@ -143,8 +151,8 @@ class GospelScreen : Screen {
         }
     }
 
-    private fun readGospel(textToRead: String, tts: TextToSpeech) {
-        tts.speak(textToRead, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
+    private fun readGospel(textToRead: String, tts: TextToSpeech?) {
+        tts?.speak(textToRead, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
             putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UtteranceID")
         }, "UtteranceID")
     }
@@ -175,7 +183,7 @@ private fun GospelLayout(gospel: Gospel) {
             text = gospel.text,
             modifier = Modifier.padding(vertical = 4.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
