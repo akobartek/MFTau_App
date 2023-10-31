@@ -104,7 +104,7 @@ data class BreviaryTextScreen(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .padding(vertical = 8.dp)
+                    .padding(horizontal = 8.dp)
             ) {
                 when (state) {
                     is BreviaryScreenModel.State.Cancelled -> {}
