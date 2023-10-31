@@ -85,7 +85,7 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
                         )
                     },
                     navigationIcon = {
-                        IconButton(onClick = { navigator.pop() }) {
+                        IconButton(onClick = navigator::pop) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)

@@ -5,20 +5,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Deblur
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,9 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -81,7 +75,7 @@ data class BreviaryTextScreen(
                         )
                     },
                     navigationIcon = {
-                        IconButton(onClick = { navigator.pop() }) {
+                        IconButton(onClick = navigator::pop) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
@@ -98,13 +92,14 @@ data class BreviaryTextScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 when (state) {
+                    is BreviaryScreenModel.State.Cancelled -> navigator.pop()
                     is BreviaryScreenModel.State.Loading -> LoadingIndicator()
 
                     is BreviaryScreenModel.State.MultipleOffices ->
                         MultipleOfficesDialog(
                             offices = (state as BreviaryScreenModel.State.MultipleOffices).offices,
                             onSelect = screenModel::officeLinkSelected,
-                            onCancel = { navigator.pop() }
+                            onCancel = screenModel::cancelScreen
                         )
 
                     is BreviaryScreenModel.State.BreviaryAvailable ->
@@ -112,8 +107,8 @@ data class BreviaryTextScreen(
 
                     is BreviaryScreenModel.State.Failure ->
                         NoInternetDialog(
-                            reconnect = { screenModel.checkIfThereAreMultipleOffices() },
-                            cancel = { navigator.pop() }
+                            onReconnect = screenModel::checkIfThereAreMultipleOffices,
+                            onCancel = screenModel::cancelScreen
                         )
                 }
             }
@@ -134,7 +129,7 @@ private fun MultipleOfficesDialog(
     onSelect: (String) -> Unit,
     onCancel: () -> Unit
 ) {
-    var selectedOfficeLink by remember { mutableStateOf(offices.keys.iterator().next()) }
+    var selectedOfficeLink by remember { mutableStateOf(offices.keys.toTypedArray()[0]) }
 
     AlertDialog(
         icon = {
@@ -154,9 +149,10 @@ private fun MultipleOfficesDialog(
                     ) {
                         Text(
                             text = text,
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier
                                 .padding(vertical = 2.dp)
+                                .fillMaxWidth()
                                 .clickable { selectedOfficeLink = link }
                                 .background(
                                     color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.primary
@@ -176,10 +172,10 @@ private fun MultipleOfficesDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = { onCancel() }) {
+            TextButton(onClick = onCancel) {
                 Text(stringResource(id = R.string.cancel))
             }
         },
-        modifier = Modifier.fillMaxHeight(0.75f)
+        modifier = Modifier.heightIn(0.dp, 560.dp)
     )
 }

@@ -78,7 +78,7 @@ class SettingsScreen : Screen {
                         )
                     },
                     navigationIcon = {
-                        IconButton(onClick = { navigator.pop() }) {
+                        IconButton(onClick = navigator::pop) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
@@ -158,7 +158,7 @@ private fun SwitchPreferenceRow(
         }
         Switch(
             checked = checked,
-            onCheckedChange = { value -> onCheckedChange(value) },
+            onCheckedChange = onCheckedChange,
             thumbContent = if (checked) {
                 {
                     Icon(

@@ -103,7 +103,7 @@ class GospelScreen : Screen {
                         )
                     },
                     navigationIcon = {
-                        IconButton(onClick = { navigator.pop() }) {
+                        IconButton(onClick = navigator::pop) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
@@ -143,8 +143,8 @@ class GospelScreen : Screen {
 
                     is GospelScreenModel.State.Failure ->
                         NoInternetDialog(
-                            reconnect = { screenModel.loadGospel() },
-                            cancel = { navigator.pop() }
+                            onReconnect = screenModel::loadGospel,
+                            onCancel = navigator::pop
                         )
                 }
             }

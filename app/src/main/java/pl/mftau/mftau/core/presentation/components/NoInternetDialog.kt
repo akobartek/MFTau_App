@@ -12,8 +12,8 @@ import pl.mftau.mftau.R
 
 @Composable
 fun NoInternetDialog(
-    reconnect: () -> Unit,
-    cancel: () -> Unit
+    onReconnect: () -> Unit,
+    onCancel: () -> Unit
 ) {
     AlertDialog(
         icon = {
@@ -26,12 +26,12 @@ fun NoInternetDialog(
         text = { Text(text = stringResource(id = R.string.no_internet_reconnect_message)) },
         onDismissRequest = {},
         confirmButton = {
-            TextButton(onClick = { reconnect() }) {
+            TextButton(onClick = { onReconnect() }) {
                 Text(stringResource(id = R.string.try_again))
             }
         },
         dismissButton = {
-            TextButton(onClick = { cancel() }) {
+            TextButton(onClick = { onCancel() }) {
                 Text(stringResource(id = R.string.cancel))
             }
         }

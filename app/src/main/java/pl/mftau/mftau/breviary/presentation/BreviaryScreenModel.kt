@@ -22,6 +22,7 @@ class BreviaryScreenModel(
         data class MultipleOffices(val offices: Map<String, String>) : State()
         data class BreviaryAvailable(val breviary: Breviary) : State()
         data object Failure : State()
+        data object Cancelled : State()
     }
 
     private var selectedOfficeLink = ""
@@ -51,5 +52,9 @@ class BreviaryScreenModel(
             delay(2000)
             mutableState.update { State.BreviaryAvailable(object : Breviary() {}) }
         }
+    }
+
+    fun cancelScreen() {
+        mutableState.update { State.Cancelled }
     }
 }

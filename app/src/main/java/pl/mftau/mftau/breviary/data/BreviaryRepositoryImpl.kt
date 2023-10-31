@@ -25,7 +25,7 @@ class BreviaryRepositoryImpl : BreviaryRepository {
             if (!document.html().contains("WYBIERZ OFICJUM", true))
                 emit(Result.success(null))
             else {
-                val offices = hashMapOf<String, String>()
+                val offices = mutableMapOf<String, String>()
                 val officesDivs = document.select("div")
                     .last { it.html().contains("OFICJUM") }
                     .selectFirst("table")
@@ -63,7 +63,8 @@ class BreviaryRepositoryImpl : BreviaryRepository {
         val romanMonths =
             arrayOf("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
         val calendar = Calendar.getInstance()
-        val dayInt = calendar.get(Calendar.DAY_OF_MONTH) + daysFromToday
+        val dayInt = 25
+//        val dayInt = calendar.get(Calendar.DAY_OF_MONTH) + daysFromToday
         val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
         val monthInt = calendar.get(Calendar.MONTH) + 1
         val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()

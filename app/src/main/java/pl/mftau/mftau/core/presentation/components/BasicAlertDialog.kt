@@ -25,13 +25,13 @@ fun BasicAlertDialog(
         text = { Text(text = stringResource(id = dialogTextId)) },
         onDismissRequest = { if (dismissible) onDismissRequest() },
         confirmButton = {
-            TextButton(onClick = { onConfirmation() }) {
+            TextButton(onClick = onConfirmation) {
                 Text(stringResource(id = confirmBtnTextId))
             }
         },
         dismissButton = {
             if (dismissBtnTextId != null)
-                TextButton(onClick = { onDismissRequest() }) {
+                TextButton(onClick = onDismissRequest) {
                     Text(stringResource(id = dismissBtnTextId))
                 }
         }
