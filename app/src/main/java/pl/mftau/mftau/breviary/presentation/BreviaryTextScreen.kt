@@ -55,6 +55,7 @@ import pl.mftau.mftau.breviary.model.Invitatory
 import pl.mftau.mftau.breviary.model.MajorHour
 import pl.mftau.mftau.breviary.model.BreviaryPart
 import pl.mftau.mftau.breviary.model.Canticle
+import pl.mftau.mftau.breviary.model.Compline
 import pl.mftau.mftau.breviary.model.MinorHour
 import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
@@ -217,6 +218,7 @@ private fun BreviaryLayout(breviary: Breviary) {
             is Invitatory -> InvitatoryLayout(invitatory = breviary)
             is MajorHour -> MajorHourLayout(majorHour = breviary)
             is MinorHour -> MinorHourLayout(minorHour = breviary)
+            is Compline -> ComplineLayout(compline = breviary)
             else -> Text(text = "SUCCESS")
         }
     }
@@ -257,6 +259,20 @@ private fun MinorHourLayout(minorHour: MinorHour) {
         BreviaryPartLayout(title = "Czytanie", breviaryPart = minorHour.reading)
         BreviaryPartLayout(title = "Modlitwa", breviaryPart = minorHour.prayer)
         Text(text = minorHour.ending, fontSize = 15.sp)
+    }
+}
+
+@Composable
+private fun ComplineLayout(compline: Compline) {
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = compline.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = compline.hymn)
+        PsalmodyLayout(psalmody = compline.psalmody)
+        BreviaryPartLayout(title = "Czytanie", breviaryPart = compline.reading)
+        BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = compline.responsory)
+        CanticleLayout(canticle = compline.canticle)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = compline.prayer)
+        BreviaryPartLayout(title = "Antyfona", breviaryPart = compline.antiphon)
     }
 }
 

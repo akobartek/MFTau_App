@@ -24,6 +24,7 @@ import pl.mftau.mftau.breviary.model.Invitatory
 import pl.mftau.mftau.breviary.model.MajorHour
 import pl.mftau.mftau.breviary.model.BreviaryPart
 import pl.mftau.mftau.breviary.model.Canticle
+import pl.mftau.mftau.breviary.model.Compline
 import pl.mftau.mftau.breviary.model.MinorHour
 import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
@@ -175,6 +176,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 BreviaryType.MIDMORNING_PRAYER, BreviaryType.MIDDAY_PRAYER,
                 BreviaryType.MIDAFTERNOON_PRAYER -> getMinorHour(breviaryChildren)
 
+                BreviaryType.COMPLINE -> getCompline(breviaryChildren)
+
                 else -> getMajorHour(breviaryChildren)
             }
         } ?: BreviaryHtml(breviaryHtml)
@@ -240,22 +243,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getMajorHour(elements: Elements): Breviary {
-        val readingAndResponsory = elements[2]?.child(0)
-        val responsoryPages = readingAndResponsory?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text()
-        val responsory = processTextDiv(readingAndResponsory?.select("div")?.last())
-
-        val canticleHeaderElements = elements[3]?.children()
-        val canticleName = canticleHeaderElements?.first()?.selectFirst("div")?.text()
-        val canticlePages = canticleHeaderElements?.first()?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text()
-        val canticleVerses = canticleHeaderElements?.last()?.text()
-
         val canticleAndIntercessions = elements[4]?.child(0)
-        val canticle = processCanticle(
-            canticleAndIntercessions?.select("div")?.first()?.children()?.toList() ?: listOf(),
-            canticleName ?: "", canticlePages ?: "", canticleVerses ?: ""
-        )
         val intercessionsPages = canticleAndIntercessions?.select("a")
             ?.first { it.html().contains("LG skrócone") }?.text()
         val intercessions = processTextDiv(canticleAndIntercessions?.select("div")?.last())
@@ -282,8 +270,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             hymn = processHymn(elements),
             psalmody = processPsalmody(elements),
             reading = processReading(elements),
-            responsory = BreviaryPart(responsoryPages ?: "", responsory),
-            canticle = canticle,
+            responsory = processResponsory(elements),
+            canticle = processCanticle(elements),
             intercessions = BreviaryPart(intercessionsPages ?: "", intercessions),
             lordsPrayer = lordsPrayer,
             prayer = prayer,
@@ -308,6 +296,19 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             reading = processReading(elements),
             prayer = prayer,
             ending = ending
+        )
+    }
+
+    private fun getCompline(elements: Elements): Compline {
+        return Compline(
+//            opening = ,
+            hymn = processHymn(elements),
+            psalmody = processPsalmody(elements),
+            reading = processReading(elements),
+            responsory = processResponsory(elements),
+            canticle = processCanticle(elements, true),
+//            prayer = prayer,
+//            antiphon =
         )
     }
 
@@ -405,9 +406,11 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         repeat(3) {
             val antiphonDivs = allPsalmsDivs?.filter { it.className() == "cd" }?.take(2)
             antiphonDivs?.let {
-                val psalmDivs = allPsalmsDivs.slice(
-                    allPsalmsDivs.indexOf(it[0])..allPsalmsDivs.indexOf(it[1])
-                )
+                val psalmDivs =
+                    if (allPsalmsDivs.isEmpty()) listOf()
+                    else allPsalmsDivs.slice(
+                        allPsalmsDivs.indexOf(it[0])..allPsalmsDivs.indexOf(it[1])
+                    )
                 if (psalmDivs.isNotEmpty())
                     psalms.add(processPsalm(psalmDivs))
                 allPsalmsDivs.removeAll(psalmDivs)
@@ -460,23 +463,54 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 append(processTextDiv(element))
             }
         }
-
         return BreviaryPart(readingPages ?: "", readingText, readingVerses ?: "")
     }
 
-    private fun processCanticle(
-        divs: List<Element>, name: String, pages: String, verses: String
-    ): Canticle {
-        val antiphon1 = processTextDiv(divs.first())
-        val antiphon2 = processTextDiv(divs.last())
+    private fun processResponsory(elements: Elements): BreviaryPart {
+        val readingAndResponsory = elements[2]?.child(0)
+        val responsoryPages = readingAndResponsory?.select("a")
+            ?.first { it.html().contains("LG skrócone") }?.text()
+        val responsory = processTextDiv(readingAndResponsory?.select("div")?.last())
+        return BreviaryPart(responsoryPages ?: "", responsory)
+    }
+
+    private fun processCanticle(elements: Elements, isCompline: Boolean = false): Canticle {
+        val canticleHeaderElements = elements[3]?.children()
+        val canticleName = canticleHeaderElements?.first()?.selectFirst("div")?.text() ?: ""
+        val canticlePages = canticleHeaderElements?.first()?.select("a")
+            ?.first { it.html().contains("LG skrócone") }?.text() ?: ""
+        val canticleVerses = canticleHeaderElements?.last()?.text() ?: ""
+
+        val canticleAndIntercessions = elements[4]?.child(0)
+        val divsList = canticleAndIntercessions?.select("div")?.first()?.children()?.toList()
+        val antiphonDivs = divsList?.filter { it.className() == "cd" || it.className() == "cdx" }
+            ?.take(2)
+        val canticleDivs = antiphonDivs?.let {
+            val divs = divsList.slice(divsList.indexOf(it[0]) + 1..<divsList.indexOf(it[1]))
+
+            if (!isCompline) divs[0].children()
+            else divs
+        } ?: listOf()
+
+        return Canticle(
+            breviaryPages = canticlePages,
+            name = canticleName,
+            verses = canticleVerses,
+            antiphon1 = processTextDiv(antiphonDivs?.first()),
+            text = getCanticleText(canticleDivs),
+            antiphon2 = processTextDiv(antiphonDivs?.last())
+        )
+    }
+
+    private fun getCanticleText(divs: List<Element>): String {
         val textBuilder = StringBuilder()
-        divs[1].children().forEachIndexed { index, element ->
+        divs.forEachIndexed { index, element ->
             if (element.hasClass("c")) textBuilder.append("\u00A0\u00A0\u00A0\u00A0")
             textBuilder.append(element.text())
-            if (index < divs[1].children().size - 1)
+            if (index < divs.size - 1)
                 textBuilder.append("\n")
         }
-        return Canticle(pages, name, verses, antiphon1, textBuilder.toString(), antiphon2)
+        return textBuilder.toString()
     }
 
     private fun processPrayer(elements: Elements, endingDivs: Elements?): BreviaryPart {
