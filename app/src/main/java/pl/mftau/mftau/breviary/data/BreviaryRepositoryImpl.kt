@@ -248,7 +248,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         repeat(3) {
             val psalmDivs = psalmody?.filter { it.tagName() == "div" }?.take(5)
             psalmDivs?.let {
-                psalms.add(processPsalm(it))
+                if (psalmDivs.isNotEmpty())
+                    psalms.add(processPsalm(it))
                 psalmody.removeAll(it)
             }
         }
