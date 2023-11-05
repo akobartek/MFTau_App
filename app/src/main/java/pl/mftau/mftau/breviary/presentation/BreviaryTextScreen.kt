@@ -55,6 +55,7 @@ import pl.mftau.mftau.breviary.model.Invitatory
 import pl.mftau.mftau.breviary.model.MajorHour
 import pl.mftau.mftau.breviary.model.BreviaryPart
 import pl.mftau.mftau.breviary.model.Canticle
+import pl.mftau.mftau.breviary.model.MinorHour
 import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
@@ -127,8 +128,9 @@ data class BreviaryTextScreen(
                             }
                         )
 
-                    is BreviaryScreenModel.State.BreviaryAvailable ->
-                        BreviaryLayout(breviary = (state as BreviaryScreenModel.State.BreviaryAvailable).breviary)
+                    is BreviaryScreenModel.State.BreviaryAvailable -> BreviaryLayout(
+                        breviary = (state as BreviaryScreenModel.State.BreviaryAvailable).breviary
+                    )
 
                     is BreviaryScreenModel.State.Failure ->
                         NoInternetDialog(
@@ -214,6 +216,7 @@ private fun BreviaryLayout(breviary: Breviary) {
         when (breviary) {
             is Invitatory -> InvitatoryLayout(invitatory = breviary)
             is MajorHour -> MajorHourLayout(majorHour = breviary)
+            is MinorHour -> MinorHourLayout(minorHour = breviary)
             else -> Text(text = "SUCCESS")
         }
     }
@@ -221,33 +224,12 @@ private fun BreviaryLayout(breviary: Breviary) {
 
 @Composable
 private fun InvitatoryLayout(invitatory: Invitatory) {
-    Text(text = invitatory.opening, fontSize = 15.sp)
-    Text(
-        text = "${invitatory.psalm.name}\n${invitatory.psalm.title}",
-        color = MaterialTheme.colorScheme.secondary,
-        textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        modifier = Modifier
-            .padding(top = 8.dp)
-            .fillMaxWidth()
-    )
-    Text(
-        text = invitatory.psalm.subtitle,
-        fontStyle = FontStyle.Italic,
-        fontSize = 13.sp
-    )
-    Text(
-        text = invitatory.psalm.breviaryPages ?: "",
-        fontSize = 11.sp,
-        modifier = Modifier.padding(vertical = 16.dp)
-    )
-    Text(
-        text = invitatory.psalm.text,
-        fontSize = 15.sp,
-        modifier = Modifier.padding(vertical = 16.dp)
-    )
-    Text(text = invitatory.ending, fontSize = 15.sp)
+    Column {
+        Text(text = invitatory.opening, fontSize = 15.sp)
+        PsalmLayout(psalm = invitatory.psalm, isInvitatoryPsalm = true)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = invitatory.ending, fontSize = 15.sp)
+    }
 }
 
 @Composable
@@ -263,6 +245,18 @@ private fun MajorHourLayout(majorHour: MajorHour) {
         Text(text = majorHour.lordsPrayer, fontSize = 15.sp)
         BreviaryPartLayout(title = "Modlitwa", breviaryPart = majorHour.prayer)
         Text(text = majorHour.ending, fontSize = 15.sp)
+    }
+}
+
+@Composable
+private fun MinorHourLayout(minorHour: MinorHour) {
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = minorHour.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = minorHour.hymn)
+        PsalmodyLayout(psalmody = minorHour.psalmody)
+        BreviaryPartLayout(title = "Czytanie", breviaryPart = minorHour.reading)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = minorHour.prayer)
+        Text(text = minorHour.ending, fontSize = 15.sp)
     }
 }
 
@@ -315,35 +309,53 @@ private fun PsalmodyLayout(psalmody: Psalmody) {
 }
 
 @Composable
-private fun PsalmLayout(psalm: Psalm) {
+private fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(
-            text = psalm.antiphon1,
-            fontSize = 15.sp,
-        )
-        Column {
+        if (!isInvitatoryPsalm)
             Text(
-                text = "${psalm.name}\n${psalm.title}",
+                text = psalm.antiphon1,
+                fontSize = 15.sp,
+            )
+        Column {
+            if (psalm.name != null)
+                Text(
+                    text = "${psalm.name}${if (psalm.title != null) "\n${psalm.title}" else ""}",
+                    color = MaterialTheme.colorScheme.secondary,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            if (psalm.subtitle != null)
+                Text(
+                    text = psalm.subtitle!!,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 13.sp
+                )
+        }
+        if (psalm.breviaryPages != null)
+            Text(
+                text = psalm.breviaryPages!!,
+                fontSize = 11.sp
+            )
+        if (psalm.part != null)
+            Text(
+                text = psalm.part!!,
                 color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
+                fontSize = 15.sp,
                 modifier = Modifier.fillMaxWidth()
             )
-            Text(
-                text = psalm.subtitle,
-                fontStyle = FontStyle.Italic,
-                fontSize = 13.sp
-            )
-        }
         Text(
             text = psalm.text,
             fontSize = 15.sp,
         )
-        Text(
-            text = psalm.antiphon2,
-            fontSize = 15.sp,
-        )
+        if (!isInvitatoryPsalm)
+            Text(
+                text = psalm.antiphon2,
+                fontSize = 15.sp,
+            )
     }
 }
 
