@@ -163,12 +163,12 @@
     <string name="select_office">Select the Office</string>
     <string name="invitatory">Invitatory</string>
     <string name="office_of_readings">Office of Readings</string>
-    <string name="morning_prayer">Morning Prayer</string>
+    <string name="lauds">Lauds</string>
     <string name="midmorning_prayer">Midmorning Prayer</string>
     <string name="midday_prayer">Midday Prayer</string>
     <string name="midafternoon_prayer">Midafternoon Prayer</string>
-    <string name="evening_prayer">Evening Prayer</string>
-    <string name="night_prayer">Night Prayer</string>
+    <string name="vespers">Vespers</string>
+    <string name="compline">Compline</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Gospel for today</string>

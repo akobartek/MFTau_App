@@ -7,9 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.launch
@@ -40,8 +40,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val context = LocalContext.current
             val preferences = PreferencesRepository(context.dataStore).preferencesFlow
-                .collectAsState(
-                    initial = UserPreferences(
+                .collectAsStateWithLifecycle(
+                    initialValue = UserPreferences(
                         nightMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
                     )
                 )

@@ -4,10 +4,11 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 
 data class Psalm(
-    var antiphon: AnnotatedString = buildAnnotatedString { },
-    var number: String = "",
+    var breviaryPages: String? = null,
+    var name: String = "",
     var title: String = "",
     var subtitle: String = "",
+    var antiphon1: AnnotatedString = buildAnnotatedString { },
     var text: AnnotatedString = buildAnnotatedString {  },
-    var breviaryPages: String? = null
+    var antiphon2: AnnotatedString = buildAnnotatedString { }
 )

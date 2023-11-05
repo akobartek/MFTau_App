@@ -34,7 +34,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +45,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -63,7 +63,8 @@ class SettingsScreen : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val context = LocalContext.current
         val screenModel = rememberScreenModel { SettingsScreenModel(context.dataStore) }
-        val preferences = screenModel.preferencesFlow.collectAsState(initial = UserPreferences())
+        val preferences by screenModel.preferencesFlow
+            .collectAsStateWithLifecycle(initialValue = UserPreferences())
 
         Scaffold(
             topBar = {
@@ -97,7 +98,7 @@ class SettingsScreen : Screen {
                 SwitchPreferenceRow(
                     title = stringResource(id = R.string.night_mode_title),
                     summary = stringResource(id = R.string.night_mode_summary),
-                    checked = preferences.value.nightMode,
+                    checked = preferences.nightMode,
                     onCheckedChange = { value ->
                         AppCompatDelegate.setDefaultNightMode(
                             if (value) AppCompatDelegate.MODE_NIGHT_YES
@@ -110,19 +111,19 @@ class SettingsScreen : Screen {
                     SwitchPreferenceRow(
                         title = stringResource(id = R.string.dynamic_colors_title),
                         summary = stringResource(id = R.string.dynamic_colors_summary),
-                        checked = preferences.value.dynamicColors,
+                        checked = preferences.dynamicColors,
                         onCheckedChange = screenModel::updateDynamicColors
                     )
                 SwitchPreferenceRow(
                     title = stringResource(id = R.string.repeat_gospel_title),
                     summary = stringResource(id = R.string.repeat_gospel_summary),
-                    checked = preferences.value.repeatGospel,
+                    checked = preferences.repeatGospel,
                     onCheckedChange = screenModel::updateRepeatGospel
                 )
                 SwitchPreferenceRow(
                     title = stringResource(id = R.string.awake_song_book_title),
                     summary = stringResource(id = R.string.awake_song_book_summary),
-                    checked = preferences.value.keepSongBookAwake,
+                    checked = preferences.keepSongBookAwake,
                     onCheckedChange = screenModel::updateKeepSongBookAwake
                 )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)

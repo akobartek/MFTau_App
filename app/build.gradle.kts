@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.runtime.compose)
     implementation(libs.datastore)
     implementation(libs.browser)
 

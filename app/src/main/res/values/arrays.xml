@@ -3,12 +3,12 @@
     <string-array name="breviary_list">
         <item>@string/invitatory</item>
         <item>@string/office_of_readings</item>
-        <item>@string/morning_prayer</item>
+        <item>@string/lauds</item>
         <item>@string/midmorning_prayer</item>
         <item>@string/midday_prayer</item>
         <item>@string/midafternoon_prayer</item>
-        <item>@string/evening_prayer</item>
-        <item>@string/night_prayer</item>
+        <item>@string/vespers</item>
+        <item>@string/compline</item>
     </string-array>
 
     <string-array name="song_types">
