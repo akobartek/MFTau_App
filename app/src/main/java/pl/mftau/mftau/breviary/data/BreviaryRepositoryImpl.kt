@@ -300,15 +300,30 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getCompline(elements: Elements): Compline {
+        val lastChild = elements.last()?.child(0)?.children()
+        val pages = lastChild?.select("a")
+            ?.filter { node -> node.html().contains("LG skrócone") }
+            ?.takeLast(2)
+            ?.map { it.text() }
+        val textsDivs = lastChild?.select(".ww")?.takeLast(2)
+        val prayerText = buildAnnotatedString {
+            textsDivs?.let {
+                append(processTextDiv(textsDivs[0]))
+                append("\n")
+                append(processTextDiv(textsDivs[0].nextElementSibling()))
+            }
+        }
+        val antiphonText = buildAnnotatedString { append(processTextDiv(textsDivs?.get(1))) }
+
         return Compline(
-//            opening = ,
+            opening = processOpening(elements),
             hymn = processHymn(elements),
             psalmody = processPsalmody(elements),
             reading = processReading(elements),
             responsory = processResponsory(elements),
             canticle = processCanticle(elements, true),
-//            prayer = prayer,
-//            antiphon =
+            prayer = BreviaryPart(pages?.get(0) ?: "", prayerText),
+            antiphon = BreviaryPart(pages?.get(1) ?: "", antiphonText)
         )
     }
 
@@ -362,8 +377,12 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 append("\n")
             }
             val additionInfoDiv = openingAndPsalmodyElement?.selectFirst(".zak")
-            if (additionInfoDiv != null)
-                append(processTextDiv(additionInfoDiv))
+            additionInfoDiv?.let {
+                withStyle(style = SpanStyle(color = accentColor)) {
+                    append("\n")
+                    append(processTextDiv(additionInfoDiv))
+                }
+            }
         }
     }
 
@@ -483,7 +502,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
 
         val canticleAndIntercessions = elements[4]?.child(0)
         val divsList = canticleAndIntercessions?.select("div")?.first()?.children()?.toList()
-        val antiphonDivs = divsList?.filter { it.className() == "cd" || it.className() == "cdx" }
+        val antiphonDivs = divsList
+            ?.filter { it.className() == "cd" || it.className() == "cdx" }
             ?.take(2)
         val canticleDivs = antiphonDivs?.let {
             val divs = divsList.slice(divsList.indexOf(it[0]) + 1..<divsList.indexOf(it[1]))
