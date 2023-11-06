@@ -248,43 +248,49 @@ private fun InvitatoryLayout(invitatory: Invitatory) {
 @Composable
 fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
     var optionSelected by remember { mutableIntStateOf(0) }
-    val options = listOf("Tekst oficalny (LG)", "Tekst z cyklu")
+    val selectedReading =
+        if (optionSelected == 0) officeOfReadings.firstReading
+        else officeOfReadings.firstReadingVersion2
+    val options = listOf("Tekst oficalny (LG)", "Cykl dwuletni")
 
     Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
         Text(text = officeOfReadings.opening, fontSize = 15.sp)
         BreviaryPartLayout(title = "Hymn", breviaryPart = officeOfReadings.hymn)
         PsalmodyLayout(psalmody = officeOfReadings.psalmody)
         BreviaryPartLayout(title = "", breviaryPart = officeOfReadings.additionalPart)
-        MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            options.forEachIndexed { index, option ->
-                SegmentedButton(
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
-                    icon = {
-                        SegmentedButtonDefaults.Icon(
-                            active = optionSelected == index,
-                            activeContent = {
-                                Icon(
-                                    imageVector = Icons.Filled.Done,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
-                                )
-                            },
-                            inactiveContent = null
-                        )
-                    },
-                    onCheckedChange = { optionSelected = index },
-                    checked = optionSelected == index
-                ) {
-                    Text(option)
+        Column {
+            BreviaryPartHeader(
+                title = "I Czytanie",
+                pages = selectedReading.breviaryPages,
+                verses = selectedReading.verses
+            )
+            MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                options.forEachIndexed { index, option ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                        icon = {
+                            SegmentedButtonDefaults.Icon(
+                                active = optionSelected == index,
+                                activeContent = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Done,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
+                                    )
+                                },
+                                inactiveContent = null
+                            )
+                        },
+                        onCheckedChange = { optionSelected = index },
+                        checked = optionSelected == index
+                    ) {
+                        Text(option)
+                    }
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = selectedReading.text, fontSize = 15.sp)
         }
-        BreviaryPartLayout(
-            title = "I Czytanie",
-            breviaryPart =
-            if (optionSelected == 0) officeOfReadings.firstReading
-            else officeOfReadings.firstReadingVersion2
-        )
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
         BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
