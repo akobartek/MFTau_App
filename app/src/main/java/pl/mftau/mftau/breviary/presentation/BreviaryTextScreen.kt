@@ -16,21 +16,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,6 +63,7 @@ import pl.mftau.mftau.breviary.model.BreviaryPart
 import pl.mftau.mftau.breviary.model.Canticle
 import pl.mftau.mftau.breviary.model.Compline
 import pl.mftau.mftau.breviary.model.MinorHour
+import pl.mftau.mftau.breviary.model.OfficeOfReadings
 import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
@@ -101,7 +108,7 @@ data class BreviaryTextScreen(
                     navigationIcon = {
                         IconButton(onClick = navigator::pop) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
                             )
                         }
@@ -209,17 +216,20 @@ private fun MultipleOfficesDialog(
 
 @Composable
 private fun BreviaryLayout(breviary: Breviary) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 32.dp)
-    ) {
-        when (breviary) {
-            is Invitatory -> InvitatoryLayout(invitatory = breviary)
-            is MajorHour -> MajorHourLayout(majorHour = breviary)
-            is MinorHour -> MinorHourLayout(minorHour = breviary)
-            is Compline -> ComplineLayout(compline = breviary)
-            else -> Text(text = "SUCCESS")
+    SelectionContainer {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 32.dp)
+        ) {
+            when (breviary) {
+                is Invitatory -> InvitatoryLayout(invitatory = breviary)
+                is OfficeOfReadings -> OfficeOfReadingsLayout(officeOfReadings = breviary)
+                is MajorHour -> MajorHourLayout(majorHour = breviary)
+                is MinorHour -> MinorHourLayout(minorHour = breviary)
+                is Compline -> ComplineLayout(compline = breviary)
+                else -> Text(text = "SUCCESS")
+            }
         }
     }
 }
@@ -231,6 +241,56 @@ private fun InvitatoryLayout(invitatory: Invitatory) {
         PsalmLayout(psalm = invitatory.psalm, isInvitatoryPsalm = true)
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = invitatory.ending, fontSize = 15.sp)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
+    var optionSelected by remember { mutableIntStateOf(0) }
+    val options = listOf("Tekst oficalny (LG)", "Tekst z cyklu")
+
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = officeOfReadings.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = officeOfReadings.hymn)
+        PsalmodyLayout(psalmody = officeOfReadings.psalmody)
+        BreviaryPartLayout(title = "", breviaryPart = officeOfReadings.additionalPart)
+        MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+            options.forEachIndexed { index, option ->
+                SegmentedButton(
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                    icon = {
+                        SegmentedButtonDefaults.Icon(
+                            active = optionSelected == index,
+                            activeContent = {
+                                Icon(
+                                    imageVector = Icons.Filled.Done,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
+                                )
+                            },
+                            inactiveContent = null
+                        )
+                    },
+                    onCheckedChange = { optionSelected = index },
+                    checked = optionSelected == index
+                ) {
+                    Text(option)
+                }
+            }
+        }
+        BreviaryPartLayout(
+            title = "I Czytanie",
+            breviaryPart =
+            if (optionSelected == 0) officeOfReadings.firstReading
+            else officeOfReadings.firstReadingVersion2
+        )
+        BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
+        BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
+        BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
+        BreviaryPartLayout(title = "Te Deum", breviaryPart = officeOfReadings.teDeum)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = officeOfReadings.prayer)
+        Text(text = officeOfReadings.ending, fontSize = 15.sp)
     }
 }
 
@@ -284,12 +344,13 @@ fun BreviaryPartHeader(title: String, pages: String, verses: String = "") {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = title.uppercase(),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary
-            )
+            if (title.isNotBlank())
+                Text(
+                    text = title.uppercase(),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.secondary
+                )
             Text(
                 text = verses,
                 fontSize = 16.sp,
@@ -297,7 +358,7 @@ fun BreviaryPartHeader(title: String, pages: String, verses: String = "") {
                 color = MaterialTheme.colorScheme.secondary
             )
         }
-        Text(text = pages, fontSize = 11.sp)
+        Text(text = pages, fontSize = 10.sp)
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
@@ -332,7 +393,10 @@ private fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
                 text = psalm.antiphon1,
                 fontSize = 15.sp,
             )
-        Column {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             if (psalm.name != null)
                 Text(
                     text = "${psalm.name}${if (psalm.title != null) "\n${psalm.title}" else ""}",
@@ -345,14 +409,16 @@ private fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
             if (psalm.subtitle != null)
                 Text(
                     text = psalm.subtitle!!,
+                    textAlign = TextAlign.Center,
                     fontStyle = FontStyle.Italic,
-                    fontSize = 13.sp
+                    fontSize = 13.sp,
+                    modifier = Modifier.fillMaxWidth(0.9f)
                 )
         }
         if (psalm.breviaryPages != null)
             Text(
                 text = psalm.breviaryPages!!,
-                fontSize = 11.sp
+                fontSize = 10.sp
             )
         if (psalm.part != null)
             Text(

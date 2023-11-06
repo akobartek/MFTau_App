@@ -15,6 +15,21 @@ data class Invitatory(
     val ending: AnnotatedString = buildAnnotatedString { }
 ) : Breviary()
 
+data class OfficeOfReadings(
+    val opening: AnnotatedString = buildAnnotatedString { },
+    val hymn: BreviaryPart = BreviaryPart(),
+    val psalmody: Psalmody = Psalmody(),
+    val additionalPart: BreviaryPart = BreviaryPart(),
+    val firstReading: BreviaryPart = BreviaryPart(),
+    val firstReadingVersion2: BreviaryPart = BreviaryPart(),
+    val firstResponsory: BreviaryPart = BreviaryPart(),
+    val secondReading: BreviaryPart = BreviaryPart(),
+    val secondResponsory: BreviaryPart = BreviaryPart(),
+    val teDeum: BreviaryPart = BreviaryPart(),
+    val prayer: BreviaryPart = BreviaryPart(),
+    val ending: AnnotatedString = buildAnnotatedString { }
+) : Breviary()
+
 data class MajorHour(
     val opening: AnnotatedString = buildAnnotatedString { },
     val hymn: BreviaryPart = BreviaryPart(),

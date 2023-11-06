@@ -2,11 +2,15 @@ package pl.mftau.mftau.breviary.data
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,6 +30,7 @@ import pl.mftau.mftau.breviary.model.BreviaryPart
 import pl.mftau.mftau.breviary.model.Canticle
 import pl.mftau.mftau.breviary.model.Compline
 import pl.mftau.mftau.breviary.model.MinorHour
+import pl.mftau.mftau.breviary.model.OfficeOfReadings
 import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
 import java.util.Calendar
@@ -72,7 +77,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     ): Flow<Result<Breviary>> = flow {
         try {
             val breviaryUrl = buildBaseBreviaryUrl(daysFromToday, office == "") +
-                    "${office}/${mBreviaryUrlTypes[type.type]}.php3"
+                    "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()
             emit(Result.success(getProperBreviaryObject(document, type)))
         } catch (throwable: Throwable) {
@@ -102,10 +107,11 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         if (type == BreviaryType.OFFICE_OF_READINGS) {
             element.select("i").first { it.html().contains("Te Deum") }.parentNode()?.remove()
             if (!element.html().contains("\"def1\"")) {
-                val def1Elem = document.getElementById("def1")
-                def1Elem?.let { elem ->
+                document.getElementById("def1")?.let { elem ->
                     element.appendChild(elem.child(0))
-                    element.append("<br><br>")
+                    document.getElementById("def2")?.let { elem2 ->
+                        element.appendChild(elem2.child(0))
+                    }
                     element.appendChild(
                         elem.parent()!!.select("table")
                             .first { it.html().contains("RESPONSORIUM") })
@@ -166,10 +172,14 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             .replace("font-size: 8pt", "")
             .replaceFirst("<br>", "")
 
-        val breviaryChildren = element.firstElementChild()?.children()
+        val breviaryChildren =
+            if (type == BreviaryType.OFFICE_OF_READINGS) element.children()
+            else element.firstElementChild()?.children()
         return breviaryChildren?.let {
             when (type) {
                 BreviaryType.INVITATORY -> getInvitatory(breviaryChildren)
+
+                BreviaryType.OFFICE_OF_READINGS -> getOfficeOfReading(breviaryChildren)
 
                 BreviaryType.LAUDS, BreviaryType.VESPERS -> getMajorHour(breviaryChildren)
 
@@ -177,15 +187,12 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 BreviaryType.MIDAFTERNOON_PRAYER -> getMinorHour(breviaryChildren)
 
                 BreviaryType.COMPLINE -> getCompline(breviaryChildren)
-
-                else -> getMajorHour(breviaryChildren)
             }
         } ?: BreviaryHtml(breviaryHtml)
     }
 
     private fun getInvitatory(elements: Elements): Invitatory {
-        val opening =
-            processTextDiv(elements.first()?.firstElementChild()?.firstElementChild())
+        val opening = processTextDiv(elements.first()?.firstElementChild()?.firstElementChild())
 
         val psalm = Psalm()
         val psalmElements = elements.last()
@@ -221,7 +228,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         psalm.text = buildAnnotatedString {
             append(psalm.antiphon1)
             psalmElements?.select(".zak")?.forEach { element ->
-                append("\n\n")
+                appendLine().appendLine()
                 element.textNodes().forEach { textNode ->
                     append(textNode.text() + "\n")
                 }
@@ -242,7 +249,39 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         )
     }
 
-    private fun getMajorHour(elements: Elements): Breviary {
+    private fun getOfficeOfReading(elements: Elements): OfficeOfReadings {
+        val openingAndPsalmodyElements = elements.first()!!.children()
+        val aElems = openingAndPsalmodyElements.first()?.select("a")
+            ?.filter { elem -> elem.text().contains("LG tom") }
+            ?.takeLast(2)
+        val additionalPartText = buildAnnotatedString {
+            val divs = openingAndPsalmodyElements.first()?.select(".cd")?.takeLast(2)
+            appendLine(processTextDiv(divs?.get(0)))
+            append(processTextDiv(divs?.get(1)))
+        }
+        val firstReadingPages = aElems?.last()?.text()
+
+        return OfficeOfReadings(
+            opening = processOpening(openingAndPsalmodyElements),
+            hymn = processHymn(openingAndPsalmodyElements),
+            psalmody = processPsalmody(openingAndPsalmodyElements),
+            additionalPart = BreviaryPart(aElems?.first()?.text() ?: "", additionalPartText),
+            firstReading = processOfficeOfReadingsReading(
+                elements[1].firstElementChild()?.children(), firstReadingPages
+            ),
+            firstReadingVersion2 = processOfficeOfReadingsReading(
+                elements[2].firstElementChild()?.children(), firstReadingPages
+            ),
+//            firstResponsory = ,
+//            secondReading = ,
+//            secondResponsory = ,
+//            teDeum = ,
+//            prayer = ,
+//            ending =
+        )
+    }
+
+    private fun getMajorHour(elements: Elements): MajorHour {
         val canticleAndIntercessions = elements[4]?.child(0)
         val intercessionsPages = canticleAndIntercessions?.select("a")
             ?.first { it.html().contains("LG skrócone") }?.text()
@@ -262,7 +301,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         endingDivs?.removeAt(0)
 
         val ending = processTextDiv(endingDivs?.get(0))
-            .plus(buildAnnotatedString { append("\n\n") })
+            .plus(buildAnnotatedString { appendLine().appendLine() })
             .plus(processTextDiv(endingDivs?.get(1)))
 
         return MajorHour(
@@ -309,7 +348,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         val prayerText = buildAnnotatedString {
             textsDivs?.let {
                 append(processTextDiv(textsDivs[0]))
-                append("\n")
+                appendLine()
                 append(processTextDiv(textsDivs[0].nextElementSibling()))
             }
         }
@@ -327,59 +366,80 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         )
     }
 
-    private fun processTextDiv(div: Element?): AnnotatedString =
-        processNodesText(div?.childNodes()?.toList())
+    private fun processTextDiv(div: Element?, ignoreNewLines: Boolean = false): AnnotatedString =
+        processNodesText(div?.childNodes()?.toList(), ignoreNewLines)
 
-    private fun processNodesText(nodes: List<Node>?): AnnotatedString = buildAnnotatedString {
-        val checkIfNotEmpty = { node: Node ->
-            (node !is Element && node.outerHtml() != "") || (node is Element && node.tagName() != "br")
-        }
-        val firstIndex = nodes?.indexOfFirst(checkIfNotEmpty)
-        val lastIndex = nodes?.indexOfLast(checkIfNotEmpty)
+    private fun processNodesText(nodes: List<Node>?, ignoreNewLines: Boolean = false) =
+        buildAnnotatedString {
+            val checkIfNotEmpty = { node: Node ->
+                (node !is Element && node.outerHtml() != "") || (node is Element && node.tagName() != "br")
+            }
+            val firstIndex = nodes?.indexOfFirst(checkIfNotEmpty)
+            val lastIndex = nodes?.indexOfLast(checkIfNotEmpty)
 
-        if (firstIndex != null && lastIndex != null)
-            nodes.slice(firstIndex..lastIndex).forEach { node ->
-                if (node is TextNode) append(node.text())
-                else if (node is Element) {
-                    when (node.tagName()) {
-                        "font" -> withStyle(style = SpanStyle(color = accentColor)) {
-                            append(node.text())
-                            if (node.html().endsWith("<br>")) append("\n")
+            if (firstIndex != null && lastIndex != null)
+                nodes.slice(firstIndex..lastIndex).forEach { node ->
+                    if (node is TextNode) append(node.text())
+                    else if (node is Element) {
+                        when (node.tagName()) {
+                            "font" -> withStyle(style = SpanStyle(color = accentColor)) {
+                                append(node.text())
+                                if (node.html().endsWith("<br>")) appendLine()
+                            }
+
+                            "i" -> withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
+                                append(processTextDiv(node))
+                                if (node.html().endsWith("<br>")) appendLine()
+                            }
+
+                            "b" -> withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                                append(processTextDiv(node))
+                            }
+
+                            "div" -> {
+                                val textIndent =
+                                    if (node.hasClass("c")) TextIndent(firstLine = 12.sp)
+                                    else null
+                                val textAlign =
+                                    if (node.hasAttr("align") && node.attr("align") == "center")
+                                        TextAlign.Center
+                                    else null
+                                val append = { append(processTextDiv(node)) }
+                                try {
+                                    if (textIndent != null || textAlign != null)
+                                        withStyle(
+                                            style = ParagraphStyle(
+                                                textIndent = textIndent,
+                                                textAlign = textAlign ?: TextAlign.Left
+                                            )
+                                        ) {
+                                            append()
+                                        }
+                                    else append()
+                                } catch (exc: IllegalArgumentException) {
+                                    append()
+                                }
+                            }
+
+                            "br" -> if (!ignoreNewLines) appendLine()
+
+                            else -> append(node.text())
                         }
-
-                        "i" -> withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                            append(node.text())
-                            if (node.html().endsWith("<br>")) append("\n")
-                        }
-
-                        "b" -> withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(node.text())
-                        }
-
-                        "div" -> {
-                            append(processTextDiv(node))
-                            append("\n")
-                        }
-
-                        "br" -> append("\n")
-
-                        else -> append(node.text())
                     }
                 }
-            }
-    }
+        }
 
     private fun processOpening(elements: Elements): AnnotatedString {
         val openingAndPsalmodyElement = elements.first()?.firstElementChild()?.lastElementChild()
         return buildAnnotatedString {
             openingAndPsalmodyElement?.select(".c")?.take(5)?.forEach { elem ->
                 append(processTextDiv(elem))
-                append("\n")
+                appendLine()
             }
             val additionInfoDiv = openingAndPsalmodyElement?.selectFirst(".zak")
             additionInfoDiv?.let {
                 withStyle(style = SpanStyle(color = accentColor)) {
-                    append("\n")
+                    appendLine()
                     append(processTextDiv(additionInfoDiv))
                 }
             }
@@ -399,11 +459,11 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 )
             }
             hymnElements?.forEachIndexed { index, div ->
-                if (index > 0 && div.hasClass("a")) append("\n")
+                if (index > 0 && div.hasClass("a")) appendLine()
                 if (div.hasClass("b")) append("\u00A0\u00A0")
                 append(processTextDiv(div))
                 if (index < hymnElements.size - 1)
-                    append("\n")
+                    appendLine()
             }
         }
         return BreviaryPart(hymnPages ?: "", hymnText)
@@ -459,7 +519,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
                 append(processTextDiv(element))
                 if (index < divs[divs.size - 2].children().size - 1)
-                    append("\n")
+                    appendLine()
             }
         }
         return psalm
@@ -478,11 +538,20 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 0..readingAndResponsory.children().indexOf(readingAndResponsory.selectFirst("a"))
             )?.filter { it.tagName() == "div" }
             slice?.forEachIndexed { index, element ->
-                if (index > 0) append("\n")
+                if (index > 0) appendLine()
                 append(processTextDiv(element))
             }
         }
         return BreviaryPart(readingPages ?: "", readingText, readingVerses ?: "")
+    }
+
+    private fun processOfficeOfReadingsReading(elements: Elements?, pages: String?): BreviaryPart {
+        val verses = elements?.first()?.lastElementChild()?.text()
+        val text = buildAnnotatedString {
+            append(processTextDiv(elements?.first()?.firstElementChild()))
+            append(processTextDiv(elements?.last()?.firstElementChild(), true))
+        }
+        return BreviaryPart(pages ?: "", text, verses ?: "")
     }
 
     private fun processResponsory(elements: Elements): BreviaryPart {
@@ -528,7 +597,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             if (element.hasClass("c")) textBuilder.append("\u00A0\u00A0\u00A0\u00A0")
             textBuilder.append(element.text())
             if (index < divs.size - 1)
-                textBuilder.append("\n")
+                textBuilder.appendLine()
         }
         return textBuilder.toString()
     }

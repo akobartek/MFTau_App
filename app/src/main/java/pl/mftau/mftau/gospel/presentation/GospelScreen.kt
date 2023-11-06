@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -105,7 +105,7 @@ class GospelScreen : Screen {
                     navigationIcon = {
                         IconButton(onClick = navigator::pop) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack,
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
                             )
                         }
@@ -120,7 +120,9 @@ class GospelScreen : Screen {
                             }) {
                                 Crossfade(targetState = isPlaying, label = "") {
                                     Icon(
-                                        imageVector = if (it) Icons.Filled.Pause else Icons.Filled.VolumeUp,
+                                        imageVector =
+                                        if (it) Icons.Filled.Pause
+                                        else Icons.AutoMirrored.Filled.VolumeUp,
                                         contentDescription = stringResource(id = R.string.listen_gospel)
                                     )
                                 }
