@@ -159,10 +159,10 @@
     <string name="language_setting_dialog_title">Wybierz twój język</string>
 
     <!-- BREVIARY STRINGS -->
-    <string name="breviary_with_day">Brewiarz (%s)</string>
     <string name="breviary_yesterday">Wczorajszy brewiarz</string>
     <string name="breviary_today">Dzisiejszy brewiarz</string>
     <string name="breviary_tomorrow">Jutrzejszy brewiarz</string>
+    <string name="saving_breviary">Zapisywanie brewiarza</string>
     <string name="select_office">Wybierz Oficjum</string>
     <string name="invitatory">Wezwanie</string>
     <string name="office_of_readings">Godzina czytań</string>

@@ -11,21 +11,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -46,14 +41,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
+import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
-import pl.mftau.mftau.ui.theme.mfTauFont
 import java.io.Serializable
 
 data class EmailScreen(val screenType: EmailScreenType) : Screen {
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -69,29 +63,14 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
                 SnackbarHost(hostState = snackbarHostState)
             },
             topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    title = {
-                        Text(
-                            text = stringResource(
-                                id = when (screenType) {
-                                    is EmailScreenType.AskForPray -> R.string.ask_for_pray
-                                    is EmailScreenType.ReportError -> R.string.report_error
-                                }
-                            ),
-                            fontFamily = mfTauFont
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = navigator::pop) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
-                            )
+                TauTopBar(
+                    title = stringResource(
+                        id = when (screenType) {
+                            is EmailScreenType.AskForPray -> R.string.ask_for_pray
+                            is EmailScreenType.ReportError -> R.string.report_error
                         }
-                    }
+                    ),
+                    onNavClick = navigator::pop
                 )
             },
             floatingActionButton = {

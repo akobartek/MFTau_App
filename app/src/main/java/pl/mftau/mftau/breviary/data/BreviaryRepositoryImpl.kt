@@ -35,12 +35,7 @@ import pl.mftau.mftau.breviary.model.Psalm
 import pl.mftau.mftau.breviary.model.Psalmody
 import java.util.Calendar
 
-class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepository {
-
-    private val mBreviaryUrlTypes = arrayOf(
-        "wezw", "godzczyt", "jutrznia", "modlitwa1",
-        "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
-    )
+class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepository() {
 
     override fun checkIfThereAreMultipleOffices(
         daysFromToday: Int

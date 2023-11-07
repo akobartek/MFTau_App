@@ -156,10 +156,10 @@
     <string name="language_setting_dialog_title">Choose your language</string>
 
     <!-- BREVIARY STRINGS -->
-    <string name="breviary_with_day">Breviary (%s)</string>
     <string name="breviary_yesterday">Yesterday\'s breviary</string>
     <string name="breviary_today">Today\'s breviary</string>
     <string name="breviary_tomorrow">Tomorrow\'s breviary</string>
+    <string name="saving_breviary">Saving breviary</string>
     <string name="select_office">Select the Office</string>
     <string name="invitatory">Invitatory</string>
     <string name="office_of_readings">Office of Readings</string>

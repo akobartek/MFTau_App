@@ -1,8 +1,14 @@
 package pl.mftau.mftau.breviary.presentation
 
-import android.content.Context
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +38,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,12 +53,11 @@ class BreviarySelectScreen : BreviaryScreen() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val context = LocalContext.current
         var dropDownMenuExpanded by remember { mutableStateOf(false) }
 
         val screenModel = rememberScreenModel { BreviaryTextScreenModel() }
         val daysFromToday by screenModel.daysFromToday.collectAsState()
-        val topBarTitle = getCorrectTopBarTitle(context, daysFromToday)
+        val daysString = getCorrectDaysString(daysFromToday)
 
         Scaffold(
             topBar = {
@@ -62,10 +66,29 @@ class BreviarySelectScreen : BreviaryScreen() {
                         containerColor = MaterialTheme.colorScheme.background
                     ),
                     title = {
-                        Text(
-                            text = topBarTitle,
-                            fontFamily = mfTauFont
-                        )
+                        Row {
+                            Text(
+                                text = stringResource(id = R.string.breviary),
+                                fontFamily = mfTauFont
+                            )
+                            AnimatedContent(
+                                targetState = daysString,
+                                transitionSpec = {
+                                    slideIntoContainer(
+                                        animationSpec = tween(400, easing = EaseIn),
+                                        towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
+                                    ).togetherWith(
+                                        slideOutOfContainer(
+                                            animationSpec = tween(400, easing = EaseOut),
+                                            towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
+                                        )
+                                    )
+                                },
+                                label = "days"
+                            ) { text ->
+                                Text(text = text, fontFamily = mfTauFont)
+                            }
+                        }
                     },
                     navigationIcon = {
                         IconButton(onClick = navigator::pop) {
@@ -148,12 +171,12 @@ class BreviarySelectScreen : BreviaryScreen() {
         }
     }
 
-    private fun getCorrectTopBarTitle(context: Context, daysFromToday: Int): String {
+    private fun getCorrectDaysString(daysFromToday: Int): String {
         val calendar = Calendar.getInstance()
         val dayInt = calendar.get(Calendar.DAY_OF_MONTH) + daysFromToday
         val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
         val monthInt = calendar.get(Calendar.MONTH) + 1
         val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
-        return context.getString(R.string.breviary_with_day, "$day.$month")
+        return " ($day.$month)"
     }
 }

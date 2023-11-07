@@ -4,8 +4,14 @@ import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.breviary.model.Breviary
 import pl.mftau.mftau.breviary.model.BreviaryType
 
-interface BreviaryRepository {
-    fun checkIfThereAreMultipleOffices(daysFromToday: Int): Flow<Result<Map<String, String>?>>
+abstract class BreviaryRepository {
 
-    fun loadBreviary(office: String, daysFromToday: Int, type: BreviaryType): Flow<Result<Breviary>>
+    protected val mBreviaryUrlTypes = arrayOf(
+        "wezw", "godzczyt", "jutrznia", "modlitwa1",
+        "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
+    )
+
+    abstract fun checkIfThereAreMultipleOffices(daysFromToday: Int): Flow<Result<Map<String, String>?>>
+
+    abstract fun loadBreviary(office: String, daysFromToday: Int, type: BreviaryType): Flow<Result<Breviary>>
 }
