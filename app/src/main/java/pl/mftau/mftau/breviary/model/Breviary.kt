@@ -25,7 +25,7 @@ data class OfficeOfReadings(
     val firstResponsory: BreviaryPart = BreviaryPart(),
     val secondReading: BreviaryPart = BreviaryPart(),
     val secondResponsory: BreviaryPart = BreviaryPart(),
-    val teDeum: BreviaryPart = BreviaryPart(),
+    val teDeum: BreviaryPart? = null,
     val prayer: BreviaryPart = BreviaryPart(),
     val ending: AnnotatedString = buildAnnotatedString { }
 ) : Breviary()

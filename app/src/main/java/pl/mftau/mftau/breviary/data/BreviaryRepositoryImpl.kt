@@ -279,10 +279,10 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 elements[2].firstElementChild()?.children(), firstReadingPages
             ) else firstReading
 
-        // TODO() -> PROCESS THE LAST ELEMENT
         val lastTableChildren =
             if (elements.size > 1) elements.lastOrNull()?.firstElementChild()?.children()
-            else elements.lastOrNull()?.select("table")?.lastOrNull()?.children()
+            else elements.lastOrNull()?.select("table")
+                ?.lastOrNull()?.firstElementChild()?.children()
 
         val resp1Verses = lastTableChildren?.getOrNull(0)?.lastElementChild()?.text() ?: ""
         val reading2Elem = lastTableChildren?.getOrNull(1)?.firstElementChild()
@@ -290,14 +290,19 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             processTextDiv(it)
         } ?: buildAnnotatedString { }
         val resp2Verses = lastTableChildren?.getOrNull(2)?.lastElementChild()?.text() ?: ""
-        val resp2Text = lastTableChildren?.getOrNull(3)?.selectFirst("div.ww")?.let {
+        val lastElem = lastTableChildren?.getOrNull(3)?.firstElementChild()
+        val resp2Text = lastElem?.selectFirst("div.ww")?.let {
             processTextDiv(it)
         } ?: buildAnnotatedString { }
 
-        val index =
-            reading2Elem?.children()?.indexOfFirst { elem -> elem.text().contains("LG tom") } ?: -1
+        var index = reading2Elem?.children()
+            ?.indexOfFirst { elem -> elem.text().contains("LG tom") } ?: -1
         val reading2Text = buildAnnotatedString {
             reading2Elem?.children()?.let { children ->
+                if (index == -1)
+                    index = children.indexOfFirst { elem ->
+                        elem.text().contains("czytanie", ignoreCase = true)
+                    }
                 val nodes = children.slice(index + 1..<children.size).toMutableList()
                 val textDiv = nodes.lastOrNull { it.hasClass("ww") }
                 nodes.remove(textDiv)
@@ -310,15 +315,48 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                 appendLine()
 
                 nodes.filter { it.tagName() == "div" }.forEach {
-                    withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)){
+                    withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)) {
                         append(processTextDiv(it))
                     }
                 }
-                appendLine()
                 append(processTextDiv(textDiv))
             }
         }
         val reading2Pages = reading2Elem?.children()?.get(index)?.text() ?: ""
+
+        val teDeum = if (lastElem?.html()?.contains("tedeum") == true) {
+            lastElem.children().lastOrNull { it.tagName() == "div" }?.let { teDeumDiv ->
+                val pages = teDeumDiv.children()
+                    .firstOrNull { elem -> elem.text().contains("LG tom") }
+                    ?.text() ?: ""
+                val text = buildAnnotatedString {
+                    val children = teDeumDiv.children()
+                        .firstOrNull { it.html().contains("abc1") }
+                        ?.children()?.firstOrNull { it.id() == "abc1" }
+                        ?.firstElementChild()?.children()
+                    val nestedText = children?.last()?.children() ?: listOf()
+                    children?.removeLast()
+                    children?.addAll(nestedText)
+                    children?.forEachIndexed { index, element ->
+                        if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
+                        append(processTextDiv(element))
+                        if (index < children.size - 1) appendLine()
+                    }
+                }
+                BreviaryPart(pages, text)
+            }
+        } else null
+
+        val prayerPages = lastElem?.select("a")
+            ?.lastOrNull { elem -> elem.text().contains("LG tom") }
+            ?.text() ?: ""
+        val prayerText = lastElem?.select("div.ww")?.lastOrNull()?.let {
+            processTextDiv(it)
+        } ?: buildAnnotatedString { }
+
+        val ending = lastElem?.select("div")?.lastOrNull()?.let {
+            processTextDiv(it)
+        } ?: buildAnnotatedString { }
 
         return OfficeOfReadings(
             opening = processOpening(openingAndPsalmodyElements),
@@ -330,9 +368,9 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             firstResponsory = BreviaryPart("", resp1Text, resp1Verses),
             secondReading = BreviaryPart(reading2Pages, reading2Text),
             secondResponsory = BreviaryPart("", resp2Text, resp2Verses),
-//            teDeum = ,
-//            prayer = ,
-//            ending =
+            teDeum = teDeum,
+            prayer = BreviaryPart(prayerPages, prayerText),
+            ending = ending
         )
     }
 

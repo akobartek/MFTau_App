@@ -323,7 +323,8 @@ fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
         BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
-        BreviaryPartLayout(title = "Te Deum", breviaryPart = officeOfReadings.teDeum)
+        if (officeOfReadings.teDeum != null)
+            BreviaryPartLayout(title = "Te Deum", breviaryPart = officeOfReadings.teDeum)
         BreviaryPartLayout(title = "Modlitwa", breviaryPart = officeOfReadings.prayer)
         Text(text = officeOfReadings.ending, fontSize = 15.sp)
     }
@@ -384,7 +385,8 @@ fun BreviaryPartHeader(title: String, pages: String, verses: String = "") {
                     text = title.uppercase(),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.padding(end = 32.dp)
                 )
             Text(
                 text = verses,
