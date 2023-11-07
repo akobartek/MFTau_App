@@ -54,8 +54,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             else {
                 val offices = mutableMapOf<String, String>()
                 val officesDivs = document.select("div")
-                    .last { it.html().contains("OFICJUM") }
-                    .selectFirst("table")
+                    .lastOrNull { it.html().contains("OFICJUM") }
+                    ?.selectFirst("table")
                     ?.selectFirst("tbody")
                     ?.select("div")
                 officesDivs?.forEach {
@@ -105,16 +105,18 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             document.select("table").last { it.outerHtml().contains("Psalm ") }
 
         if (type == BreviaryType.OFFICE_OF_READINGS) {
-            element.select("i").first { it.html().contains("Te Deum") }.parentNode()?.remove()
+            element.select("i")
+                .firstOrNull { it.html().contains("Te Deum") }
+                ?.parentNode()?.remove()
             if (!element.html().contains("\"def1\"")) {
                 document.getElementById("def1")?.let { elem ->
                     element.appendChild(elem.child(0))
                     document.getElementById("def2")?.let { elem2 ->
                         element.appendChild(elem2.child(0))
                     }
-                    element.appendChild(
-                        elem.parent()!!.select("table")
-                            .first { it.html().contains("RESPONSORIUM") })
+                    elem.parent()!!.select("table")
+                        .firstOrNull { it.html().contains("RESPONSORIUM") }
+                        ?.let { element.appendChild(it) }
                 }
             }
         }
@@ -192,28 +194,29 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getInvitatory(elements: Elements): Invitatory {
-        val opening = processTextDiv(elements.first()?.firstElementChild()?.firstElementChild())
+        val opening =
+            processTextDiv(elements.firstOrNull()?.firstElementChild()?.firstElementChild())
 
         val psalm = Psalm()
-        val psalmElements = elements.last()
+        val psalmElements = elements.lastOrNull()
             ?.firstElementChild()
             ?.firstElementChild()
             ?.children()
-        psalmElements?.first()?.children()?.first()?.let { elem ->
+        psalmElements?.firstOrNull()?.children()?.firstOrNull()?.let { elem ->
             psalm.name = elem.child(0).text() ?: ""
             psalm.title = elem.child(2).text() ?: ""
         }
         psalmElements?.removeAt(0)
-        psalmElements?.first()?.children()?.first()?.let { elem ->
+        psalmElements?.firstOrNull()?.children()?.firstOrNull()?.let { elem ->
             psalm.subtitle = elem.text()
         }
         psalmElements?.removeAt(0)
-        psalmElements?.first()?.let { elem ->
+        psalmElements?.firstOrNull()?.let { elem ->
             psalm.breviaryPages =
                 elem.textNodes()[0]?.text() + "\n" + elem.lastElementChild()?.text()
         }
         psalmElements?.removeAt(0)
-        psalmElements?.select(".cd")?.first()?.let { div ->
+        psalmElements?.select(".cd")?.firstOrNull()?.let { div ->
             val fonts = div.children()
             val texts = div.textNodes()
             psalm.antiphon1 = buildAnnotatedString {
@@ -238,7 +241,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
 
         val ending = buildAnnotatedString {
             withStyle(style = SpanStyle(color = accentColor)) {
-                append(elements.select("div").last()?.child(0)?.text())
+                append(elements.select("div").lastOrNull()?.child(0)?.text())
             }
         }
 
@@ -250,25 +253,25 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getOfficeOfReading(elements: Elements): OfficeOfReadings {
-        val openingAndPsalmodyElements = elements.first()!!.children()
-        val aElems = openingAndPsalmodyElements.first()?.select("a")
+        val openingAndPsalmodyElements = elements.firstOrNull()!!.children()
+        val aElems = openingAndPsalmodyElements.firstOrNull()?.select("a")
             ?.filter { elem -> elem.text().contains("LG tom") }
             ?.takeLast(2)
         val additionalPartText = buildAnnotatedString {
-            val divs = openingAndPsalmodyElements.first()?.select(".cd")?.takeLast(2)
+            val divs = openingAndPsalmodyElements.firstOrNull()?.select(".cd")?.takeLast(2)
             appendLine(processTextDiv(divs?.get(0)))
             append(processTextDiv(divs?.get(1)))
         }
-        val firstReadingPages = aElems?.last()?.text()
+        val firstReadingPages = aElems?.lastOrNull()?.text()
 
-            // TODO() -> PROCESS THE LAST ELEMENT
-        val lastElement = elements.last()
+        // TODO() -> PROCESS THE LAST ELEMENT
+        val lastElement = elements.lastOrNull()?.firstElementChild()
 
         return OfficeOfReadings(
             opening = processOpening(openingAndPsalmodyElements),
             hymn = processHymn(openingAndPsalmodyElements),
             psalmody = processPsalmody(openingAndPsalmodyElements),
-            additionalPart = BreviaryPart(aElems?.first()?.text() ?: "", additionalPartText),
+            additionalPart = BreviaryPart(aElems?.firstOrNull()?.text() ?: "", additionalPartText),
             firstReading = processOfficeOfReadingsReading(
                 elements[1].firstElementChild()?.children(), firstReadingPages
             ),
@@ -287,13 +290,13 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     private fun getMajorHour(elements: Elements): MajorHour {
         val canticleAndIntercessions = elements[4]?.child(0)
         val intercessionsPages = canticleAndIntercessions?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text()
-        val intercessions = processTextDiv(canticleAndIntercessions?.select("div")?.last())
+            ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
+        val intercessions = processTextDiv(canticleAndIntercessions?.select("div")?.lastOrNull())
 
-        val lastChild = elements.last()?.child(0)?.children()
+        val lastChild = elements.lastOrNull()?.child(0)?.children()
         val lordsPrayer = buildAnnotatedString {
-            val lordsPrayerFormula = lastChild?.first()?.text()
-            val lordsPrayerTexts = lastChild?.last()?.textNodes()?.take(8)
+            val lordsPrayerFormula = lastChild?.firstOrNull()?.text()
+            val lordsPrayerTexts = lastChild?.lastOrNull()?.textNodes()?.take(8)
             withStyle(style = SpanStyle(color = accentColor)) {
                 append(lordsPrayerFormula + "\n")
             }
@@ -322,7 +325,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getMinorHour(elements: Elements): MinorHour {
-        val lastChild = elements.last()?.child(0)
+        val lastChild = elements.lastOrNull()?.child(0)
         val endingDivs = lastChild?.children()?.select(".ww")
         endingDivs?.removeAt(0)
         val prayer = processPrayer(elements, endingDivs)
@@ -342,7 +345,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun getCompline(elements: Elements): Compline {
-        val lastChild = elements.last()?.child(0)?.children()
+        val lastChild = elements.lastOrNull()?.child(0)?.children()
         val pages = lastChild?.select("a")
             ?.filter { node -> node.html().contains("LG skrócone") }
             ?.takeLast(2)
@@ -433,7 +436,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         }
 
     private fun processOpening(elements: Elements): AnnotatedString {
-        val openingAndPsalmodyElement = elements.first()?.firstElementChild()?.lastElementChild()
+        val openingAndPsalmodyElement =
+            elements.firstOrNull()?.firstElementChild()?.lastElementChild()
         return buildAnnotatedString {
             openingAndPsalmodyElement?.select(".c")?.take(5)?.forEach { elem ->
                 append(processTextDiv(elem))
@@ -450,9 +454,10 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun processHymn(elements: Elements): BreviaryPart {
-        val openingAndPsalmodyElement = elements.first()?.firstElementChild()?.lastElementChild()
+        val openingAndPsalmodyElement =
+            elements.firstOrNull()?.firstElementChild()?.lastElementChild()
         val hymnPages = openingAndPsalmodyElement?.select("a")
-            ?.first { it.html().contains("LG skrócone") }
+            ?.firstOrNull { it.html().contains("LG skrócone") }
             ?.text()
         val hymnText = buildAnnotatedString {
             val hymnElements = openingAndPsalmodyElement?.children()?.let { children ->
@@ -473,15 +478,16 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun processPsalmody(elements: Elements): Psalmody {
-        val openingAndPsalmodyElement = elements.first()?.firstElementChild()?.lastElementChild()
+        val openingAndPsalmodyElement =
+            elements.firstOrNull()?.firstElementChild()?.lastElementChild()
         val psalmodyChildren = openingAndPsalmodyElement?.children()?.let { children ->
             children.slice(
                 children.indexOfFirst { it.html().contains("Psalmodia", ignoreCase = true) } + 1
                         ..<children.size
             ).toMutableList()
         }
-        if (psalmodyChildren?.first()?.tagName() == "div") psalmodyChildren.removeAt(0)
-        val psalmodyPages = processTextDiv(psalmodyChildren?.first { it.tagName() == "a" })
+        if (psalmodyChildren?.firstOrNull()?.tagName() == "div") psalmodyChildren.removeAt(0)
+        val psalmodyPages = processTextDiv(psalmodyChildren?.firstOrNull { it.tagName() == "a" })
 
         val psalms = arrayListOf<Psalm>()
         val allPsalmsDivs = psalmodyChildren?.filter { it.tagName() == "div" }?.toMutableList()
@@ -503,8 +509,8 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
 
     private fun processPsalm(divs: List<Element>): Psalm {
         val psalm = Psalm()
-        psalm.antiphon1 = processTextDiv(divs.first())
-        psalm.antiphon2 = processTextDiv(divs.last())
+        psalm.antiphon1 = processTextDiv(divs.firstOrNull())
+        psalm.antiphon2 = processTextDiv(divs.lastOrNull())
         if (divs.size >= 5) {
             divs[1].child(0).let { elem ->
                 psalm.name = elem.child(0).text() ?: ""
@@ -530,10 +536,10 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
 
     private fun processReading(elements: Elements): BreviaryPart {
         val readingHeaderElements = elements[1]?.children()
-        val readingPages = readingHeaderElements?.first()
+        val readingPages = readingHeaderElements?.firstOrNull()
             ?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text()
-        val readingVerses = readingHeaderElements?.last()?.text()
+            ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
+        val readingVerses = readingHeaderElements?.lastOrNull()?.text()
 
         val readingAndResponsory = elements[2]?.child(0)
         val readingText = buildAnnotatedString {
@@ -549,10 +555,10 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun processOfficeOfReadingsReading(elements: Elements?, pages: String?): BreviaryPart {
-        val verses = elements?.first()?.lastElementChild()?.text()
+        val verses = elements?.firstOrNull()?.lastElementChild()?.text()
         val text = buildAnnotatedString {
-            append(processTextDiv(elements?.first()?.firstElementChild()))
-            append(processTextDiv(elements?.last()?.firstElementChild(), true))
+            append(processTextDiv(elements?.firstOrNull()?.firstElementChild()))
+            append(processTextDiv(elements?.lastOrNull()?.firstElementChild(), true))
         }
         return BreviaryPart(pages ?: "", text, verses ?: "")
     }
@@ -560,20 +566,20 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     private fun processResponsory(elements: Elements): BreviaryPart {
         val readingAndResponsory = elements[2]?.child(0)
         val responsoryPages = readingAndResponsory?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text()
-        val responsory = processTextDiv(readingAndResponsory?.select("div")?.last())
+            ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
+        val responsory = processTextDiv(readingAndResponsory?.select("div")?.lastOrNull())
         return BreviaryPart(responsoryPages ?: "", responsory)
     }
 
     private fun processCanticle(elements: Elements, isCompline: Boolean = false): Canticle {
         val canticleHeaderElements = elements[3]?.children()
-        val canticleName = canticleHeaderElements?.first()?.selectFirst("div")?.text() ?: ""
-        val canticlePages = canticleHeaderElements?.first()?.select("a")
-            ?.first { it.html().contains("LG skrócone") }?.text() ?: ""
-        val canticleVerses = canticleHeaderElements?.last()?.text() ?: ""
+        val canticleName = canticleHeaderElements?.firstOrNull()?.selectFirst("div")?.text() ?: ""
+        val canticlePages = canticleHeaderElements?.firstOrNull()?.select("a")
+            ?.firstOrNull { it.html().contains("LG skrócone") }?.text() ?: ""
+        val canticleVerses = canticleHeaderElements?.lastOrNull()?.text() ?: ""
 
         val canticleAndIntercessions = elements[4]?.child(0)
-        val divsList = canticleAndIntercessions?.select("div")?.first()?.children()?.toList()
+        val divsList = canticleAndIntercessions?.select("div")?.firstOrNull()?.children()?.toList()
         val antiphonDivs = divsList
             ?.filter { it.className() == "cd" || it.className() == "cdx" }
             ?.take(2)
@@ -588,9 +594,9 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             breviaryPages = canticlePages,
             name = canticleName,
             verses = canticleVerses,
-            antiphon1 = processTextDiv(antiphonDivs?.first()),
+            antiphon1 = processTextDiv(antiphonDivs?.firstOrNull()),
             text = getCanticleText(canticleDivs),
-            antiphon2 = processTextDiv(antiphonDivs?.last())
+            antiphon2 = processTextDiv(antiphonDivs?.lastOrNull())
         )
     }
 
@@ -606,10 +612,10 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
     }
 
     private fun processPrayer(elements: Elements, endingDivs: Elements?): BreviaryPart {
-        val lastChild = elements.last()?.child(0)?.children()
+        val lastChild = elements.lastOrNull()?.child(0)?.children()
         val prayerPages = lastChild?.select("a")
-            ?.last { elem -> elem.html().contains("LG skrócone") }?.text()
-        val prayerText = processTextDiv(endingDivs?.first()?.child(0))
+            ?.lastOrNull { elem -> elem.html().contains("LG skrócone") }?.text()
+        val prayerText = processTextDiv(endingDivs?.firstOrNull()?.child(0))
         return BreviaryPart(prayerPages ?: "", prayerText)
     }
 }
