@@ -11,12 +11,12 @@ import pl.mftau.mftau.breviary.data.BreviaryRepositoryImpl
 import pl.mftau.mftau.breviary.model.Breviary
 import pl.mftau.mftau.breviary.model.BreviaryType
 
-class BreviaryScreenModel(
+class BreviarySelectScreenModel(
     private val type: BreviaryType,
     private val daysFromToday: Int = 0,
     private val accentColor: Color = Color.White,
     private val repository: BreviaryRepository = BreviaryRepositoryImpl(accentColor)
-) : StateScreenModel<BreviaryScreenModel.State>(State.Loading) {
+) : StateScreenModel<BreviarySelectScreenModel.State>(State.Loading) {
 
     sealed class State {
         data object Loading : State()
