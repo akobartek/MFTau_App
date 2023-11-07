@@ -1,6 +1,13 @@
 package pl.mftau.mftau.breviary.presentation
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Down
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Up
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -267,7 +274,10 @@ fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
             MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
                 options.forEachIndexed { index, option ->
                     SegmentedButton(
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = options.size),
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options.size
+                        ),
                         icon = {
                             SegmentedButtonDefaults.Icon(
                                 active = optionSelected == index,
@@ -289,7 +299,26 @@ fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = selectedReading.text, fontSize = 15.sp)
+            AnimatedContent(
+                targetState = optionSelected,
+                transitionSpec = {
+                    slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = Down
+                    ).togetherWith(
+                        slideOutOfContainer(
+                            animationSpec = tween(400, easing = EaseOut),
+                            towards = Down
+                        )
+                    )
+                },
+                label = "reading"
+            ) { targetState ->
+                val text =
+                    if (targetState == 0) officeOfReadings.firstReading.text
+                    else officeOfReadings.firstReadingVersion2.text
+                Text(text = text, fontSize = 15.sp)
+            }
         }
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
         BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)

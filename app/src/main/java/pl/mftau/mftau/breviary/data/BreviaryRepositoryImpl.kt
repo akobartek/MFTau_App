@@ -261,6 +261,9 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         }
         val firstReadingPages = aElems?.last()?.text()
 
+            // TODO() -> PROCESS THE LAST ELEMENT
+        val lastElement = elements.last()
+
         return OfficeOfReadings(
             opening = processOpening(openingAndPsalmodyElements),
             hymn = processHymn(openingAndPsalmodyElements),
