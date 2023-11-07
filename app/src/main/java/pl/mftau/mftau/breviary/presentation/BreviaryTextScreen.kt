@@ -393,7 +393,8 @@ fun BreviaryPartHeader(title: String, pages: String, verses: String = "") {
                 color = MaterialTheme.colorScheme.secondary
             )
         }
-        Text(text = pages, fontSize = 10.sp)
+        if (pages.isNotBlank())
+            Text(text = pages, fontSize = 10.sp)
         Spacer(modifier = Modifier.height(12.dp))
     }
 }

@@ -262,25 +262,74 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             appendLine(processTextDiv(divs?.get(0)))
             append(processTextDiv(divs?.get(1)))
         }
+
         val firstReadingPages = aElems?.lastOrNull()?.text()
+        val firstReadingDiv =
+            if (elements.size > 1) elements[1]
+            else openingAndPsalmodyElements.firstOrNull()
+                ?.firstElementChild()
+                ?.select("div")
+                ?.lastOrNull { it.outerHtml().contains("def1") }
+                ?.firstElementChild()
+        val firstReading = processOfficeOfReadingsReading(
+            firstReadingDiv?.firstElementChild()?.children(), firstReadingPages
+        )
+        val firstReadingV2 =
+            if (elements.size > 1) processOfficeOfReadingsReading(
+                elements[2].firstElementChild()?.children(), firstReadingPages
+            ) else firstReading
 
         // TODO() -> PROCESS THE LAST ELEMENT
-        val lastElement = elements.lastOrNull()?.firstElementChild()
+        val lastTableChildren =
+            if (elements.size > 1) elements.lastOrNull()?.firstElementChild()?.children()
+            else elements.lastOrNull()?.select("table")?.lastOrNull()?.children()
+
+        val resp1Verses = lastTableChildren?.getOrNull(0)?.lastElementChild()?.text() ?: ""
+        val reading2Elem = lastTableChildren?.getOrNull(1)?.firstElementChild()
+        val resp1Text = reading2Elem?.selectFirst("div.ww")?.let {
+            processTextDiv(it)
+        } ?: buildAnnotatedString { }
+        val resp2Verses = lastTableChildren?.getOrNull(2)?.lastElementChild()?.text() ?: ""
+        val resp2Text = lastTableChildren?.getOrNull(3)?.selectFirst("div.ww")?.let {
+            processTextDiv(it)
+        } ?: buildAnnotatedString { }
+
+        val index =
+            reading2Elem?.children()?.indexOfFirst { elem -> elem.text().contains("LG tom") } ?: -1
+        val reading2Text = buildAnnotatedString {
+            reading2Elem?.children()?.let { children ->
+                val nodes = children.slice(index + 1..<children.size).toMutableList()
+                val textDiv = nodes.lastOrNull { it.hasClass("ww") }
+                nodes.remove(textDiv)
+
+                val filter = nodes.filter { it.hasClass("c") }
+                filter.forEach {
+                    append(it.text().replace("\n", "") + " ")
+                }
+                nodes.removeAll(filter)
+                appendLine()
+
+                nodes.filter { it.tagName() == "div" }.forEach {
+                    withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)){
+                        append(processTextDiv(it))
+                    }
+                }
+                appendLine()
+                append(processTextDiv(textDiv))
+            }
+        }
+        val reading2Pages = reading2Elem?.children()?.get(index)?.text() ?: ""
 
         return OfficeOfReadings(
             opening = processOpening(openingAndPsalmodyElements),
             hymn = processHymn(openingAndPsalmodyElements),
             psalmody = processPsalmody(openingAndPsalmodyElements),
             additionalPart = BreviaryPart(aElems?.firstOrNull()?.text() ?: "", additionalPartText),
-            firstReading = processOfficeOfReadingsReading(
-                elements[1].firstElementChild()?.children(), firstReadingPages
-            ),
-            firstReadingVersion2 = processOfficeOfReadingsReading(
-                elements[2].firstElementChild()?.children(), firstReadingPages
-            ),
-//            firstResponsory = ,
-//            secondReading = ,
-//            secondResponsory = ,
+            firstReading = firstReading,
+            firstReadingVersion2 = firstReadingV2,
+            firstResponsory = BreviaryPart("", resp1Text, resp1Verses),
+            secondReading = BreviaryPart(reading2Pages, reading2Text),
+            secondResponsory = BreviaryPart("", resp2Text, resp2Verses),
 //            teDeum = ,
 //            prayer = ,
 //            ending =
@@ -380,11 +429,11 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             val checkIfNotEmpty = { node: Node ->
                 (node !is Element && node.outerHtml() != "") || (node is Element && node.tagName() != "br")
             }
-            val firstIndex = nodes?.indexOfFirst(checkIfNotEmpty)
-            val lastIndex = nodes?.indexOfLast(checkIfNotEmpty)
+            val firstIndex = nodes?.indexOfFirst(checkIfNotEmpty) ?: -1
+            val lastIndex = nodes?.indexOfLast(checkIfNotEmpty) ?: -1
 
-            if (firstIndex != null && lastIndex != null)
-                nodes.slice(firstIndex..lastIndex).forEach { node ->
+            if (firstIndex != -1 && lastIndex != -1)
+                nodes?.slice(firstIndex..lastIndex)?.forEach { node ->
                     if (node is TextNode) append(node.text())
                     else if (node is Element) {
                         when (node.tagName()) {
@@ -403,6 +452,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                             }
 
                             "div" -> {
+                                node.hasText()
                                 val textIndent =
                                     if (node.hasClass("c")) TextIndent(firstLine = 12.sp)
                                     else null
@@ -412,7 +462,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                                     else null
                                 val append = { append(processTextDiv(node)) }
                                 try {
-                                    if (textIndent != null || textAlign != null)
+                                    if ((node.ownText() != "" && textIndent != null) || textAlign != null)
                                         withStyle(
                                             style = ParagraphStyle(
                                                 textIndent = textIndent,
@@ -423,7 +473,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
                                         }
                                     else append()
                                 } catch (exc: IllegalArgumentException) {
-                                    append()
+                                    exc.printStackTrace()
                                 }
                             }
 
