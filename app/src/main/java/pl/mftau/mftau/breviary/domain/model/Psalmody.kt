@@ -1,4 +1,4 @@
-package pl.mftau.mftau.breviary.model
+package pl.mftau.mftau.breviary.domain.model
 
 data class Psalmody(
     val breviaryPages: String = "",

@@ -1,6 +1,5 @@
 package pl.mftau.mftau.breviary.presentation
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Down
 import androidx.compose.animation.core.EaseIn
@@ -44,27 +43,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.breviary.model.Breviary
-import pl.mftau.mftau.breviary.model.BreviaryPart
-import pl.mftau.mftau.breviary.model.BreviaryType
-import pl.mftau.mftau.breviary.model.Canticle
-import pl.mftau.mftau.breviary.model.Compline
-import pl.mftau.mftau.breviary.model.Invitatory
-import pl.mftau.mftau.breviary.model.MajorHour
-import pl.mftau.mftau.breviary.model.MinorHour
-import pl.mftau.mftau.breviary.model.OfficeOfReadings
-import pl.mftau.mftau.breviary.model.Psalm
-import pl.mftau.mftau.breviary.model.Psalmody
+import pl.mftau.mftau.breviary.domain.model.Breviary
+import pl.mftau.mftau.breviary.domain.model.Breviary.*
+import pl.mftau.mftau.breviary.domain.model.BreviaryPart
+import pl.mftau.mftau.breviary.domain.model.BreviaryType
+import pl.mftau.mftau.breviary.domain.model.Canticle
+import pl.mftau.mftau.breviary.domain.model.Psalm
+import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
-import pl.mftau.mftau.ui.theme.TauSecondaryDark
-import pl.mftau.mftau.ui.theme.TauSecondaryLight
 
 data class BreviaryTextScreen(
     val position: Int = 0,
@@ -73,17 +66,11 @@ data class BreviaryTextScreen(
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val color =
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                TauSecondaryDark
-            else TauSecondaryLight
-        val screenModel = rememberScreenModel {
-            BreviarySelectScreenModel(
-                type = BreviaryType.fromPosition(position),
-                daysFromToday = daysFromToday,
-                accentColor = color
-            )
-        }
+        val screenModel = getScreenModel<BreviaryTextScreenModel>()
+        screenModel.setup(
+            type = BreviaryType.fromPosition(position),
+            daysFromToday = daysFromToday
+        )
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         Scaffold(
@@ -101,12 +88,12 @@ data class BreviaryTextScreen(
                     .padding(horizontal = 8.dp)
             ) {
                 when (state) {
-                    is BreviarySelectScreenModel.State.Cancelled -> {}
-                    is BreviarySelectScreenModel.State.Loading -> LoadingIndicator()
+                    is BreviaryTextScreenModel.State.Cancelled -> {}
+                    is BreviaryTextScreenModel.State.Loading -> LoadingIndicator()
 
-                    is BreviarySelectScreenModel.State.MultipleOffices ->
+                    is BreviaryTextScreenModel.State.MultipleOffices ->
                         MultipleOfficesDialog(
-                            offices = (state as BreviarySelectScreenModel.State.MultipleOffices).offices,
+                            offices = (state as BreviaryTextScreenModel.State.MultipleOffices).offices,
                             onSelect = screenModel::officeSelected,
                             onCancel = {
                                 screenModel.cancelScreen()
@@ -114,11 +101,11 @@ data class BreviaryTextScreen(
                             }
                         )
 
-                    is BreviarySelectScreenModel.State.BreviaryAvailable -> BreviaryLayout(
-                        breviary = (state as BreviarySelectScreenModel.State.BreviaryAvailable).breviary
+                    is BreviaryTextScreenModel.State.BreviaryAvailable -> BreviaryLayout(
+                        breviary = (state as BreviaryTextScreenModel.State.BreviaryAvailable).breviary
                     )
 
-                    is BreviarySelectScreenModel.State.Failure ->
+                    is BreviaryTextScreenModel.State.Failure ->
                         NoInternetDialog(
                             onReconnect = screenModel::checkIfThereAreMultipleOffices,
                             onCancel = {

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.breviary.model
+package pl.mftau.mftau.breviary.domain.model
 
 enum class BreviaryType(val type: Int) {
     INVITATORY(0),

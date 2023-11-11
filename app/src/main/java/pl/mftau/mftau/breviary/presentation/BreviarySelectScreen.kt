@@ -41,7 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
@@ -55,7 +55,7 @@ class BreviarySelectScreen : BreviaryScreen() {
         val navigator = LocalNavigator.currentOrThrow
         var dropDownMenuExpanded by remember { mutableStateOf(false) }
 
-        val screenModel = rememberScreenModel { BreviaryTextScreenModel() }
+        val screenModel = getScreenModel<BreviarySelectScreenModel>()
         val daysFromToday by screenModel.daysFromToday.collectAsState()
         val daysString = getCorrectDaysString(daysFromToday)
 

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.breviary.data
+package pl.mftau.mftau.breviary.data.repository
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -21,23 +21,24 @@ import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
-import pl.mftau.mftau.breviary.model.Breviary
-import pl.mftau.mftau.breviary.model.BreviaryHtml
-import pl.mftau.mftau.breviary.model.BreviaryType
-import pl.mftau.mftau.breviary.model.Invitatory
-import pl.mftau.mftau.breviary.model.MajorHour
-import pl.mftau.mftau.breviary.model.BreviaryPart
-import pl.mftau.mftau.breviary.model.Canticle
-import pl.mftau.mftau.breviary.model.Compline
-import pl.mftau.mftau.breviary.model.MinorHour
-import pl.mftau.mftau.breviary.model.OfficeOfReadings
-import pl.mftau.mftau.breviary.model.Psalm
-import pl.mftau.mftau.breviary.model.Psalmody
+import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
+import pl.mftau.mftau.breviary.domain.model.Breviary
+import pl.mftau.mftau.breviary.domain.model.Breviary.*
+import pl.mftau.mftau.breviary.domain.model.BreviaryType
+import pl.mftau.mftau.breviary.domain.model.BreviaryPart
+import pl.mftau.mftau.breviary.domain.model.Canticle
+import pl.mftau.mftau.breviary.domain.model.Psalm
+import pl.mftau.mftau.breviary.domain.model.Psalmody
 import java.util.Calendar
 
-class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepository() {
+class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRepository {
 
-    override fun checkIfThereAreMultipleOffices(
+    private val mBreviaryUrlTypes = arrayOf(
+        "wezw", "godzczyt", "jutrznia", "modlitwa1",
+        "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
+    )
+
+    override suspend  fun checkIfThereAreMultipleOffices(
         daysFromToday: Int
     ): Flow<Result<Map<String, String>?>> = flow {
         try {
@@ -65,7 +66,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun loadBreviary(
+    override suspend fun loadBreviary(
         office: String,
         daysFromToday: Int,
         type: BreviaryType
@@ -185,7 +186,7 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
 
                 BreviaryType.COMPLINE -> getCompline(breviaryChildren)
             }
-        } ?: BreviaryHtml(breviaryHtml)
+        } ?: BreviaryHtml(setBreviaryNightMode(breviaryHtml))
     }
 
     private fun getInvitatory(elements: Elements): Invitatory {
@@ -700,5 +701,15 @@ class BreviaryRepositoryImpl(private val accentColor: Color) : BreviaryRepositor
             ?.lastOrNull { elem -> elem.html().contains("LG skrócone") }?.text()
         val prayerText = processTextDiv(endingDivs?.firstOrNull()?.child(0))
         return BreviaryPart(prayerPages ?: "", prayerText)
+    }
+
+    private fun setBreviaryNightMode(breviaryHtml: String): String {
+        val result = "<html><head>" +
+                "<style type=\"text/css\">body{color: #fff; background-color: #160A01;}" +
+                "</style></head>" +
+                "<body>" +
+                breviaryHtml +
+                "</body></html>"
+        return result.replace("black", "white")
     }
 }
