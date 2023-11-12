@@ -29,7 +29,6 @@ import pl.mftau.mftau.breviary.domain.model.BreviaryPart
 import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
-import java.util.Calendar
 
 class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRepository {
 
@@ -39,10 +38,10 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
     )
 
     override suspend  fun checkIfThereAreMultipleOffices(
-        daysFromToday: Int
+        date: String
     ): Flow<Result<Map<String, String>?>> = flow {
         try {
-            val document = Jsoup.connect(buildBaseBreviaryUrl(daysFromToday, true) + "index.php3")
+            val document = Jsoup.connect(buildBaseBreviaryUrl(date, true) + "index.php3")
                 .timeout(15000)
                 .get()
             if (!document.html().contains("WYBIERZ OFICJUM", true))
@@ -68,11 +67,11 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
 
     override suspend fun loadBreviary(
         office: String,
-        daysFromToday: Int,
+        date: String,
         type: BreviaryType
     ): Flow<Result<Breviary>> = flow {
         try {
-            val breviaryUrl = buildBaseBreviaryUrl(daysFromToday, office == "") +
+            val breviaryUrl = buildBaseBreviaryUrl(date, office == "") +
                     "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()
             emit(Result.success(getProperBreviaryObject(document, type)))
@@ -82,15 +81,14 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
         }
     }.flowOn(Dispatchers.IO)
 
-    private fun buildBaseBreviaryUrl(daysFromToday: Int, withDays: Boolean): String {
+    private fun buildBaseBreviaryUrl(date: String, withDays: Boolean): String {
         val romanMonths =
             arrayOf("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
-        val calendar = Calendar.getInstance()
-        val dayInt = calendar.get(Calendar.DAY_OF_MONTH) + daysFromToday
-        val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
-        val monthInt = calendar.get(Calendar.MONTH) + 1
-        val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
-        val year = calendar.get(Calendar.YEAR).toString().substring(2)
+        val split = date.split(".")
+        val day = split[0]
+        val month = split[1]
+        val monthInt = month.toInt()
+        val year = split[2]
 
         return if (withDays) "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/$day$month/"
         else "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/"

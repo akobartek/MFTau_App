@@ -4,14 +4,14 @@ import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 
-class BreviarySaveUseCase(
+class BreviaryLoadAndSaveUseCase(
     private val webRepository: WebBreviaryRepository,
     private val dbRepository: DbBreviaryRepository
 ) {
 
-    suspend operator fun invoke(office: String, daysFromToday: Int) {
-        webRepository.loadBreviary(office, daysFromToday, BreviaryType.LAUDS)
-        webRepository.loadBreviary(office, daysFromToday, BreviaryType.VESPERS)
-        webRepository.loadBreviary(office, daysFromToday, BreviaryType.COMPLINE)
+    suspend operator fun invoke(office: String, date: String) {
+        webRepository.loadBreviary(office, date, BreviaryType.LAUDS)
+        webRepository.loadBreviary(office, date, BreviaryType.VESPERS)
+        webRepository.loadBreviary(office, date, BreviaryType.COMPLINE)
     }
 }

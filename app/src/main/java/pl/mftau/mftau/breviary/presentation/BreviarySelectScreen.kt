@@ -46,7 +46,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.ui.theme.mfTauFont
-import java.util.Calendar
 
 class BreviarySelectScreen : BreviaryScreen() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +56,7 @@ class BreviarySelectScreen : BreviaryScreen() {
 
         val screenModel = getScreenModel<BreviarySelectScreenModel>()
         val daysFromToday by screenModel.daysFromToday.collectAsState()
-        val daysString = getCorrectDaysString(daysFromToday)
+        val daysString = screenModel.getCorrectDaysString(daysFromToday)
 
         Scaffold(
             topBar = {
@@ -99,7 +98,9 @@ class BreviarySelectScreen : BreviaryScreen() {
                         }
                     },
                     actions = {
-                        IconButton(onClick = { println("SAVE CLICKED") }) {
+                        IconButton(onClick = {
+                            navigator.push(BreviarySaveScreen(screenModel.dateString))
+                        }) {
                             Icon(imageVector = Icons.Filled.Save, contentDescription = "Lock")
                         }
 
@@ -153,7 +154,7 @@ class BreviarySelectScreen : BreviaryScreen() {
                 stringArrayResource(id = R.array.breviary_list).forEachIndexed { index, elem ->
                     Column(
                         Modifier.clickable {
-                            navigator.push(BreviaryTextScreen(index, daysFromToday))
+                            navigator.push(BreviaryTextScreen(index, screenModel.dateString))
                         }
                     ) {
                         Text(
@@ -169,14 +170,5 @@ class BreviarySelectScreen : BreviaryScreen() {
                 }
             }
         }
-    }
-
-    private fun getCorrectDaysString(daysFromToday: Int): String {
-        val calendar = Calendar.getInstance()
-        val dayInt = calendar.get(Calendar.DAY_OF_MONTH) + daysFromToday
-        val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
-        val monthInt = calendar.get(Calendar.MONTH) + 1
-        val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
-        return " ($day.$month)"
     }
 }

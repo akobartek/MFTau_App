@@ -26,13 +26,13 @@ import pl.mftau.mftau.core.presentation.components.TauTopBar
  * TODO() -> SAVING BREVIARY
  */
 data class BreviarySaveScreen(
-    val daysFromToday: Int = 0
+    val date: String = ""
 ) : BreviaryScreen() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = getScreenModel<BreviarySaveScreenModel>()
-        screenModel.setup(daysFromToday = daysFromToday)
+        screenModel.setup(date = date)
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         Scaffold(

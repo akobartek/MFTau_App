@@ -6,6 +6,6 @@ class CheckIfThereAreMultipleOfficesUseCase(
     private val webRepository: WebBreviaryRepository
 ) {
 
-    suspend operator fun invoke(daysFromToday: Int) =
-        webRepository.checkIfThereAreMultipleOffices(daysFromToday)
+    suspend operator fun invoke(date: String) =
+        webRepository.checkIfThereAreMultipleOffices(date)
 }

@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
-import pl.mftau.mftau.breviary.domain.usecase.LoadSingleBreviaryUseCase
+import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadSingleUseCase
 import pl.mftau.mftau.breviary.domain.model.Breviary
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 
 class BreviaryTextScreenModel(
     private val checkIfThereAreMultipleOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
-    private val loadSingleBreviaryUseCase: LoadSingleBreviaryUseCase
+    private val loadSingleUseCase: BreviaryLoadSingleUseCase
 ) : StateScreenModel<BreviaryTextScreenModel.State>(State.Loading) {
 
     sealed class State {
@@ -25,17 +25,17 @@ class BreviaryTextScreenModel(
 
     private var selectedOfficeLink = ""
     private lateinit var type: BreviaryType
-    private var daysFromToday = 0
+    private var date = ""
 
-    fun setup(type: BreviaryType, daysFromToday: Int) {
+    fun setup(type: BreviaryType, date: String) {
         this.type = type
-        this.daysFromToday = daysFromToday
+        this.date = date
         checkIfThereAreMultipleOffices()
     }
 
     fun checkIfThereAreMultipleOffices() {
         screenModelScope.launch {
-            val result = checkIfThereAreMultipleOfficesUseCase(daysFromToday).first()
+            val result = checkIfThereAreMultipleOfficesUseCase(date).first()
             if (result.isSuccess) {
                 val offices = result.getOrNull()
                 if (offices == null) loadBreviary()
@@ -52,7 +52,7 @@ class BreviaryTextScreenModel(
 
     private fun loadBreviary(office: String = "") {
         screenModelScope.launch {
-            val result = loadSingleBreviaryUseCase(office, daysFromToday, type).first()
+            val result = loadSingleUseCase(office, date, type).first()
             mutableState.update {
                 if (result.isFailure || result.getOrNull() == null) State.Failure
                 else State.BreviaryAvailable(result.getOrNull()!!)

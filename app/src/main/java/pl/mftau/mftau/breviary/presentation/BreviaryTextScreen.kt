@@ -61,7 +61,7 @@ import pl.mftau.mftau.core.presentation.components.TauTopBar
 
 data class BreviaryTextScreen(
     val position: Int = 0,
-    val daysFromToday: Int = 0
+    val date: String = ""
 ) : BreviaryScreen() {
     @Composable
     override fun Content() {
@@ -69,7 +69,7 @@ data class BreviaryTextScreen(
         val screenModel = getScreenModel<BreviaryTextScreenModel>()
         screenModel.setup(
             type = BreviaryType.fromPosition(position),
-            daysFromToday = daysFromToday
+            date = date
         )
         val state by screenModel.state.collectAsStateWithLifecycle()
 

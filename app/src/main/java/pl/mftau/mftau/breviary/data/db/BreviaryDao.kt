@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
 
 @Dao
 interface BreviaryDao {
