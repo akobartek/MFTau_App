@@ -15,7 +15,7 @@ import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 
-class BreviaryLoadAndSaveUseCase(
+class LoadAndSaveBreviaryUseCase(
     private val webRepository: WebBreviaryRepository,
     private val dbRepository: DbBreviaryRepository
 ) {

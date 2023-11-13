@@ -6,15 +6,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadSingleUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadSingleBreviaryUseCase
 import pl.mftau.mftau.breviary.domain.model.Breviary
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryDbLoadUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadFromDbBreviaryUseCase
 
 class BreviaryTextScreenModel(
-    private val checkIfThereAreMultipleOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
-    private val loadSingleUseCase: BreviaryLoadSingleUseCase,
-    private val dbLoadUseCase: BreviaryDbLoadUseCase
+    private val checkOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
+    private val loadSingleUseCase: LoadSingleBreviaryUseCase,
+    private val dbLoadUseCase: LoadFromDbBreviaryUseCase
 ) : StateScreenModel<BreviaryTextScreenModel.State>(State.Loading) {
 
     sealed class State {
@@ -37,7 +37,7 @@ class BreviaryTextScreenModel(
 
     fun checkIfThereAreMultipleOffices() {
         screenModelScope.launch {
-            val result = checkIfThereAreMultipleOfficesUseCase(date).first()
+            val result = checkOfficesUseCase(date).first()
             if (result.isSuccess) {
                 val offices = result.getOrNull()
                 if (offices == null) loadBreviary()

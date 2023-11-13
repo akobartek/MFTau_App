@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadAndSaveUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadAndSaveBreviaryUseCase
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
 
 class BreviarySaveScreenModel(
     private val checkIfThereAreMultipleOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
-    private val loadAndSaveUseCase: BreviaryLoadAndSaveUseCase
+    private val loadAndSaveUseCase: LoadAndSaveBreviaryUseCase
 ) : StateScreenModel<BreviarySaveScreenModel.State>(State.Init) {
 
     sealed class State {

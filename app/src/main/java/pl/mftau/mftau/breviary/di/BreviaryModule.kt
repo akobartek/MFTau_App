@@ -11,10 +11,11 @@ import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 import pl.mftau.mftau.breviary.data.repository.DbBreviaryRepositoryImpl
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 import pl.mftau.mftau.breviary.data.repository.WebBreviaryRepositoryImpl
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryDbLoadUseCase
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadAndSaveUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadFromDbBreviaryUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadAndSaveBreviaryUseCase
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
-import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadSingleUseCase
+import pl.mftau.mftau.breviary.domain.usecase.LoadSingleBreviaryUseCase
+import pl.mftau.mftau.breviary.domain.usecase.ClearBreviaryDbUseCase
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreenModel
 import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel
@@ -46,15 +47,17 @@ val breviaryModule = module {
 
     single { CheckIfThereAreMultipleOfficesUseCase(get()) }
 
-    single { BreviaryLoadSingleUseCase(get()) }
+    single { LoadSingleBreviaryUseCase(get()) }
 
-    single { BreviaryLoadAndSaveUseCase(get(), get()) }
+    single { LoadAndSaveBreviaryUseCase(get(), get()) }
 
-    single { BreviaryDbLoadUseCase(get()) }
+    single { LoadFromDbBreviaryUseCase(get()) }
+
+    single { ClearBreviaryDbUseCase(get()) }
 
     factory { BreviaryTextScreenModel(get(), get(), get()) }
 
-    factory { BreviarySelectScreenModel() }
+    factory { BreviarySelectScreenModel(get()) }
 
     factory { BreviarySaveScreenModel(get(), get()) }
 }

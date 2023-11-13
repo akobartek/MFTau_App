@@ -3,7 +3,7 @@ package pl.mftau.mftau.breviary.domain.usecase
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 
-class BreviaryLoadSingleUseCase(
+class LoadSingleBreviaryUseCase(
     private val webRepository: WebBreviaryRepository
 ) {
 
