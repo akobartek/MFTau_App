@@ -1,6 +1,5 @@
 package pl.mftau.mftau
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,21 +7,18 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.LocalContext
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.compose.KoinContext
-import pl.mftau.mftau.core.data.DATA_STORE_NAME
 import pl.mftau.mftau.core.data.PreferencesRepository
 import pl.mftau.mftau.core.data.UserPreferences
+import pl.mftau.mftau.core.data.dataStore
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.ui.CustomTransition
 import pl.mftau.mftau.ui.theme.MFTauTheme
-
-val Context.dataStore by preferencesDataStore(name = DATA_STORE_NAME)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

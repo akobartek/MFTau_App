@@ -31,6 +31,9 @@
     <string name="loading">Ładowanie…</string>
     <string name="save">Zapisz</string>
     <string name="load">Załaduj</string>
+    <string name="stop">Przerwij</string>
+    <string name="stop_action_title">Przerwanie akcji</string>
+    <string name="stop_download_dialog_msg">Jesteś pewny, że chcesz przerwać pobieranie?</string>
     <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
     <string name="no_pdf_viewer_dialog_title">Brak przeglądarek PDF</string>
     <string name="no_pdf_viewer_dialog_msg">Na telefonie nie znaleziono żadnej przeglądarki plików PDF. Jeśli chcesz otworzyć ten plik, musisz najpierw zainstalować przeglądarkę.</string>

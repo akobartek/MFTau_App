@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,10 +39,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.core.data.dataStore
+import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
-import pl.mftau.mftau.dataStore
 import pl.mftau.mftau.gospel.data.Gospel
 import java.util.Locale
 
@@ -51,7 +51,6 @@ class GospelScreen : Screen {
 
     private var mTextToSpeech: MyTextToSpeech? = null
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -93,7 +92,7 @@ class GospelScreen : Screen {
                     title = stringResource(id = R.string.gospel_for_today),
                     onNavClick = navigator::pop,
                     actions = {
-                        if (state is GospelScreenModel.State.Success)
+                        if (state is State.Success)
                             IconButton(onClick = {
                                 isPlaying = !isPlaying
                                 if (isPlaying)
@@ -120,16 +119,13 @@ class GospelScreen : Screen {
                     .padding(horizontal = 16.dp)
             ) {
                 when (state) {
-                    is GospelScreenModel.State.Loading -> LoadingIndicator()
+                    is State.Loading -> LoadingIndicator()
+                    is State.Success -> GospelLayout(gospel = (state as State.Success).gospel)
 
-                    is GospelScreenModel.State.Success ->
-                        GospelLayout(gospel = (state as GospelScreenModel.State.Success).gospel)
-
-                    is GospelScreenModel.State.Failure ->
-                        NoInternetDialog(
-                            onReconnect = screenModel::loadGospel,
-                            onCancel = navigator::pop
-                        )
+                    is State.Failure -> NoInternetDialog(
+                        onReconnect = screenModel::loadGospel,
+                        onCancel = navigator::pop
+                    )
                 }
             }
         }

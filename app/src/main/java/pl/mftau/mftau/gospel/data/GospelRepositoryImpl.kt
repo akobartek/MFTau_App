@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.jsoup.Jsoup
 import java.util.Calendar
+import kotlin.coroutines.cancellation.CancellationException
 
 class GospelRepositoryImpl : GospelRepository {
     override fun loadGospel(): Flow<Result<Gospel>> = flow {
@@ -41,9 +42,10 @@ class GospelRepositoryImpl : GospelRepository {
                     emit(Result.success(Gospel(verses, title, author, textBuilder.toString())))
                 }
             }
-        } catch (throwable: Throwable) {
-            throwable.printStackTrace()
-            emit(Result.failure(throwable))
+        } catch (exc: Exception) {
+            exc.printStackTrace()
+            if (exc !is CancellationException) emit(Result.failure(exc))
+            else throw exc
         }
     }.flowOn(Dispatchers.IO)
 

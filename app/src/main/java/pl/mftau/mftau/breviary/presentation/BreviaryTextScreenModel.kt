@@ -15,9 +15,10 @@ class BreviaryTextScreenModel(
     private val checkOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
     private val loadSingleUseCase: LoadSingleBreviaryUseCase,
     private val dbLoadUseCase: LoadFromDbBreviaryUseCase
-) : StateScreenModel<BreviaryTextScreenModel.State>(State.Loading) {
+) : StateScreenModel<BreviaryTextScreenModel.State>(State.Init) {
 
     sealed class State {
+        data object Init : State()
         data object Loading : State()
         data class MultipleOffices(val offices: Map<String, String>) : State()
         data class BreviaryAvailable(val breviary: Breviary) : State()
@@ -32,11 +33,13 @@ class BreviaryTextScreenModel(
     fun setup(type: BreviaryType, date: String) {
         this.type = type
         this.date = date
-        checkIfThereAreMultipleOffices()
+        if (state.value is State.Init)
+            checkIfThereAreMultipleOffices()
     }
 
     fun checkIfThereAreMultipleOffices() {
         screenModelScope.launch {
+            mutableState.update { State.Loading }
             val result = checkOfficesUseCase(date).first()
             if (result.isSuccess) {
                 val offices = result.getOrNull()
@@ -54,13 +57,13 @@ class BreviaryTextScreenModel(
     }
 
     fun officeSelected(office: String) {
-        mutableState.update { State.Loading }
         selectedOfficeLink = office
         loadBreviary(office)
     }
 
     private fun loadBreviary(office: String = "") {
         screenModelScope.launch {
+            mutableState.update { State.Loading }
             val result = loadSingleUseCase(office, date, type).first()
             mutableState.update {
                 if (result.isFailure || result.getOrNull() == null) State.Failure

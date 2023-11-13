@@ -60,9 +60,10 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
                 }
                 emit(Result.success(offices))
             }
-        } catch (throwable: Throwable) {
-            throwable.printStackTrace()
-            emit(Result.failure(throwable))
+        } catch (exc: Exception) {
+            exc.printStackTrace()
+            if (exc !is CancellationException) emit(Result.failure(exc))
+            else throw exc
         }
     }.flowOn(Dispatchers.IO)
 
@@ -77,11 +78,10 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
                     "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()
             emit(Result.success(getProperBreviaryObject(document, type, onlyHtml)))
-        } catch (throwable: Throwable) {
-            if (throwable !is CancellationException) {
-                throwable.printStackTrace()
-                emit(Result.failure(throwable))
-            }
+        } catch (exc: Exception) {
+            exc.printStackTrace()
+            if (exc !is CancellationException) emit(Result.failure(exc))
+            else throw exc
         }
     }.flowOn(Dispatchers.IO)
 

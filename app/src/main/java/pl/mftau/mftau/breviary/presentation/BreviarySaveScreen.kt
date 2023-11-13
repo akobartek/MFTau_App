@@ -1,5 +1,6 @@
 package pl.mftau.mftau.breviary.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
+import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
@@ -46,14 +48,18 @@ data class BreviarySaveScreen(
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = getScreenModel<BreviarySaveScreenModel>()
-        screenModel.setup(date = date)
         val state by screenModel.state.collectAsStateWithLifecycle()
+        screenModel.setup(date = date)
 
+        var exitDialogVisible by remember { mutableStateOf(false) }
         var saveCompleteDialogVisible by remember { mutableStateOf(false) }
         LaunchedEffect(key1 = state) {
-            if (state is BreviarySaveScreenModel.State.DownloadingState) {
-                val id = (state as BreviarySaveScreenModel.State.DownloadingState).entity.id
-                if (id > 0) saveCompleteDialogVisible = true
+            if (state is State.DownloadingState) {
+                val id = (state as State.DownloadingState).entity.id
+                if (id > 0) {
+                    exitDialogVisible = false
+                    saveCompleteDialogVisible = true
+                }
             }
         }
 
@@ -61,7 +67,11 @@ data class BreviarySaveScreen(
             topBar = {
                 TauTopBar(
                     title = stringResource(id = R.string.saving_breviary),
-                    onNavClick = navigator::pop
+                    onNavClick = {
+                        if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
+                            exitDialogVisible = true
+                        else navigator.pop()
+                    }
                 )
             }
         ) { paddingValues ->
@@ -74,10 +84,10 @@ data class BreviarySaveScreen(
                     .padding(horizontal = 8.dp)
             ) {
                 when (state) {
-                    is BreviarySaveScreenModel.State.Cancelled -> {}
-                    is BreviarySaveScreenModel.State.Loading -> LoadingIndicator()
+                    is State.Cancelled -> {}
+                    is State.Loading -> LoadingIndicator()
 
-                    is BreviarySaveScreenModel.State.Init -> BasicAlertDialog(
+                    is State.Init -> BasicAlertDialog(
                         imageVector = Icons.Default.Save,
                         dialogTitleId = R.string.saving_breviary,
                         dialogTextId = R.string.save_breviary_dialog_msg,
@@ -91,8 +101,8 @@ data class BreviarySaveScreen(
                         }
                     )
 
-                    is BreviarySaveScreenModel.State.MultipleOffices -> MultipleOfficesDialog(
-                        offices = (state as BreviarySaveScreenModel.State.MultipleOffices).offices,
+                    is State.MultipleOffices -> MultipleOfficesDialog(
+                        offices = (state as State.MultipleOffices).offices,
                         onSelect = screenModel::officeSelected,
                         onCancel = {
                             screenModel.cancelScreen()
@@ -100,11 +110,12 @@ data class BreviarySaveScreen(
                         }
                     )
 
-                    is BreviarySaveScreenModel.State.DownloadingState -> DownloadingStateLayout(
-                        entity = (state as BreviarySaveScreenModel.State.DownloadingState).entity
+                    is State.DownloadingState -> DownloadingStateLayout(
+                        entity = (state as State.DownloadingState).entity,
+                        onBackPressed = { exitDialogVisible = true }
                     )
 
-                    is BreviarySaveScreenModel.State.Failure -> NoInternetDialog(
+                    is State.Failure -> NoInternetDialog(
                         onReconnect = screenModel::checkIfThereAreMultipleOffices,
                         onCancel = {
                             screenModel.cancelScreen()
@@ -122,12 +133,27 @@ data class BreviarySaveScreen(
                         onConfirmation = { saveCompleteDialogVisible = false },
                         onDismissRequest = { saveCompleteDialogVisible = false }
                     )
+
+                if (exitDialogVisible)
+                    BasicAlertDialog(
+                        imageVector = Icons.Default.ErrorOutline,
+                        dialogTitleId = R.string.stop_action_title,
+                        dialogTextId = R.string.stop_download_dialog_msg,
+                        dismissible = false,
+                        confirmBtnTextId = R.string.stop,
+                        dismissBtnTextId = R.string.cancel,
+                        onConfirmation = {
+                            exitDialogVisible = false
+                            navigator.pop()
+                        },
+                        onDismissRequest = { exitDialogVisible = false }
+                    )
             }
         }
     }
 
     @Composable
-    private fun DownloadingStateLayout(entity: BreviaryEntity) {
+    private fun DownloadingStateLayout(entity: BreviaryEntity, onBackPressed: () -> Unit) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -147,6 +173,8 @@ data class BreviarySaveScreen(
                 if (entity.id == 0L) "" else entity.id.toString()
             )
         }
+
+        BackHandler(enabled = entity.id > 0L, onBack = onBackPressed)
     }
 
     @Composable

@@ -14,6 +14,6 @@ interface BreviaryDao {
     @Query("SELECT * FROM breviary WHERE date = :date")
     suspend fun loadBreviary(date: Long): BreviaryEntity?
 
-    @Query("DELETE FROM breviary WHERE date < :date")
+    @Query("DELETE FROM breviary WHERE date <= :date")
     suspend fun clearBreviary(date: Long)
 }

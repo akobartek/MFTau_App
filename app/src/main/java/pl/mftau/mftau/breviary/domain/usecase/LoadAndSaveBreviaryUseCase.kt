@@ -4,6 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
@@ -103,6 +105,7 @@ class LoadAndSaveBreviaryUseCase(
                 asyncInvitatory, asyncOffice, asyncLauds, asyncPrayer1,
                 asyncPrayer2, asyncPrayer3, asyncVespers, asyncCompline
             )
+            ensureActive()
             async {
                 val id = dbRepository.insertBreviary(entity)
                 entity = entity.copy(id = id)

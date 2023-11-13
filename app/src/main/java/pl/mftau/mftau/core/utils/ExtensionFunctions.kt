@@ -52,7 +52,6 @@ fun Context.openPdf(fileName: String): Boolean {
             output.flush()
         }
     }
-
     val cacheFile = File(cacheDir, fileName)
 
     val uri = FileProvider.getUriForFile(this, "$packageName.provider", cacheFile)

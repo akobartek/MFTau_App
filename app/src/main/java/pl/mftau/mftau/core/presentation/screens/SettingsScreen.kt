@@ -47,9 +47,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.UserPreferences
+import pl.mftau.mftau.core.data.dataStore
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
-import pl.mftau.mftau.dataStore
 
 class SettingsScreen : Screen {
     @Composable

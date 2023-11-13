@@ -2,9 +2,10 @@ package pl.mftau.mftau.breviary.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "breviary")
+@Entity(tableName = "breviary", indices = [Index(value = ["date"], unique = true)])
 data class BreviaryEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo(name = "date") val date: Long,

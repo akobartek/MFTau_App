@@ -54,6 +54,7 @@ import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
+import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.core.presentation.components.ComposeWebView
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
@@ -68,11 +69,11 @@ data class BreviaryTextScreen(
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = getScreenModel<BreviaryTextScreenModel>()
+        val state by screenModel.state.collectAsStateWithLifecycle()
         screenModel.setup(
             type = BreviaryType.fromPosition(position),
             date = date
         )
-        val state by screenModel.state.collectAsStateWithLifecycle()
 
         Scaffold(
             topBar = {
@@ -89,11 +90,11 @@ data class BreviaryTextScreen(
                     .padding(horizontal = 8.dp)
             ) {
                 when (state) {
-                    is BreviaryTextScreenModel.State.Cancelled -> {}
-                    is BreviaryTextScreenModel.State.Loading -> LoadingIndicator()
+                    is State.Init, is State.Cancelled -> {}
+                    is State.Loading -> LoadingIndicator()
 
-                    is BreviaryTextScreenModel.State.MultipleOffices -> MultipleOfficesDialog(
-                        offices = (state as BreviaryTextScreenModel.State.MultipleOffices).offices,
+                    is State.MultipleOffices -> MultipleOfficesDialog(
+                        offices = (state as State.MultipleOffices).offices,
                         onSelect = screenModel::officeSelected,
                         onCancel = {
                             screenModel.cancelScreen()
@@ -101,11 +102,11 @@ data class BreviaryTextScreen(
                         }
                     )
 
-                    is BreviaryTextScreenModel.State.BreviaryAvailable -> BreviaryLayout(
-                        breviary = (state as BreviaryTextScreenModel.State.BreviaryAvailable).breviary
+                    is State.BreviaryAvailable -> BreviaryLayout(
+                        breviary = (state as State.BreviaryAvailable).breviary
                     )
 
-                    is BreviaryTextScreenModel.State.Failure -> NoInternetDialog(
+                    is State.Failure -> NoInternetDialog(
                         onReconnect = screenModel::checkIfThereAreMultipleOffices,
                         onCancel = {
                             screenModel.cancelScreen()
