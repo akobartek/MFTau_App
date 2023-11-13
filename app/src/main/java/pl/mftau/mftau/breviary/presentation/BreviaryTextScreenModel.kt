@@ -9,10 +9,12 @@ import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseC
 import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadSingleUseCase
 import pl.mftau.mftau.breviary.domain.model.Breviary
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
+import pl.mftau.mftau.breviary.domain.usecase.BreviaryDbLoadUseCase
 
 class BreviaryTextScreenModel(
     private val checkIfThereAreMultipleOfficesUseCase: CheckIfThereAreMultipleOfficesUseCase,
-    private val loadSingleUseCase: BreviaryLoadSingleUseCase
+    private val loadSingleUseCase: BreviaryLoadSingleUseCase,
+    private val dbLoadUseCase: BreviaryDbLoadUseCase
 ) : StateScreenModel<BreviaryTextScreenModel.State>(State.Loading) {
 
     sealed class State {
@@ -40,7 +42,14 @@ class BreviaryTextScreenModel(
                 val offices = result.getOrNull()
                 if (offices == null) loadBreviary()
                 else mutableState.update { State.MultipleOffices(offices) }
-            } else mutableState.update { State.Failure }
+            } else {
+                val dbResult = dbLoadUseCase(date, type).first()
+                mutableState.update {
+                    val value = dbResult.getOrNull()
+                    if (dbResult.isFailure || value == null || value.html.isBlank()) State.Failure
+                    else State.BreviaryAvailable(dbResult.getOrNull()!!)
+                }
+            }
         }
     }
 

@@ -55,6 +55,7 @@ import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
+import pl.mftau.mftau.core.presentation.components.ComposeWebView
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
@@ -91,28 +92,26 @@ data class BreviaryTextScreen(
                     is BreviaryTextScreenModel.State.Cancelled -> {}
                     is BreviaryTextScreenModel.State.Loading -> LoadingIndicator()
 
-                    is BreviaryTextScreenModel.State.MultipleOffices ->
-                        MultipleOfficesDialog(
-                            offices = (state as BreviaryTextScreenModel.State.MultipleOffices).offices,
-                            onSelect = screenModel::officeSelected,
-                            onCancel = {
-                                screenModel.cancelScreen()
-                                navigator.pop()
-                            }
-                        )
+                    is BreviaryTextScreenModel.State.MultipleOffices -> MultipleOfficesDialog(
+                        offices = (state as BreviaryTextScreenModel.State.MultipleOffices).offices,
+                        onSelect = screenModel::officeSelected,
+                        onCancel = {
+                            screenModel.cancelScreen()
+                            navigator.pop()
+                        }
+                    )
 
                     is BreviaryTextScreenModel.State.BreviaryAvailable -> BreviaryLayout(
                         breviary = (state as BreviaryTextScreenModel.State.BreviaryAvailable).breviary
                     )
 
-                    is BreviaryTextScreenModel.State.Failure ->
-                        NoInternetDialog(
-                            onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                            onCancel = {
-                                screenModel.cancelScreen()
-                                navigator.pop()
-                            }
-                        )
+                    is BreviaryTextScreenModel.State.Failure -> NoInternetDialog(
+                        onReconnect = screenModel::checkIfThereAreMultipleOffices,
+                        onCancel = {
+                            screenModel.cancelScreen()
+                            navigator.pop()
+                        }
+                    )
                 }
             }
         }
@@ -133,7 +132,7 @@ private fun BreviaryLayout(breviary: Breviary) {
                 is MajorHour -> MajorHourLayout(majorHour = breviary)
                 is MinorHour -> MinorHourLayout(minorHour = breviary)
                 is Compline -> ComplineLayout(compline = breviary)
-                else -> Text(text = "SUCCESS")
+                is BreviaryHtml -> ComposeWebView(html = breviary.html)
             }
         }
     }

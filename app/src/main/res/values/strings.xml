@@ -172,6 +172,12 @@
     <string name="midafternoon_prayer">Modlitwa popołudniowa</string>
     <string name="vespers">Nieszpory</string>
     <string name="compline">Kompleta</string>
+    <string name="save_breviary_dialog_msg">Czy chcesz pobrać i zapisać na telefonie brewiarz z wybranego dnia?</string>
+    <string name="save_finished_dialog_msg">Pobrano oraz zapisano brewiarz, załadowane treści zostaną wyświetlone w sytuacji braku internetu.</string>
+    <string name="save_in_memory">Zapis w pamięci telefonu</string>
+    <string name="cd_download_success">%s prawidłowo pobrana</string>
+    <string name="cd_download_loading">%s w trakcie pobierania</string>
+    <string name="cd_download_error">Wystąpił błąd podczas pobierania %s</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Ewangelia na dziś</string>

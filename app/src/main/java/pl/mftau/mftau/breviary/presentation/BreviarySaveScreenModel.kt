@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
 import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadAndSaveUseCase
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
 
@@ -17,7 +18,7 @@ class BreviarySaveScreenModel(
         data object Init : State()
         data object Loading : State()
         data class MultipleOffices(val offices: Map<String, String>) : State()
-        data class DownloadingState(val number: Int) : State()
+        data class DownloadingState(val entity: BreviaryEntity) : State()
         data object Failure : State()
         data object Cancelled : State()
     }
@@ -27,11 +28,11 @@ class BreviarySaveScreenModel(
 
     fun setup(date: String) {
         this.date = date
-        checkIfThereAreMultipleOffices()
     }
 
     fun checkIfThereAreMultipleOffices() {
         screenModelScope.launch {
+            mutableState.update { State.Loading }
             val result = checkIfThereAreMultipleOfficesUseCase(date).first()
             if (result.isSuccess) {
                 val offices = result.getOrNull()
@@ -49,11 +50,12 @@ class BreviarySaveScreenModel(
 
     private fun loadAndSaveBreviary(office: String = "") {
         screenModelScope.launch {
-            val result = loadAndSaveUseCase(office, date)
-//            mutableState.update {
-//                if (result.isFailure || result.getOrNull() == null) State.Failure
-//                else State.BreviaryAvailable(result.getOrNull()!!)
-//            }
+            loadAndSaveUseCase(office, date).collect { value ->
+                mutableState.update {
+                    if (value != null) State.DownloadingState(value)
+                    else State.Failure
+                }
+            }
         }
     }
 

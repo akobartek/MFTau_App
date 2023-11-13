@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -78,6 +79,8 @@ dependencies {
     implementation(libs.voyager.koin)
     implementation(libs.koin)
     implementation(libs.jsoup)
+    implementation(libs.webview)
+    implementation(libs.serialization.json)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

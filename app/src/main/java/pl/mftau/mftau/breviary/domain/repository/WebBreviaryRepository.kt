@@ -7,5 +7,10 @@ import pl.mftau.mftau.breviary.domain.model.BreviaryType
 interface WebBreviaryRepository {
     suspend fun checkIfThereAreMultipleOffices(date: String): Flow<Result<Map<String, String>?>>
 
-    suspend fun loadBreviary(office: String, date: String, type: BreviaryType): Flow<Result<Breviary>>
+    suspend fun loadBreviary(
+        office: String,
+        date: String,
+        type: BreviaryType,
+        onlyHtml: Boolean = false
+    ): Flow<Result<Breviary>>
 }

@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import cafe.adriel.voyager.navigator.Navigator
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.koin.compose.KoinContext
 import pl.mftau.mftau.core.data.DATA_STORE_NAME
 import pl.mftau.mftau.core.data.PreferencesRepository
 import pl.mftau.mftau.core.data.UserPreferences
@@ -46,13 +47,15 @@ class MainActivity : ComponentActivity() {
                     )
                 )
 
-            MFTauTheme(
-                darkTheme = preferences.value.nightMode,
-                dynamicColor = preferences.value.dynamicColors
-            ) {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    Navigator(screen = MainScreen()) { navigator ->
-                        CustomTransition(navigator = navigator)
+            KoinContext {
+                MFTauTheme(
+                    darkTheme = preferences.value.nightMode,
+                    dynamicColor = preferences.value.dynamicColors
+                ) {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        Navigator(screen = MainScreen()) { navigator ->
+                            CustomTransition(navigator = navigator)
+                        }
                     }
                 }
             }

@@ -11,6 +11,7 @@ import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 import pl.mftau.mftau.breviary.data.repository.DbBreviaryRepositoryImpl
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 import pl.mftau.mftau.breviary.data.repository.WebBreviaryRepositoryImpl
+import pl.mftau.mftau.breviary.domain.usecase.BreviaryDbLoadUseCase
 import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadAndSaveUseCase
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
 import pl.mftau.mftau.breviary.domain.usecase.BreviaryLoadSingleUseCase
@@ -49,7 +50,9 @@ val breviaryModule = module {
 
     single { BreviaryLoadAndSaveUseCase(get(), get()) }
 
-    factory { BreviaryTextScreenModel(get(), get()) }
+    single { BreviaryDbLoadUseCase(get()) }
+
+    factory { BreviaryTextScreenModel(get(), get(), get()) }
 
     factory { BreviarySelectScreenModel() }
 

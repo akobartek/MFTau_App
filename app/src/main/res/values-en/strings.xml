@@ -169,6 +169,12 @@
     <string name="midafternoon_prayer">Midafternoon Prayer</string>
     <string name="vespers">Vespers</string>
     <string name="compline">Compline</string>
+    <string name="save_breviary_dialog_msg">Do you want to download and save the breviary for a selected day on your phone?</string>
+    <string name="save_finished_dialog_msg">The breviary has been downloaded and saved, the loaded content will be displayed when there is no Internet.</string>
+    <string name="save_in_memory">Save in phone memory</string>
+    <string name="cd_download_success">%s successfully downloaded</string>
+    <string name="cd_download_loading">%s downloading in progress</string>
+    <string name="cd_download_error">Error occurred while downloading %s</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Gospel for today</string>

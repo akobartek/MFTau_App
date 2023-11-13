@@ -11,6 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -37,7 +38,7 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
         "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
     )
 
-    override suspend  fun checkIfThereAreMultipleOffices(
+    override suspend fun checkIfThereAreMultipleOffices(
         date: String
     ): Flow<Result<Map<String, String>?>> = flow {
         try {
@@ -68,16 +69,19 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
     override suspend fun loadBreviary(
         office: String,
         date: String,
-        type: BreviaryType
+        type: BreviaryType,
+        onlyHtml: Boolean
     ): Flow<Result<Breviary>> = flow {
         try {
             val breviaryUrl = buildBaseBreviaryUrl(date, office == "") +
                     "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()
-            emit(Result.success(getProperBreviaryObject(document, type)))
+            emit(Result.success(getProperBreviaryObject(document, type, onlyHtml)))
         } catch (throwable: Throwable) {
-            throwable.printStackTrace()
-            emit(Result.failure(throwable))
+            if (throwable !is CancellationException) {
+                throwable.printStackTrace()
+                emit(Result.failure(throwable))
+            }
         }
     }.flowOn(Dispatchers.IO)
 
@@ -94,7 +98,11 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
         else "https://brewiarz.pl/${romanMonths[monthInt - 1]}_$year/"
     }
 
-    private fun getProperBreviaryObject(document: Document, type: BreviaryType): Breviary {
+    private fun getProperBreviaryObject(
+        document: Document,
+        type: BreviaryType,
+        onlyHtml: Boolean
+    ): Breviary {
         val element =
             document.select("table").last { it.outerHtml().contains("Psalm ") }
 
@@ -105,9 +113,10 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
             if (!element.html().contains("\"def1\"")) {
                 document.getElementById("def1")?.let { elem ->
                     element.appendChild(elem.child(0))
-                    document.getElementById("def2")?.let { elem2 ->
-                        element.appendChild(elem2.child(0))
-                    }
+                    if (!onlyHtml)
+                        document.getElementById("def2")?.let { elem2 ->
+                            element.appendChild(elem2.child(0))
+                        }
                     elem.parent()!!.select("table")
                         .firstOrNull { it.html().contains("RESPONSORIUM") }
                         ?.let { element.appendChild(it) }
@@ -167,6 +176,8 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
             .replace("font-size:8pt", "")
             .replace("font-size: 8pt", "")
             .replaceFirst("<br>", "")
+
+        if (onlyHtml) return BreviaryHtml(setBreviaryNightMode(breviaryHtml))
 
         val breviaryChildren =
             if (type == BreviaryType.OFFICE_OF_READINGS) element.children()

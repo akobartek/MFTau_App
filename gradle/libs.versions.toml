@@ -2,6 +2,7 @@
 agp = "8.3.0-alpha13"
 kotlin = "1.9.20"
 ksp = "1.9.20-1.0.14"
+serialization = "1.9.0"
 
 appcompat = "1.6.1"
 material = "1.10.0"
@@ -18,6 +19,8 @@ compose-bom = "2023.10.01"
 voyager = "1.0.0-rc08"
 koin = "3.5.0"
 jsoup = "1.16.2"
+webview = "1.7.0"
+serialization-json = "1.6.0"
 
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -52,6 +55,8 @@ voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitio
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
+webview = { group = "io.github.kevinnzou", name = "compose-webview-multiplatform", version.ref = "webview" }
+serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
@@ -64,3 +69,4 @@ ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }

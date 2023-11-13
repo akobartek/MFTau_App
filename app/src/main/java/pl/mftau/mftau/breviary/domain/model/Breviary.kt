@@ -5,7 +5,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 
 sealed class Breviary {
     data class BreviaryHtml(
-        val html: String
+        val html: String = ""
     ) : Breviary()
 
     data class Invitatory(
