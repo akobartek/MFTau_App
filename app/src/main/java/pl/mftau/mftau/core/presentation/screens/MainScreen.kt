@@ -39,6 +39,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
+import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
 import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo

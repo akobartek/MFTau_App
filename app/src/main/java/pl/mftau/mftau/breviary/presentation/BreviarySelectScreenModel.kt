@@ -2,6 +2,7 @@ package pl.mftau.mftau.breviary.presentation
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +25,7 @@ class BreviarySelectScreenModel(
     }
 
     private fun clearDatabase() {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             getCorrectDaysString(0)
             clearDbUseCase(dateString)
         }

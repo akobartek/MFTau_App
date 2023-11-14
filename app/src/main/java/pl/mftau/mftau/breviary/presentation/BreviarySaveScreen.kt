@@ -48,8 +48,9 @@ data class BreviarySaveScreen(
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val screenModel = getScreenModel<BreviarySaveScreenModel>()
-        val state by screenModel.state.collectAsStateWithLifecycle()
-        screenModel.setup(date = date)
+        val state by screenModel.state.collectAsStateWithLifecycle().also {
+            screenModel.setup(date = date)
+        }
 
         var exitDialogVisible by remember { mutableStateOf(false) }
         var saveCompleteDialogVisible by remember { mutableStateOf(false) }

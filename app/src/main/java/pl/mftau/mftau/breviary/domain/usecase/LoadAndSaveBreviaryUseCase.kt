@@ -4,12 +4,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
 import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
@@ -21,7 +19,6 @@ class LoadAndSaveBreviaryUseCase(
     private val webRepository: WebBreviaryRepository,
     private val dbRepository: DbBreviaryRepository
 ) {
-
     suspend operator fun invoke(office: String, date: String): Flow<BreviaryEntity?> =
         channelFlow<BreviaryEntity?> {
             var entity = BreviaryEntity(
@@ -29,7 +26,7 @@ class LoadAndSaveBreviaryUseCase(
             )
             val asyncInvitatory = async {
                 val result =
-                    webRepository.loadBreviary(office, date, BreviaryType.INVITATORY, true).first()
+                    webRepository.loadBreviary(office, date, BreviaryType.INVITATORY, true)
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(invitatory = (result.getOrNull()!! as BreviaryHtml).html)
@@ -39,7 +36,6 @@ class LoadAndSaveBreviaryUseCase(
             val asyncOffice = async {
                 val result =
                     webRepository.loadBreviary(office, date, BreviaryType.OFFICE_OF_READINGS, true)
-                        .first()
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(officeOfReadings = (result.getOrNull()!! as BreviaryHtml).html)
@@ -48,7 +44,7 @@ class LoadAndSaveBreviaryUseCase(
             }
             val asyncLauds = async {
                 val result =
-                    webRepository.loadBreviary(office, date, BreviaryType.LAUDS, true).first()
+                    webRepository.loadBreviary(office, date, BreviaryType.LAUDS, true)
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(lauds = (result.getOrNull()!! as BreviaryHtml).html)
@@ -58,7 +54,6 @@ class LoadAndSaveBreviaryUseCase(
             val asyncPrayer1 = async {
                 val result =
                     webRepository.loadBreviary(office, date, BreviaryType.MIDMORNING_PRAYER, true)
-                        .first()
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(prayer1 = (result.getOrNull()!! as BreviaryHtml).html)
@@ -68,7 +63,6 @@ class LoadAndSaveBreviaryUseCase(
             val asyncPrayer2 = async {
                 val result =
                     webRepository.loadBreviary(office, date, BreviaryType.MIDDAY_PRAYER, true)
-                        .first()
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(prayer2 = (result.getOrNull()!! as BreviaryHtml).html)
@@ -77,7 +71,6 @@ class LoadAndSaveBreviaryUseCase(
             val asyncPrayer3 = async {
                 val result =
                     webRepository.loadBreviary(office, date, BreviaryType.MIDAFTERNOON_PRAYER, true)
-                        .first()
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(prayer3 = (result.getOrNull()!! as BreviaryHtml).html)
@@ -85,7 +78,7 @@ class LoadAndSaveBreviaryUseCase(
             }
             val asyncVespers = async {
                 val result =
-                    webRepository.loadBreviary(office, date, BreviaryType.VESPERS, true).first()
+                    webRepository.loadBreviary(office, date, BreviaryType.VESPERS, true)
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(vespers = (result.getOrNull()!! as BreviaryHtml).html)
@@ -94,7 +87,7 @@ class LoadAndSaveBreviaryUseCase(
             }
             val asyncCompline = async {
                 val result =
-                    webRepository.loadBreviary(office, date, BreviaryType.COMPLINE, true).first()
+                    webRepository.loadBreviary(office, date, BreviaryType.COMPLINE, true)
                 entity =
                     if (result.isSuccess && result.getOrNull() is BreviaryHtml)
                         entity.copy(compline = (result.getOrNull()!! as BreviaryHtml).html)
@@ -113,6 +106,5 @@ class LoadAndSaveBreviaryUseCase(
             }.await()
             channel.close()
             awaitClose { }
-        }.catch { emit(null) }
-            .flowOn(Dispatchers.IO)
+        }.catch { emit(null) }.flowOn(Dispatchers.IO)
 }

@@ -12,24 +12,25 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.Elements
-import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 import pl.mftau.mftau.breviary.domain.model.Breviary
-import pl.mftau.mftau.breviary.domain.model.Breviary.*
-import pl.mftau.mftau.breviary.domain.model.BreviaryType
+import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
+import pl.mftau.mftau.breviary.domain.model.Breviary.Compline
+import pl.mftau.mftau.breviary.domain.model.Breviary.Invitatory
+import pl.mftau.mftau.breviary.domain.model.Breviary.MajorHour
+import pl.mftau.mftau.breviary.domain.model.Breviary.MinorHour
+import pl.mftau.mftau.breviary.domain.model.Breviary.OfficeOfReadings
 import pl.mftau.mftau.breviary.domain.model.BreviaryPart
+import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
+import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
 
 class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRepository {
 
@@ -40,13 +41,13 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
 
     override suspend fun checkIfThereAreMultipleOffices(
         date: String
-    ): Flow<Result<Map<String, String>?>> = flow {
+    ): Result<Map<String, String>?> {
         try {
             val document = Jsoup.connect(buildBaseBreviaryUrl(date, true) + "index.php3")
                 .timeout(15000)
                 .get()
-            if (!document.html().contains("WYBIERZ OFICJUM", true))
-                emit(Result.success(null))
+            return if (!document.html().contains("WYBIERZ OFICJUM", true))
+                Result.success(null)
             else {
                 val offices = mutableMapOf<String, String>()
                 val officesDivs = document.select("div")
@@ -58,32 +59,32 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
                     val link = it.selectFirst("a")!!.attr("href").split("/")[1]
                     offices[link] = it.text()
                 }
-                emit(Result.success(offices))
+                Result.success(offices)
             }
         } catch (exc: Exception) {
             exc.printStackTrace()
-            if (exc !is CancellationException) emit(Result.failure(exc))
+            if (exc !is CancellationException) return Result.failure(exc)
             else throw exc
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
     override suspend fun loadBreviary(
         office: String,
         date: String,
         type: BreviaryType,
         onlyHtml: Boolean
-    ): Flow<Result<Breviary>> = flow {
-        try {
+    ): Result<Breviary> {
+        return try {
             val breviaryUrl = buildBaseBreviaryUrl(date, office == "") +
                     "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()
-            emit(Result.success(getProperBreviaryObject(document, type, onlyHtml)))
+            Result.success(getProperBreviaryObject(document, type, onlyHtml))
         } catch (exc: Exception) {
             exc.printStackTrace()
-            if (exc !is CancellationException) emit(Result.failure(exc))
+            if (exc !is CancellationException) Result.failure(exc)
             else throw exc
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
     private fun buildBaseBreviaryUrl(date: String, withDays: Boolean): String {
         val romanMonths =

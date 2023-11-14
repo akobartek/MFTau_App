@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.screens
+package pl.mftau.mftau.auth.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +33,6 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.presentation.components.TauTopBar
-import pl.mftau.mftau.core.presentation.screenmodels.AuthScreenModel
 
 class AuthScreen : Screen {
     @Composable
@@ -98,10 +97,10 @@ class AuthScreen : Screen {
                                 )
                         }
                     },
-                    isError = state.passwordErrorId != -1,
+                    isError = state.passwordErrorCode != -1,
                     supportingText = {
-                        if (state.passwordErrorId != -1)
-                            Text(text = stringResource(id = state.passwordErrorId))
+                        if (state.passwordErrorCode != -1)
+                            Text(text = stringResource(id = state.passwordErrorCode))
                     },
                     modifier = Modifier
                         .fillMaxWidth()

@@ -2,7 +2,7 @@ package pl.mftau.mftau.breviary.presentation
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
@@ -31,9 +31,9 @@ class BreviarySaveScreenModel(
     }
 
     fun checkIfThereAreMultipleOffices() {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             mutableState.update { State.Loading }
-            val result = checkIfThereAreMultipleOfficesUseCase(date).first()
+            val result = checkIfThereAreMultipleOfficesUseCase(date)
             if (result.isSuccess) {
                 val offices = result.getOrNull()
                 if (offices == null) loadAndSaveBreviary()
@@ -49,7 +49,7 @@ class BreviarySaveScreenModel(
     }
 
     private fun loadAndSaveBreviary(office: String = "") {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             loadAndSaveUseCase(office, date).collect { value ->
                 mutableState.update {
                     if (value != null) State.DownloadingState(value)

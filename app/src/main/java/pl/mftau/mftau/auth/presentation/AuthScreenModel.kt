@@ -1,7 +1,8 @@
-package pl.mftau.mftau.core.presentation.screenmodels
+package pl.mftau.mftau.auth.presentation
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import kotlinx.coroutines.flow.update
+import java.util.regex.Pattern
 
 class AuthScreenModel : StateScreenModel<AuthScreenModel.AuthScreenState>(AuthScreenState()) {
 
@@ -10,7 +11,7 @@ class AuthScreenModel : StateScreenModel<AuthScreenModel.AuthScreenState>(AuthSc
         val emailError: Boolean = false,
         val password: String = "",
         val passwordHidden: Boolean = true,
-        val passwordErrorId: Int = -1,
+        val passwordErrorCode: Int = -1,
         val isSigningUp: Boolean = false
     )
 
@@ -31,11 +32,26 @@ class AuthScreenModel : StateScreenModel<AuthScreenModel.AuthScreenState>(AuthSc
     }
 
     fun validateInput(): Boolean {
-        val newState = mutableState.value.copy(
-            emailError = mutableState.value.email.isEmpty(),
-            passwordErrorId = if (mutableState.value.password.isEmpty()) 1 else -1
-        )
+        val newState = mutableState.value.let { state ->
+            state.copy(
+                emailError = state.email.isValidEmail(),
+                passwordErrorCode =
+                if (state.password.isBlank()) 0
+                else if (!state.password.isValidPassword()) 1
+                else -1
+            )
+        }
         mutableState.value = newState
-        return !newState.emailError && newState.passwordErrorId != -1
+        return !newState.emailError && newState.passwordErrorCode != -1
+    }
+
+    private fun CharSequence.isValidEmail(): Boolean =
+        android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+    private fun CharSequence.isValidPassword(): Boolean {
+        val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,20})"
+        val pattern = Pattern.compile(passwordRegex)
+        val matcher = pattern.matcher(this)
+        return matcher.matches()
     }
 }

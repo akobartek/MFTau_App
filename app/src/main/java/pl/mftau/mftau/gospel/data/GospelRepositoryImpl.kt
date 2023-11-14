@@ -1,15 +1,11 @@
 package pl.mftau.mftau.gospel.data
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import org.jsoup.Jsoup
 import java.util.Calendar
 import kotlin.coroutines.cancellation.CancellationException
 
 class GospelRepositoryImpl : GospelRepository {
-    override fun loadGospel(): Flow<Result<Gospel>> = flow {
+    override fun loadGospel(): Result<Gospel> {
         try {
             val document = Jsoup.connect(buildGospelUrl())
                 .timeout(30000)
@@ -18,11 +14,7 @@ class GospelRepositoryImpl : GospelRepository {
             while (true) {
                 val element = document.getElementById("tabnowy0$counter")
                     ?: document.getElementById("tabstary0$counter")
-
-                if (element == null) {
-                    emit(Result.failure(NullPointerException()))
-                    return@flow
-                }
+                    ?: return Result.failure(NullPointerException())
 
                 if (!element.html().contains("Ewangelia (")) ++counter
                 else {
@@ -39,15 +31,15 @@ class GospelRepositoryImpl : GospelRepository {
                     val textBuilder = StringBuilder()
                     children.map { it.text() + "\n\n" }
                         .forEach { textBuilder.append(it) }
-                    emit(Result.success(Gospel(verses, title, author, textBuilder.toString())))
+                    return Result.success(Gospel(verses, title, author, textBuilder.toString()))
                 }
             }
         } catch (exc: Exception) {
             exc.printStackTrace()
-            if (exc !is CancellationException) emit(Result.failure(exc))
+            if (exc !is CancellationException) return Result.failure(exc)
             else throw exc
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
 
     private fun buildGospelUrl(): String {

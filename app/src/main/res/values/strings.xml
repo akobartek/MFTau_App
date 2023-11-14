@@ -61,7 +61,7 @@
     <string name="create_account">Utwórz konto</string>
     <string name="email_error" tools:ignore="Typos">Nieprawidłowy adres mailowy.</string>
     <string name="password_error_empty">Podaj hasło!</string>
-    <string name="password_error_too_short">Hasło musi mieć co najmniej 6 znaków.</string>
+    <string name="password_error_too_short">Hasło musi mieć co najmniej 8 znaków.</string>
     <string name="password_error_wrong">Hasło musi składać się z małych i dużych liter oraz cyfr.</string>
     <string name="send">Wyślij</string>
     <string name="cancel">Anuluj</string>

@@ -2,7 +2,7 @@ package pl.mftau.mftau.breviary.presentation
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.breviary.domain.usecase.CheckIfThereAreMultipleOfficesUseCase
@@ -38,15 +38,15 @@ class BreviaryTextScreenModel(
     }
 
     fun checkIfThereAreMultipleOffices() {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             mutableState.update { State.Loading }
-            val result = checkOfficesUseCase(date).first()
+            val result = checkOfficesUseCase(date)
             if (result.isSuccess) {
                 val offices = result.getOrNull()
                 if (offices == null) loadBreviary()
                 else mutableState.update { State.MultipleOffices(offices) }
             } else {
-                val dbResult = dbLoadUseCase(date, type).first()
+                val dbResult = dbLoadUseCase(date, type)
                 mutableState.update {
                     val value = dbResult.getOrNull()
                     if (dbResult.isFailure || value == null || value.html.isBlank()) State.Failure
@@ -62,9 +62,9 @@ class BreviaryTextScreenModel(
     }
 
     private fun loadBreviary(office: String = "") {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             mutableState.update { State.Loading }
-            val result = loadSingleUseCase(office, date, type).first()
+            val result = loadSingleUseCase(office, date, type)
             mutableState.update {
                 if (result.isFailure || result.getOrNull() == null) State.Failure
                 else State.BreviaryAvailable(result.getOrNull()!!)

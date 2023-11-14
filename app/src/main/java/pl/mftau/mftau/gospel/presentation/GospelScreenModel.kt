@@ -2,7 +2,7 @@ package pl.mftau.mftau.gospel.presentation
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.gospel.data.Gospel
@@ -24,8 +24,8 @@ class GospelScreenModel(
     }
 
     fun loadGospel() {
-        screenModelScope.launch {
-            val result = repository.loadGospel().first()
+        screenModelScope.launch(Dispatchers.IO) {
+            val result = repository.loadGospel()
             mutableState.update {
                 if (result.isSuccess)
                     State.Success(result.getOrDefault(Gospel()))

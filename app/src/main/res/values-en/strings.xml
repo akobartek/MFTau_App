@@ -58,7 +58,7 @@
     <string name="create_account">Create account</string>
     <string name="email_error">Incorrect email address.</string>
     <string name="password_error_empty">Password can not be empty!</string>
-    <string name="password_error_too_short">Password must contain at least 6 signs.</string>
+    <string name="password_error_too_short">Password must contain at least 8 signs.</string>
     <string name="password_error_wrong">Password must contain upper/lowercase and number.</string>
     <string name="send">Send</string>
     <string name="cancel">Cancel</string>
