@@ -9,7 +9,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
@@ -34,12 +32,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -48,14 +42,20 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.domain.model.Breviary
-import pl.mftau.mftau.breviary.domain.model.Breviary.*
-import pl.mftau.mftau.breviary.domain.model.BreviaryPart
+import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
+import pl.mftau.mftau.breviary.domain.model.Breviary.Compline
+import pl.mftau.mftau.breviary.domain.model.Breviary.Invitatory
+import pl.mftau.mftau.breviary.domain.model.Breviary.MajorHour
+import pl.mftau.mftau.breviary.domain.model.Breviary.MinorHour
+import pl.mftau.mftau.breviary.domain.model.Breviary.OfficeOfReadings
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
-import pl.mftau.mftau.breviary.domain.model.Canticle
-import pl.mftau.mftau.breviary.domain.model.Psalm
-import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel.State
+import pl.mftau.mftau.breviary.presentation.components.BreviaryPartHeader
+import pl.mftau.mftau.breviary.presentation.components.BreviaryPartLayout
+import pl.mftau.mftau.breviary.presentation.components.CanticleLayout
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
+import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
+import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
 import pl.mftau.mftau.core.presentation.components.ComposeWebView
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
@@ -267,136 +267,6 @@ data class BreviaryTextScreen(
             CanticleLayout(canticle = compline.canticle)
             BreviaryPartLayout(title = "Modlitwa", breviaryPart = compline.prayer)
             BreviaryPartLayout(title = "Antyfona", breviaryPart = compline.antiphon)
-        }
-    }
-
-    @Composable
-    fun BreviaryPartHeader(title: String, pages: String, verses: String = "") {
-        Column {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (title.isNotBlank())
-                    Text(
-                        text = title.uppercase(),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.padding(end = 32.dp)
-                    )
-                Text(
-                    text = verses,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-            if (pages.isNotBlank())
-                Text(text = pages, fontSize = 10.sp)
-            Spacer(modifier = Modifier.height(12.dp))
-        }
-    }
-
-    @Composable
-    private fun BreviaryPartLayout(title: String, breviaryPart: BreviaryPart) {
-        Column {
-            BreviaryPartHeader(
-                title = title,
-                pages = breviaryPart.breviaryPages,
-                verses = breviaryPart.verses
-            )
-            Text(text = breviaryPart.text, fontSize = 15.sp)
-        }
-    }
-
-    @Composable
-    private fun PsalmodyLayout(psalmody: Psalmody) {
-        Column {
-            BreviaryPartHeader(title = "Psalmodia", pages = psalmody.breviaryPages)
-            Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
-                psalmody.psalms.forEach { PsalmLayout(psalm = it) }
-            }
-        }
-    }
-
-    @Composable
-    private fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (!isInvitatoryPsalm)
-                Text(
-                    text = psalm.antiphon1,
-                    fontSize = 15.sp,
-                )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (psalm.name != null)
-                    Text(
-                        text = "${psalm.name}${if (psalm.title != null) "\n${psalm.title}" else ""}",
-                        color = MaterialTheme.colorScheme.secondary,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                if (psalm.subtitle != null)
-                    Text(
-                        text = psalm.subtitle!!,
-                        textAlign = TextAlign.Center,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 13.sp,
-                        modifier = Modifier.fillMaxWidth(0.9f)
-                    )
-            }
-            if (psalm.breviaryPages != null)
-                Text(
-                    text = psalm.breviaryPages!!,
-                    fontSize = 10.sp
-                )
-            if (psalm.part != null)
-                Text(
-                    text = psalm.part!!,
-                    color = MaterialTheme.colorScheme.secondary,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            Text(
-                text = psalm.text,
-                fontSize = 15.sp,
-            )
-            if (!isInvitatoryPsalm)
-                Text(
-                    text = psalm.antiphon2,
-                    fontSize = 15.sp,
-                )
-        }
-    }
-
-    @Composable
-    private fun CanticleLayout(canticle: Canticle) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            BreviaryPartHeader(
-                title = canticle.name,
-                pages = canticle.breviaryPages,
-                verses = canticle.verses
-            )
-            Text(
-                text = canticle.antiphon1,
-                fontSize = 15.sp,
-            )
-            Text(
-                text = canticle.text,
-                fontSize = 15.sp,
-            )
-            Text(
-                text = canticle.antiphon2,
-                fontSize = 15.sp,
-            )
         }
     }
 }
