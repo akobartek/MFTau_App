@@ -44,7 +44,7 @@ import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
-import pl.mftau.mftau.gospel.data.Gospel
+import pl.mftau.mftau.gospel.domain.model.Gospel
 import java.util.Locale
 
 class GospelScreen : Screen {
@@ -55,7 +55,7 @@ class GospelScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val context = LocalContext.current
-        val coroutineScope = rememberCoroutineScope()
+        val scope = rememberCoroutineScope()
 
         val screenModel = rememberScreenModel { GospelScreenModel() }
         val state by screenModel.state.collectAsStateWithLifecycle()
@@ -68,7 +68,7 @@ class GospelScreen : Screen {
             }
         }
         mTextToSpeech?.setProgressListener {
-            coroutineScope.launch {
+            scope.launch {
                 if (PreferencesRepository(context.dataStore).getRepeatGospel()) {
                     delay(1000)
                     readGospel(screenModel.getGospelToRead(), mTextToSpeech)

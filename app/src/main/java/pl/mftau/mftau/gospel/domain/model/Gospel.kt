@@ -1,4 +1,4 @@
-package pl.mftau.mftau.gospel.data
+package pl.mftau.mftau.gospel.domain.model
 
 data class Gospel(
     val verses: String = "",

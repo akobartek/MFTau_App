@@ -5,6 +5,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import pl.mftau.mftau.auth.di.authModule
 import pl.mftau.mftau.core.di.coreModule
 import pl.mftau.mftau.breviary.di.breviaryModule
 
@@ -16,7 +17,7 @@ class MFTauApplication : Application() {
         startKoin {
             androidLogger(level = Level.DEBUG)
             androidContext(this@MFTauApplication)
-            modules(coreModule, breviaryModule)
+            modules(coreModule, authModule, breviaryModule)
         }
     }
 }

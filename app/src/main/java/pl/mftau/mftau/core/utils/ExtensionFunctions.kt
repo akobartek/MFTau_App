@@ -6,12 +6,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.FileProvider
 import pl.mftau.mftau.R
 import java.io.File
 import java.io.FileOutputStream
+
+fun Context.showShortToast(msgId: Int) {
+    Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show()
+}
 
 fun Context.openWebsiteInChromeCustomTabsIfSupported(website: String) {
     if (isChromeCustomTabsSupported())

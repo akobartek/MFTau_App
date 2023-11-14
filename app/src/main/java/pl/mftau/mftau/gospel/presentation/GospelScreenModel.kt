@@ -5,8 +5,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.gospel.data.Gospel
-import pl.mftau.mftau.gospel.data.GospelRepository
+import pl.mftau.mftau.gospel.domain.model.Gospel
+import pl.mftau.mftau.gospel.domain.GospelRepository
 import pl.mftau.mftau.gospel.data.GospelRepositoryImpl
 
 class GospelScreenModel(

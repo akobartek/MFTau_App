@@ -1,6 +1,8 @@
 package pl.mftau.mftau.gospel.data
 
 import org.jsoup.Jsoup
+import pl.mftau.mftau.gospel.domain.GospelRepository
+import pl.mftau.mftau.gospel.domain.model.Gospel
 import java.util.Calendar
 import kotlin.coroutines.cancellation.CancellationException
 

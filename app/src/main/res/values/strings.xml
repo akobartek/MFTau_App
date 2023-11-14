@@ -53,26 +53,27 @@
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
+    <string name="clear_email">Wyczyść email</string>
     <string name="password">Hasło</string>
     <string name="show_password">Pokaż hasło</string>
     <string name="hide_password">Ukryj hasło</string>
     <string name="back_to_sign_in">Powrót do logowania</string>
-    <string name="forgot_password">Nie pamiętasz hasła?</string>
+    <string name="forgot_password">Zapomniałem hasło</string>
     <string name="create_account">Utwórz konto</string>
-    <string name="email_error" tools:ignore="Typos">Nieprawidłowy adres mailowy.</string>
+    <string name="email_error_invalid" tools:ignore="Typos">Nieprawidłowy adres mailowy.</string>
+    <string name="email_error_no_user">Nie znaleziono konta powiązanego z tym adresem!</string>
+    <string name="email_error_user_exists" tools:ignore="Typos">Istnieje już konto przypisane do tego adresu!</string>
     <string name="password_error_empty">Podaj hasło!</string>
     <string name="password_error_too_short">Hasło musi mieć co najmniej 8 znaków.</string>
     <string name="password_error_wrong">Hasło musi składać się z małych i dużych liter oraz cyfr.</string>
+    <string name="password_error_invalid">Wpisano złe hasło!</string>
     <string name="send">Wyślij</string>
     <string name="cancel">Anuluj</string>
     <string name="message_sent">Wysłano wiadomość</string>
     <string name="sign_up_error">Błąd w trakcie rejestracji, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
-    <string name="sign_up_existing_user_error" tools:ignore="Typos">Istnieje już konto na ten adres!</string>
     <string name="sign_up_successful_dialog_title">Zarejestrowano pomyślnie</string>
     <string name="sign_up_successful_dialog_message">Aby korzystać z konta musisz zatwierdzić je poprzez kliknięcie linku w wiadomości na mailu.</string>
     <string name="signed_in">Zalogowano</string>
-    <string name="sign_in_no_user_error">Nie znaleziono konta powiązanego z tym adresem!</string>
-    <string name="sign_in_wrong_password_error">Wpisano złe hasło!</string>
     <string name="sign_in_error">Błąd w trakcie logowania, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
     <string name="verify_email_dialog_title">Weryfikacja maila</string>
     <string name="verify_email_dialog_message" tools:ignore="Typos">Aby korzystać z konta musisz zatwierdzić adres mailowy.</string>

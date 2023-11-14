@@ -50,26 +50,27 @@
 
     <!-- LOGIN STRINGS -->
     <string name="email">Email</string>
+    <string name="clear_email">Clear email</string>
     <string name="password">Password</string>
     <string name="show_password">Show password</string>
     <string name="hide_password">Hide password</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password">Password forgotten</string>
     <string name="back_to_sign_in">Return to sign in</string>
     <string name="create_account">Create account</string>
-    <string name="email_error">Incorrect email address.</string>
+    <string name="email_error_invalid">Incorrect email address.</string>
+    <string name="email_error_no_user">No account with this email address found!</string>
+    <string name="email_error_user_exists">There is already an user for this address!</string>
     <string name="password_error_empty">Password can not be empty!</string>
     <string name="password_error_too_short">Password must contain at least 8 signs.</string>
     <string name="password_error_wrong">Password must contain upper/lowercase and number.</string>
+    <string name="password_error_invalid">Wrong password entered!</string>
     <string name="send">Send</string>
     <string name="cancel">Cancel</string>
     <string name="message_sent">Message sent</string>
     <string name="sign_up_error">Sign up failed, please check connection and try again in few minutes!</string>
-    <string name="sign_up_existing_user_error">There is already an user for this address!</string>
     <string name="sign_up_successful_dialog_title">Signed up</string>
     <string name="sign_up_successful_dialog_message">In order to use your account, you must verify your account (check your email).</string>
     <string name="signed_in">Signed in</string>
-    <string name="sign_in_no_user_error">No account with this email address found!</string>
-    <string name="sign_in_wrong_password_error">Wrong password entered!</string>
     <string name="sign_in_error">Sign in failed, please check connection and try again in few minutes!</string>
     <string name="verify_email_dialog_title">Verify email</string>
     <string name="verify_email_dialog_message">In order to use your account, you must verify your account.</string>
