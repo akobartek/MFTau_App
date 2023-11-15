@@ -50,163 +50,10 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
 
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val context = LocalContext.current
-        val scope = rememberCoroutineScope()
-        val snackbarHostState = remember { SnackbarHostState() }
-
-        val screenModel = getScreenModel<EmailScreenModel>()
-        val state by screenModel.state.collectAsStateWithLifecycle()
-
-        Scaffold(
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState)
-            },
-            topBar = {
-                TauTopBar(
-                    title = stringResource(
-                        id = when (screenType) {
-                            is EmailScreenType.AskForPray -> R.string.ask_for_pray
-                            is EmailScreenType.ReportError -> R.string.report_error
-                        }
-                    ),
-                    onNavClick = navigator::pop
-                )
-            },
-            floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    if (!state.gdprChecked) {
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = context.getString(R.string.rodo_error_message),
-                                withDismissAction = true
-                            )
-                        }
-                        return@FloatingActionButton
-                    }
-                    if (screenModel.validateInput()) {
-                        val emailIntent = Intent(Intent.ACTION_SENDTO)
-                        emailIntent.apply {
-                            data = Uri.parse("mailto:")
-                            putExtra(Intent.EXTRA_EMAIL, arrayOf(screenType.email))
-                            putExtra(Intent.EXTRA_SUBJECT, "Wiadomość od ${state.name.trim()}")
-                            putExtra(Intent.EXTRA_TEXT, state.text.trim())
-                        }
-
-                        try {
-                            context.startActivity(emailIntent)
-                        } catch (ex: android.content.ActivityNotFoundException) {
-                            scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = context.getString(R.string.send_mail_error),
-                                    withDismissAction = true
-                                )
-                            }
-                        }
-                    }
-                }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.Send,
-                        contentDescription = stringResource(id = R.string.send_mail)
-                    )
-                }
-            }
-        ) { paddingValues ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(horizontal = 48.dp, vertical = 16.dp)
-            ) {
-                OutlinedTextField(
-                    value = state.name,
-                    onValueChange = screenModel::updateName,
-                    label = { Text(text = stringResource(id = R.string.email_name)) },
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
-                    isError = state.nameError,
-                    supportingText = {
-                        if (state.nameError)
-                            Text(text = stringResource(id = R.string.empty_email_name_error))
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = state.text,
-                    onValueChange = screenModel::updateText,
-                    label = {
-                        Text(
-                            text = stringResource(
-                                id = when (screenType) {
-                                    is EmailScreenType.AskForPray -> R.string.intention
-                                    is EmailScreenType.ReportError -> R.string.error_description
-                                }
-                            )
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                    minLines = 5,
-                    maxLines = 10,
-                    isError = state.textError,
-                    supportingText = {
-                        if (state.textError)
-                            Text(
-                                text = stringResource(
-                                    id = when (screenType) {
-                                        is EmailScreenType.AskForPray -> R.string.empty_email_intention_error
-                                        is EmailScreenType.ReportError -> R.string.empty_email_description_error
-                                    }
-                                )
-                            )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp)
-                )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = state.gdprChecked,
-                        onCheckedChange = screenModel::updateGdpr,
-                        modifier = Modifier.offset(x = (-12).dp)
-                    )
-
-                    val privacyPolicyText = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                            append(stringResource(id = R.string.privacy_policy_part1))
-                        }
-
-                        pushStringAnnotation(
-                            tag = "policy",
-                            annotation = "http://mftau.pl/polityka-prywatnosci/"
-                        )
-                        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                            append(stringResource(id = R.string.privacy_policy_part2))
-                        }
-                        pop()
-
-                        withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                            append(".")
-                        }
-                    }
-                    ClickableText(
-                        text = privacyPolicyText,
-                        onClick = { offset ->
-                            privacyPolicyText.getStringAnnotations(
-                                tag = "policy",
-                                start = offset,
-                                end = offset
-                            ).firstOrNull()?.let {
-                                context.openWebsiteInChromeCustomTabsIfSupported(it.item)
-                            } ?: screenModel.updateGdpr(!state.gdprChecked)
-                        },
-                        modifier = Modifier.offset(x = (-8).dp)
-                    )
-                }
-            }
-        }
+        EmailScreenContent(
+            screenModel = getScreenModel(),
+            screenType = screenType
+        )
     }
 
     sealed class EmailScreenType(val email: String) : Serializable {
@@ -216,6 +63,166 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
 
         data object ReportError : EmailScreenType("sokolowskijbartek@gmail.com") {
             private fun readResolve(): Any = ReportError
+        }
+    }
+}
+
+@Composable
+fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.EmailScreenType) {
+    val navigator = LocalNavigator.currentOrThrow
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val state by screenModel.state.collectAsStateWithLifecycle()
+
+    Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+        topBar = {
+            TauTopBar(
+                title = stringResource(
+                    id = when (screenType) {
+                        is EmailScreen.EmailScreenType.AskForPray -> R.string.ask_for_pray
+                        is EmailScreen.EmailScreenType.ReportError -> R.string.report_error
+                    }
+                ),
+                onNavClick = navigator::pop
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                if (!state.gdprChecked) {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.rodo_error_message),
+                            withDismissAction = true
+                        )
+                    }
+                    return@FloatingActionButton
+                }
+                if (screenModel.validateInput()) {
+                    val emailIntent = Intent(Intent.ACTION_SENDTO)
+                    emailIntent.apply {
+                        data = Uri.parse("mailto:")
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(screenType.email))
+                        putExtra(Intent.EXTRA_SUBJECT, "Wiadomość od ${state.name.trim()}")
+                        putExtra(Intent.EXTRA_TEXT, state.text.trim())
+                    }
+
+                    try {
+                        context.startActivity(emailIntent)
+                    } catch (ex: android.content.ActivityNotFoundException) {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = context.getString(R.string.send_mail_error),
+                                withDismissAction = true
+                            )
+                        }
+                    }
+                }
+            }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Send,
+                    contentDescription = stringResource(id = R.string.send_mail)
+                )
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(horizontal = 48.dp, vertical = 16.dp)
+        ) {
+            OutlinedTextField(
+                value = state.name,
+                onValueChange = screenModel::updateName,
+                label = { Text(text = stringResource(id = R.string.email_name)) },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
+                isError = state.nameError,
+                supportingText = {
+                    if (state.nameError)
+                        Text(text = stringResource(id = R.string.empty_email_name_error))
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = state.text,
+                onValueChange = screenModel::updateText,
+                label = {
+                    Text(
+                        text = stringResource(
+                            id = when (screenType) {
+                                is EmailScreen.EmailScreenType.AskForPray -> R.string.intention
+                                is EmailScreen.EmailScreenType.ReportError -> R.string.error_description
+                            }
+                        )
+                    )
+                },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                minLines = 5,
+                maxLines = 10,
+                isError = state.textError,
+                supportingText = {
+                    if (state.textError)
+                        Text(
+                            text = stringResource(
+                                id = when (screenType) {
+                                    is EmailScreen.EmailScreenType.AskForPray -> R.string.empty_email_intention_error
+                                    is EmailScreen.EmailScreenType.ReportError -> R.string.empty_email_description_error
+                                }
+                            )
+                        )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = state.gdprChecked,
+                    onCheckedChange = screenModel::updateGdpr,
+                    modifier = Modifier.offset(x = (-12).dp)
+                )
+
+                val privacyPolicyText = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+                        append(stringResource(id = R.string.privacy_policy_part1))
+                    }
+
+                    pushStringAnnotation(
+                        tag = "policy",
+                        annotation = "http://mftau.pl/polityka-prywatnosci/"
+                    )
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                        append(stringResource(id = R.string.privacy_policy_part2))
+                    }
+                    pop()
+
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
+                        append(".")
+                    }
+                }
+                ClickableText(
+                    text = privacyPolicyText,
+                    onClick = { offset ->
+                        privacyPolicyText.getStringAnnotations(
+                            tag = "policy",
+                            start = offset,
+                            end = offset
+                        ).firstOrNull()?.let {
+                            context.openWebsiteInChromeCustomTabsIfSupported(it.item)
+                        } ?: screenModel.updateGdpr(!state.gdprChecked)
+                    },
+                    modifier = Modifier.offset(x = (-8).dp)
+                )
+            }
         }
     }
 }

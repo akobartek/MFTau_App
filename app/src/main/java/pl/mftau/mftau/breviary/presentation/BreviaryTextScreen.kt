@@ -67,206 +67,214 @@ data class BreviaryTextScreen(
 ) : BreviaryScreen() {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel = getScreenModel<BreviaryTextScreenModel>()
-        val state by screenModel.state.collectAsStateWithLifecycle().also {
-            screenModel.setup(
-                type = BreviaryType.fromPosition(position),
-                date = date
+        BreviaryTextScreenContent(
+            screenModel = getScreenModel(),
+            position = position,
+            date = date
+        )
+    }
+}
+
+@Composable
+fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: Int, date: String) {
+    val navigator = LocalNavigator.currentOrThrow
+    val state by screenModel.state.collectAsStateWithLifecycle().also {
+        screenModel.setup(
+            type = BreviaryType.fromPosition(position),
+            date = date
+        )
+    }
+
+    Scaffold(
+        topBar = {
+            TauTopBar(
+                title = stringArrayResource(id = R.array.breviary_list)[position],
+                onNavClick = navigator::pop
             )
         }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(horizontal = 8.dp)
+        ) {
+            when (state) {
+                is State.Init, is State.Cancelled -> {}
+                is State.Loading -> LoadingIndicator()
 
-        Scaffold(
-            topBar = {
-                TauTopBar(
-                    title = stringArrayResource(id = R.array.breviary_list)[position],
-                    onNavClick = navigator::pop
+                is State.MultipleOffices -> MultipleOfficesDialog(
+                    offices = (state as State.MultipleOffices).offices,
+                    onSelect = screenModel::officeSelected,
+                    onCancel = {
+                        screenModel.cancelScreen()
+                        navigator.pop()
+                    }
+                )
+
+                is State.BreviaryAvailable -> BreviaryLayout(
+                    breviary = (state as State.BreviaryAvailable).breviary
+                )
+
+                is State.Failure -> NoInternetDialog(
+                    onReconnect = screenModel::checkIfThereAreMultipleOffices,
+                    onCancel = {
+                        screenModel.cancelScreen()
+                        navigator.pop()
+                    }
                 )
             }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(horizontal = 8.dp)
-            ) {
-                when (state) {
-                    is State.Init, is State.Cancelled -> {}
-                    is State.Loading -> LoadingIndicator()
+        }
+    }
+}
 
-                    is State.MultipleOffices -> MultipleOfficesDialog(
-                        offices = (state as State.MultipleOffices).offices,
-                        onSelect = screenModel::officeSelected,
-                        onCancel = {
-                            screenModel.cancelScreen()
-                            navigator.pop()
-                        }
-                    )
-
-                    is State.BreviaryAvailable -> BreviaryLayout(
-                        breviary = (state as State.BreviaryAvailable).breviary
-                    )
-
-                    is State.Failure -> NoInternetDialog(
-                        onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                        onCancel = {
-                            screenModel.cancelScreen()
-                            navigator.pop()
-                        }
-                    )
-                }
+@Composable
+private fun BreviaryLayout(breviary: Breviary) {
+    SelectionContainer {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 32.dp)
+        ) {
+            when (breviary) {
+                is Invitatory -> InvitatoryLayout(invitatory = breviary)
+                is OfficeOfReadings -> OfficeOfReadingsLayout(officeOfReadings = breviary)
+                is MajorHour -> MajorHourLayout(majorHour = breviary)
+                is MinorHour -> MinorHourLayout(minorHour = breviary)
+                is Compline -> ComplineLayout(compline = breviary)
+                is BreviaryHtml -> ComposeWebView(html = breviary.html)
             }
         }
     }
+}
 
-    @Composable
-    private fun BreviaryLayout(breviary: Breviary) {
-        SelectionContainer {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(bottom = 32.dp)
-            ) {
-                when (breviary) {
-                    is Invitatory -> InvitatoryLayout(invitatory = breviary)
-                    is OfficeOfReadings -> OfficeOfReadingsLayout(officeOfReadings = breviary)
-                    is MajorHour -> MajorHourLayout(majorHour = breviary)
-                    is MinorHour -> MinorHourLayout(minorHour = breviary)
-                    is Compline -> ComplineLayout(compline = breviary)
-                    is BreviaryHtml -> ComposeWebView(html = breviary.html)
-                }
-            }
-        }
+@Composable
+private fun InvitatoryLayout(invitatory: Invitatory) {
+    Column {
+        Text(text = invitatory.opening, fontSize = 15.sp)
+        PsalmLayout(psalm = invitatory.psalm, isInvitatoryPsalm = true)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(text = invitatory.ending, fontSize = 15.sp)
     }
+}
 
-    @Composable
-    private fun InvitatoryLayout(invitatory: Invitatory) {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
+    var optionSelected by remember { mutableIntStateOf(0) }
+    val selectedReading =
+        if (optionSelected == 0) officeOfReadings.firstReading
+        else officeOfReadings.firstReadingVersion2
+    val options = listOf("Tekst oficalny (LG)", "Cykl dwuletni")
+
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = officeOfReadings.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = officeOfReadings.hymn)
+        PsalmodyLayout(psalmody = officeOfReadings.psalmody)
+        BreviaryPartLayout(title = "", breviaryPart = officeOfReadings.additionalPart)
         Column {
-            Text(text = invitatory.opening, fontSize = 15.sp)
-            PsalmLayout(psalm = invitatory.psalm, isInvitatoryPsalm = true)
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = invitatory.ending, fontSize = 15.sp)
-        }
-    }
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
-        var optionSelected by remember { mutableIntStateOf(0) }
-        val selectedReading =
-            if (optionSelected == 0) officeOfReadings.firstReading
-            else officeOfReadings.firstReadingVersion2
-        val options = listOf("Tekst oficalny (LG)", "Cykl dwuletni")
-
-        Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
-            Text(text = officeOfReadings.opening, fontSize = 15.sp)
-            BreviaryPartLayout(title = "Hymn", breviaryPart = officeOfReadings.hymn)
-            PsalmodyLayout(psalmody = officeOfReadings.psalmody)
-            BreviaryPartLayout(title = "", breviaryPart = officeOfReadings.additionalPart)
-            Column {
-                BreviaryPartHeader(
-                    title = "I Czytanie",
-                    pages = selectedReading.breviaryPages,
-                    verses = selectedReading.verses
-                )
-                MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                    options.forEachIndexed { index, option ->
-                        SegmentedButton(
-                            shape = SegmentedButtonDefaults.itemShape(
-                                index = index,
-                                count = options.size
-                            ),
-                            icon = {
-                                SegmentedButtonDefaults.Icon(
-                                    active = optionSelected == index,
-                                    activeContent = {
-                                        Icon(
-                                            imageVector = Icons.Filled.Done,
-                                            contentDescription = null,
-                                            modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
-                                        )
-                                    },
-                                    inactiveContent = null
-                                )
-                            },
-                            onCheckedChange = { optionSelected = index },
-                            checked = optionSelected == index
-                        ) {
-                            Text(option)
-                        }
+            BreviaryPartHeader(
+                title = "I Czytanie",
+                pages = selectedReading.breviaryPages,
+                verses = selectedReading.verses
+            )
+            MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                options.forEachIndexed { index, option ->
+                    SegmentedButton(
+                        shape = SegmentedButtonDefaults.itemShape(
+                            index = index,
+                            count = options.size
+                        ),
+                        icon = {
+                            SegmentedButtonDefaults.Icon(
+                                active = optionSelected == index,
+                                activeContent = {
+                                    Icon(
+                                        imageVector = Icons.Filled.Done,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
+                                    )
+                                },
+                                inactiveContent = null
+                            )
+                        },
+                        onCheckedChange = { optionSelected = index },
+                        checked = optionSelected == index
+                    ) {
+                        Text(option)
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                AnimatedContent(
-                    targetState = optionSelected,
-                    transitionSpec = {
-                        slideIntoContainer(
-                            animationSpec = tween(400, easing = EaseIn),
-                            towards = Down
-                        ).togetherWith(
-                            slideOutOfContainer(
-                                animationSpec = tween(400, easing = EaseOut),
-                                towards = Down
-                            )
-                        )
-                    },
-                    label = "reading"
-                ) { targetState ->
-                    val text =
-                        if (targetState == 0) officeOfReadings.firstReading.text
-                        else officeOfReadings.firstReadingVersion2.text
-                    Text(text = text, fontSize = 15.sp)
-                }
             }
-            BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
-            BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
-            BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
-            if (officeOfReadings.teDeum != null)
-                BreviaryPartLayout(title = "Te Deum", breviaryPart = officeOfReadings.teDeum)
-            BreviaryPartLayout(title = "Modlitwa", breviaryPart = officeOfReadings.prayer)
-            Text(text = officeOfReadings.ending, fontSize = 15.sp)
+            Spacer(modifier = Modifier.height(8.dp))
+            AnimatedContent(
+                targetState = optionSelected,
+                transitionSpec = {
+                    slideIntoContainer(
+                        animationSpec = tween(400, easing = EaseIn),
+                        towards = Down
+                    ).togetherWith(
+                        slideOutOfContainer(
+                            animationSpec = tween(400, easing = EaseOut),
+                            towards = Down
+                        )
+                    )
+                },
+                label = "reading"
+            ) { targetState ->
+                val text =
+                    if (targetState == 0) officeOfReadings.firstReading.text
+                    else officeOfReadings.firstReadingVersion2.text
+                Text(text = text, fontSize = 15.sp)
+            }
         }
+        BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
+        BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
+        BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
+        if (officeOfReadings.teDeum != null)
+            BreviaryPartLayout(title = "Te Deum", breviaryPart = officeOfReadings.teDeum)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = officeOfReadings.prayer)
+        Text(text = officeOfReadings.ending, fontSize = 15.sp)
     }
+}
 
-    @Composable
-    private fun MajorHourLayout(majorHour: MajorHour) {
-        Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
-            Text(text = majorHour.opening, fontSize = 15.sp)
-            BreviaryPartLayout(title = "Hymn", breviaryPart = majorHour.hymn)
-            PsalmodyLayout(psalmody = majorHour.psalmody)
-            BreviaryPartLayout(title = "Czytanie", breviaryPart = majorHour.reading)
-            BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = majorHour.responsory)
-            CanticleLayout(canticle = majorHour.canticle)
-            BreviaryPartLayout(title = "Prośby", breviaryPart = majorHour.intercessions)
-            Text(text = majorHour.lordsPrayer, fontSize = 15.sp)
-            BreviaryPartLayout(title = "Modlitwa", breviaryPart = majorHour.prayer)
-            Text(text = majorHour.ending, fontSize = 15.sp)
-        }
+@Composable
+private fun MajorHourLayout(majorHour: MajorHour) {
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = majorHour.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = majorHour.hymn)
+        PsalmodyLayout(psalmody = majorHour.psalmody)
+        BreviaryPartLayout(title = "Czytanie", breviaryPart = majorHour.reading)
+        BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = majorHour.responsory)
+        CanticleLayout(canticle = majorHour.canticle)
+        BreviaryPartLayout(title = "Prośby", breviaryPart = majorHour.intercessions)
+        Text(text = majorHour.lordsPrayer, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = majorHour.prayer)
+        Text(text = majorHour.ending, fontSize = 15.sp)
     }
+}
 
-    @Composable
-    private fun MinorHourLayout(minorHour: MinorHour) {
-        Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
-            Text(text = minorHour.opening, fontSize = 15.sp)
-            BreviaryPartLayout(title = "Hymn", breviaryPart = minorHour.hymn)
-            PsalmodyLayout(psalmody = minorHour.psalmody)
-            BreviaryPartLayout(title = "Czytanie", breviaryPart = minorHour.reading)
-            BreviaryPartLayout(title = "Modlitwa", breviaryPart = minorHour.prayer)
-            Text(text = minorHour.ending, fontSize = 15.sp)
-        }
+@Composable
+private fun MinorHourLayout(minorHour: MinorHour) {
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = minorHour.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = minorHour.hymn)
+        PsalmodyLayout(psalmody = minorHour.psalmody)
+        BreviaryPartLayout(title = "Czytanie", breviaryPart = minorHour.reading)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = minorHour.prayer)
+        Text(text = minorHour.ending, fontSize = 15.sp)
     }
+}
 
-    @Composable
-    private fun ComplineLayout(compline: Compline) {
-        Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
-            Text(text = compline.opening, fontSize = 15.sp)
-            BreviaryPartLayout(title = "Hymn", breviaryPart = compline.hymn)
-            PsalmodyLayout(psalmody = compline.psalmody)
-            BreviaryPartLayout(title = "Czytanie", breviaryPart = compline.reading)
-            BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = compline.responsory)
-            CanticleLayout(canticle = compline.canticle)
-            BreviaryPartLayout(title = "Modlitwa", breviaryPart = compline.prayer)
-            BreviaryPartLayout(title = "Antyfona", breviaryPart = compline.antiphon)
-        }
+@Composable
+private fun ComplineLayout(compline: Compline) {
+    Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+        Text(text = compline.opening, fontSize = 15.sp)
+        BreviaryPartLayout(title = "Hymn", breviaryPart = compline.hymn)
+        PsalmodyLayout(psalmody = compline.psalmody)
+        BreviaryPartLayout(title = "Czytanie", breviaryPart = compline.reading)
+        BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = compline.responsory)
+        CanticleLayout(canticle = compline.canticle)
+        BreviaryPartLayout(title = "Modlitwa", breviaryPart = compline.prayer)
+        BreviaryPartLayout(title = "Antyfona", breviaryPart = compline.antiphon)
     }
 }

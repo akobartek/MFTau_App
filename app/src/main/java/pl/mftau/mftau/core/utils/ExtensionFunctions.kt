@@ -8,7 +8,9 @@ import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.provider.MediaStore
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -94,4 +96,10 @@ fun Context.openPdf(fileName: String): Boolean {
         Log.e("openPdf", exc.toString())
         return false
     }
+}
+
+fun TextToSpeech.speak(textToRead: String) {
+    speak(textToRead, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
+        putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MFTauUtteranceId")
+    }, "MFTauUtteranceId")
 }

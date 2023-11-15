@@ -1,7 +1,5 @@
 package pl.mftau.mftau.gospel.presentation
 
-import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,110 +29,106 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.PreferencesRepository
 import pl.mftau.mftau.core.data.dataStore
-import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.utils.speak
 import pl.mftau.mftau.gospel.domain.model.Gospel
-import java.util.Locale
+import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 
 class GospelScreen : Screen {
 
-    private var mTextToSpeech: MyTextToSpeech? = null
 
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
         val context = LocalContext.current
         val scope = rememberCoroutineScope()
+        val screenModel = getScreenModel<GospelScreenModel>()
 
-        val screenModel = rememberScreenModel { GospelScreenModel() }
-        val state by screenModel.state.collectAsStateWithLifecycle()
-        var isPlaying by remember { mutableStateOf(false) }
-
-        mTextToSpeech = MyTextToSpeech(context) { status ->
-            if (status != TextToSpeech.ERROR) {
-                mTextToSpeech?.setLanguage(Locale("pl_PL"))
-                mTextToSpeech?.setSpeechRate(0.9f)
-            }
-        }
-        mTextToSpeech?.setProgressListener {
+        val textToSpeech = koinInject<MyTextToSpeech>()
+        var isSpeaking by remember { mutableStateOf(textToSpeech.isSpeaking) }
+        textToSpeech.setProgressListener {
             scope.launch {
                 if (PreferencesRepository(context.dataStore).getRepeatGospel()) {
                     delay(1000)
-                    readGospel(screenModel.getGospelToRead(), mTextToSpeech)
-                } else isPlaying = false
+                    textToSpeech.speak(screenModel.getGospelToRead())
+                } else isSpeaking = false
             }
         }
+        GospelScreenContent(
+            screenModel = screenModel,
+            onClick = {
+                isSpeaking = !isSpeaking
+                if (isSpeaking) textToSpeech.speak(screenModel.getGospelToRead())
+                else textToSpeech.stop()
+            },
+            isSpeaking = isSpeaking
+        )
 
         LifecycleEffect(
             onDisposed = {
-                isPlaying = false
-                if (mTextToSpeech?.isSpeaking == true) {
-                    mTextToSpeech?.stop()
-                    mTextToSpeech?.shutdown()
+                isSpeaking = false
+                if (textToSpeech.isSpeaking) {
+                    textToSpeech.stop()
+                    textToSpeech.shutdown()
                 }
             }
         )
+    }
+}
 
-        Scaffold(
-            topBar = {
-                TauTopBar(
-                    title = stringResource(id = R.string.gospel_for_today),
-                    onNavClick = navigator::pop,
-                    actions = {
-                        if (state is State.Success)
-                            IconButton(onClick = {
-                                isPlaying = !isPlaying
-                                if (isPlaying)
-                                    readGospel(screenModel.getGospelToRead(), mTextToSpeech)
-                                else mTextToSpeech?.stop()
-                            }) {
-                                Crossfade(targetState = isPlaying, label = "") {
-                                    Icon(
-                                        imageVector =
-                                        if (it) Icons.Filled.Pause
-                                        else Icons.AutoMirrored.Filled.VolumeUp,
-                                        contentDescription = stringResource(id = R.string.listen_gospel)
-                                    )
-                                }
+@Composable
+fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isSpeaking: Boolean) {
+    val navigator = LocalNavigator.currentOrThrow
+    val state by screenModel.state.collectAsStateWithLifecycle()
+
+    Scaffold(
+        topBar = {
+            TauTopBar(
+                title = stringResource(id = R.string.gospel_for_today),
+                onNavClick = navigator::pop,
+                actions = {
+                    if (state is State.Success)
+                        IconButton(onClick = onClick) {
+                            Crossfade(targetState = isSpeaking, label = "") {
+                                Icon(
+                                    imageVector =
+                                    if (it) Icons.Filled.Pause
+                                    else Icons.AutoMirrored.Filled.VolumeUp,
+                                    contentDescription = stringResource(id = R.string.listen_gospel)
+                                )
                             }
-                    }
+                        }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            when (state) {
+                is State.Loading -> LoadingIndicator()
+                is State.Success -> GospelLayout(gospel = (state as State.Success).gospel)
+
+                is State.Failure -> NoInternetDialog(
+                    onReconnect = screenModel::loadGospel,
+                    onCancel = navigator::pop
                 )
             }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-            ) {
-                when (state) {
-                    is State.Loading -> LoadingIndicator()
-                    is State.Success -> GospelLayout(gospel = (state as State.Success).gospel)
-
-                    is State.Failure -> NoInternetDialog(
-                        onReconnect = screenModel::loadGospel,
-                        onCancel = navigator::pop
-                    )
-                }
-            }
         }
-    }
-
-    private fun readGospel(textToRead: String, tts: TextToSpeech?) {
-        tts?.speak(textToRead, TextToSpeech.QUEUE_FLUSH, Bundle().apply {
-            putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "UtteranceID")
-        }, "UtteranceID")
     }
 }
 

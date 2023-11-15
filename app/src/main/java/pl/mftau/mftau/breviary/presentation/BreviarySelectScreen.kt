@@ -48,125 +48,129 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class BreviarySelectScreen : BreviaryScreen() {
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        var dropDownMenuExpanded by remember { mutableStateOf(false) }
+        BreviarySelectScreenContent(screenModel = getScreenModel())
+    }
+}
 
-        val screenModel = getScreenModel<BreviarySelectScreenModel>()
-        val daysFromToday by screenModel.daysFromToday.collectAsState()
-        val daysString = screenModel.getCorrectDaysString(daysFromToday)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
+    val navigator = LocalNavigator.currentOrThrow
+    var dropDownMenuExpanded by remember { mutableStateOf(false) }
 
-        Scaffold(
-            topBar = {
-                CenterAlignedTopAppBar(
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    title = {
-                        Row {
-                            Text(
-                                text = stringResource(id = R.string.breviary),
-                                fontFamily = mfTauFont
-                            )
-                            AnimatedContent(
-                                targetState = daysString,
-                                transitionSpec = {
-                                    slideIntoContainer(
-                                        animationSpec = tween(400, easing = EaseIn),
-                                        towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
-                                    ).togetherWith(
-                                        slideOutOfContainer(
-                                            animationSpec = tween(400, easing = EaseOut),
-                                            towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
-                                        )
-                                    )
-                                },
-                                label = "days"
-                            ) { text ->
-                                Text(text = text, fontFamily = mfTauFont)
-                            }
-                        }
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = navigator::pop) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
-                            navigator.push(BreviarySaveScreen(screenModel.dateString))
-                        }) {
-                            Icon(imageVector = Icons.Filled.Save, contentDescription = "Lock")
-                        }
+    val daysFromToday by screenModel.daysFromToday.collectAsState()
+    val daysString = screenModel.getCorrectDaysString(daysFromToday)
 
-                        IconButton(onClick = { dropDownMenuExpanded = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.MoreVert,
-                                contentDescription = "Options"
-                            )
-                        }
-
-                        DropdownMenu(
-                            expanded = dropDownMenuExpanded,
-                            onDismissRequest = { dropDownMenuExpanded = false },
-                            modifier = Modifier.defaultMinSize(minWidth = 200.dp)
-                        ) {
-                            if (daysFromToday != -1)
-                                DropdownMenuItem(
-                                    text = { Text(text = stringResource(id = R.string.breviary_yesterday)) },
-                                    onClick = {
-                                        dropDownMenuExpanded = false
-                                        screenModel.updateDaysFromToday(-1)
-                                    }
-                                )
-                            if (daysFromToday != 0)
-                                DropdownMenuItem(
-                                    text = { Text(text = stringResource(id = R.string.breviary_today)) },
-                                    onClick = {
-                                        dropDownMenuExpanded = false
-                                        screenModel.updateDaysFromToday(0)
-                                    }
-                                )
-                            if (daysFromToday != 1)
-                                DropdownMenuItem(
-                                    text = { Text(text = stringResource(id = R.string.breviary_tomorrow)) },
-                                    onClick = {
-                                        dropDownMenuExpanded = false
-                                        screenModel.updateDaysFromToday(1)
-                                    }
-                                )
-                        }
-                    }
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                stringArrayResource(id = R.array.breviary_list).forEachIndexed { index, elem ->
-                    Column(
-                        Modifier.clickable {
-                            navigator.push(BreviaryTextScreen(index, screenModel.dateString))
-                        }
-                    ) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                title = {
+                    Row {
                         Text(
-                            text = elem,
-                            modifier = Modifier.padding(12.dp)
+                            text = stringResource(id = R.string.breviary),
+                            fontFamily = mfTauFont
                         )
-                        HorizontalDivider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .width(1.dp)
+                        AnimatedContent(
+                            targetState = daysString,
+                            transitionSpec = {
+                                slideIntoContainer(
+                                    animationSpec = tween(400, easing = EaseIn),
+                                    towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
+                                ).togetherWith(
+                                    slideOutOfContainer(
+                                        animationSpec = tween(400, easing = EaseOut),
+                                        towards = if (daysFromToday < 0) SlideDirection.Down else SlideDirection.Up
+                                    )
+                                )
+                            },
+                            label = "days"
+                        ) { text ->
+                            Text(text = text, fontFamily = mfTauFont)
+                        }
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = navigator::pop) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navigator.push(BreviarySaveScreen(screenModel.dateString))
+                    }) {
+                        Icon(imageVector = Icons.Filled.Save, contentDescription = "Lock")
+                    }
+
+                    IconButton(onClick = { dropDownMenuExpanded = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = "Options"
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = dropDownMenuExpanded,
+                        onDismissRequest = { dropDownMenuExpanded = false },
+                        modifier = Modifier.defaultMinSize(minWidth = 200.dp)
+                    ) {
+                        if (daysFromToday != -1)
+                            DropdownMenuItem(
+                                text = { Text(text = stringResource(id = R.string.breviary_yesterday)) },
+                                onClick = {
+                                    dropDownMenuExpanded = false
+                                    screenModel.updateDaysFromToday(-1)
+                                }
+                            )
+                        if (daysFromToday != 0)
+                            DropdownMenuItem(
+                                text = { Text(text = stringResource(id = R.string.breviary_today)) },
+                                onClick = {
+                                    dropDownMenuExpanded = false
+                                    screenModel.updateDaysFromToday(0)
+                                }
+                            )
+                        if (daysFromToday != 1)
+                            DropdownMenuItem(
+                                text = { Text(text = stringResource(id = R.string.breviary_tomorrow)) },
+                                onClick = {
+                                    dropDownMenuExpanded = false
+                                    screenModel.updateDaysFromToday(1)
+                                }
+                            )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            stringArrayResource(id = R.array.breviary_list).forEachIndexed { index, elem ->
+                Column(
+                    Modifier.clickable {
+                        navigator.push(BreviaryTextScreen(index, screenModel.dateString))
+                    }
+                ) {
+                    Text(
+                        text = elem,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .width(1.dp)
+                    )
                 }
             }
         }

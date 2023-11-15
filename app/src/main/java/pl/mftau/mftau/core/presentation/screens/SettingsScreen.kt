@@ -53,59 +53,63 @@ import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 class SettingsScreen : Screen {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel = getScreenModel<SettingsScreenModel>()
-        val preferences by screenModel.preferencesFlow
-            .collectAsStateWithLifecycle(initialValue = UserPreferences())
+        SettingsScreenContent(screenModel = getScreenModel())
+    }
+}
 
-        Scaffold(
-            topBar = {
-                TauTopBar(
-                    title = stringResource(id = R.string.settings),
-                    onNavClick = navigator::pop
-                )
-            }
-        ) { paddingValues ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                SwitchPreferenceRow(
-                    title = stringResource(id = R.string.night_mode_title),
-                    summary = stringResource(id = R.string.night_mode_summary),
-                    checked = preferences.nightMode,
-                    onCheckedChange = { value ->
-                        AppCompatDelegate.setDefaultNightMode(
-                            if (value) AppCompatDelegate.MODE_NIGHT_YES
-                            else AppCompatDelegate.MODE_NIGHT_NO
-                        )
-                        screenModel.updateNightMode(value)
-                    }
-                )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                    SwitchPreferenceRow(
-                        title = stringResource(id = R.string.dynamic_colors_title),
-                        summary = stringResource(id = R.string.dynamic_colors_summary),
-                        checked = preferences.dynamicColors,
-                        onCheckedChange = screenModel::updateDynamicColors
+@Composable
+fun SettingsScreenContent(screenModel: SettingsScreenModel) {
+    val navigator = LocalNavigator.currentOrThrow
+    val preferences by screenModel.preferencesFlow
+        .collectAsStateWithLifecycle(initialValue = UserPreferences())
+
+    Scaffold(
+        topBar = {
+            TauTopBar(
+                title = stringResource(id = R.string.settings),
+                onNavClick = navigator::pop
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+            SwitchPreferenceRow(
+                title = stringResource(id = R.string.night_mode_title),
+                summary = stringResource(id = R.string.night_mode_summary),
+                checked = preferences.nightMode,
+                onCheckedChange = { value ->
+                    AppCompatDelegate.setDefaultNightMode(
+                        if (value) AppCompatDelegate.MODE_NIGHT_YES
+                        else AppCompatDelegate.MODE_NIGHT_NO
                     )
+                    screenModel.updateNightMode(value)
+                }
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 SwitchPreferenceRow(
-                    title = stringResource(id = R.string.repeat_gospel_title),
-                    summary = stringResource(id = R.string.repeat_gospel_summary),
-                    checked = preferences.repeatGospel,
-                    onCheckedChange = screenModel::updateRepeatGospel
+                    title = stringResource(id = R.string.dynamic_colors_title),
+                    summary = stringResource(id = R.string.dynamic_colors_summary),
+                    checked = preferences.dynamicColors,
+                    onCheckedChange = screenModel::updateDynamicColors
                 )
-                SwitchPreferenceRow(
-                    title = stringResource(id = R.string.awake_song_book_title),
-                    summary = stringResource(id = R.string.awake_song_book_summary),
-                    checked = preferences.keepSongBookAwake,
-                    onCheckedChange = screenModel::updateKeepSongBookAwake
-                )
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                    LanguagePreferenceRow()
-            }
+            SwitchPreferenceRow(
+                title = stringResource(id = R.string.repeat_gospel_title),
+                summary = stringResource(id = R.string.repeat_gospel_summary),
+                checked = preferences.repeatGospel,
+                onCheckedChange = screenModel::updateRepeatGospel
+            )
+            SwitchPreferenceRow(
+                title = stringResource(id = R.string.awake_song_book_title),
+                summary = stringResource(id = R.string.awake_song_book_summary),
+                checked = preferences.keepSongBookAwake,
+                onCheckedChange = screenModel::updateKeepSongBookAwake
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                LanguagePreferenceRow()
         }
     }
 }

@@ -41,167 +41,172 @@ import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 
-data class BreviarySaveScreen(
-    val date: String = ""
-) : BreviaryScreen() {
+data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val screenModel = getScreenModel<BreviarySaveScreenModel>()
-        val state by screenModel.state.collectAsStateWithLifecycle().also {
-            screenModel.setup(date = date)
-        }
+        BreviarySaveScreenContent(
+            screenModel = getScreenModel(),
+            date = date
+        )
+    }
+}
 
-        var exitDialogVisible by remember { mutableStateOf(false) }
-        var saveCompleteDialogVisible by remember { mutableStateOf(false) }
-        LaunchedEffect(key1 = state) {
-            if (state is State.DownloadingState) {
-                val id = (state as State.DownloadingState).entity.id
-                if (id > 0) {
-                    exitDialogVisible = false
-                    saveCompleteDialogVisible = true
-                }
+@Composable
+fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String) {
+    val navigator = LocalNavigator.currentOrThrow
+    val state by screenModel.state.collectAsStateWithLifecycle().also {
+        screenModel.setup(date = date)
+    }
+
+    var exitDialogVisible by remember { mutableStateOf(false) }
+    var saveCompleteDialogVisible by remember { mutableStateOf(false) }
+    LaunchedEffect(key1 = state) {
+        if (state is State.DownloadingState) {
+            val id = (state as State.DownloadingState).entity.id
+            if (id > 0) {
+                exitDialogVisible = false
+                saveCompleteDialogVisible = true
             }
         }
+    }
 
-        Scaffold(
-            topBar = {
-                TauTopBar(
-                    title = stringResource(id = R.string.saving_breviary),
-                    onNavClick = {
-                        if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
-                            exitDialogVisible = true
-                        else navigator.pop()
+    Scaffold(
+        topBar = {
+            TauTopBar(
+                title = stringResource(id = R.string.saving_breviary),
+                onNavClick = {
+                    if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
+                        exitDialogVisible = true
+                    else navigator.pop()
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .padding(horizontal = 8.dp)
+        ) {
+            when (state) {
+                is State.Cancelled -> {}
+                is State.Loading -> LoadingIndicator()
+
+                is State.Init -> BasicAlertDialog(
+                    imageVector = Icons.Default.Save,
+                    dialogTitleId = R.string.saving_breviary,
+                    dialogTextId = R.string.save_breviary_dialog_msg,
+                    dismissible = false,
+                    confirmBtnTextId = R.string.save,
+                    onConfirmation = screenModel::checkIfThereAreMultipleOffices,
+                    dismissBtnTextId = R.string.cancel,
+                    onDismissRequest = {
+                        screenModel.cancelScreen()
+                        navigator.pop()
+                    }
+                )
+
+                is State.MultipleOffices -> MultipleOfficesDialog(
+                    offices = (state as State.MultipleOffices).offices,
+                    onSelect = screenModel::officeSelected,
+                    onCancel = {
+                        screenModel.cancelScreen()
+                        navigator.pop()
+                    }
+                )
+
+                is State.DownloadingState -> DownloadingStateLayout(
+                    entity = (state as State.DownloadingState).entity,
+                    onBackPressed = { exitDialogVisible = true }
+                )
+
+                is State.Failure -> NoInternetDialog(
+                    onReconnect = screenModel::checkIfThereAreMultipleOffices,
+                    onCancel = {
+                        screenModel.cancelScreen()
+                        navigator.pop()
                     }
                 )
             }
-        ) { paddingValues ->
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(horizontal = 8.dp)
-            ) {
-                when (state) {
-                    is State.Cancelled -> {}
-                    is State.Loading -> LoadingIndicator()
 
-                    is State.Init -> BasicAlertDialog(
-                        imageVector = Icons.Default.Save,
-                        dialogTitleId = R.string.saving_breviary,
-                        dialogTextId = R.string.save_breviary_dialog_msg,
-                        dismissible = false,
-                        confirmBtnTextId = R.string.save,
-                        onConfirmation = screenModel::checkIfThereAreMultipleOffices,
-                        dismissBtnTextId = R.string.cancel,
-                        onDismissRequest = {
-                            screenModel.cancelScreen()
-                            navigator.pop()
-                        }
-                    )
+            if (saveCompleteDialogVisible)
+                BasicAlertDialog(
+                    imageVector = Icons.Default.Save,
+                    dialogTitleId = R.string.saving_breviary,
+                    dialogTextId = R.string.save_finished_dialog_msg,
+                    confirmBtnTextId = R.string.ok,
+                    onConfirmation = { saveCompleteDialogVisible = false },
+                    onDismissRequest = { saveCompleteDialogVisible = false }
+                )
 
-                    is State.MultipleOffices -> MultipleOfficesDialog(
-                        offices = (state as State.MultipleOffices).offices,
-                        onSelect = screenModel::officeSelected,
-                        onCancel = {
-                            screenModel.cancelScreen()
-                            navigator.pop()
-                        }
-                    )
-
-                    is State.DownloadingState -> DownloadingStateLayout(
-                        entity = (state as State.DownloadingState).entity,
-                        onBackPressed = { exitDialogVisible = true }
-                    )
-
-                    is State.Failure -> NoInternetDialog(
-                        onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                        onCancel = {
-                            screenModel.cancelScreen()
-                            navigator.pop()
-                        }
-                    )
-                }
-
-                if (saveCompleteDialogVisible)
-                    BasicAlertDialog(
-                        imageVector = Icons.Default.Save,
-                        dialogTitleId = R.string.saving_breviary,
-                        dialogTextId = R.string.save_finished_dialog_msg,
-                        confirmBtnTextId = R.string.ok,
-                        onConfirmation = { saveCompleteDialogVisible = false },
-                        onDismissRequest = { saveCompleteDialogVisible = false }
-                    )
-
-                if (exitDialogVisible)
-                    BasicAlertDialog(
-                        imageVector = Icons.Default.ErrorOutline,
-                        dialogTitleId = R.string.stop_action_title,
-                        dialogTextId = R.string.stop_download_dialog_msg,
-                        dismissible = false,
-                        confirmBtnTextId = R.string.stop,
-                        dismissBtnTextId = R.string.cancel,
-                        onConfirmation = {
-                            exitDialogVisible = false
-                            navigator.pop()
-                        },
-                        onDismissRequest = { exitDialogVisible = false }
-                    )
-            }
-        }
-    }
-
-    @Composable
-    private fun DownloadingStateLayout(entity: BreviaryEntity, onBackPressed: () -> Unit) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 44.dp)
-        ) {
-            DownloadItem(stringResource(id = R.string.invitatory), entity.invitatory)
-            DownloadItem(stringResource(id = R.string.office_of_readings), entity.officeOfReadings)
-            DownloadItem(stringResource(id = R.string.lauds), entity.lauds)
-            DownloadItem(stringResource(id = R.string.midmorning_prayer), entity.prayer1)
-            DownloadItem(stringResource(id = R.string.midday_prayer), entity.prayer2)
-            DownloadItem(stringResource(id = R.string.midafternoon_prayer), entity.prayer3)
-            DownloadItem(stringResource(id = R.string.vespers), entity.vespers)
-            DownloadItem(stringResource(id = R.string.compline), entity.compline)
-            DownloadItem(
-                stringResource(id = R.string.save_in_memory),
-                if (entity.id == 0L) "" else entity.id.toString()
-            )
-        }
-
-        BackHandler(enabled = entity.id > 0L, onBack = onBackPressed)
-    }
-
-    @Composable
-    fun DownloadItem(name: String, value: String?) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth(0.75f)
-                .padding(vertical = 4.dp)
-        ) {
-            Text(text = name, fontSize = 16.sp)
-            when {
-                value == null -> Icon(
+            if (exitDialogVisible)
+                BasicAlertDialog(
                     imageVector = Icons.Default.ErrorOutline,
-                    contentDescription = stringResource(id = R.string.cd_download_error),
-                    tint = MaterialTheme.colorScheme.error
+                    dialogTitleId = R.string.stop_action_title,
+                    dialogTextId = R.string.stop_download_dialog_msg,
+                    dismissible = false,
+                    confirmBtnTextId = R.string.stop,
+                    dismissBtnTextId = R.string.cancel,
+                    onConfirmation = {
+                        exitDialogVisible = false
+                        navigator.pop()
+                    },
+                    onDismissRequest = { exitDialogVisible = false }
                 )
+        }
+    }
+}
 
-                value.isBlank() -> CircularProgressIndicator(modifier = Modifier.size(24.dp))
+@Composable
+private fun DownloadingStateLayout(entity: BreviaryEntity, onBackPressed: () -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 44.dp)
+    ) {
+        DownloadItem(stringResource(id = R.string.invitatory), entity.invitatory)
+        DownloadItem(stringResource(id = R.string.office_of_readings), entity.officeOfReadings)
+        DownloadItem(stringResource(id = R.string.lauds), entity.lauds)
+        DownloadItem(stringResource(id = R.string.midmorning_prayer), entity.prayer1)
+        DownloadItem(stringResource(id = R.string.midday_prayer), entity.prayer2)
+        DownloadItem(stringResource(id = R.string.midafternoon_prayer), entity.prayer3)
+        DownloadItem(stringResource(id = R.string.vespers), entity.vespers)
+        DownloadItem(stringResource(id = R.string.compline), entity.compline)
+        DownloadItem(
+            stringResource(id = R.string.save_in_memory),
+            if (entity.id == 0L) "" else entity.id.toString()
+        )
+    }
 
-                else -> Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = stringResource(id = R.string.cd_download_error)
-                )
-            }
+    BackHandler(enabled = entity.id > 0L, onBack = onBackPressed)
+}
+
+@Composable
+fun DownloadItem(name: String, value: String?) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth(0.75f)
+            .padding(vertical = 4.dp)
+    ) {
+        Text(text = name, fontSize = 16.sp)
+        when {
+            value == null -> Icon(
+                imageVector = Icons.Default.ErrorOutline,
+                contentDescription = stringResource(id = R.string.cd_download_error),
+                tint = MaterialTheme.colorScheme.error
+            )
+
+            value.isBlank() -> CircularProgressIndicator(modifier = Modifier.size(24.dp))
+
+            else -> Icon(
+                imageVector = Icons.Default.Check,
+                contentDescription = stringResource(id = R.string.cd_download_error)
+            )
         }
     }
 }

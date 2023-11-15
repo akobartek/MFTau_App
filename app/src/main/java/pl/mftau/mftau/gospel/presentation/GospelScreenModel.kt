@@ -10,7 +10,7 @@ import pl.mftau.mftau.gospel.domain.GospelRepository
 import pl.mftau.mftau.gospel.data.GospelRepositoryImpl
 
 class GospelScreenModel(
-    private val repository: GospelRepository = GospelRepositoryImpl()
+    private val repository: GospelRepository
 ) : StateScreenModel<GospelScreenModel.State>(State.Loading) {
 
     sealed class State {
