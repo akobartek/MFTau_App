@@ -102,7 +102,7 @@ class AuthRepositoryImpl(
     override suspend fun sendVerificationEmail() {
         try {
             auth.currentUser?.sendEmailVerification()?.await()
-        } catch (exc:Exception) {
+        } catch (exc: Exception) {
             // No-op
         }
     }
@@ -113,6 +113,12 @@ class AuthRepositoryImpl(
 
     override suspend fun deleteAccount(): Result<Boolean> {
         return try {
+            auth.currentUser?.let { user ->
+                firestore.collection(USERS_COLLECTION)
+                    .document(user.uid)
+                    .delete()
+                    .also { it.await() }
+            }
             val task = auth.currentUser?.delete()?.also { it.await() }
             val result = if (task?.isSuccessful == true) {
                 Result.success(true)
