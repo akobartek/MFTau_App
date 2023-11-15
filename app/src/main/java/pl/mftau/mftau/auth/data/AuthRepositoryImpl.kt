@@ -75,10 +75,11 @@ class AuthRepositoryImpl(
             val result = if (task.isSuccessful) {
                 auth.currentUser?.let { user ->
                     user.sendEmailVerification()
-                    signOut()
                     firestore.collection(USERS_COLLECTION)
                         .document(user.uid)
                         .set(FirestoreUser.createUser(email))
+                        .also { it.await() }
+                    signOut()
                 }
                 Result.success(true)
             } else Result.failure(task.exception ?: Exception())
