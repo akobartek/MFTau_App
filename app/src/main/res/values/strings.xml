@@ -79,7 +79,7 @@
     <string name="cancel">Anuluj</string>
     <string name="message_sent">Wysłano wiadomość</string>
     <string name="sign_up_error">Błąd w trakcie rejestracji, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
-    <string name="sign_up_successful_dialog_title">Zarejestrowano pomyślnie</string>
+    <string name="sign_up_successful_dialog_title">Zarejestrowano</string>
     <string name="sign_up_successful_dialog_message">Aby korzystać z konta musisz zatwierdzić je poprzez kliknięcie linku w wiadomości na mailu.</string>
     <string name="signed_in">Zalogowano</string>
     <string name="sign_in_error">Błąd w trakcie logowania, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>

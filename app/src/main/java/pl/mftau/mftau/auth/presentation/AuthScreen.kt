@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.ManageAccounts
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -247,6 +248,16 @@ class AuthScreen : Screen {
                         }
                     },
                     onCancel = screenModel::hideNoInternetDialog
+                )
+
+            if (state.isSignedUpDialogVisible)
+                BasicAlertDialog(
+                    imageVector = Icons.Outlined.ManageAccounts,
+                    dialogTitleId = R.string.sign_up_successful_dialog_title,
+                    dialogTextId = R.string.sign_up_successful_dialog_message,
+                    confirmBtnTextId = R.string.ok,
+                    onConfirmation = screenModel::toggleSignUpSuccessVisibility,
+                    dismissible = false,
                 )
 
             if (state.emailUnverifiedDialogVisible)

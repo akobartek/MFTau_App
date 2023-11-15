@@ -1,6 +1,5 @@
 package pl.mftau.mftau.auth.data
 
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
@@ -16,7 +15,6 @@ import pl.mftau.mftau.auth.domain.model.User
 import pl.mftau.mftau.auth.domain.model.UserType
 
 
-// TODO() -> ADD GOOGLE SIGN IN
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
@@ -59,9 +57,10 @@ class AuthRepositoryImpl(
             val task = auth.signInWithEmailAndPassword(email, password).also { it.await() }
             val result = if (task.isSuccessful) {
                 auth.currentUser?.let { user ->
-                    if (user.isEmailVerified || user.email != "example@mftau.pl")
+                    if (user.isEmailVerified || user.email == "example@mftau.pl")
                         Result.success(true)
-                    else Result.failure(FirebaseAuthEmailNotVerifiedException())
+                    else
+                        Result.failure(FirebaseAuthEmailNotVerifiedException())
                 } ?: Result.failure(Exception())
             } else Result.failure(task.exception ?: Exception())
             result
@@ -75,14 +74,12 @@ class AuthRepositoryImpl(
             val task = auth.createUserWithEmailAndPassword(email, password).also { it.await() }
             val result = if (task.isSuccessful) {
                 auth.currentUser?.let { user ->
-                    val credential = EmailAuthProvider.getCredential(email, password)
-                    user.linkWithCredential(credential).await()
                     user.sendEmailVerification()
+                    signOut()
                     firestore.collection(USERS_COLLECTION)
                         .document(user.uid)
                         .set(FirestoreUser.createUser(email))
                 }
-                signOut()
                 Result.success(true)
             } else Result.failure(task.exception ?: Exception())
             result
@@ -103,7 +100,7 @@ class AuthRepositoryImpl(
 
     override suspend fun sendVerificationEmail() {
         try {
-            auth.currentUser?.sendEmailVerification()
+            auth.currentUser?.sendEmailVerification()?.await()
         } catch (exc:Exception) {
             // No-op
         }

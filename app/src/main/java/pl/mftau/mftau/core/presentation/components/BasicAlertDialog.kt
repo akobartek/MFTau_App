@@ -7,6 +7,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun BasicAlertDialog(
@@ -21,7 +22,7 @@ fun BasicAlertDialog(
 ) {
     AlertDialog(
         icon = { Icon(imageVector = imageVector, contentDescription = null) },
-        title = { Text(text = stringResource(id = dialogTitleId)) },
+        title = { Text(text = stringResource(id = dialogTitleId), textAlign = TextAlign.Center) },
         text = { Text(text = stringResource(id = dialogTextId)) },
         onDismissRequest = { if (dismissible) onDismissRequest() },
         confirmButton = {

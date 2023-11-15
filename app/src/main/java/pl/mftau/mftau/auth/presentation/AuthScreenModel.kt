@@ -78,11 +78,15 @@ class AuthScreenModel(
         mutableState.update { it.copy(forgottenPasswordDialogSuccess = !it.forgottenPasswordDialogSuccess) }
     }
 
+    fun toggleSignUpSuccessVisibility() {
+        mutableState.update { it.copy(isSignedUpDialogVisible = !it.isSignedUpDialogVisible) }
+    }
+
     fun toggleEmailUnverifiedDialogVisibility(resend: Boolean) {
+        mutableState.update { it.copy(emailUnverifiedDialogVisible = !it.emailUnverifiedDialogVisible) }
         screenModelScope.launch {
             if (resend) authRepository.sendVerificationEmail()
             authRepository.signOut()
-            mutableState.update { it.copy(emailUnverifiedDialogVisible = !it.emailUnverifiedDialogVisible) }
         }
     }
 
