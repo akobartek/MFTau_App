@@ -2,7 +2,7 @@ package pl.mftau.mftau.auth.domain.model
 
 data class FirestoreUser(
     val email: String? = null,
-    val userType: UserType = UserType.NONE
+    val userType: UserType = UserType.MEMBER
 ) {
     companion object {
         private val adminAddresses = arrayOf(

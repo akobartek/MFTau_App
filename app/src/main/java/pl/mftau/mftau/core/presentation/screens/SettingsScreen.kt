@@ -41,13 +41,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.UserPreferences
-import pl.mftau.mftau.core.data.dataStore
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 
@@ -55,8 +54,7 @@ class SettingsScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val context = LocalContext.current
-        val screenModel = rememberScreenModel { SettingsScreenModel(context.dataStore) }
+        val screenModel = getScreenModel<SettingsScreenModel>()
         val preferences by screenModel.preferencesFlow
             .collectAsStateWithLifecycle(initialValue = UserPreferences())
 

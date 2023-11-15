@@ -3,8 +3,12 @@ package pl.mftau.mftau.core.utils
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -14,8 +18,20 @@ import pl.mftau.mftau.R
 import java.io.File
 import java.io.FileOutputStream
 
+fun CharSequence.isValidEmail(): Boolean =
+    android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
 fun Context.showShortToast(msgId: Int) {
     Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show()
+}
+
+fun Context.getBitmapFromUri(uri: Uri): Bitmap {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri))
+    } else {
+        @Suppress("DEPRECATION")
+        MediaStore.Images.Media.getBitmap(contentResolver, uri)
+    }
 }
 
 fun Context.openWebsiteInChromeCustomTabsIfSupported(website: String) {

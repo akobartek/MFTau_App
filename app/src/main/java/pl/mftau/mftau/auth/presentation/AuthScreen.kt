@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,6 +54,9 @@ import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.EmailErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
+import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
+import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
+import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.utils.showShortToast
 
 class AuthScreen : Screen {
@@ -87,6 +91,11 @@ class AuthScreen : Screen {
                         message = context.getString(R.string.sign_up_error),
                         withDismissAction = true
                     ).also { screenModel.signUpErrorShowed() }
+                if (state.forgottenPasswordDialogSuccess)
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.message_sent),
+                        withDismissAction = true
+                    ).also { screenModel.toggleForgottenPasswordSuccessVisibility() }
             }
         }
 
@@ -126,7 +135,7 @@ class AuthScreen : Screen {
                             IconButton(onClick = { screenModel.updateEmail("") }) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
-                                    contentDescription = stringResource(id = R.string.show_password)
+                                    contentDescription = stringResource(id = R.string.cd_clear_field)
                                 )
                             }
                     },
@@ -212,12 +221,45 @@ class AuthScreen : Screen {
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 OutlinedButton(
-                    onClick = screenModel::signUp,
+                    onClick = screenModel::toggleForgottenPasswordDialogVisibility,
                     modifier = Modifier.fillMaxWidth(0.75f)
                 ) {
                     Text(text = stringResource(id = R.string.forgot_password))
                 }
             }
+
+            if (state.forgottenPasswordDialogVisible)
+                ResetPasswordDialog(
+                    onReset = screenModel::sendResetPasswordEmail,
+                    onCancel = screenModel::toggleForgottenPasswordDialogVisibility,
+                    isError = state.forgottenPasswordDialogError
+                )
+
+            if (state.noInternetAction != null)
+                NoInternetDialog(
+                    onReconnect = {
+                        screenModel.hideNoInternetDialog()
+                        when (state.noInternetAction) {
+                            NoInternetAction.SIGN_IN -> screenModel.signIn()
+                            NoInternetAction.SIGN_UP -> screenModel.signUp()
+                            NoInternetAction.RESET_PASSWORD -> screenModel.toggleForgottenPasswordDialogVisibility()
+                            else -> {}
+                        }
+                    },
+                    onCancel = screenModel::hideNoInternetDialog
+                )
+
+            if (state.emailUnverifiedDialogVisible)
+                BasicAlertDialog(
+                    imageVector = Icons.Outlined.ErrorOutline,
+                    dialogTitleId = R.string.verify_email_dialog_title,
+                    dialogTextId = R.string.verify_email_dialog_message,
+                    confirmBtnTextId = R.string.verify_email_send_again,
+                    onConfirmation = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
+                    dismissible = false,
+                    dismissBtnTextId = R.string.cancel,
+                    onDismissRequest = { screenModel.toggleEmailUnverifiedDialogVisibility(false) }
+                )
         }
     }
 }

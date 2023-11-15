@@ -7,9 +7,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.core.data.PreferencesRepository
 
-class SettingsScreenModel(dataStore: DataStore<Preferences>) : ScreenModel {
+class SettingsScreenModel(private val preferencesRepository: PreferencesRepository) : ScreenModel {
 
-    private val preferencesRepository = PreferencesRepository(dataStore)
     val preferencesFlow = preferencesRepository.preferencesFlow
 
     fun updateNightMode(nightMode: Boolean) {
@@ -17,16 +16,19 @@ class SettingsScreenModel(dataStore: DataStore<Preferences>) : ScreenModel {
             preferencesRepository.updateNightMode(nightMode)
         }
     }
+
     fun updateDynamicColors(dynamicColors: Boolean) {
         screenModelScope.launch {
             preferencesRepository.updateDynamicColors(dynamicColors)
         }
     }
+
     fun updateRepeatGospel(repeatGospel: Boolean) {
         screenModelScope.launch {
             preferencesRepository.updateRepeatGospel(repeatGospel)
         }
     }
+
     fun updateKeepSongBookAwake(keepSongBookAwake: Boolean) {
         screenModelScope.launch {
             preferencesRepository.updateKeepSongBookAwake(keepSongBookAwake)

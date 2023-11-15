@@ -35,8 +35,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
 
-        val screenModel = rememberScreenModel { EmailScreenModel() }
+        val screenModel = getScreenModel<EmailScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         Scaffold(

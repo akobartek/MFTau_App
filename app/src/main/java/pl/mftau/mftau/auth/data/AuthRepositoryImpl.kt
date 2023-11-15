@@ -1,5 +1,6 @@
 package pl.mftau.mftau.auth.data
 
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
@@ -12,16 +13,14 @@ import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.auth.domain.model.FirebaseAuthEmailNotVerifiedException
 import pl.mftau.mftau.auth.domain.model.FirestoreUser
 import pl.mftau.mftau.auth.domain.model.User
+import pl.mftau.mftau.auth.domain.model.UserType
 
+
+// TODO() -> ADD GOOGLE SIGN IN
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : AuthRepository {
-    override val currentUserId: String
-        get() = auth.currentUser?.uid.orEmpty()
-
-    override val hasUser: Boolean
-        get() = auth.currentUser != null
 
     override val currentUser: Flow<User?>
         get() = callbackFlow {
@@ -29,13 +28,26 @@ class AuthRepositoryImpl(
             val listener =
                 FirebaseAuth.AuthStateListener { auth ->
                     scope.launch {
-                        val authUser = auth.currentUser?.let { User(it.uid, it.email) }
-                        val firestoreUser = authUser?.let {
-                            firestore.collection(USERS_COLLECTION)
-                                .document(authUser.id)
-                                .get().await().toObject<User>()
+                        try {
+                            val user = auth.currentUser?.let { authUser ->
+                                val fsUser = firestore.collection(USERS_COLLECTION)
+                                    .document(authUser.uid)
+                                    .get().await().toObject<User>()
+                                val photoUri = authUser.providerData
+                                    .firstOrNull { it.photoUrl != null }?.photoUrl
+                                User(
+                                    authUser.uid,
+                                    authUser.email,
+                                    fsUser?.userType ?: UserType.MEMBER,
+                                    photoUri
+                                )
+                            }
+                            scope.trySend(user)
+                        } catch (exc: Exception) {
+                            auth.currentUser?.also { authUser ->
+                                scope.trySend(User(authUser.uid, authUser.email))
+                            }
                         }
-                        scope.trySend(authUser)
                     }
                 }
             auth.addAuthStateListener(listener)
@@ -63,6 +75,8 @@ class AuthRepositoryImpl(
             val task = auth.createUserWithEmailAndPassword(email, password).also { it.await() }
             val result = if (task.isSuccessful) {
                 auth.currentUser?.let { user ->
+                    val credential = EmailAuthProvider.getCredential(email, password)
+                    user.linkWithCredential(credential).await()
                     user.sendEmailVerification()
                     firestore.collection(USERS_COLLECTION)
                         .document(user.uid)
@@ -87,12 +101,28 @@ class AuthRepositoryImpl(
         }
     }
 
+    override suspend fun sendVerificationEmail() {
+        try {
+            auth.currentUser?.sendEmailVerification()
+        } catch (exc:Exception) {
+            // No-op
+        }
+    }
+
     override suspend fun signOut() {
         auth.signOut()
     }
 
-    override suspend fun deleteAccount() {
-        auth.currentUser?.delete()?.await()
+    override suspend fun deleteAccount(): Result<Boolean> {
+        return try {
+            val task = auth.currentUser?.delete()?.also { it.await() }
+            val result = if (task?.isSuccessful == true) {
+                Result.success(true)
+            } else Result.failure(task?.exception ?: Exception())
+            result
+        } catch (exc: Exception) {
+            Result.failure(exc)
+        }
     }
 
     companion object {

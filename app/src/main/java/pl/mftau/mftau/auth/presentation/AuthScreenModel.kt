@@ -10,10 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.auth.domain.AuthRepository
+import pl.mftau.mftau.auth.domain.model.FirebaseAuthEmailNotVerifiedException
+import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.core.utils.isValidEmail
 import java.util.regex.Pattern
 
 class AuthScreenModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val preferencesRepository: PreferencesRepository
 ) : StateScreenModel<AuthScreenModel.AuthScreenState>(AuthScreenState()) {
 
     data class AuthScreenState(
@@ -26,10 +30,16 @@ class AuthScreenModel(
         val isSignedUpDialogVisible: Boolean = false,
         val signInErrorSnackbarVisible: Boolean = false,
         val signUpErrorSnackbarVisible: Boolean = false,
-        val noInternetDialogVisible: Boolean = false, // TODO
-        val forgottenPasswordDialogVisible: Boolean = false, // TODO
-        val emailUnverifiedDialogVisible: Boolean = false // TODO
+        val noInternetAction: NoInternetAction? = null,
+        val forgottenPasswordDialogVisible: Boolean = false,
+        val forgottenPasswordDialogSuccess: Boolean = false,
+        val forgottenPasswordDialogError: Boolean = false,
+        val emailUnverifiedDialogVisible: Boolean = false
     )
+
+    init {
+        screenModelScope.launch { updateEmail(preferencesRepository.getLastUsedEmail()) }
+    }
 
     fun updateEmail(value: String) {
         mutableState.update { it.copy(email = value) }
@@ -51,20 +61,49 @@ class AuthScreenModel(
         mutableState.update { it.copy(signUpErrorSnackbarVisible = !it.signUpErrorSnackbarVisible) }
     }
 
+    fun hideNoInternetDialog() {
+        mutableState.update { it.copy(noInternetAction = null) }
+    }
+
+    fun toggleForgottenPasswordDialogVisibility() {
+        mutableState.update {
+            it.copy(
+                forgottenPasswordDialogVisible = !it.forgottenPasswordDialogVisible,
+                forgottenPasswordDialogError = false
+            )
+        }
+    }
+
+    fun toggleForgottenPasswordSuccessVisibility() {
+        mutableState.update { it.copy(forgottenPasswordDialogSuccess = !it.forgottenPasswordDialogSuccess) }
+    }
+
+    fun toggleEmailUnverifiedDialogVisibility(resend: Boolean) {
+        screenModelScope.launch {
+            if (resend) authRepository.sendVerificationEmail()
+            authRepository.signOut()
+            mutableState.update { it.copy(emailUnverifiedDialogVisible = !it.emailUnverifiedDialogVisible) }
+        }
+    }
+
     fun signIn() {
         if (!validateInput(false)) return
         screenModelScope.launch(Dispatchers.IO) {
             val result = authRepository.signIn(state.value.email, state.value.password)
             mutableState.update {
-                if (result.isSuccess && result.getOrDefault(false))
+                if (result.isSuccess && result.getOrDefault(false)) {
+                    preferencesRepository.updateLastUsedEmail(state.value.email)
                     it.copy(isSignedIn = true)
-                else result.exceptionOrNull()?.let { exc ->
+                } else result.exceptionOrNull()?.let { exc ->
                     when (exc) {
                         is FirebaseAuthInvalidUserException ->
                             it.copy(emailError = EmailErrorType.NO_USER)
 
+                        is FirebaseAuthEmailNotVerifiedException ->
+                            it.copy(emailUnverifiedDialogVisible = true)
+
                         is FirebaseNetworkException ->
-                            it.copy(noInternetDialogVisible = true)
+                            it.copy(noInternetAction = NoInternetAction.SIGN_IN)
 
                         is FirebaseAuthInvalidCredentialsException ->
                             it.copy(passwordError = PasswordErrorType.INVALID)
@@ -73,7 +112,6 @@ class AuthScreenModel(
                     }
                 } ?: it.copy(signInErrorSnackbarVisible = true)
             }
-            println("SIGN IN: $result")
         }
     }
 
@@ -90,13 +128,36 @@ class AuthScreenModel(
                             it.copy(emailError = EmailErrorType.USER_EXISTS)
 
                         is FirebaseNetworkException ->
-                            it.copy(noInternetDialogVisible = true)
+                            it.copy(noInternetAction = NoInternetAction.SIGN_UP)
 
                         else -> it.copy(signUpErrorSnackbarVisible = true)
                     }
                 } ?: it.copy(signUpErrorSnackbarVisible = true)
             }
-            println("SIGN UP: $result")
+        }
+    }
+
+    fun sendResetPasswordEmail(email: String) {
+        mutableState.update { it.copy(forgottenPasswordDialogError = !email.isValidEmail()) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val result = authRepository.sendRecoveryEmail(email)
+            mutableState.update {
+                if (result.isSuccess && result.getOrDefault(false))
+                    it.copy(
+                        forgottenPasswordDialogSuccess = true,
+                        forgottenPasswordDialogVisible = false
+                    )
+                else result.exceptionOrNull()?.let { exc ->
+                    when (exc) {
+                        is FirebaseNetworkException -> it.copy(
+                            noInternetAction = NoInternetAction.RESET_PASSWORD,
+                            forgottenPasswordDialogVisible = false
+                        )
+
+                        else -> it.copy(forgottenPasswordDialogError = true)
+                    }
+                } ?: it.copy(forgottenPasswordDialogError = true)
+            }
         }
     }
 
@@ -116,9 +177,6 @@ class AuthScreenModel(
         return newState.emailError == null && newState.passwordError == null
     }
 
-    private fun CharSequence.isValidEmail(): Boolean =
-        android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
-
     private fun CharSequence.isValidPassword(): Boolean {
         val passwordRegex = "((?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,20})"
         val pattern = Pattern.compile(passwordRegex)
@@ -132,5 +190,9 @@ class AuthScreenModel(
 
     enum class PasswordErrorType {
         EMPTY, TOO_SHORT, WRONG, INVALID
+    }
+
+    enum class NoInternetAction {
+        SIGN_IN, SIGN_UP, RESET_PASSWORD
     }
 }

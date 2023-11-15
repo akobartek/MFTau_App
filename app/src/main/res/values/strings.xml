@@ -4,6 +4,7 @@
     <string name="app_name" translatable="false">MF Tau</string>
     <string name="community_name">Młodzież\nFranciszkańska\nTAU</string>
     <string name="cd_more_options_btn">Więcej opcji</string>
+    <string name="cd_profile_pic">Zdjęcie profilowe</string>
     <string name="cd_main_screen_btn">Przejdź na ekran %s</string>
     <string name="cd_back_arrow_btn">Cofnij na poprzedni ekran</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
@@ -19,6 +20,12 @@
     <string name="sign_in">Zaloguj</string>
     <string name="sign_up">Zarejestruj</string>
     <string name="sign_out">Wyloguj</string>
+    <string name="reset_password">Resetuj hasło</string>
+    <string name="reset_password_dialog_msg" tools:ignore="Typos">Na Twój adres mailowy została wiadomość z linkiem do zmiany hasła.</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="delete_account_dialog_title">Usuwanie konta</string>
+    <string name="delete_account_dialog_msg">Jesteś pewny, że chcesz usunąć konto z systemu?</string>
+    <string name="delete_account_success">Konto zostało usunięte</string>
     <string name="register">Zarejestruj</string>
     <string name="settings">Ustawienia</string>
     <string name="ok" translatable="false">OK</string>
@@ -32,6 +39,7 @@
     <string name="save">Zapisz</string>
     <string name="load">Załaduj</string>
     <string name="stop">Przerwij</string>
+    <string name="cd_clear_field">Wyczyść pole</string>
     <string name="stop_action_title">Przerwanie akcji</string>
     <string name="stop_download_dialog_msg">Jesteś pewny, że chcesz przerwać pobieranie?</string>
     <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
@@ -76,8 +84,8 @@
     <string name="signed_in">Zalogowano</string>
     <string name="sign_in_error">Błąd w trakcie logowania, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
     <string name="verify_email_dialog_title">Weryfikacja maila</string>
-    <string name="verify_email_dialog_message" tools:ignore="Typos">Aby korzystać z konta musisz zatwierdzić adres mailowy.</string>
-    <string name="verify_email_send_again">Ponów wiadomość</string>
+    <string name="verify_email_dialog_message" tools:ignore="Typos">Aby korzystać z konta musisz zatwierdzić adres mailowy. Jeśli chcesz, możesz ponowić wysłanie wiadomości.</string>
+    <string name="verify_email_send_again">Ponów</string>
     <string name="reset_password_dialog_title">Resetowanie hasła</string>
     <string name="reset_password_dialog_message" tools:ignore="Typos">Wpisz adres mailowy:</string>
     <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
