@@ -20,8 +20,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.LibraryMusic
+import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.LockReset
+import androidx.compose.material.icons.outlined.Lyrics
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.NoAccounts
 import androidx.compose.material.icons.outlined.OpenInBrowser
@@ -44,6 +45,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -64,7 +66,7 @@ import pl.mftau.mftau.core.utils.openPdf
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.core.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
-import pl.mftau.mftau.prayers.presentation.PrayersListScreen
+import pl.mftau.mftau.readings.presentation.ReadingsListScreen
 import pl.mftau.mftau.songbook.presentation.SongsListScreen
 import pl.mftau.mftau.ui.WindowInfo
 import pl.mftau.mftau.ui.rememberWindowInfo
@@ -316,7 +318,7 @@ private fun MainScreenButton(
     ) {
         Icon(
             imageVector = buttonData.icon,
-            tint = MaterialTheme.colorScheme.secondary,
+            tint = MaterialTheme.colorScheme.primary,
             contentDescription = stringResource(
                 id = R.string.cd_main_screen_btn,
                 buttonData.title
@@ -326,7 +328,7 @@ private fun MainScreenButton(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = buttonData.title.uppercase(),
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 16.sp,
             fontFamily = mfTauFont
         )
@@ -404,13 +406,13 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
     ButtonsRow(
         buttonsData = listOf(
             ButtonData(
-                title = stringResource(id = R.string.prayers),
-                icon = ImageVector.vectorResource(id = R.drawable.ic_pray),
-                onClick = { navigator.push(PrayersListScreen()) }
+                title = stringResource(id = R.string.readings),
+                icon = Icons.Outlined.CollectionsBookmark,
+                onClick = { navigator.push(ReadingsListScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.song_book),
-                icon = Icons.Outlined.LibraryMusic,
+                icon = Icons.Outlined.Lyrics,
                 onClick = { navigator.push(SongsListScreen()) }
             ),
             ButtonData(

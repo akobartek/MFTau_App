@@ -9,7 +9,7 @@
     <string name="cd_back_arrow_btn">Cofnij na poprzedni ekran</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statut</string>
-    <string name="prayers">Modlitwy</string>
+    <string name="readings">Czytelnia</string>
     <string name="breviary">Brewiarz</string>
     <string name="gospel">Ewangelia</string>
     <string name="song_book">Śpiewnik</string>
@@ -156,8 +156,9 @@
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>
-    <string name="night_mode_title">Tryb nocny</string>
-    <string name="night_mode_summary">Włącz tryb nocny w całej aplikacji</string>
+    <string name="selection_setting_summary">Obecnie: %s</string>
+    <string name="theme_title">Motyw</string>
+    <string name="theme_dialog_title">Wybierz motyw</string>
     <string name="dynamic_colors_title">Dynamiczne kolory</string>
     <string name="dynamic_colors_summary">Podłącz aplikację do kolorów systemu</string>
     <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
@@ -167,7 +168,6 @@
     <string name="open_song_book_as_pdf_title">Otwieranie śpiewnika jako PDF</string>
     <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
     <string name="language_setting_title">Język aplikacji</string>
-    <string name="language_setting_summary">Obecnie: %s</string>
     <string name="language_setting_dialog_title">Wybierz twój język</string>
 
     <!-- BREVIARY STRINGS -->
@@ -195,6 +195,10 @@
     <string name="gospel_for_today">Ewangelia na dziś</string>
     <string name="listen_gospel">Słuchaj Ewangelii</string>
     <string name="language_not_supported">Wystąpił błąd w trakcie odczytywania</string>
+
+    <!-- READINGS STRINGS -->
+    <string name="prayers">Modlitwy</string>
+    <string name="writings">Pisma</string>
 
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
@@ -278,7 +282,12 @@
     <string name="copied_to_clipboard">Skopiowano do schowka!</string>
 
     <!-- LANGUAGES STRINGS -->
-    <string name="lang_system">Domyślny język systemu</string>
+    <string name="lang_system">Domyślny systemowy</string>
     <string name="lang_pl">Polski</string>
     <string name="lang_en">Angielski</string>
+
+    <!-- THEME STRINGS -->
+    <string name="theme_system">Domyślny systemowy</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_light">Jasny</string>
 </resources>

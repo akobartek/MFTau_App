@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Build
 import android.os.LocaleList
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,12 +29,14 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -46,6 +48,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
+import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.core.data.UserPreferences
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
@@ -77,16 +80,10 @@ fun SettingsScreenContent(screenModel: SettingsScreenModel) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            SwitchPreferenceRow(
-                title = stringResource(id = R.string.night_mode_title),
-                summary = stringResource(id = R.string.night_mode_summary),
-                checked = preferences.nightMode,
-                onCheckedChange = { value ->
-                    AppCompatDelegate.setDefaultNightMode(
-                        if (value) AppCompatDelegate.MODE_NIGHT_YES
-                        else AppCompatDelegate.MODE_NIGHT_NO
-                    )
-                    screenModel.updateNightMode(value)
+            ThemePreferenceRow(
+                currentTheme = preferences.colorTheme,
+                onThemeChange = { theme ->
+                    screenModel.updateNightMode(theme)
                 }
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
@@ -154,21 +151,66 @@ private fun SwitchPreferenceRow(
     }
 }
 
+@Composable
+private fun ThemePreferenceRow(currentTheme: ColorTheme, onThemeChange: (String) -> Unit) {
+    val values = stringArrayResource(id = R.array.themes)
+    val codes = stringArrayResource(id = R.array.themes_codes)
+
+    SelectionPreferenceRow(
+        titleId = R.string.theme_title,
+        currentValue = currentTheme.value,
+        values = values,
+        codes = codes,
+        dialogImageVector = Icons.Outlined.DarkMode,
+        dialogTitleId = R.string.theme_dialog_title,
+        onSave = onThemeChange
+    )
+}
+
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun LanguagePreferenceRow() {
     val localeManager =
         LocalContext.current.getSystemService(Context.LOCALE_SERVICE) as LocaleManager
+    val values = stringArrayResource(id = R.array.languages)
+    val codes = stringArrayResource(id = R.array.languages_codes)
     var currentLanguage by remember {
-        mutableStateOf(localeManager.applicationLocales[0]?.language)
+        mutableStateOf(localeManager.applicationLocales[0]?.language ?: "")
     }
-    val languages = stringArrayResource(id = R.array.languages)
-    val languageTags = stringArrayResource(id = R.array.languages_codes)
 
+    SelectionPreferenceRow(
+        titleId = R.string.language_setting_title,
+        currentValue = currentLanguage,
+        values = values,
+        codes = codes,
+        dialogImageVector = Icons.Outlined.Language,
+        dialogTitleId = R.string.language_setting_dialog_title,
+        onSave = { selectedLanguageCode ->
+            currentLanguage = selectedLanguageCode
+            localeManager.applicationLocales = LocaleList.forLanguageTags(currentLanguage)
+        }
+    )
+}
+
+@Composable
+private fun SelectionPreferenceRow(
+    titleId: Int,
+    currentValue: String,
+    values: Array<String>,
+    codes: Array<String>,
+    dialogImageVector: ImageVector,
+    dialogTitleId: Int,
+    onSave: (String) -> Unit
+) {
     var dialogVisible by remember { mutableStateOf(false) }
-    val (selectedLanguage, onLanguageSelected) = remember {
-        val index = languageTags.indexOf(currentLanguage)
-        mutableStateOf(languages[if (index != -1) index else 0])
+    val getCorrectValueByCode = {
+        val index = codes.indexOf(currentValue)
+        values[if (index != -1) index else 0]
+    }
+    val (selectedValue, onValueSelected) = remember { mutableStateOf(getCorrectValueByCode()) }
+
+    LaunchedEffect(key1 = currentValue) {
+        onValueSelected(getCorrectValueByCode())
     }
 
     Row(
@@ -180,17 +222,13 @@ private fun LanguagePreferenceRow() {
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(id = R.string.language_setting_title),
+                text = stringResource(id = titleId),
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = stringResource(
-                    id = R.string.language_setting_summary,
-                    when (currentLanguage) {
-                        "pl" -> stringResource(id = R.string.lang_pl)
-                        "en" -> stringResource(id = R.string.lang_en)
-                        else -> stringResource(id = R.string.lang_system)
-                    }
+                    id = R.string.selection_setting_summary,
+                    values[codes.indexOf(currentValue)]
                 ),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -200,29 +238,29 @@ private fun LanguagePreferenceRow() {
 
     if (dialogVisible) {
         AlertDialog(
-            icon = { Icon(imageVector = Icons.Default.Language, contentDescription = null) },
-            title = { Text(text = stringResource(id = R.string.language_setting_dialog_title)) },
+            icon = { Icon(imageVector = dialogImageVector, contentDescription = null) },
+            title = { Text(text = stringResource(id = dialogTitleId)) },
             text = {
                 Column(Modifier.selectableGroup()) {
-                    languages.forEach { lang ->
+                    values.forEach { value ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(48.dp)
                                 .selectable(
-                                    selected = (lang == selectedLanguage),
-                                    onClick = { onLanguageSelected(lang) },
+                                    selected = (value == selectedValue),
+                                    onClick = { onValueSelected(value) },
                                     role = Role.RadioButton
                                 )
                                 .padding(horizontal = 8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = (lang == selectedLanguage),
+                                selected = (value == selectedValue),
                                 onClick = null
                             )
                             Text(
-                                text = lang,
+                                text = value,
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(start = 16.dp)
                             )
@@ -230,14 +268,12 @@ private fun LanguagePreferenceRow() {
                     }
                 }
             },
-            onDismissRequest = {},
+            onDismissRequest = { dialogVisible = false },
             confirmButton = {
                 TextButton(
                     onClick = {
-                        currentLanguage = languageTags[languages.indexOf(selectedLanguage)]
                         dialogVisible = false
-                        localeManager.applicationLocales =
-                            LocaleList.forLanguageTags(currentLanguage)
+                        onSave(codes[values.indexOf(selectedValue)])
                     }
                 ) {
                     Text(stringResource(id = R.string.save))

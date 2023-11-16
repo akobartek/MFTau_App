@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,13 +18,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.mftau.mftau.R
+import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.ui.theme.MFTauTheme
+import pl.mftau.mftau.ui.theme.getMfTauColorPrimary
+import pl.mftau.mftau.ui.theme.getMfTauColorSecondary
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Preview(showBackground = true)
 @Composable
 fun CommunityLogoPreview() {
-    MFTauTheme(dynamicColor = false, darkTheme = false) {
+    MFTauTheme(dynamicColor = false, colorTheme = ColorTheme.LIGHT) {
         CommunityLogo()
     }
 }
@@ -33,7 +35,7 @@ fun CommunityLogoPreview() {
 @Preview(showBackground = true)
 @Composable
 fun CommunityLogoDarkPreview() {
-    MFTauTheme(dynamicColor = false, darkTheme = true) {
+    MFTauTheme(dynamicColor = false, colorTheme = ColorTheme.DARK) {
         CommunityLogo()
     }
 }
@@ -41,7 +43,7 @@ fun CommunityLogoDarkPreview() {
 @Preview(showBackground = true)
 @Composable
 fun CommunityLogoDynamicPreview() {
-    MFTauTheme(dynamicColor = true, darkTheme = true) {
+    MFTauTheme(dynamicColor = true, colorTheme = ColorTheme.DARK) {
         CommunityLogo()
     }
 }
@@ -56,19 +58,19 @@ fun CommunityLogo(modifier: Modifier = Modifier) {
         Box(modifier = Modifier.size(100.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.logo_part1),
-                tint = MaterialTheme.colorScheme.secondary,
+                tint = getMfTauColorSecondary(),
                 contentDescription = stringResource(id = R.string.community_logo)
             )
             Icon(
                 painter = painterResource(id = R.drawable.logo_part2),
-                tint = MaterialTheme.colorScheme.primary,
+                tint = getMfTauColorPrimary(),
                 contentDescription = stringResource(id = R.string.community_logo)
             )
         }
         Spacer(Modifier.width(16.dp))
         Text(
             text = stringResource(id = R.string.community_name),
-            color = MaterialTheme.colorScheme.primary,
+            color = getMfTauColorSecondary(),
             fontSize = 32.sp,
             fontFamily = mfTauFont
         )

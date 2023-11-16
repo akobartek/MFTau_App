@@ -7,7 +7,7 @@
     <string name="cd_main_screen_btn">Open %s screen</string>
     <string name="cd_back_arrow_btn">Back to previous screen</string>
     <string name="statute">Statute</string>
-    <string name="prayers">Prayers</string>
+    <string name="readings">Readings</string>
     <string name="song_book">Song book</string>
     <string name="breviary">Breviary</string>
     <string name="gospel">Gospel</string>
@@ -153,8 +153,9 @@
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>
-    <string name="night_mode_title">Night mode</string>
-    <string name="night_mode_summary">Turn on night mode in the app</string>
+    <string name="selection_setting_summary">Current: %s</string>
+    <string name="theme_title">Theme</string>
+    <string name="theme_dialog_title">Choose theme</string>
     <string name="dynamic_colors_title">Dynamic colors</string>
     <string name="dynamic_colors_summary">Connect app to system colors</string>
     <string name="repeat_gospel_title">Repeat Gospel</string>
@@ -164,7 +165,6 @@
     <string name="open_song_book_as_pdf_title">Opening song book as PDF</string>
     <string name="open_song_book_as_pdf_summary">Default screen song book is PDF file</string>
     <string name="language_setting_title">App language</string>
-    <string name="language_setting_summary">Current: %s</string>
     <string name="language_setting_dialog_title">Choose your language</string>
 
     <!-- BREVIARY STRINGS -->
@@ -192,6 +192,10 @@
     <string name="gospel_for_today">Gospel for today</string>
     <string name="listen_gospel">Listen to the Gospel</string>
     <string name="language_not_supported">Language not supported</string>
+
+    <!-- READINGS STRINGS -->
+    <string name="prayers">Prayers</string>
+    <string name="writings">Writings</string>
 
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">There are no meetings saved!</string>
@@ -278,4 +282,9 @@
     <string name="lang_system">System default</string>
     <string name="lang_pl">Polish</string>
     <string name="lang_en">English</string>
+
+    <!-- THEME STRINGS -->
+    <string name="theme_system">System default</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_light">Light</string>
 </resources>

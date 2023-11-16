@@ -30,14 +30,14 @@ internal fun BreviaryPartHeader(title: String, pages: String, verses: String = "
                     text = title.uppercase(),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = 32.dp)
                 )
             Text(
                 text = verses,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.primary
             )
         }
         if (pages.isNotBlank())

@@ -35,14 +35,26 @@
     </string-array>
 
     <string-array name="languages">
+        <item>@string/lang_system</item>
         <item>@string/lang_pl</item>
         <item>@string/lang_en</item>
-        <item>@string/lang_system</item>
     </string-array>
 
     <string-array name="languages_codes">
+        <item />
         <item>pl</item>
         <item>en</item>
-        <item />
+    </string-array>
+
+    <string-array name="themes">
+        <item>@string/theme_system</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_light</item>
+    </string-array>
+
+    <string-array name="themes_codes">
+        <item>SYSTEM</item>
+        <item>DARK</item>
+        <item>LIGHT</item>
     </string-array>
 </resources>

@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
 
-
 @Composable
 fun MultipleOfficesDialog(
     offices: Map<String, String>,

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.data
+package pl.mftau.mftau.readings.data
 
 object Prayers {
 

@@ -30,7 +30,7 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
             if (psalm.name != null)
                 Text(
                     text = "${psalm.name}${if (psalm.title != null) "\n${psalm.title}" else ""}",
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
@@ -53,7 +53,7 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
         if (psalm.part != null)
             Text(
                 text = psalm.part!!,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 15.sp,

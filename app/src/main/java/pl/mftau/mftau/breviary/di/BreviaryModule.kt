@@ -1,6 +1,5 @@
 package pl.mftau.mftau.breviary.di
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.qualifier.named
@@ -19,8 +18,6 @@ import pl.mftau.mftau.breviary.domain.usecase.ClearBreviaryDbUseCase
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreenModel
 import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel
-import pl.mftau.mftau.ui.theme.TauSecondaryDark
-import pl.mftau.mftau.ui.theme.TauSecondaryLight
 
 val breviaryModule = module {
     single(named("breviary_db")) {
@@ -37,10 +34,7 @@ val breviaryModule = module {
     }
 
     single<WebBreviaryRepository> {
-        val color =
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) TauSecondaryDark
-            else TauSecondaryLight
-        WebBreviaryRepositoryImpl(color)
+        WebBreviaryRepositoryImpl(get())
     }
 
     single<DbBreviaryRepository> { DbBreviaryRepositoryImpl(get()) }

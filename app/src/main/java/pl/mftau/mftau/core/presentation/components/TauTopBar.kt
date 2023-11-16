@@ -23,9 +23,6 @@ fun TauTopBar(
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
         title = { Text(text = title, fontFamily = mfTauFont) },
         navigationIcon = {
             IconButton(onClick = onNavClick) {

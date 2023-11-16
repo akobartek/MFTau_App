@@ -26,7 +26,7 @@ import cafe.adriel.voyager.transitions.ScreenTransitionContent
 import cafe.adriel.voyager.transitions.SlideOrientation
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.gospel.presentation.GospelScreen
-import pl.mftau.mftau.prayers.presentation.PrayersScreen
+import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.songbook.presentation.SongBookScreen
 
 sealed class TransitionType {
@@ -59,7 +59,7 @@ fun CustomTransition(
                 is MainScreen -> currentTransitionType ?: TransitionType.Scale
                 is SongBookScreen -> TransitionType.Scale
                 is GospelScreen -> TransitionType.Slide(SlideOrientation.Vertical)
-                is PrayersScreen -> TransitionType.Slide()
+                is ReadingsScreen -> TransitionType.Slide()
                 else -> TransitionType.Slide(isReversed = true)
             }
 

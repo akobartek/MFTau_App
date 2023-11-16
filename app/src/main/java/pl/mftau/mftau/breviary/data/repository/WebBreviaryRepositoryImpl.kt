@@ -12,6 +12,9 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -31,13 +34,17 @@ import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
+import pl.mftau.mftau.core.data.PreferencesRepository
 
-class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRepository {
+class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRepository) :
+    WebBreviaryRepository {
 
     private val mBreviaryUrlTypes = arrayOf(
         "wezw", "godzczyt", "jutrznia", "modlitwa1",
         "modlitwa2", "modlitwa3", "nieszpory", "kompleta"
     )
+
+    private var accentColor = Color.Red
 
     override suspend fun checkIfThereAreMultipleOffices(
         date: String
@@ -68,6 +75,7 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override suspend fun loadBreviary(
         office: String,
         date: String,
@@ -75,6 +83,9 @@ class WebBreviaryRepositoryImpl(private val accentColor: Color) : WebBreviaryRep
         onlyHtml: Boolean
     ): Result<Breviary> {
         return try {
+            GlobalScope.launch {
+                accentColor = Color(preferencesRepository.getAccentColor())
+            }.join()
             val breviaryUrl = buildBaseBreviaryUrl(date, office == "") +
                     "${if (office != "") "$office/" else ""}${mBreviaryUrlTypes[type.type]}.php3"
             val document = Jsoup.connect(breviaryUrl).timeout(30000).get()

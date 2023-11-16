@@ -47,8 +47,6 @@ import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 
 class GospelScreen : Screen {
-
-
     @Composable
     override fun Content() {
         val context = LocalContext.current

@@ -1,19 +1,18 @@
 package pl.mftau.mftau.core.presentation.screenmodels
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
+import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.core.data.PreferencesRepository
 
 class SettingsScreenModel(private val preferencesRepository: PreferencesRepository) : ScreenModel {
 
     val preferencesFlow = preferencesRepository.preferencesFlow
 
-    fun updateNightMode(nightMode: Boolean) {
+    fun updateNightMode(value: String) {
         screenModelScope.launch {
-            preferencesRepository.updateNightMode(nightMode)
+            preferencesRepository.updateTheme(ColorTheme.fromValue(value))
         }
     }
 
