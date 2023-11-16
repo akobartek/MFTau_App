@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -164,6 +165,7 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
                 ) {
                     Text(
                         text = elem,
+                        fontSize = 16.sp,
                         modifier = Modifier.padding(12.dp)
                     )
                     HorizontalDivider(

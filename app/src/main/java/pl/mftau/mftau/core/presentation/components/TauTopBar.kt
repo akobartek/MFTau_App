@@ -10,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import pl.mftau.mftau.R
 import pl.mftau.mftau.ui.theme.mfTauFont
 
@@ -21,7 +22,14 @@ fun TauTopBar(
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
-        title = { Text(text = title, fontFamily = mfTauFont) },
+        title = {
+            Text(
+                text = title,
+                fontFamily = mfTauFont,
+                textAlign = TextAlign.Center,
+                maxLines = 2
+            )
+        },
         navigationIcon = {
             IconButton(onClick = onNavClick) {
                 Icon(

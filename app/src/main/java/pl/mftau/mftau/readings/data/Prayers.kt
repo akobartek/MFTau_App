@@ -2,7 +2,47 @@ package pl.mftau.mftau.readings.data
 
 object Prayers {
 
+    val prayerNames = arrayOf(
+        "Anioł Pański",
+        "Antyfona: Święta Maryjo",
+        "Błogosławieństwo dla brata Leona",
+        "Bogu chwała",
+        "Litania Loretańska",
+        "Modlitwa franciszkańska",
+        "Modlitwa odmówiona przed krucyfiksem",
+        "Modlitwa pochwalna",
+        "Pieśń słoneczna",
+        "Pozdrowienie Błogosławionej Maryi Dziewicy",
+        "Pozdrowienie cnót",
+        "Uwielbienie Boga Najwyższego",
+        "Wielbimy Cię",
+        "Wszechmogący, najświętszy (I)",
+        "Wszechmogący, najświętszy (II)",
+        "Wszechmogący, wiekuisty",
+        "Wykład modlitwy Ojcze nasz",
+        "Zachęta do uwielbienia Boga",
+    )
+
     val prayerBook = arrayOf(
+        "Anioł Pański zwiastował Pannie Maryi.\nI poczęła z Ducha Świętego.\n\n" +
+                "Zdrowaś Maryjo, łaski pełna, Pan z Tobą, błogosławionaś Ty między niewiastami, " +
+                "i błogosławiony owoc żywota Twojego, Jezus. " +
+                "Święta Maryjo, Matko Boża, módl się za nami grzesznymi teraz i w godzinę śmierci naszej. Amen\n\n" +
+                "Oto ja służebnica Pańska.\nNiech mi się stanie według słowa Twego.\n\n" +
+                "Zdrowaś Maryjo...\n\nA Słowo ciałem się stało.\nI zamieszkało między nami.\n\nZdrowaś Maryjo...\n\n" +
+                "P. Módl się za nami, Święta Boża Rodzicielko.\nW. Abyśmy się stali godnymi obietnic Chrystusowych.\n\n" +
+                "Módlmy się: Boże, przez zwiastowanie anielskie poznaliśmy wcielenie Chrystusa, Twojego Syna, " +
+                "prosimy Cię, wlej w nasze serca swoją łaskę, abyśmy przez Jego mękę i krzyż zostali doprowadzeni " +
+                "do chwały zmartwychwstania. Przez Chrystusa, Pana naszego.\n\nW. Amen.\n\n",
+        "   Święta Maryjo, Dziewico, wśród niewiast na świecie nie urodziła się podobna Tobie, Córko i Służebnico " +
+                "najwyższego Króla, Ojca niebieskiego, Matko najświętszego Pana naszego Jezusa Chrystusa, Oblubienico " +
+                "Ducha Świętego: módl się za nami wraz ze św. Michałem Archaniołem i wszystkimi mocami " +
+                "nieba, i wszystkimi świętymi do Twego najświętszego, umiłowanego Syna, Pana i Mistrza. Chwała Ojcu. Jak było...\n\n",
+        "Niech ci Pan błogosławi i niech cię strzeże; niech ci ukaże oblicze swoje i zmiłuje się nad tobą.\n" +
+                "Niech zwróci oblicze swoje ku tobie i niech cię obdarzy pokojem.\nPan niech cię błogosławi, bracie Leonie. Amen.\n\n",
+        "Bogu chwała,\nwiekuista niech będzie chwała,\nhołd Maryi,\ncześć świętym,\npokój żyjącym,\n" +
+                "wieczny odpoczynek zmarłym,\nzdrowie chorym,\ngrzesznikom szczera pokuta,\n" +
+                "sprawiedliwym w dobrym wytrwanie,\nżeglarzom na morzu spokój,\npodróżującym pomyślna droga.\n\n",
         "Kyrie eleison, Christe eleison, Kyrie eleison.\nChryste, usłysz nas. Chryste, wysłuchaj nas.\n" +
                 "Ojcze z nieba, Boże,   - zmiłuj się nad nami.\nSynu, Odkupicielu świata, Boże,\n" +
                 "Duchu Święty, Boże,\nŚwięta Trójco, Jedyny Boże,\n\nŚwięta Maryjo,   - módl się za nami.\n" +
@@ -29,165 +69,96 @@ object Prayers {
                 "i za wstawiennictwem Najświętszej Maryi, zawsze Dziewicy, uwolnij nas od doczesnych utrapień " +
                 "i obdarz wieczną radością. Przez Chrystusa, Pana naszego. Amen.\n\n" +
                 "Pod Twoją obronę…\n\n",
-        "O Panie, uczyń z nas narzędzia swojego pokoju,\n" +
-                "Abyśmy siali miłość tam, gdzie panuje nienawiść;\n" +
-                "Wybaczenie tam, gdzie panuje krzywda;\n" +
-                "Wiarę tam, gdzie panuje zwątpienie;\n" +
-                "Nadzieję tam, gdzie panuje rozpacz;\n" +
-                "Światło tam, gdzie panuje mrok;\n" +
-                "Radość tam, gdzie panuje smutek.\n" +
-                "Spraw, abyśmy mogli nie tyle szukać pociechy,\n" +
-                "Co pociechę dawać,\n" +
-                "Nie tyle szukać zrozumienia, co rozumieć," +
-                "Nie tyle szukać miłości, co kochać.\n" +
-                "Albowiem dając – otrzymujemy,\n" +
-                "Wybaczając – zyskujemy przebaczenie,\n" +
-                "A umierając – rodzimy się do wiecznego życia. Amen.\n\n",
-        "Wielbimy Cię, *\nnajświętszy Panie Jezu Chryste, *\ntu i we wszystkich kościołach Twoich, które są na całym świecie, *\n" +
-                "i błogosławimy Tobie, *\nżeś przez święty krzyż Twój świat odkupić raczył.\n\n",
-        "Najwyższy, wszechmogący, dobry Panie,\n" +
-                "Twoja jest sława,\n" +
-                "chwała i cześć,\n" +
-                "i wszelkie błogosławieństwo.\n" +
-                "Tobie jednemu, Najwyższy, one przystoją\n" +
-                "i żaden człowiek nie jest godny\n" +
-                "wymówić Twego Imienia\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "ze wszystkimi Twymi stworzeniami,\n" +
-                "szczególnie z panem bratem słońcem,\n" +
-                "przez które staje się dzień i nas przez nie oświecasz.\n" +
-                "I ono jest piękne i świecące wielkim blaskiem:\n" +
-                "Twoim, Najwyższy jest wyobrażeniem.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez brata księżyc i gwiazdy,\n" +
-                "ukształtowałeś je na niebie jasne\n" +
-                "i cenne, i piękne.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez brata wiatr i przez powietrze,\n" +
-                "i chmury, i pogodę, i każdy czas,\n" +
-                "przez które Twoim stworzeniom\n" +
-                "dajesz utrzymanie.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez siostrę wodę,\n" +
-                "która jest bardzo pożyteczna i pokorna,\n" +
-                "i cenna, i czysta.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez brata ogień,\n" +
-                "którym rozświetlasz noc:\n" +
-                "i jest on piękny, i radosny,\n" +
-                "i krzepki, i mocny.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez siostrę naszą matkę ziemię\n" +
-                "która nas żywi i chowa,\n" +
-                "wydaje różne owoce\n" +
-                "z barwnymi kwiatami i trawami.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez tych, którzy przebaczają dla Twej miłości\n" +
-                "i znoszą słabości i prześladowania.\n" +
-                "Błogosławieni ci,\n" +
-                "którzy je zniosą w pokoju,\n" +
-                "ponieważ przez Ciebie, Najwyższy,\n" +
-                "będą uwieńczeni.\n" +
-                "Pochwalony bądź, Panie mój,\n" +
-                "przez naszą siostrę śmierć cielesną,\n" +
-                "której żaden człowiek żywy uniknąć nie może.\n" +
-                "Biada tym,\n" +
-                "którzy umierają w grzechach śmiertelnych;\n" +
-                "Błogosławieni ci,\n" +
-                "których śmierć zastanie w Twej najświętszej woli,\n" +
-                "albowiem śmierć druga\n" +
-                "nie wyrządzi im krzywdy.\n" +
-                "Chwalcie i błogosławcie mojego Pana,\n" +
-                "i dziękujcie Mu, i służcie\n" +
-                "z wielką pokorą.\n\n",
-        "Ty jesteś Święty Pan Bóg jedyny,\n" +
-                "który czynisz cuda.\n" +
-                "Ty jesteś mocny,\n" +
-                "Ty jesteś wielki,\n" +
-                "Ty jesteś najwyższy,\n" +
-                "Ty jesteś Królem wszechmogącym,\n" +
-                "Ojcze święty,\n" +
-                "Królu nieba i ziemi.\n" +
-                "Ty jesteś w Trójcy jedyny\n" +
-                "Pan Bóg nad bogami,\n" +
-                "Ty jesteś dobro, wszelkie dobro, najwyższe dobro,\n" +
-                "Pan Bóg żywy i prawdziwy.\n" +
-                "Ty jesteś miłością, kochaniem;\n" +
-                "Ty jesteś mądrością,\n" +
-                "Ty jesteś pokorą,\n" +
-                "Ty jesteś cierpliwością,\n" +
-                "Ty jesteś pięknością,\n" +
-                "Ty jesteś łaskawością;\n" +
-                "Ty jesteś bezpieczeństwem,\n" +
-                "Ty jesteś ukojeniem,\n" +
-                "Ty jesteś radością,\n" +
-                "Ty jesteś nadzieją naszą i weselem,\n" +
-                "Ty jesteś sprawiedliwością,\n" +
-                "Ty jesteś łagodnością,\n" +
-                "Ty jesteś w pełni wszelkim bogactwem naszym.\n" +
-                "Ty jesteś pięknością,\n" +
-                "Ty jesteś łaskawością,\n" +
-                "Ty jesteś opiekunem,\n" +
-                "Ty jesteś stróżem i obrońcą naszym;\n" +
-                "Ty jesteś mocą,\n" +
-                "Ty jesteś orzeźwieniem.\n" +
-                "Ty jesteś nadzieją naszą,\n" +
-                "Ty jesteś wiarą naszą,\n" +
-                "Ty jesteś miłością naszą,\n" +
-                "Ty jesteś całą słodyczą naszą,\n" +
-                "Ty jesteś wiecznym życiem naszym:\n" +
-                "Wielkim i przedziwnym Panem,\n" +
-                "Bogiem wszechmogącym, miłosiernym Zbawicielem.\n\n",
-        "Bądź pozdrowiona, Pani, święta Królowo,\n" +
-                "święta Boża Rodzicielko, Maryjo,\n" +
-                "która jesteś Dziewicą, uczynioną Kościołem\n" +
-                "i wybraną przez najświętszego Ojca z nieba,\n" +
-                "Ciebie On uświęcił z najświętszym,\n" +
-                "umiłowanym Synem swoim\n" +
-                "i Duchem Świętym, Pocieszycielem,\n" +
-                "w Tobie była i jest\n" +
-                "wszelka pełnia łaski\n" +
-                "i wszelkie dobro.\n" +
-                "Bądź pozdrowiona, Pałacu Jego,\n" +
-                "Bądź pozdrowiona, Przybytku Jego,\n" +
-                "Bądź pozdrowiona, Domu Jego.\n" +
-                "Bądź pozdrowiona, Szato Jego,\n" +
-                "Bądź pozdrowiona, Służebnico Jego,\n" +
-                "Bądź pozdrowiona, Matko Jego.\n" +
-                "I wy wszystkie święte cnoty,\n" +
-                "które Duch Święty\n" +
-                "swą łaską i oświeceniem\n" +
-                "wlewa w serca wiernych,\n" +
-                "abyście z niewiernych\n" +
-                "uczyniły wiernych Bogu.\n\n",
-        "   Święta Maryjo, Dziewico, wśród niewiast na świecie nie urodziła się podobna Tobie, Córko i Służebnico " +
-                "najwyższego Króla, Ojca niebieskiego, Matko najświętszego Pana naszego Jezusa Chrystusa, Oblubienico " +
-                "Ducha Świętego: módl się za nami wraz ze św. Michałem Archaniołem i wszystkimi mocami " +
-                "nieba, i wszystkimi świętymi do Twego najświętszego, umiłowanego Syna, Pana i Mistrza. Chwała Ojcu. Jak było...\n\n",
-        "Bójcie się Pana i cześć mu oddajcie.\n" +
-                "Godzien jest Pan odebrać chwałę i cześć.\n" +
-                "Wszyscy, którzy boicie się Pana, chwalcie Go.\n" +
-                "Bądź pozdrowiona Maryjo, łaski pełna, Pan z Tobą.\n" +
-                "Chwalcie Go niebo i ziemia.\n" +
-                "Chwalcie, wszystkie rzeki, Pana.\n" +
-                "Błogosławcie, synowie Boży, Pana.\n" +
-                "Oto dzień, który Pan uczynił; radujmy się w nim\n" +
-                "i weselmy.\n" +
-                "Alleluja, alleluja, alleluja! Królu Izraela.\n" +
-                "Wszelki duch niech chwali Pana.\n" +
-                "Chwalcie Pana, bo jest dobry;\n" +
-                "wszyscy, którzy to czytacie, błogosławcie Pana.\n" +
-                "Wszystkie stworzenia, błogosławcie Pana.\n" +
-                "Wszystkie ptaki powietrzne, chwalcie Pana.\n" +
-                "Wszystkie dzieci, chwalcie Pana.\n" +
-                "Młodzieńcy i panny, chwalcie Pana.\n" +
-                "Godzien jest Baranek, który został zabity,\n" +
-                "odebrać sławę, chwałę i cześć.\n" +
-                "Błogosławiona niech będzie Święta Trójca\n" +
-                "i nierozdzielna Jedność\n" +
-                "Święty Michale Archaniele, broń nas w walce. Amen.\n\n",
+        "O Panie, uczyń z nas narzędzia swojego pokoju,\nAbyśmy siali miłość tam, gdzie panuje nienawiść;\n" +
+                "Wybaczenie tam, gdzie panuje krzywda;\nWiarę tam, gdzie panuje zwątpienie;\n" +
+                "Nadzieję tam, gdzie panuje rozpacz;\nŚwiatło tam, gdzie panuje mrok;\n" +
+                "Radość tam, gdzie panuje smutek.\nSpraw, abyśmy mogli nie tyle szukać pociechy,\n" +
+                "Co pociechę dawać,\nNie tyle szukać zrozumienia, co rozumieć,\n" +
+                "Nie tyle szukać miłości, co kochać.\nAlbowiem dając – otrzymujemy,\n" +
+                "Wybaczając – zyskujemy przebaczenie,\nA umierając – rodzimy się do wiecznego życia. Amen.\n\n",
         "   Najwyższy, chwalebny Boże, rozjaśnij ciemności mego serca i daj mi, Panie, prawdziwą wiarę, niezachwianą " +
                 "nadzieję i doskonałą miłość, zrozumienie i poznanie, abym wypełniał Twoje święte i prawdziwe posłannictwo.\n\n",
+        "Święty, święty, święty jest Pan Bóg wszechmogący, który jest i który był, i który ma przyjść.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Godzien, jesteś Panie, Boże nasz, otrzymać sławę, chwałę i cześć, i błogosławieństwo.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Godzien jest Baranek, który był zabity, otrzymać moc i bóstwo i mądrość, i siłę, i cześć, i chwalę, i błogosławieństwo.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Błogosławmy Ojca i Syna z Duchem Świętym.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Błogosławcie, wszystkie dzieła Pańskie, Pana.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Dajcie chwałę Bogu naszemu wszyscy słudzy Jego i którzy się Boga boicie, mali i wielcy.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Niech Go pełnego chwały chwalą niebo i ziemia.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "I wszelkie stworzenie, które jest w niebie i na ziemi i które jest pod ziemią i morze, i co jest w nim.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Chwała Ojcu i Synowi, i Duchowi Świętemu.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
+                "Jaka była na początku i teraz,\n" +
+                "i zawsze, i na wieki wieków. Amen.\n" +
+                "I chwalmy, i wywyższajmy Go na wieki.\n\n",
+        "Najwyższy, wszechmogący, dobry Panie,\nTwoja jest sława,\nchwała i cześć,\ni wszelkie błogosławieństwo.\n" +
+                "Tobie jednemu, Najwyższy, one przystoją\ni żaden człowiek nie jest godny\nwymówić Twego Imienia\n" +
+                "Pochwalony bądź, Panie mój,\nze wszystkimi Twymi stworzeniami,\nszczególnie z panem bratem słońcem,\n" +
+                "przez które staje się dzień i nas przez nie oświecasz.\nI ono jest piękne i świecące wielkim blaskiem:\n" +
+                "Twoim, Najwyższy jest wyobrażeniem.\nPochwalony bądź, Panie mój,\nprzez brata księżyc i gwiazdy,\n" +
+                "ukształtowałeś je na niebie jasne\ni cenne, i piękne.\nPochwalony bądź, Panie mój,\n" +
+                "przez brata wiatr i przez powietrze,\ni chmury, i pogodę, i każdy czas,\n" +
+                "przez które Twoim stworzeniom\ndajesz utrzymanie.\nPochwalony bądź, Panie mój,\n" +
+                "przez siostrę wodę,\nktóra jest bardzo pożyteczna i pokorna,\ni cenna, i czysta.\n" +
+                "Pochwalony bądź, Panie mój,\nprzez brata ogień,\nktórym rozświetlasz noc:\n" +
+                "i jest on piękny, i radosny,\ni krzepki, i mocny.\nPochwalony bądź, Panie mój,\n" +
+                "przez siostrę naszą matkę ziemię\nktóra nas żywi i chowa,\nwydaje różne owoce\n" +
+                "z barwnymi kwiatami i trawami.\nPochwalony bądź, Panie mój,\nprzez tych, którzy przebaczają dla Twej miłości\n" +
+                "i znoszą słabości i prześladowania.\nBłogosławieni ci,\nktórzy je zniosą w pokoju,\n" +
+                "ponieważ przez Ciebie, Najwyższy,\nbędą uwieńczeni.\nPochwalony bądź, Panie mój,\n" +
+                "przez naszą siostrę śmierć cielesną,\nktórej żaden człowiek żywy uniknąć nie może.\n" +
+                "Biada tym,\nktórzy umierają w grzechach śmiertelnych;\nBłogosławieni ci,\n" +
+                "których śmierć zastanie w Twej najświętszej woli,\nalbowiem śmierć druga\nnie wyrządzi im krzywdy.\n" +
+                "Chwalcie i błogosławcie mojego Pana,\ni dziękujcie Mu, i służcie\nz wielką pokorą.\n\n",
+        "Bądź pozdrowiona, Pani, święta Królowo,\nświęta Boża Rodzicielko, Maryjo,\n" +
+                "która jesteś Dziewicą, uczynioną Kościołem\ni wybraną przez najświętszego Ojca z nieba,\n" +
+                "Ciebie On uświęcił z najświętszym,\numiłowanym Synem swoim\n" +
+                "i Duchem Świętym, Pocieszycielem,\nw Tobie była i jest\n" +
+                "wszelka pełnia łaski\ni wszelkie dobro.\n" +
+                "Bądź pozdrowiona, Pałacu Jego,\nBądź pozdrowiona, Przybytku Jego,\n" +
+                "Bądź pozdrowiona, Domu Jego.\nBądź pozdrowiona, Szato Jego,\n" +
+                "Bądź pozdrowiona, Służebnico Jego,\nBądź pozdrowiona, Matko Jego.\n" +
+                "I wy wszystkie święte cnoty,\nktóre Duch Święty\nswą łaską i oświeceniem\n" +
+                "wlewa w serca wiernych,\nabyście z niewiernych\nuczyniły wiernych Bogu.\n\n",
+        "   Bądź pozdrowiona, Królowo Mądrości, Pan niech cię strzeże z twą siostrą, świętą, czystą Prostotą.\n" +
+                "   Pani święte Ubóstwo, Pan niech cię strzeże z twą siostrą, świętą Pokorą.\n" +
+                "   Pani święta Miłości, Pan niech cię strzeże z twą siostrą, świętym Posłuszeństwem.\n" +
+                "   Wszystkie najświętsze cnoty, niech was strzeże Pan, od którego się wywodzicie i pochodzicie.\n" +
+                "   Nie ma w ogóle na całym świecie żadnego człowieka, który mógłby jedną z was posiadać, jeśli wcześniej nie umarłby.\n" +
+                "   Kto jedną posiada, a innym nie uchybia, posiada wszystkie." +
+                "   I kto jednej uchybia, żadnej nie posiada i wszystkim uchybia.\n" +
+                "   I każda zawstydza wady i grzechy.\n" +
+                "   Święta Mądrość zawstydza szatana i całą jego przewrotność.\n" +
+                "   Czysta i święta Prostota zawstydza całą mądrość tego świata i mądrość ciała.\n" +
+                "   Święte Ubóstwo zawstydza pychę i skąpstwo, i troski tego świata.\n" +
+                "   Święta Pokora zawstydza pychę i wszystkich ludzi, którzy są ze świata, podobnie i wszystko, co jest ze świata.\n" +
+                "   Święta Miłość zawstydza wszystkie pokusy diabelskie i cielesne, i wszelką bojaźń cielesną.\n" +
+                "   Święte Posłuszeństwo zawstydza wszelkie ludzkie " +
+                "i cielesne pożądania, i utrzymuje ciało w umartwieniu, aby było posłuszne duchowi i aby słuchało swego brata, " +
+                "i czyni człowieka poddanym i uległym wszystkim ludziom, i nie tylko samym ludziom, lecz także dzikim " +
+                "i okrutnym zwierzętom, aby mogły z nim czynić, co zechcą, na ile im Pan z wysoka pozwoli.\n\n",
+        "Ty jesteś Święty Pan Bóg jedyny,\nktóry czynisz cuda.\nTy jesteś mocny,\nTy jesteś wielki,\n" +
+                "Ty jesteś najwyższy,\nTy jesteś Królem wszechmogącym,\nOjcze święty,\nKrólu nieba i ziemi.\n" +
+                "Ty jesteś w Trójcy jedyny\nPan Bóg nad bogami,\nTy jesteś dobro, wszelkie dobro, najwyższe dobro,\n" +
+                "Pan Bóg żywy i prawdziwy.\nTy jesteś miłością, kochaniem;\nTy jesteś mądrością,\n" +
+                "Ty jesteś pokorą,\nTy jesteś cierpliwością,\nTy jesteś pięknością,\n" +
+                "Ty jesteś łaskawością;\nTy jesteś bezpieczeństwem,\nTy jesteś ukojeniem,\nTy jesteś radością,\n" +
+                "Ty jesteś nadzieją naszą i weselem,\nTy jesteś sprawiedliwością,\nTy jesteś łagodnością,\n" +
+                "Ty jesteś w pełni wszelkim bogactwem naszym.\nTy jesteś pięknością,\nTy jesteś łaskawością,\n" +
+                "Ty jesteś opiekunem,\nTy jesteś stróżem i obrońcą naszym;\nTy jesteś mocą,\n" +
+                "Ty jesteś orzeźwieniem.\nTy jesteś nadzieją naszą,\nTy jesteś wiarą naszą,\n" +
+                "Ty jesteś miłością naszą,\nTy jesteś całą słodyczą naszą,\nTy jesteś wiecznym życiem naszym:\n" +
+                "Wielkim i przedziwnym Panem,\nBogiem wszechmogącym, miłosiernym Zbawicielem.\n\n",
+        "Wielbimy Cię, *\nnajświętszy Panie Jezu Chryste, *\ntu i we wszystkich kościołach Twoich, które są na całym świecie, *\n" +
+                "i błogosławimy Tobie, *\nżeś przez święty krzyż Twój świat odkupić raczył.\n\n",
         "   Wszechmogący, najświętszy i najwyższy Boże, Ojcze " +
                 "święty i sprawiedliwy, Panie, królu nieba i ziemi, " +
                 "dzięki Ci składamy z powodu Ciebie samego, że Twoją " +
@@ -220,23 +191,11 @@ object Prayers {
                 "wszelką sławę, wszelką chwałę, wszelką wdzięczność, " +
                 "wszelką cześć, wszelkie błogosławieństwo i wszelkie " +
                 "dobra. Niech się stanie. Niech się stanie. Amen.\n\n",
-        "   Bądź pozdrowiona, Królowo Mądrości, Pan niech cię strzeże z twą siostrą, świętą, czystą Prostotą.\n" +
-                "   Pani święte Ubóstwo, Pan niech cię strzeże z twą siostrą, świętą Pokorą.\n" +
-                "   Pani święta Miłości, Pan niech cię strzeże z twą siostrą, świętym Posłuszeństwem.\n" +
-                "   Wszystkie najświętsze cnoty, niech was strzeże Pan, od którego się wywodzicie i pochodzicie.\n" +
-                "   Nie ma w ogóle na całym świecie żadnego człowieka, który mógłby jedną z was posiadać, jeśli wcześniej nie umarłby.\n" +
-                "   Kto jedną posiada, a innym nie uchybia, posiada wszystkie." +
-                "   I kto jednej uchybia, żadnej nie posiada i wszystkim uchybia.\n" +
-                "   I każda zawstydza wady i grzechy.\n" +
-                "   Święta Mądrość zawstydza szatana i całą jego przewrotność.\n" +
-                "   Czysta i święta Prostota zawstydza całą mądrość tego świata i mądrość ciała.\n" +
-                "   Święte Ubóstwo zawstydza pychę i skąpstwo, i troski tego świata.\n" +
-                "   Święta Pokora zawstydza pychę i wszystkich ludzi, którzy są ze świata, podobnie i wszystko, co jest ze świata.\n" +
-                "   Święta Miłość zawstydza wszystkie pokusy diabelskie i cielesne, i wszelką bojaźń cielesną.\n" +
-                "   Święte Posłuszeństwo zawstydza wszelkie ludzkie " +
-                "i cielesne pożądania, i utrzymuje ciało w umartwieniu, aby było posłuszne duchowi i aby słuchało swego brata, " +
-                "i czyni człowieka poddanym i uległym wszystkim ludziom, i nie tylko samym ludziom, lecz także dzikim " +
-                "i okrutnym zwierzętom, aby mogły z nim czynić, co zechcą, na ile im Pan z wysoka pozwoli.\n\n",
+        "   Wszechmogący, wiekuisty, sprawiedliwy i miłosierny Boże, daj nam nędznym czynić dla Ciebie to, " +
+                "o czym wiemy, że tego chcesz i chcieć zawsze tego, co się Tobie podoba, abyśmy wewnętrznie oczyszczeni, " +
+                "wewnętrznie oświeceni i rozpaleni ogniem Ducha Świętego, mogli iść śladami umiłowanego Syna Twego, " +
+                "Pana naszego Jezusa Chrystusa i dojść do Ciebie, Najwyższy, jedynie dzięki Twej łasce, który żyjesz i królujesz, " +
+                "i odbierasz hołd w doskonałej Trójcy i prostej Jedności, Bóg wszechmogący przez wszystkie wieki wieków. Amen.\n\n",
         "   O Najświętszy Ojcze nasz: Stwórco, Odkupicielu, Pocieszycielu i Zbawicielu nasz.\n" +
                 "   Który jesteś w niebie: w aniołach i w świętych. Oświecasz ich, aby Cię poznali, bo Ty, Panie jesteś " +
                 "światłością. Rozpalasz ich, aby Cię kochali, bo Ty, Panie, jesteś miłością. Zamieszkujesz w nich i napełniasz, " +
@@ -260,56 +219,16 @@ object Prayers {
                 "do Ciebie, nikomu złem za złe nie oddając, i abyśmy starali się w Tobie wszystkim służyć pomocą." +
                 "   I nie wódź nas na pokuszenie: ukryte czy jawne, nagłe czy uporczywe.\n" +
                 "   Ale nas zbaw ode złego: przeszłego, obecnego i przyszłego.\nChwała Ojcu itd.\n\n",
-        "   Wszechmogący, wiekuisty, sprawiedliwy i miłosierny Boże, daj nam nędznym czynić dla Ciebie to, " +
-                "o czym wiemy, że tego chcesz i chcieć zawsze tego, co się Tobie podoba, abyśmy wewnętrznie oczyszczeni, " +
-                "wewnętrznie oświeceni i rozpaleni ogniem Ducha Świętego, mogli iść śladami umiłowanego Syna Twego, " +
-                "Pana naszego Jezusa Chrystusa i dojść do Ciebie, Najwyższy, jedynie dzięki Twej łasce, który żyjesz i królujesz, " +
-                "i odbierasz hołd w doskonałej Trójcy i prostej Jedności, Bóg wszechmogący przez wszystkie wieki wieków. Amen.\n\n",
-        "Niech ci Pan błogosławi i niech cię strzeże; niech ci ukaże oblicze swoje i zmiłuje się nad tobą.\n" +
-                "Niech zwróci oblicze swoje ku tobie i niech cię obdarzy pokojem.\nPan niech cię błogosławi, bracie Leonie. Amen.\n\n",
-        "Bogu chwała,\nwiekuista niech będzie chwała,\nhołd Maryi,\ncześć świętym,\npokój żyjącym,\n" +
-                "wieczny odpoczynek zmarłym,\nzdrowie chorym,\ngrzesznikom szczera pokuta,\n" +
-                "sprawiedliwym w dobrym wytrwanie,\nżeglarzom na morzu spokój,\npodróżującym pomyślna droga.\n\n",
-        "Święty, święty, święty jest Pan Bóg wszechmogący, który jest i który był, i który ma przyjść.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Godzien, jesteś Panie, Boże nasz, otrzymać sławę, chwałę i cześć, i błogosławieństwo.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Godzien jest Baranek, który był zabity, otrzymać moc i bóstwo i mądrość, i siłę, i cześć, i chwalę, i błogosławieństwo.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Błogosławmy Ojca i Syna z Duchem Świętym.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Błogosławcie, wszystkie dzieła Pańskie, Pana.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Dajcie chwałę Bogu naszemu wszyscy słudzy Jego i którzy się Boga boicie, mali i wielcy.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Niech Go pełnego chwały chwalą niebo i ziemia.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "I wszelkie stworzenie, które jest w niebie i na ziemi i które jest pod ziemią i morze, i co jest w nim.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Chwała Ojcu i Synowi, i Duchowi Świętemu.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
-                "Jaka była na początku i teraz,\n" +
-                "i zawsze, i na wieki wieków. Amen.\n" +
-                "I chwalmy, i wywyższajmy Go na wieki.\n\n"
-    )
-
-    val prayerNames = arrayOf(
-        "Litania Loretańska",
-        "Modlitwa franciszkańska",
-        "Wielbimy Cię",
-        "Pieśń słoneczna",
-        "Uwielbienie Boga Najwyższego",
-        "Pozdrowienie Błogosławionej Maryi Dziewicy",
-        "Antyfona: Święta Maryjo",
-        "Zachęta do uwielbienia Boga",
-        "Modlitwa odmówiona przed krucyfiksem",
-        "Wszechmogący, najświętszy (I)",
-        "Wszechmogący, najświętszy (II)",
-        "Pozdrowienie cnót",
-        "Wykład modlitwy Ojcze nasz",
-        "Wszechmogący, wiekuisty",
-        "Błogosławieństwo dla brata Leona",
-        "Bogu chwała",
-        "Modlitwa pochwalna"
+        "Bójcie się Pana i cześć mu oddajcie.\nGodzien jest Pan odebrać chwałę i cześć.\n" +
+                "Wszyscy, którzy boicie się Pana, chwalcie Go.\nBądź pozdrowiona Maryjo, łaski pełna, Pan z Tobą.\n" +
+                "Chwalcie Go niebo i ziemia.\nChwalcie, wszystkie rzeki, Pana.\nBłogosławcie, synowie Boży, Pana.\n" +
+                "Oto dzień, który Pan uczynił; radujmy się w nim\ni weselmy.\n" +
+                "Alleluja, alleluja, alleluja! Królu Izraela.\nWszelki duch niech chwali Pana.\n" +
+                "Chwalcie Pana, bo jest dobry;\nwszyscy, którzy to czytacie, błogosławcie Pana.\n" +
+                "Wszystkie stworzenia, błogosławcie Pana.\nWszystkie ptaki powietrzne, chwalcie Pana.\n" +
+                "Wszystkie dzieci, chwalcie Pana.\nMłodzieńcy i panny, chwalcie Pana.\n" +
+                "Godzien jest Baranek, który został zabity,\nodebrać sławę, chwałę i cześć.\n" +
+                "Błogosławiona niech będzie Święta Trójca\ni nierozdzielna Jedność\n" +
+                "Święty Michale Archaniele, broń nas w walce. Amen.\n\n",
     )
 }

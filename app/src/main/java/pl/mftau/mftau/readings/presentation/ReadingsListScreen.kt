@@ -6,14 +6,10 @@ import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HistoryEdu
 import androidx.compose.material3.Icon
@@ -24,37 +20,34 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.screen.Screen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.readings.data.Prayers
 
-class ReadingsListScreen : Screen {
+class ReadingsListScreen : ReadingsScreen() {
     @Composable
     override fun Content() {
-        ReadingsListScreenContent()
+        ReadingsListScreenContent(getScreenModel())
     }
 }
 
 @Composable
-fun ReadingsListScreenContent() {
+fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
-    var selectedTab by remember { mutableIntStateOf(0) }
+    val selectedTab by screenModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
-            Row {
+            Column {
                 TauTopBar(
                     title = stringResource(id = R.string.readings),
                     onNavClick = navigator::pop,
@@ -64,7 +57,7 @@ fun ReadingsListScreenContent() {
                     tabs = {
                         Tab(
                             selected = selectedTab == 0,
-                            onClick = { selectedTab = 0 },
+                            onClick = { screenModel.updateSelection(0) },
                             icon = {
                                 Icon(
                                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_pray),
@@ -77,7 +70,7 @@ fun ReadingsListScreenContent() {
                         )
                         Tab(
                             selected = selectedTab == 1,
-                            onClick = { selectedTab = 1 },
+                            onClick = { screenModel.updateSelection(1) },
                             icon = {
                                 Icon(
                                     imageVector = Icons.Outlined.HistoryEdu,
@@ -110,14 +103,13 @@ fun ReadingsListScreenContent() {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) { targetState ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(text = targetState.toString(), fontSize = 60.sp)
+            when (targetState) {
+                0 -> ReadingsListLayout(names = Prayers.prayerNames, texts = Prayers.prayerBook)
+                1 -> ReadingsListLayout(
+                    names = arrayOf("test", "Test", "TEST"),
+                    texts = arrayOf("TEST", "Test", "test")
+                )
             }
-
         }
     }
 }
