@@ -10,21 +10,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 
-class ReadingsTextScreen(val text: String, val name: String) : ReadingsScreen() {
+class ReadingsTextScreen(val name: String, val text: AnnotatedString) : ReadingsScreen() {
     @Composable
     override fun Content() {
-        ReadingsTextScreenContent(text, name)
+        ReadingsTextScreenContent(name, text)
     }
 }
 
 @Composable
-fun ReadingsTextScreenContent(text: String, name: String) {
+fun ReadingsTextScreenContent(name: String, text: AnnotatedString) {
     val navigator = LocalNavigator.currentOrThrow
     Scaffold(
         topBar = {

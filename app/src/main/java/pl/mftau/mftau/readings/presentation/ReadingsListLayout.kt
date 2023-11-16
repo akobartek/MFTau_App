@@ -12,27 +12,27 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
-import pl.mftau.mftau.readings.data.Prayers
 
 @Composable
-fun ReadingsListLayout(names: Array<String>, texts: Array<String>) {
+fun ReadingsListLayout(readings: List<Pair<String, AnnotatedString>>) {
     val navigator = LocalNavigator.current
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        names.forEachIndexed { index, elem ->
+        readings.forEach { (name, text) ->
             Column(
                 Modifier.clickable {
-                    navigator?.push(ReadingsTextScreen(texts[index], elem))
+                    navigator?.push(ReadingsTextScreen(name, text))
                 }
             ) {
                 Text(
-                    text = elem,
+                    text = name,
                     fontSize = 16.sp,
                     modifier = Modifier.padding(12.dp)
                 )

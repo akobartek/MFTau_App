@@ -31,7 +31,6 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.TauTopBar
-import pl.mftau.mftau.readings.data.Prayers
 
 class ReadingsListScreen : ReadingsScreen() {
     @Composable
@@ -43,7 +42,7 @@ class ReadingsListScreen : ReadingsScreen() {
 @Composable
 fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
-    val selectedTab by screenModel.state.collectAsStateWithLifecycle()
+    val state by screenModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -53,10 +52,10 @@ fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
                     onNavClick = navigator::pop,
                 )
                 PrimaryTabRow(
-                    selectedTabIndex = selectedTab,
+                    selectedTabIndex = state.selectedTab,
                     tabs = {
                         Tab(
-                            selected = selectedTab == 0,
+                            selected = state.selectedTab == 0,
                             onClick = { screenModel.updateSelection(0) },
                             icon = {
                                 Icon(
@@ -69,7 +68,7 @@ fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
                             unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Tab(
-                            selected = selectedTab == 1,
+                            selected = state.selectedTab == 1,
                             onClick = { screenModel.updateSelection(1) },
                             icon = {
                                 Icon(
@@ -86,15 +85,15 @@ fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
         }
     ) { paddingValues ->
         AnimatedContent(
-            targetState = selectedTab,
+            targetState = state.selectedTab,
             transitionSpec = {
                 slideIntoContainer(
                     animationSpec = tween(300, easing = EaseIn),
-                    towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
+                    towards = if (state.selectedTab == 0) SlideDirection.Right else SlideDirection.Left
                 ).togetherWith(
                     slideOutOfContainer(
                         animationSpec = tween(300, easing = EaseOut),
-                        towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
+                        towards = if (state.selectedTab == 0) SlideDirection.Right else SlideDirection.Left
                     )
                 )
             },
@@ -103,13 +102,7 @@ fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) { targetState ->
-            when (targetState) {
-                0 -> ReadingsListLayout(names = Prayers.prayerNames, texts = Prayers.prayerBook)
-                1 -> ReadingsListLayout(
-                    names = arrayOf("test", "Test", "TEST"),
-                    texts = arrayOf("TEST", "Test", "test")
-                )
-            }
+            ReadingsListLayout(readings = if (targetState == 0) state.prayers else state.writings)
         }
     }
 }
