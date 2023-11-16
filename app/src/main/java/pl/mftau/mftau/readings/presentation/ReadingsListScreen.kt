@@ -6,7 +6,9 @@ import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -51,7 +54,7 @@ fun ReadingsListScreenContent() {
 
     Scaffold(
         topBar = {
-            Column {
+            Row {
                 TauTopBar(
                     title = stringResource(id = R.string.readings),
                     onNavClick = navigator::pop,
@@ -81,7 +84,7 @@ fun ReadingsListScreenContent() {
                                     contentDescription = null
                                 )
                             },
-                            text = { Text(text = stringResource(id = R.string.readings)) },
+                            text = { Text(text = stringResource(id = R.string.writings)) },
                             unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -89,30 +92,32 @@ fun ReadingsListScreenContent() {
             }
         }
     ) { paddingValues ->
-        Column(
+        AnimatedContent(
+            targetState = selectedTab,
+            transitionSpec = {
+                slideIntoContainer(
+                    animationSpec = tween(300, easing = EaseIn),
+                    towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
+                ).togetherWith(
+                    slideOutOfContainer(
+                        animationSpec = tween(300, easing = EaseOut),
+                        towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
+                    )
+                )
+            },
+            label = "reading",
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            AnimatedContent(
-                targetState = selectedTab,
-                transitionSpec = {
-                    slideIntoContainer(
-                        animationSpec = tween(200, easing = EaseIn),
-                        towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
-                    ).togetherWith(
-                        slideOutOfContainer(
-                            animationSpec = tween(200, easing = EaseOut),
-                            towards = if (selectedTab == 0) SlideDirection.Right else SlideDirection.Left
-                        )
-                    )
-                },
-                label = "reading",
+        ) { targetState ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxSize()
-            ) { targetState ->
+            ) {
                 Text(text = targetState.toString(), fontSize = 60.sp)
             }
+
         }
     }
 }

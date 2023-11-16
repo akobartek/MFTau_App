@@ -103,15 +103,13 @@ fun MainScreenContent(screenModel: MainScreenModel) {
         if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
             CommunityLogo(Modifier.padding(top = 16.dp))
             Spacer(modifier = Modifier.height(40.dp))
-
             FirstButtonsRow()
             Spacer(modifier = Modifier.height(24.dp))
             SecondButtonsRow()
         } else {
+            CommunityLogo(Modifier.padding(top = 4.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                CommunityLogo(Modifier.padding(top = 4.dp))
-                Spacer(modifier = Modifier.height(32.dp))
-
                 FirstButtonsRow()
                 SecondButtonsRow()
             }

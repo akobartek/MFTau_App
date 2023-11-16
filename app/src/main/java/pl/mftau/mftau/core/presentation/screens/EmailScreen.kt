@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Checkbox
@@ -26,11 +29,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -67,12 +77,16 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.EmailScreenType) {
     val navigator = LocalNavigator.currentOrThrow
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val (nameRef, messageRef) = remember { FocusRequester.createRefs() }
+    val focusManager = LocalFocusManager.current
 
     val state by screenModel.state.collectAsStateWithLifecycle()
 
@@ -136,18 +150,29 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                 .padding(paddingValues)
                 .fillMaxSize()
                 .padding(horizontal = 48.dp, vertical = 16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             OutlinedTextField(
                 value = state.name,
                 onValueChange = screenModel::updateName,
                 label = { Text(text = stringResource(id = R.string.email_name)) },
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                }),
+                maxLines = 1,
                 isError = state.nameError,
                 supportingText = {
                     if (state.nameError)
                         Text(text = stringResource(id = R.string.empty_email_name_error))
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(nameRef)
+                    .focusProperties { next = messageRef }
             )
             OutlinedTextField(
                 value = state.text,
@@ -163,7 +188,7 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                     )
                 },
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                minLines = 5,
+                minLines = 4,
                 maxLines = 10,
                 isError = state.textError,
                 supportingText = {
@@ -180,6 +205,7 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 12.dp)
+                    .focusRequester(messageRef)
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
