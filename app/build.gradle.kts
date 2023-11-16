@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "pl.mftau.mftau"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 34
         versionCode = 28
         versionName = "7.0.0"

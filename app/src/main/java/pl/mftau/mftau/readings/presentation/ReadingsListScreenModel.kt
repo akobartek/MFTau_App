@@ -4,11 +4,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.core.data.PreferencesRepository
-import pl.mftau.mftau.readings.data.PrayersRepository
-import pl.mftau.mftau.readings.data.WritingsRepository
+import pl.mftau.mftau.readings.domain.PrayersRepository
+import pl.mftau.mftau.readings.domain.WritingsRepository
 
 class ReadingsListScreenModel(
     private val prayersRepository: PrayersRepository,
@@ -23,7 +24,7 @@ class ReadingsListScreenModel(
     )
 
     init {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             val color = Color(preferencesRepository.getAccentColor())
             mutableState.update {
                 it.copy(

@@ -6,18 +6,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.sp
+import pl.mftau.mftau.readings.domain.PrayersRepository
 
-class PrayersRepository {
-
-    fun getPrayers(accentColor: Color) =
-        prayersNames.zip(buildPrayersBook(accentColor)) { name, prayer ->
-            name to buildAnnotatedString { append(prayer) }
-        }
-
-    private val prayersNames = arrayOf(
+class PolishPrayersRepository: PrayersRepository() {
+    override val prayersNames = arrayOf(
         "Anioł Pański",
         "Antyfona: Święta Maryjo",
         "Błogosławieństwo dla brata Leona",
@@ -38,16 +31,7 @@ class PrayersRepository {
         "Zachęta do uwielbienia Boga",
     )
 
-    private fun justifiedString(text: String, firstLineIndent: Int = 12) = buildAnnotatedString {
-        withStyle(
-            style = ParagraphStyle(
-                textAlign = TextAlign.Justify,
-                textIndent = TextIndent(firstLine = firstLineIndent.sp, restLine = 0.sp),
-            )
-        ) { append(text) }
-    }
-
-    private fun buildPrayersBook(accentColor: Color) = arrayOf(
+    override fun buildPrayersBook(accentColor: Color) = arrayOf(
         buildAnnotatedString {
             withStyle(SpanStyle(color = accentColor)) { append("P. ") }
             append("Anioł Pański zwiastował Pannie Maryi.\n")
