@@ -126,7 +126,8 @@ class PolishWritingsRepository : WritingsRepository() {
                         43 to "A w stosunku do poszczególnych braci swoich niech okazuje miłosierdzie i niech je zachowa, tak, jakby sobie życzył w podobnym wypadku. ",
                         44 to "I niech się nie gniewa na brata z powodu jego występku, lecz nich go łagodnie upomina i znosi z wszelką cierpliwością i pokorą.\n\n",
                         45 to "Nie powinniśmy być mądrymi i roztropnymi według ciała (por. 1 Kor 1, 26), lecz raczej bądźmy prostymi, pokornymi i czystymi.\n\n",
-                        46 to "I miejmy w pogardzie i poniżeniu nasze ciała, bo wszyscy z własnej winy jesteśmy nędzni i zepsuci, cuchnący i robaki, jak mówi Pan przez proroka: Ja jestem robak, a nie człowiek, pośmiewisko ludzkie i wzgarda pospólstwa (Ps 21, 7).\n\n",
+                        46 to "I miejmy w pogardzie i poniżeniu nasze ciała, bo wszyscy z własnej winy jesteśmy nędzni i zepsuci, cuchnący i robaki, jak mówi Pan przez proroka: Ja jestem robak, " +
+                                "a nie człowiek, pośmiewisko ludzkie i wzgarda pospólstwa (Ps 21, 7).\n\n",
                         47 to "Nie pragnijmy nigdy górować nad innymi, lecz bądźmy raczej sługami i poddanymi wszelkiemu ludzkiemu stworzeniu ze względu na Boga (1 P 2, 13). ",
                         48 to "A na tych wszystkich i te wszystkie, które będą to czynić i wytrwają aż do końca, spocznie Duch Pański (por. Iz 11, 2) i uczyni w nich mieszkanie i miejsce pobytu (por. J 14, 23). ",
                         49 to "I będą synami Ojca niebieskiego (por. Mt 5, 45), którego dzieła czynią. ",
@@ -136,12 +137,14 @@ class PolishWritingsRepository : WritingsRepository() {
                         53 to "Jesteśmy matkami, gdy nosimy Go w sercu i w ciele naszym (por. 1 Kor 6, 20) przez miłość i czyste i szczere sumienie, rodzimy go przez święte uczynki, które powinny przyświecać innym jako wzór (por. Mt 5, 16).\n\n",
                         54 to "O, jakże chwalebna i święta, i wielka to rzecz: mieć w niebie Ojca! ",
                         55 to "O, jak świętą jest rzeczą mieć pocieszyciela, tak pięknego i podziwu godnego oblubieńca! ",
-                        56 to "O, jak świętą i cenną jest rzeczą mieć tak miłego, pokornego, darzącego pokojem, słodkiego i godnego miłości, i ponad wszystko upragnionego brata i syna, który życie swoje oddał za owce swoje (por. J 10, 15) i modlił się za nami do Ojca mówiąc: Ojcze święty, zachowaj w imię Twoje tych, których Mi dałeś (J 17, 11).\n\n",
+                        56 to "O, jak świętą i cenną jest rzeczą mieć tak miłego, pokornego, darzącego pokojem, słodkiego i godnego miłości, i ponad wszystko upragnionego brata i syna, który życie swoje oddał za owce swoje (por. J 10, 15) i " +
+                                "modlił się za nami do Ojca mówiąc: Ojcze święty, zachowaj w imię Twoje tych, których Mi dałeś (J 17, 11).\n\n",
                         57 to "Ojcze wszyscy, których Mi dałeś na świecie, Twoimi byli, i dałeś Mi ich (por. J 17, 6). ",
                         58 to "I słowa, które Mi dałeś, dałem im: a oni przyjęli i prawdziwie poznali, że od Ciebie wyszedłem i uwierzyli, że Ty Mnie posłałeś (J 17, 8). Proszę za nimi, a nie za światem (por. J 17, 17).\n\n",
                         59 to "I za nich samego siebie poświęcam w ofierze, aby zostali uświęceni w (J 17, 19) jedno, jak i my (J 17, 11) jesteśmy.\n\n",
                         60 to "I chcę Ojcze, aby i oni byli ze Mną tam, gdzie Ja jestem, żeby oglądali chwałę moją (J 17, 24) w królestwie Twoim (Mt 20, 21).\n\n",
-                        61 to "Temu zaś, który tyle wycierpiał za nas, wyświadczył nam tyle dobra i wyświadczy w przyszłości, niech wszelkie stworzenie, które jest w niebie, na ziemi, w morzu i przepaściach, oddaje jako Bogu sławę, chwałę, cześć i błogosławieństwo (por. Ap 5, 13), ",
+                        61 to "Temu zaś, który tyle wycierpiał za nas, wyświadczył nam tyle dobra i wyświadczy w przyszłości, niech wszelkie stworzenie, które jest w niebie, na ziemi, " +
+                                "w morzu i przepaściach, oddaje jako Bogu sławę, chwałę, cześć i błogosławieństwo (por. Ap 5, 13), ",
                         62 to "ponieważ On jest naszą mocą i siłą, On sam jest dobry, sam najwyższy, sam wszechmocny, godny podziwu, sam przesławny i święty, godny chwały i błogosławiony przez nieskończone wieki wieków. Amen.\n\n",
                         63 to "Ci wszyscy zaś, którzy nie trwają w pokucie i nie przyjmują ciała i Krwi Pana naszego Jezusa Chrystusa, ",
                         64 to "dopuszczają się występków i grzechów, i ulegają złej pożądliwości i złym pragnieniom, i nie zachowują tego co przyrzekli, ",
@@ -149,7 +152,8 @@ class PolishWritingsRepository : WritingsRepository() {
                         66 to "oszukani przez szatana, którego są synami i jego uczynki pełnią (por J 8, 41), są ślepi, ponieważ nie widzą prawdziwego Światła, Pana naszego Jezusa Chrystusa.\n\n",
                         67 to "Ci nie mają mądrości duchowej, ponieważ nie mają Syna Bożego, który jest prawdziwą Mądrością Ojca;O nich jest powiedziane: Mądrość ich została pochłonięta (por. Ps 106, 27).\n\n",
                         68 to "Widzą poznają, wiedzą i postępują źle, i świadomie gubią dusze.\n\n",
-                        69 to "Patrzcie, ślepcy, zwiedzeni przez waszych nieprzyjaciół, to jest: przez ciało, świat i szatana, bo ciału słodko jest grzeszyć, a gorzko służyć Bogu, ponieważ wszelkie zło, występki i grzechy z serca ludzkiego wychodzą i pochodzą (por. Mk 7, 21. 23), jak mówi Pan w Ewangelii.\n\n",
+                        69 to "Patrzcie, ślepcy, zwiedzeni przez waszych nieprzyjaciół, to jest: przez ciało, świat i szatana, bo ciału słodko jest grzeszyć, a gorzko służyć Bogu, " +
+                                "ponieważ wszelkie zło, występki i grzechy z serca ludzkiego wychodzą i pochodzą (por. Mk 7, 21. 23), jak mówi Pan w Ewangelii.\n\n",
                         70 to "I niczego dobrego nie macie w tym świecie, ani w przyszłym. ",
                         71 to "Uważacie, że długo będziecie posiadać marności tego świata, lecz łudzicie się, bo przyjdzie dzień i godzina, o których nie myślicie, nie wiecie, i których nie znacie.\n\n",
                         72 to "Ciało choruje, śmierć się zbliża, przychodzą krewni i przyjaciele mówiąc: „Rozrządź tym, co twoje”. ",
@@ -174,7 +178,506 @@ class PolishWritingsRepository : WritingsRepository() {
             }
         ),
         buildAnnotatedString { },
-        buildAnnotatedString { },
+        buildAnnotatedString {
+            buildChapter(
+                name = "[Prolog]",
+                array = arrayOf(
+                    1 to "W imię Ojca i Syna, i Ducha Świętego.\n",
+                    2 to "Oto jest sposób życia według Ewangelii Jezusa Chrystusa, o którego uznanie i zatwierdzenie prosił papieża brat Franciszek. I ten [papież] uznał go i zatwierdził dla niego i jego braci obecnych i przyszłych.\n",
+                    3 to "Brat Franciszek i każdy, kto będzie zwierzchnikiem tego zakonu, ma przyrzec posłuszeństwo i szacunek papieżowi Innocentemu i jego następcom. ",
+                    4 to "I wszyscy inni bracia mają obowiązek posłuszeństwa bratu Franciszkowi i jego następcom."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 1]\nBracia powinni żyć w posłuszeństwie, bez własności i w czystości",
+                array = arrayOf(
+                    1 to "Reguła i życie tych braci polega na tym, aby żyć w posłuszeństwie, w czystości i bez własności oraz zachowywać naukę i naśladować przykład Pana naszego Jezusa Chrystusa, który mówi: ",
+                    2 to "Jeśli chcesz być doskonałym, idź, sprzedaj wszystko (por. Łk 18, 22), co masz i daj ubogim, a będziesz miał skarb w niebie; przyjdź i chodź za Mną (Mt 19, 21). ",
+                    3 to "I: Jeśli kto chce iść za Mną, niech się zaprze samego siebie i weźmie krzyż swój, i naśladuje Mnie (Mt 16, 24). ",
+                    4 to "Także: Jeśli kto chce przyjść do Mnie, a nie ma w nienawiści ojca i matki, i żony, i dzieci, i braci, i sióstr, jeszcze też i życia swego, nie może być Moim uczniem (por. Łk 14, 26.) ",
+                    5 to "I każdy, kto opuściłby ojca albo matkę, braci albo siostry, żonę albo dzieci, domy albo pola dla Mnie, stokroć więcej otrzyma i posiądzie życie wieczne (por. Mt 19, 29; por. Mk 10, 29 i Łk 18, 29)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 2]\nPrzyjmowanie i ubiór braci",
+                array = arrayOf(
+                    1 to "Jeśli kto z Bożego natchnienia pragnie przyjąć ten sposób życia i przyjdzie do naszych braci, niech będzie przyjęty życzliwie. ",
+                    2 to "Jeśli zaś okaże się wytrwały w pragnieniu przyjęcia naszego sposobu życia, niech bracia bardzo się strzegą, aby nie mieszać się do jego spraw doczesnych, lecz niech go jak najprędzej przedstawią swemu ministrowi. ",
+                    3 to "Minister niech przyjmie go z prawdziwą dobrocią, doda zachęty i wytłumaczy mu dokładnie, na czym polega nasz sposób życia. ",
+                    4 to "Potem kandydat, jeśli chce i może to uczynić zgodnie z sumieniem i bez przeszkód, sprzeda cały swój majątek i to wszystko postara się rozdać ubogim. ",
+                    5 to "Bracia i ich ministrowie niech się strzegą, aby nie mieszać się wcale do jego spraw ",
+                    6 to "i nie przyjmować od niego pieniędzy ani osobiście, ani przez zastępców. ",
+                    7 to "Jeśli jednak bracia odczuwają brak rzeczy niezbędnych do życia, mogą z konieczności, jak inni ubodzy, przyjąć coś z wyjątkiem pieniędzy.\n\n",
+                    8 to "Gdy [kandydat] powróci, minister da mu odzież na okres rocznej próby: dwie tuniki bez kaptura, sznur, spodnie i kaparon sięgający do pasa. ",
+                    9 to "Po upływie roku i czasu próby niech będzie przyjęty pod posłuszeństwo. ",
+                    10 to "Potem nie wolno mu przechodzić do innego zakonu ani „wałęsać się wbrew posłuszeństwu” według rozporządzenia papieża i Ewangelii. " +
+                            "Bo nikt, kto rękę przykłada do pługa, a ogląda się wstecz, nie nadaje się do królestwa Bożego (Łk 9, 62). ",
+                    11 to "Jeśli zaś przyjdzie ktoś, kto ma trudności w rozdaniu majątku, a ma dobrą wolę, wystarczy, że go opuści. ",
+                    12 to "Nikogo nie wolno przyjmować wbrew praktyce i przepisom Kościoła świętego.\n\n",
+                    13 to "Inni zaś bracia, którzy przyrzekli posłuszeństwo, niech mają jedną tunikę z kapturem i – jeśli zachodzi potrzeba – drugą bez kaptura, sznur i spodnie. ",
+                    14 to "I wszyscy bracia niech noszą suknie ubogie i mogą je łatać, z błogosławieństwem Bożym, lichym płótnem lub innymi kawałkami; bo Pan mówi w Ewangelii: " +
+                            "Ci, którzy są w kosztownej odzieży i w rozkoszach (Łk 7, 25) i w miękkie szaty się ubierają (Mt 11, 8), są w domach królewskich (Mt 11, 8; Łk 7, 25). ",
+                    15 to "I choćby nazywano ich obłudnikami, niech jednak nie przestają czynić dobrze i niech nie poszukują drogich szat na tym świecie, aby mogli otrzymać szatę w królestwie niebieskim."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 3]\nBoskie oficjum i post",
+                array = arrayOf(
+                    1 to "Pan mówi: Ten rodzaj złych duchów może wyjść tylko przez post i modlitwę (Mk 9, 28); ",
+                    2 to "i znowu: Gdy pościcie, nie bądźcie smutni jak obłudnicy (Mt 6, 16).\n\n",
+                    3 to "Dlatego wszyscy bracia, zarówno klerycy jak nieklerycy, niech odmawiają zgodnie z zobowiązaniem oficjum boskie, uwielbienia i modlitwy. ",
+                    4 to "Klerycy niech odmawiają oficjum i modlą się za żywych i zmarłych według zwyczaju przyjętego wśród duchowieństwa. ",
+                    5 to "I dla wynagrodzenia za uchybienia i zaniedbania braci niech odmawiają co dzień Zmiłuj się nade mną, Boże (Ps 50) i Ojcze nasz. ",
+                    6 to "Za zmarłych braci niech odmawiają Z głębokości (Ps 129) i Ojcze nasz. ",
+                    7 to "I mogą mieć tylko księgi potrzebne do odmawiania oficjum. ",
+                    8 to "I braciom nieklerykom wolno mieć psałterz, jeśli umieją czytać. ",
+                    9 to "Ci zaś którzy nie umieją czytać, nie mogą mieć książek.\n\n",
+                    10 to "Bracia nieklerycy niech odmawiają Wierzę w Boga i dwadzieścia cztery Ojcze nasz oraz Chwała Ojcu za jutrznię; za laudesy pięć; " +
+                            "za prymę Wierzę w Boga i siedem Ojcze nasz oraz Chwała Ojcu; za tercję, sekstę i nonę po siedem; za nieszpory dwanaście; " +
+                            "za kompletę Wierzę w Boga i siedem Ojcze nasz oraz Chwała Ojcu; za zmarłych siedem Ojcze nasz oraz Wieczny odpoczynek; " +
+                            "i za uchybienia i zaniedbania braci co dzień trzy Ojcze nasz.\n\n",
+                    11 to "I niech też wszyscy bracia poszczą od uroczystości Wszystkich Świętych do Bożego Narodzenia " +
+                            "i od Objawienia Pańskiego, kiedy to Pan nasz Jezus Chrystus zaczął pościć, do Wielkanocy. ",
+                    12 to "W innym zaś czasie według tego sposobu życia post obowiązuje ich tylko w piątki. ",
+                    13 to "I wolno im według Ewangelii jeść wszystkie potrawy, jakie im podadzą (por. Łk 10, 8)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 4]\nStosunek między ministrami a innymi braćmi",
+                array = arrayOf(
+                    1 to "W imię Pańskie! ",
+                    2 to "Wszyscy bracia, którzy są ustanowieni ministrami i sługami innych braci, niech rozmieszczają swoich braci, " +
+                            "w prowincjach i w miejscach, w których będą, niech ich często odwiedzają, i w sposób duchowy napominają i umacniają. ",
+                    3 to "A wszyscy inni moi umiłowani bracia niech będą im bardzo posłuszni we wszystkich sprawach dotyczących zbawienia duszy i nie sprzecznych z naszym sposobem życia.\n\n",
+                    4 to "I niech odnoszą się do siebie, tak jak mówi Pan: Cokolwiek chcecie, aby wam ludzie czynili, i wy im czyńcie (Mt 7, 12) ",
+                    5 to "oraz: „Nie czyń tego drugiemu, czego byś nie chciał, aby tobie czyniono”. ",
+                    6 to "A ministrowie i słudzy niech pamiętają, że Pan mówi: nie przyszedłem, aby mi służono, lecz aby służyć (por. Mt 20, 28), " +
+                            "i że troska o dusze braci została im powierzona. Jeśliby który z nich zginął z ich winy i przez ich zły przykład, " +
+                            "będą musieli w dzień sądu zdać rachunek (por. Mt 12, 36) przed Panem Jezusem Chrystusem."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 5]\nPoprawianie braci błądzących",
+                array = arrayOf(
+                    1 to "Strzeżcie więc dusz waszych i dusz waszych braci, bo straszna to rzecz wpaść w ręce Boga żywego (Hbr 10, 31). ",
+                    2 to "Jeśli jakiś minister wyda któremuś z braci polecenie sprzeczne z naszym sposobem życia lub sumieniem brata, " +
+                            "ten nie jest obowiązany słuchać go; bo nie ma posłuszeństwa tam, gdzie kryje się wykroczenie lub grzech. ",
+                    3 to "Niech jednak wszyscy bracia podlegający ministrom i sługom przyglądają się z uwagą i roztropnie postępowaniu ministrów i sług. ",
+                    4 to "I jeśli zauważą, że któryś z nich postępuje nie według ducha i nie według naszego sposobu życia, " +
+                            "lecz według ciała, gdyby po trzecim upomnieniu się nie poprawił, " +
+                            "niech na kapitule Zielonych Świąt doniosą ministrowi i słudze całego braterstwa bez względu na jakiekolwiek jego protesty.\n\n",
+                    5 to "Jeśli zaś między braćmi znalazłby się gdziekolwiek jakiś brat, chcący postępować " +
+                            "według ciała, nie według ducha, niech mu współbracia zwrócą uwagę i upomną pokornie i z miłością. ",
+                    6 to "Jeśli po trzecim upomnieniu nie chciałby się poprawić, niech go jak najprędzej odeślą " +
+                            "do swego ministra i sługi lub dadzą mu znać. Minister i sługa niech postąpi z nim tak, jak mu się będzie najlepiej wobec Boga wydawało.\n\n",
+                    7 to "I niech się strzegą wszyscy bracia , tak ministrowie i słudzy, jak i inni, aby się nie denerwowali ani gniewali " +
+                            "z powodu czyjegoś grzechu lub złego [przykładu], bo szatan chce przez grzech jednego przywieść wielu do upadku. ",
+                    8 to "Niech raczej, jak tylko mogą, duchowo wspomagają tego, który zgrzeszył, bo nie zdrowi, lecz chorzy potrzebują lekarza (por. Mt 9, 12; Mk 2, 17).\n\n",
+                    9 to "Nie wolno również braciom piastować władzy ani panować nad nikim, zwłaszcza nad współbraćmi. ",
+                    10 to "Tak bowiem mówi Pan w Ewangelii: Władcy panują nad narodami, a możni sprawują nad nimi władzę (Mt 20, 25). Nie tak będzie wśród braci (por. Mt 20, 26a); ",
+                    11 to "i kto by chciał być większy, niech będzie ich ministrem (por. Mt 20, 26b) i sługą, ",
+                    12 to "i kto wśród nich jest większy, niech stanie się jako mniejszy (por. Łk 22, 26).\n\n",
+                    13 to "Niech żaden z braci źle nie mówi ani nie czyni drugiemu; ",
+                    14 to "niech raczej przez miłość Ducha chętnie służą jedni drugim i będą sobie posłuszni (por. Ga 5, 13b). ",
+                    15 to "I to jest prawdziwe i święte posłuszeństwo Pana naszego Jezusa Chrystusa. ",
+                    16 to "I wszyscy bracia, ilekroć odstąpiliby od przykazań Pańskich i wałęsaliby się poza posłuszeństwem, " +
+                            "niech wiedzą, że według słów proroka (Ps 118, 21) będą przeklęci, póki świadomie pozostaną w tym grzechu, poza posłuszeństwem. ",
+                    17 to "I jeśli wytrwają w przykazaniach Pana, jak przyrzekli, zachowując Ewangelię i " +
+                            "swój sposób życia, niech wiedzą, że żyją w prawdziwym posłuszeństwie, i niech będą błogosławieni przez Pana."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 6]\nZwracanie się braci do ministrów; żadnego brata nie wolno nazywać przeorem",
+                array = arrayOf(
+                    1 to "Bracia, w jakichkolwiek miejscach przebywają, jeśli nie mogą zachować naszego sposobu życia, niech zwrócą się jak najprędzej do swego ministra i przedstawią mu swoje trudności. ",
+                    2 to "Minister niech stara się tak im zaradzić, jak by tego sobie samemu życzył, gdyby znalazł się w podobnym położeniu.\n\n",
+                    3 to "I nikogo nie można nazywać przeorem, lecz wszyscy bez różnicy niech nazywają się braćmi mniejszymi. ",
+                    4 to "I jeden drugiemu niech umywa nogi (por. J 13, 14)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 7]\nJak należy służyć i pracować",
+                array = arrayOf(
+                    1 to "Wszyscy bracia, w jakichkolwiek miejscach przebywają u kogoś, aby służyć albo pracować, nie mogą być rządcami ani urzędnikami, " +
+                            "ani obejmować stanowisk kierowniczych w domach, gdzie służą. Niech nie przyjmują funkcji, która spowodowałaby zgorszenie lub wyrządziłaby szkodę ich duszy (por. Mk 8, 36). ",
+                    2 to "Lecz niech będą mniejsi i poddani wszystkim, którzy przebywają w tym samym domu. ",
+                    3 to "A bracia, którzy znają się na pracy, niech pracują wykonując ten sam zawód, którego się nauczyli, jeśli to nie szkodziłoby zbawieniu duszy i mogłoby być uczciwie wykonane. ",
+                    4 to "Bo prorok mówi: Owoce prac twoich będziesz spożywał, szczęśliwy jesteś i dobrze ci będzie (Ps 127, 2); ",
+                    5 to "i Apostoł: Kto nie chce pracować, niech nie je (por. 2 Tes 3, 10); ",
+                    6 to "oraz: niech każdy pozostaje w takim zawodzie i obowiązku, w jakim został powołany (por. 1 Kor 7, 24). ",
+                    7 to "Jako wynagrodzenie za pracę mogą przyjmować wszystko, co im potrzebne, z wyjątkiem pieniędzy. ",
+                    8 to "A gdy zajdzie konieczność, niech idą po jałmużnę, jak inni ubodzy. ",
+                    9 to "I wolno im mieć narzędzia żelazne i inne przydatne w ich rzemiośle.\n\n",
+                    10 to "Wszyscy bracia „niech starają się gorliwie przykładać do jakiejś dobrej pracy”, bo napisane jest: „Zawsze czyń coś dobrego, aby diabeł zastał cię zajętym”. ",
+                    11 to "I także: „Lenistwo jest nieprzyjacielem duszy”. ",
+                    12 to "Dlatego słudzy Boży powinni zawsze oddawać się modlitwie lub jakiemuś dobremu zajęciu.\n\n",
+                    13 to "Gdziekolwiek bracia będą przebywać, w pustelniach czy w innych miejscach, niech się strzegą, by nie przywłaszczali sobie żadnego pomieszczenia i nikomu nie bronili do niego dostępu. ",
+                    14 to "I ktokolwiek przyszedłby do nich: przyjaciel czy wróg, złodziej czy łotr, niech go przyjmą uprzejmie. ",
+                    15 to "I gdziekolwiek bracia są i w jakimkolwiek miejscu spotkają się, niech okazują sobie nawzajem poważanie i szacunek w duchu, z miłością, bez narzekania (por. 1 P 4, 9). ",
+                    16 to "I niech strzegą się, by swym wyglądem nie robili wrażenia smutnych i posępnych obłudników; lecz niech okazują się radosnymi w Panu (por. Flp 4, 4) i pogodnymi, i życzliwymi."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 8]\nBracia nie powinni przyjmować pieniędzy",
+                array = arrayOf(
+                    1 to "Pan nakazuje w Ewangelii: Uważajcie, strzeżcie się wszelkiej złości i chciwości (por. Łk 12, 15); ",
+                    2 to "i: miejcie się na baczności wobec kłopotów tego świata i trosk tego życia (por. Łk 21, 34).  \n\n",
+                    3 to "Dlatego żaden z braci, gdziekolwiek jest i gdziekolwiek się udaje, nie może w żaden sposób brać ze sobą " +
+                            "rzeczy mających wartość pieniężną lub pieniędzy, przyjmować lub kazać przyjmować, ani na zakup odzienia lub książek, " +
+                            "ani jako wynagrodzenie za pracę, ani w żadnym innym wypadku, z wyjątkiem oczywistej potrzeby braci chorych; " +
+                            "nie powinniśmy bowiem przypisywać większej użyteczności i znaczenia rzeczom mającym wartość pieniężną i pieniądzom niż kamieniom.",
+                    4 to "I kto ich pożąda lub ceni je więcej niż kamienie, tego szatan stara się zaślepić. ",
+                    5 to "Miejmy się więc na baczności my, którzy opuściliśmy wszystko (por. Mt 19, 27), abyśmy z powodu takiej drobnostki nie stracili królestwa niebieskiego. ",
+                    6 to "I jeśli znajdziemy gdzieś pieniądze, nie dbajmy o nie więcej niż o pył, który depczemy stopami, bo to marność nad marnościami i wszystko marność (Syr 1, 2). ",
+                    7 to "I jeśli, co nie daj, Boże, zdarzyłoby się, że jakiś brat zbiera lub ma rzeczy mające wartość pieniężną lub pieniądze, wyjąwszy wspomnianą potrzebę chorych, " +
+                            "uważajmy go, wszyscy bracia, za fałszywego brata i odstępcę, i za złodzieja, i łotra, i za tego, który ma trzos (por. J 12, 6), o ile naprawdę nie nawróciłby się. ",
+                    8 to "I w żadnym wypadku niech bracia nie przyjmują ani nie każą przyjmować, sami niech nie kwestują i nie każą kwestować ani rzeczy mających wartość pieniężną, " +
+                            "ani pieniędzy dla jakichś domów lub miejsc. Nie powinni również towarzyszyć osobie kwestującej rzeczy mające wartość pieniężną lub pieniądze dla tych miejsc.\n\n",
+                    9 to "Inne zaś posługi, które nie są sprzeczne z naszym sposobem życia, mogą bracia wykonywać gdziekolwiek z błogosławieństwem Bożym. ",
+                    10 to "Jeśli jednak trędowaci znajdą się w oczywistej potrzebie, mogą bracia dla nich zbierać jałmużnę. ",
+                    11 to "Niech się jednak bardzo wystrzegają pieniędzy. ",
+                    12 to "Wszyscy bracia powinni również unikać wałęsania się dla niegodziwego zysku."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 9]\nJałmużna",
+                array = arrayOf(
+                    1 to "Wszyscy bracia niech się starają naśladować pokorę i ubóstwo Pana naszego Jezusa Chrystusa i niech pamiętają, " +
+                            "że niczego innego nie powinniśmy mieć na tym świecie, tylko – jak mówi Apostoł: Zadowoleni jesteśmy z tego, że mamy pożywienie i ubranie (por. 1 Tm 6, 8). ",
+                    2 to "I powinni się cieszyć, gdy przebywają wśród ludzi prostych i wzgardzonych, ubogich i słabych, chorych i trędowatych, i żebraków przy drogach.\n\n",
+                    3 to "I gdy będzie potrzeba, niech idą po jałmużnę. ",
+                    4 to "I nie powinni się wstydzić, niech raczej przypominają sobie, że Pan nasz Jezus Chrystus, Syn Boga żywego (por. J 11, 27), " +
+                            "wszechmogącego, uczynił twarz swoją jak najtwardszą skałę (por. Iz 50, 7) i nie zawstydził się. ",
+                    5 to "I był ubogi i bezdomny, i żył z jałmużny on sam i błogosławiona Dziewica, i uczniowie Jego. ",
+                    6 to "I kiedy ludzie zawstydzaliby ich i nie chcieliby dać im jałmużny, bracia powinni Bogu za to dziękować! " +
+                            "Bo za ten wstyd otrzymają wielkie uznanie przed trybunałem Pana naszego Jezusa Chrystusa. ",
+                    7 to "I niech wiedzą, że wstyd staje się udziałem nie tych, którzy go doznają, lecz tych, którzy go sprawiają.\n\n",
+                    8 to "I jałmużna jest dziedzictwem i prawem ubogich, które nabył dla nas Pan nasz Jezus Chrystus. ",
+                    9 to "I bracia, którzy trudzą się zbieraniem ofiar, otrzymają wielką nagrodę i dają okazję do nagrody ofiarodawcom. " +
+                            "Zginie bowiem wszystko, co ludzie zostawią na tym świecie, lecz za miłość i za złożone jałmużny otrzymają nagrodę od Pana.\n\n",
+                    10 to "I z zaufaniem powinien jeden drugiemu wyjawiać swoje potrzeby, aby drugi mógł je zaspokoić i usłużyć [bratu]. ",
+                    11 to "I jak matka kocha i karmi swego syna (por. 1 Tes 2, 7), tak każdy niech kocha i karmi swego brata; Pan użyczy mu do tego swej łaski. ",
+                    12 to "I ten, który nie je, niech nie sądzi jedzącego (Rz 14, 3).\n\n",
+                    13 to "I kiedykolwiek zajdzie konieczność, wolno wszystkim braciom wszędzie korzystać ze wszystkich pokarmów, które ludzie mogą jeść, " +
+                            "jak Pan powiedział o Dawidzie, który jadł chleby pokładne (por. Mt 12, 4), których nie wolno było spożywać nikomu, tylko kapłanom (Mk 2, 26). ",
+                    14 to "I niech mają w pamięci, co mówi Pan: Miejcie się na baczności, aby przypadkiem waszych serc" +
+                            " nie obciążyło obżarstwo i pijaństwo, i troski tego życia, żeby nie przyszedł na was nagle ten dzień. ",
+                    15 to "Spadnie on bowiem jak potrzask na wszystkich mieszkańców całej ziemi (por. Łk 21, 34-35). ",
+                    16 to "Podobnie w razie oczywistej konieczności wolno wszystkim braciom tak korzystać z rzeczy potrzebnych, jak ich Pan natchnie, bo „gdy zachodzi konieczność, prawo nie obowiązuje”."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 10]\nBracia chorzy",
+                array = arrayOf(
+                    1 to "Gdy jakiś brat zachoruje, gdziekolwiek by był, niech go bracia nie opuszczają, nie wyznaczywszy jednego lub, jeśli potrzeba, kilku braci, " +
+                            "którzy będą go tak obsługiwali, jak sami „chcieliby być obsłużeni”. ",
+                    2 to "Lecz w razie ostatecznej konieczności mogą go zostawić jakiejś osobie, która powinna się nim opiekować w chorobie. ",
+                    3 to "I proszę chorego brata, aby za wszystko składał dzięki Stwórcy; i żeby pragnął być takim, jakim chce go mieć Pan: " +
+                            "czy to zdrowym, czy chorym, bo tych wszystkich, których Bóg przeznaczył do życia wiecznego (por. Dz 13, 48), " +
+                            "przygotowuje przez ciosy doświadczeń i chorób, i przez ducha skruchy, jak mówi Pan: Ja poprawiam i karcę tych, których miłuję (por. Ap 3, 19). ",
+                    4 to "I jeśli któryś [brat chory] denerwowałby się lub gniewał na Boga lub braci, albo natarczywie domagał się lekarstw, nazbyt pragnąc ratować ciało, " +
+                            "które i tak wkrótce umrze i jest nieprzyjacielem duszy, czyni to pod wpływem złego i jest cielesny i zdaje się, jakby nie był spośród braci, bo bardziej kocha ciało niż duszę."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 11]\nBracia nie powinni przeklinać ani ubliżać, lecz miłować się wzajemnie",
+                array = arrayOf(
+                    1 to "I wszyscy bracia niech wystrzegają się słów obelżywych i sprzeczek (por. 2 Tm 2, 14), ",
+                    2 to "niech starają się raczej, o ile Bóg da im łaskę, zachowywać milczenie. ",
+                    3 to "Niech nie sprzeczają się ze sobą ani z innymi, lecz niech starają się odpowiadać pokornie mówiąc: sługą nieużytecznym jestem (por. Łk 17, 10). ",
+                    4 to "I niech się nie gniewają, bo każdy, który gniewa się na brata swego, będzie winien sądu. Kto powiedziałby bratu swemu: bezbożniku, będzie winien Rady; kto by rzekł głupcze, będzie winien ognia piekielnego (Mt 5, 22). ",
+                    5 to "I niech się kochają wzajemnie, jak mówi Pan: To jest moje przykazanie, abyście się wzajemnie miłowali, jak ja was umiłowałem (J 15, 12). ",
+                    6 to "I niech czynem okazują miłość, jaką mają względem siebie, jak mówi Apostoł: Nie miłujmy słowem ani językiem, ale czynem i prawdą (1 J 3, 18). ",
+                    7 to "I niech nikomu nie złorzeczą (por. Tt 3, 2); ",
+                    8 to "niech nie szemrzą, nie ubliżają innym, ponieważ jest napisane: obmówcy i oszczercy są Bogu obmierzli (por. Rz 1, 29). ",
+                    9 to "I niech będą uprzejmi, okazując wszelką łagodność względem wszystkich ludzi (por Tt 3, 2). ",
+                    1 to "0Niech nie sądzą i nie potępiają. ",
+                    1 to "1I, jak mówi Pan, niech nie roztrząsają nawet najmniejszych grzechów innych ludzi (por. Mt 7, 3; Łk 6, 41), ",
+                    1 to "2a raczej własne grzechy niech rozważają w gorzkości duszy swej (por. Iz 38, 15). ",
+                    1 to "3I niech usiłują wejść przez ciasną bramę (Łk 13, 24), bo Pan mówi: Ciasna jest brama i wąska droga, która wiedzie do życia, a mało jest tych, którzy ją znajdują (Mt 7, 14)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 12]\nNieczyste spojrzenia na kobiety i obcowanie z nimi",
+                array = arrayOf(
+                    1 to "Wszyscy bracia, gdziekolwiek są lub idą, niech się wystrzegają nieczystych spojrzeń na kobiety i obcowania z nimi. ",
+                    2 to "I niech nikt nie wdaje się z nimi w rozmowę, ani sam nie idzie z nimi drogą, ani nie jada przy stole z jednej miski. ",
+                    3 to "Kapłani, spowiadając je lub udzielając im rad duchownych, niech rozmawiają z nimi z godnością. ",
+                    4 to "I żadna w ogóle kobieta nie może być przez jakiegokolwiek brata przyjęta pod posłuszeństwo, lecz otrzymawszy od niego radę duchowną, niech czyni pokutę, gdzie chce. ",
+                    5 to "I wszyscy czuwajmy nad sobą bardzo i wszystkie nasze zmysły czystymi zachowujmy, bo Pan mówi: Kto pożądliwie patrzyłby na niewiastę, już w sercu swoim popełnił cudzołóstwo (Mt 5, 28). ",
+                    6 to "I Apostoł: Czy nie wiecie, że członki wasze są świątynią Ducha Świętego? (1 Kor 6, 19); kto więc świątynię Bożą znieważy, zatraci go Bóg (1 Kor 3, 17)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 13]\nUnikanie rozpusty",
+                array = arrayOf(
+                    1 to "Jeśli który z braci za podszeptem szatańskim dopuściłby się grzechu rozpusty, należy zdjąć z niego habit, " +
+                            "do którego stracił prawo przez swój niecny postępek – niech wszystko pozostawi – i wydalić go zupełnie z zakonu. ",
+                    2 to "A potem niech pokutuje za swoje grzechy."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 14]\nJak bracia mają iść przez świat",
+                array = arrayOf(
+                    1 to "Gdy bracia idą przez świat, nie powinni niczego brać na drogę (por. Łk 9, 3): ani sakwy (por. Łk 10, 4), ani torby, ani chleba, ani pieniędzy (por. Łk 9, 3), ani laski (por. Mt 10, 10). ",
+                    2 to "I gdy wejdą do któregokolwiek domu, niech najpierw mówią: Pokój temu domowi (por Łk 10, 5). ",
+                    3 to "I w tym samym domu zostając, niech jedzą i piją to, co u nich jest (por. Łk 10, 7). ",
+                    4 to "Niech nie przeciwstawiają się złu (por. Mt 5, 39), lecz jeśli ich kto uderzy w jeden policzek, niech nadstawią mu drugi (por. Mt 5, 39; Łk 6, 29). ",
+                    5 to "I temu, kto bierze im płaszcz, niech nie bronią i sukni (por. Łk 6, 29). ",
+                    6 to "Niech dają każdemu, kto ich prosi, a nie dopominają się zwrotu od tego, kto bierze ich własność (por. Łk 6, 29-30)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 15]\nBracia nie powinni jeździć konno",
+                array = arrayOf(
+                    1 to "Nakazuję wszystkim moim braciom zarówno klerykom, jak i nie-klerykom, będącym w drodze lub przebywającym w jakimś miejscu, " +
+                            "aby nie trzymali żadnego zwierzęcia u siebie ani u innych, ani w jakiś inny sposób. ",
+                    2 to "I jeśli nie zmusza ich do tego choroba lub ważna potrzeba, nie wolno im jeździć konno."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 16]\nUdający się do Saracenów i innych niewiernych",
+                array = arrayOf(
+                    1 to "Pan mówi: Oto ja was posyłam jak owce między wilki. ",
+                    2 to "Bądźcie więc roztropni jak węże, a prości jak gołębie (Mt 10, 16). ",
+                    3 to "Dlatego, gdyby którykolwiek brat chciał udać się między saracenów i innych niewiernych, niech idzie za pozwoleniem swego ministra i sługi. ",
+                    4 to "A minister jeśli uzna ich za odpowiednich do wysłania, niech udzieli im pozwolenia nie sprzeciwia się. " +
+                            "Będzie bowiem musiał zdać rachunek przed Panem (por. Łk 16, 2), jeśli niewłaściwie postąpiłby w tej lub innej sprawie.\n\n",
+                    5 to "Bracia zaś, którzy udają się, mogą w dwojaki sposób duchownie wśród nich postępować. ",
+                    6 to "Jeden sposób: nie wdawać się w kłótnie ani w spory, lecz być poddanymi wszelkiemu ludzkiemu " +
+                            "stworzeniu ze względu na Boga (1 P 2, 13) i przyznawać się do wiary chrześcijańskiej. ",
+                    7 to "Drugi sposób: gdyby widzieli, że tak się Panu podoba, niech głoszą słowo Boże, aby [ludzie] uwierzyli w Boga wszechmogącego, " +
+                            "Ojca i Syna, i Ducha Świętego, Stworzyciela wszystkich rzeczy, w Syna Odkupiciela i Zbawiciela i aby przyjęli chrzest i zostali " +
+                            "chrześcijanami, ponieważ kto nie odrodzi się z wody i z Ducha Świętego, nie może wejść do Królestwa Bożego (por. J 3, 5).\n\n",
+                    8 to "Bracia mogą głosić tym i innym ludziom te i inne Bogu miłe prawdy, bo Pan mówi w Ewangelii: Każdego, kto Mnie wyzna wobec ludzi, i Ja wyznam wobec Ojca mojego, który jest w niebie (Mt 10, 32). ",
+                    9 to "I: Kto będzie się wstydził Mnie i moich słów, tego i Syn Człowieczy będzie się wstydził, gdy przyjdzie w majestacie swoim i Ojca, i aniołów (por. Łk 9, 26).\n\n",
+                    10 to "I wszyscy bracia, gdziekolwiek są, niech pamiętają, że oddali się i ofiarowali swoje ciała Panu Jezusowi Chrystusowi. ",
+                    11 to "I z miłości do Niego powinni się wydawać nieprzyjaciołom tak widzialnym jak niewidzialnym, bo Pan mówi: Kto straciłby życie swoje dla Mnie, zachowa je (Łk 9, 24) na życie wieczne (Mt 25, 46). ",
+                    12 to "Błogosławieni, którzy cierpią prześladowanie dla sprawiedliwości, bo do nich należy Królestwo niebieskie (Mt 5, 10). ",
+                    13 to "Jeśli Mnie prześladują i was prześladować będą (J 15, 20). ",
+                    14 to "I: jeśli prześladują was w jednym mieście, uciekajcie do drugiego (por. Mt 10, 23). ",
+                    15 to "Błogosławieni jesteście (Mt 5, 11), gdy ludzie będą was nienawidzić (Łk 6, 22) i będą wam złorzeczyć i prześladować was (Mt 5, 11) " +
+                            "i wyłączą was, i będą was znieważać i pomijać milczeniem wasze imię jako złe (Łk 6, 22) i gdy ze względu na Mnie kłamliwie będą mówić wszelkie zło przeciw wam (Mt 5, 11). ",
+                    16 to "Cieszcie się i radujcie w owym dniu (Łk 6, 23), bo wielka jest zapłata wasza w niebie (por. Mt 5, 12). ",
+                    17 to "I ja wam mówię, moim przyjaciołom, nie dajcie się im zastraszyć (por. Łk 12, 4) ",
+                    18 to "i nie bójcie się tych, którzy zabijają ciało (Mt 10, 28) i potem nic więcej uczynić nie mogą (Łk 12, 4). ",
+                    19 to "Uważajcie, żebyście się nie trwożyli (Mt 24, 6). ",
+                    20 to "Bowiem dzięki cierpliwości waszej ocalicie wasze dusze (por. Łk 21, 19) ",
+                    21 to "i kto wytrwa aż do końca, ten będzie zbawiony (Mt 10, 22; 24, 13)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 17]\nKaznodzieje",
+                array = arrayOf(
+                    1 to "Żaden z braci niech nie głosi kazań wbrew praktyce i zarządzeniom świętego Kościoła i bez pozwolenia swego ministra. ",
+                    2 to "Minister zaś niech się strzeże, aby nie pozwalał nierozważnie. ",
+                    3 to "Wszyscy jednak bracia niech głoszą kazania czynami. ",
+                    4 to "I żaden minister lub kaznodzieja niech nie przywłaszcza sobie swej posługi wobec braci lub obowiązku kaznodziejskiego, " +
+                            "lecz bez sprzeciwu niech złoży swój obowiązek w tej samej godzinie, w której otrzyma taki rozkaz.\n\n",
+                    5 to "Dlatego przez miłość, którą jest Bóg (por. 1 J 4, 8. 16), błagam wszystkich moich braci kaznodziejów i tych, " +
+                            "którzy się modlą, i tych, którzy pracują, tak kleryków, jak i niekleryków, aby się starali uniżać we wszystkim, ",
+                    6 to "aby się nie chełpili ani nie cieszyli i nie wynosili się w duchu z powodu dobrych słów i uczynków ani nawet z żadnego dobra, " +
+                            "jakie Bóg niekiedy czyni lub mówi i dokonuje w nich i przez nich, według tego co Pan mówi: Jednakże nie cieszcie się z tego, że duchy wam ulegają (Łk 10, 20). ",
+                    7 to "I bądźmy mocno przekonani, że naszą własnością są tylko wady i grzechy. ",
+                    8 to "I cieszmy się raczej wtedy, gdy wpadamy w rozmaite pokusy (por. Jk 1, 2) i gdy znosimy na tym " +
+                            "świecie dla życia wiecznego różne przykrości lub utrapienia duchowe albo cielesne.\n\n",
+                    9 to "Bracia, wystrzegajmy się więc wszyscy wszelkiej pychy i próżnej chwały, ",
+                    10 to "i strzeżmy się mądrości tego świata i roztropności ciała (por. Rz 8, 6); ",
+                    11 to "duch bowiem człowieka oddanego cielesności chce i bardzo stara się o znajomość słów [Bożych], lecz niewiele troszczy się o czyny, ",
+                    12 to "i szuka nie religijności i świętości wewnętrznej ducha, lecz chce i pragnie religijności i świętości zewnętrznej, widocznej dla ludzi. ",
+                    13 to "I o takich mówi Pan: Zaprawdę powiadam wam, otrzymali zapłatę swoją (Mt 6, 2). ",
+                    14 to "Duch Pański natomiast domaga się, aby ciało było umartwione i wzgardzone, liche i odrzucone. ",
+                    15 to "I stara się o pokorę i cierpliwość oraz czysty, szczery i prawdziwy pokój ducha. ",
+                    16 to "I zawsze ponad wszystko pragnie bojaźni Bożej i mądrości Bożej, i miłości Bożej Ojca i Syna i Ducha Świętego.\n\n",
+                    17 to "I wszelkie dobro odnośmy do Pana Boga najwyższego i uznawajmy za Jego własność, i dziękujmy za wszystko Temu, od którego pochodzi wszelkie dobro. ",
+                    18 to "I on sam, najwyższy, jedyny i prawdziwy Bóg, niech ma, odbiera i otrzymuje wszelką cześć i uszanowanie, wszelkie uwielbienia i błogosławieństwa, " +
+                            "wszelkie dziękczynienia i chwałę, On, który ma wszelkie dobro, który sam jest dobry (por. Łk 18, 19).\n\n",
+                    19 to "I kiedy widzimy lub słyszymy, że [ludzie] źle mówią lub źle czynią albo bluźnią Bogu, " +
+                            "my błogosławmy i dobrze czyńmy, i chwalmy Boga (por. Rz 12, 21), który jest błogosławiony na wieki (Rz 1, 25)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 18]\nZebranie ministrów",
+                array = arrayOf(
+                    1 to "Każdy minister może się spotykać z braćmi co roku, w uroczystość św. Michała Archanioła, gdzie im się podoba, aby omawiać sprawy Boże. ",
+                    2 to "Wszyscy bowiem ministrowie krajów leżących za morzem lub za górami powinni się zbierać raz na trzy lata, a inni ministrowie raz na rok, na kapitułę " +
+                            "w Zielone Święta w kościele Świętej Maryi w Porcjunkuli, jeśli minister i sługa całego braterstwa nie zarządzi inaczej."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 19]\nBracia mają żyć po katolicku",
+                array = arrayOf(
+                    1 to "Wszyscy bracia niech będą katolikami, niech żyją i mówią po katolicku. ",
+                    2 to "Gdyby który słowem lub postępowaniem odstąpił od wiary i życia katolickiego i nie poprawił się, należy go z naszego braterstwa zupełnie usunąć. ",
+                    3 to "I wszystkich duchownych i zakonników uważajmy za panów w sprawach dotyczących zbawienia duszy, a nie sprzeciwiających się zasadom naszego zakonu; i szanujmy w Panu ich stan, urząd i posługę."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 20]\nSpowiedź i przyjmowanie Ciała i Krwi Pana naszego Jezusa Chrystusa",
+                array = arrayOf(
+                    1 to "I bracia moi umiłowani, tak klerycy, jak nieklerycy, niech wyznają swoje grzechy przed kapłanami naszego zakonu. ",
+                    2 to "A jeśli to niemożliwe, niech się spowiadają u innych roztropnych i katolickich kapłanów, dobrze wiedząc i pamiętając, że jeśli jakiś " +
+                            "kapłan katolicki da im rozgrzeszenie i pokutę, otrzymają z pewnością rozgrzeszenie z tych grzechów, z których się wyspowiadali, jeśli tylko postarają się nałożoną pokutę wypełnić pokornie i wiernie.  \n\n",
+                    3 to "Gdyby zaś nie mogli znaleźć wtedy kapłana, niech wyspowiadają się swemu bratu, jak mówi Jakub Apostoł: Wyznawajcie jedni drugim wasze grzechy (Jk 5, 16). ",
+                    4 to "Niech jednak z tego powodu nie omieszkają zwrócić się do kapłana, bo tylko kapłani otrzymali władzę związywania i rozwiązywania. ",
+                    5 to "I po takim żalu i spowiedzi niech przyjmą Ciało i Krew Pana naszego Jezusa Chrystusa z wielką pokorą i czcią pamiętając, co Pan mówi: Kto pożywa Ciało moje i pije Krew moją, ma życie wieczne (J 6, 55); ",
+                    6 to "i: To czyńcie na moją pamiątkę (Łk 22, 19)."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 21]\nJak bracia mogą chwalić Boga i zachęcać do wielbienia Go",
+                array = arrayOf(
+                    1 to "I tę lub tego rodzaju zachętę i uwielbienie wszyscy bracia moi – kiedy zechcą – mogą głosić wśród jakichkolwiek ludzi z błogosławieństwem Bożym: ",
+                    2 to "bójcie się i czcijcie, chwalcie i błogosławcie, dzięki czyńcie (1 Tes 5, 18) i uwielbiajcie Pana Boga wszechmogącego w Trójcy i Jedności, Ojca i Syna i Ducha Świętego, Stwórcę wszystkich rzeczy. ",
+                    3 to "Czyńcie pokutę (Mt 3, 2), czyńcie godne owoce pokuty (por. Łk 3, 8), bo wkrótce umrzemy. ",
+                    4 to "Dawajcie, a będzie wam dane (Łk 6, 38). ",
+                    5 to "Odpuszczajcie a będzie wam odpuszczone (por. Łk 6, 37). ",
+                    6 to "I jeśli nie odpuścicie ludziom ich grzechów (por. Mt 6, 14), Pan nie odpuści wam grzechów waszych (por. Mt 11, 26), wyznawajcie wszystkie wasze grzechy (por. Jk 5, 16) ",
+                    7 to "Błogosławieni, którzy umierają w pokucie, bo będą w królestwie niebieskim. ",
+                    8 to "Biada tym, którzy umierają bez pokuty, bo będą synami diabła (por. 1J 3, 10), pełniącymi jego uczynki (por. J 8, 41) i pójdą w ogień wieczny (por. Mt 18, 8; 25, 41). ",
+                    9 to "Wystrzegajcie się i powstrzymujcie się od wszelkiego zła, i wytrwajcie w dobrym aż do końca."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 22]\nUpomnienie dla braci",
+                array = arrayOf(
+                    1 to "Zastanawiajmy się wszyscy bracia nad słowami Pana: Miłujcie nieprzyjaciół waszych i dobrze czyńcie tym, którzy was nienawidzą (por. Mt 5, 44), ",
+                    2 to "bo Pan nasz Jezus Chrystus, w którego ślady powinniśmy wstępować (por. 1 P 2, 21), nazwał przyjacielem swego zdrajcę (por. Mt 26, 50) i oddał się dobrowolnie tym, którzy Go ukrzyżowali. ",
+                    3 to "Naszymi więc nieprzyjaciółmi są ci wszyscy, którzy nas niesprawiedliwie dręczą i nękają, upokarzają i krzywdzą, zadają ból i cierpienie, męczarnie i śmierć. ",
+                    4 to "Powinniśmy ich bardzo kochać, ponieważ dzięki temu, co nam czynią, otrzymamy życie wieczne.\n\n",
+                    5 to "I miejmy w nienawiści nasze ciało z jego wadami i grzechami; bo życie cielesne chce diabeł pozbawić nas miłości Jezusa Chrystusa i życia wiecznego, i siebie samego ze wszystkimi zgubić w piekle; ",
+                    6 to "bo my z własnej winy jesteśmy cuchnący, nędzni i przeciwni dobru, skłonni i chętni do złego, Pan bowiem tak mówi w Ewangelii: ",
+                    7 to "Z serca pochodzą i wychodzą złe myśli, cudzołóstwa, nierząd, zabójstwa, kradzieże, chciwość, przewrotność, podstęp, wyuzdanie, złe spojrzenia, fałszywe świadectwa, przekleństwa, głupota (por. Mk 7, 21; Mt 15, 19). ",
+                    8 to "Wszystko to zło z wewnątrz, z serca człowieka pochodzi (por Mk 7, 23) i to plami człowieka (por. Mt 15, 20).\n\n",
+                    9 to "Teraz zaś, skoro porzuciliśmy świat, nic innego nie mamy czynić, tylko spełniać wolę Pana i Jemu samemu się podobać. ",
+                    10 to "Strzeżmy się bardzo, abyśmy nie byli rolą przy drodze albo kamienistą, albo ciernistą, o której Pan mówi w Ewangelii: ",
+                    11 to "Ziarnem jest słowo Boże (Łk 8, 11). ",
+                    12 to "To zaś, które upadło koło drogi i zostało podeptane (por. Łk 8, 5), to są ci, którzy słuchają (Łk 8, 12) słowa i nie rozumieją (por. Mt 13, 19); ",
+                    13 to "i natychmiast (por. Mk 4, 15) przychodzi diabeł (Łk 8, 12) i porywa (Mk 13, 19) to co zostało zasiane w ich sercach (Mk 4, 15) i zabiera słowo z ich serc, aby nie byli zbawieni przez wiarę (Łk 8, 12). ",
+                    14 to "Ziarnem, które upadło na ziemię skalistą (por. Mt 13, 20) są ci, którzy, gdy posłyszą słowo, natychmiast z radością (Mk 4, 16) przyjmują (Łk 8, 13) je (Mk 4, 16). ",
+                    15 to "Gdy zaś nastaje ucisk albo prześladowanie ze względu na słowo, od razu gorszą się (Mk 13, 21) i ci nie mają w sobie korzenia, ale są zmienni (por. Mk 4, 17), gdyż wierzą do czasu i w chwili próby odchodzą (Łk 8, 13). ",
+                    16 to "To zaś, które padło między ciernie, oznacza tych (Łk 8, 14), którzy słuchają słowa Bożego (por. Mk 4, 18), a troska (Mt 13, 22) i kłopoty (Mk 4, 19) " +
+                            "tego świata i ułuda bogactw (Mt 13, 22) oraz chciwość innych rzeczy wciskają się i zagłuszają słowo czyniąc je bezowocnym (Mk 4, 19). ",
+                    17 to "To zaś, które w dobrej ziemi (Łk 8, 15) zostało posiane (Mt 13, 23) oznacza ludzi, którzy słuchając słowa sercem dobrym i szlachetnym (Łk 8, 15) rozumieją i (por. Mt 13, 23) zatrzymują, i przynoszą owoc w cierpliwości (Łk 8, 15). ",
+                    18 to "I dlatego my, bracia, jak mówi Pan, zostawmy umarłym grzebanie swoich umarłych (por. Mt 8, 22).\n\n",
+                    19 to " I bardzo wystrzegajmy się złości i przebiegłości szatana, który nie chce, aby człowiek miał umysł i serce skierowane do Pana. ",
+                    20 to "I krążąc usiłuje pod pozorem jakiejś nagrody lub korzyści pociągnąć serce człowieka i zdusić w jego pamięci słowo i przykazania Pańskie, i chce omamić serce ludzkie sprawami i troskami świata i zamieszkać w nim, jak mówi Pan: ",
+                    21 to "Kiedy duch nieczysty wyjdzie z człowieka, chodzi po miejscach suchych (Mt 12, 43) i bezwodnych i szuka spoczynku; a nie znajdując mówi: ",
+                    22 to "Wrócę do domu mego, skąd wyszedłem (Łk 11, 24). ",
+                    23 to "I przychodząc znajduje dom wolny, wymieciony i przyozdobiony (Mt 12, 44). ",
+                    24 to "I idzie i bierze siedmiu innych, gorszych od siebie duchów i wszedłszy mieszkają tam; tak, że ostatnie rzeczy owego człowieka są gorsze od pierwszych (por. Łk 11, 26).  \n\n",
+                    25 to "Stąd też, bracia, strzeżmy się wszyscy bardzo, abyśmy pod pozorem jakiejś nagrody, pracy czy korzyści nie zagubili lub nie odwrócili naszego umysłu i serca od Pana. ",
+                    26 to "Lecz przez świętą miłość, którą jest Bóg (por. 1 J 4, 16), proszę wszystkich braci, tak ministrów, jak innych, aby usunąwszy wszystkie " +
+                            "przeszkody i odrzuciwszy wszystkie troski i kłopoty, czystym sercem i czystym umysłem jak najlepiej służyli Panu Bogu, kochali Go, wielbili i czcili; bo tego Bóg ponad wszystko pragnie. ",
+                    27 to "I przygotowujmy w sobie zawsze mieszkanie i miejsce pobytu (por. J 14, 23) Temu, który jest Panem Bogiem wszechmogącym, Ojcem i Synem, i Duchem Świętym, który mówi: Czuwajcie więc i " +
+                            "módlcie się w każdym czasie, abyście byli godni uniknąć wszelkiego zła, które nadejdzie i stanąć przed Synem Człowieczym (por. Łk 21, 36). ",
+                    28 to "A gdy staniecie do modlitwy (Mk 11, 25), mówcie (Łk 11, 2): Ojcze nasz, który jesteś w niebie (Mt 6, 9).",
+                    29 to "I uwielbiajmy Go czystym sercem, bo trzeba zawsze modlić się i nie ustawać (Łk 18, 1); ",
+                    30 to "gdyż Ojciec szuka takich czcicieli.\n\n",
+                    31 to "Bóg jest Duchem i Jego czciciele powinni oddawać Mu cześć w duchu i prawdzie (por. J 4, 23-24). ",
+                    32 to "I uciekajmy się do Niego jako do pasterza i biskupa dusz naszych (por. 1 P 2, 25), który mówi: Ja jestem dobrym pasterzem i pasę moje owce, i za owce moje oddaję me życie. ",
+                    33 to "Wy wszyscy jesteście braćmi. ",
+                    34 to "I nikogo na ziemi nie nazywajcie waszym ojcem, bo jeden jest wasz Ojciec, który jest w niebie. ",
+                    35 to "Ani nie nazywajcie się nauczycielami; gdyż jeden jest wasz nauczyciel, ten w niebie (por. Mt 23, 8-10).\n",
+                    36 to "Jeśli będziecie trwać we Mnie i moje słowa będą w was trwały, to stanie się wam wszystko, czegokolwiek zechcecie i o co poprosicie (J 15, 7). ",
+                    37 to "Gdziekolwiek dwaj albo trzej zgromadzili się w imię moje, tam i Ja jestem wśród nich (Mt 18, 20). ",
+                    38 to "Oto Ja jestem z wami aż do skończenia świata (Mt 28, 20). ",
+                    39 to "Słowa, które wam powiedziałem, są duchem i życiem (J 6, 64). ",
+                    40 to "Ja jestem drogą, prawdą i życiem (J 14, 6).\n\n",
+                    41 to "Zachowujmy więc słowa, życie i naukę, i świętą Ewangelię Tego, który raczył modlić się za nas do swego Ojca i objawić nam Jego imię mówiąc: Ojcze, wsław Imię Twoje (J 12, 28a) i wsław Syna Twego, aby Syn Twój wsławił Ciebie (J 17, 1b). ",
+                    42 to "Ojcze, objawiłem Imię Twoje ludziom, których mi dałeś (J 17, 6); gdyż słowa, które Mi dałeś, przekazałem im; a oni przyjęli i poznali, że od Ciebie wyszedłem i uwierzyli, że Ty mnie posłałeś. ",
+                    43 to "Ja za nimi proszę, nie za światem, ",
+                    44 to "lecz za tymi, których Mi dałeś, bo do Ciebie należą i wszystko, co moje, należy do Ciebie (J 17, 8-10). ",
+                    45 to "Ojcze święty, zachowaj w Imię Twoje tych, których Mi dałeś, aby oni byli jedno jak i My (J 17, 11b). ",
+                    46 to "To mówię na świecie, aby mieli w sobie radość. ",
+                    47 to "Przekazałem im to, co mi powiedziałeś; a świat znienawidził ich, bo nie są ze świata, jak i Ja nie jestem ze świata.\n\n",
+                    48 to "Nie proszę, abyś ich zabrał ze świata, lecz abyś zachował ich od złego (J 17, 13b-15). ",
+                    49 to "Wsław ich w prawdzie. ",
+                    50 to "Prawdą jest to, co mówisz. ",
+                    51 to "Jak Ty Mnie posłałeś na świat, tak ja ich na świat posłałem. ",
+                    52 to "I za nich samego siebie poświęcam w ofierze, aby zostali uświęceni dzięki prawdzie. ",
+                    53 to "Nie tylko za nimi proszę, lecz także za tymi, którzy uwierzą we Mnie dzięki ich słowu (por. J 17, 17-20), aby osiągnęli jedność i żeby świat poznał, że Ty Mnie posłałeś i umiłowałeś ich tak, jak Mnie (J 17, 23). ",
+                    54 to "I sprawię, że poznają Imię Twoje, aby miłość, którą Mnie ukochałeś, była w nich i Ja w nich (por. J 17, 26). ",
+                    55 to "Ojcze, chcę, aby ci, których Mi dałeś, byli ze Mną tam, gdzie Ja jestem, aby oglądali chwałę Twoją (por. J 17, 24) w Twoim królestwie (Mt 20, 21). Amen."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 23]\nModlitwa – prośba i modlitwa dziękczynna",
+                array = arrayOf(
+                    1 to "Wszechmogący, najświętszy i najwyższy Boże, Ojcze święty (J 17, 21), i sprawiedliwy, Panie, królu nieba " +
+                            "i ziemi (por. Mt 11, 25), dzięki Ci składamy z powodu Ciebie samego, że Twoją świętą wolą i przez " +
+                            "jedynego Syna Twego stworzyłeś z Duchem Świętym wszystkie byty duchowe i cielesne, a nas uczyniłeś " +
+                            "na obraz i podobieństwo (por. Rdz 1, 26) Twoje i umieściłeś w raju (por. Rdz 2, 15). ",
+                    2 to "My zaś upadliśmy z własnej winy. ",
+                    3 to "I dzięki Ci składamy, że jak stworzyłeś nas przez Syna Twego, tak przez świętą miłość Twoją, którą nas " +
+                            "umiłowałeś (por. J 17, 26), sprawiłeś, że On, prawdziwy Bóg i prawdziwy Człowiek, narodził się z " +
+                            "chwalebnej zawsze Dziewicy, błogosławionej, świętej Maryi i przez Jego krzyż i krew, i śmierć " +
+                            "zechciałeś nas wykupić z niewoli. ",
+                    4 to "I dzięki Ci składamy, że Syn Twój przyjdzie w chwale swego majestatu, aby strącić w ogień wieczny " +
+                            "przeklętych, którzy nie czynili pokuty i nie poznali Ciebie, i aby powiedzieć wszystkim, którzy " +
+                            "Ciebie poznali i uwielbili, i służyli Ci w pokucie: Pójdźcie, błogosławieni Ojca mego, weźcie " +
+                            "królestwo, zgotowane wam od początku świata (por. Mt 25, 34).\n\n",
+                    5 to "A ponieważ my, nędzni i grzeszni, wszyscy razem nie jesteśmy godni wymówić Twego Imienia, błagamy " +
+                            "pokornie, aby Pan nasz Jezus Chrystus, Syn Twój umiłowany, który Tobie wielce podoba się (por. Mt 17, 5), " +
+                            "składał Ci za wszystko dzięki wraz z Duchem Świętym Pocieszycielem, tak jak Tobie i Jemu się podoba, On, " +
+                            "który Ci za wszystko wystarcza, przez którego tyle dla nas uczyniłeś. Alleluja.\n\n",
+                    6 to "I chwalebną Matkę, Najświętszą Maryję zawsze Dziewicę, św. Michała, Gabriela i Rafała, i wszystkie chóry " +
+                            "błogosławionych serafinów, cherubinów, tronów, panowań, zwierzchności, władz, mocy, aniołów, " +
+                            "archaniołów, świętego Jana Chrzciciela, Jana Ewangelistę, Piotra, Pawła i świętych patriarchów, " +
+                            "proroków, młodzianków, apostołów, ewangelistów, uczniów, męczenników, wyznawców, dziewice, " +
+                            "świętych Eliasza i Henocha i wszystkich Świętych, którzy byli i będą, i są, przez miłość Twoją " +
+                            "pokornie prosimy, aby, tak jak Tobie, się podoba, dzięki składali za wszystko Tobie, najwyższemu " +
+                            "Bogu prawdziwemu, wiecznemu i żywemu, z Synem Twoim najmilszym, Panem naszym Jezusem Chrystusem i " +
+                            "Duchem Świętym Pocieszycielem na wieki wieków. Amen. Alleluja (por. Ap 19, 34).\n\n",
+                    7 to "A wszystkich, którzy pragną służyć Panu Bogu w świętym Kościele katolickim i apostolskim, i wszystkie " +
+                            "następujące stany, kapłanów, diakonów, subdiakonów, akolitów, egzorcystów, lektorów, ostiariuszy i " +
+                            "wszystkich duchownych, wszystkich zakonników i zakonnice, wszystkich nawróconych i maluczkich, " +
+                            "ubogich i potrzebujących, królów i książąt, robotników i rolników, sługi i panów, wszystkie dziewice, " +
+                            "wdowy i mężatki, ludzi świeckich, mężczyzn i kobiety, wszystkie dzieci, młodzież, młodych i starych, " +
+                            "zdrowych i chorych, wszystkich małych i wielkich, i wszystkie ludy, plemiona, pokolenia i języki " +
+                            "(por. Ap 7, 9), wszystkie narody i wszystkich ludzi na całej ziemi, którzy są i będą, my wszyscy " +
+                            "bracia mniejsi, słudzy nieużyteczni (Łk 17, 10), pokornie prosimy i błagamy, abyśmy wszyscy wytrwali " +
+                            "w prawdziwej wierze i pokucie, bo inaczej nikt nie może być zbawiony.\n\n",
+                    8 to "Z całego serca, z całej duszy, z całego umysłu, z całej siły (por. Mk 12, 30), i mocy (por. Mk 12, 33), " +
+                            "z całego umysłu, ze wszystkich sił (por. Łk 10, 27), całym wysiłkiem, całym uczuciem, całym wnętrzem, " +
+                            "wszystkimi pragnieniami i całą wolą kochajmy wszyscy Pana Boga (por. Mk 12, 30), który dał i daje " +
+                            "nam wszystkim całe ciało, całą duszę i całe życie, który nas stworzył, odkupił i zbawił nas tylko ze " +
+                            "swego miłosierdzia (por. Tb 13, 5), który nam nieszczęsnym i nędznym, zepsutym i cuchnącym, " +
+                            "niewdzięcznym i złym wyświadczył i wyświadcza wszelkie dobro. ",
+                    9 to "Nie miejmy więc innych tęsknot, innych pragnień, innych przyjemności i radości oprócz Stwórcy i " +
+                            "Odkupiciela, i Zbawiciela naszego, jedynego prawdziwego Boga, który jest pełnią dobra, wszelkim " +
+                            "dobrem, który sam jeden jest dobry (por. Łk 18, 19), litościwy, łagodny, miły i słodki, który sam " +
+                            "jeden jest święty, sprawiedliwy, prawdziwy, wzniosły i prawy, który sam jeden jest życzliwy, bez winy, " +
+                            "czysty, od którego i przez którego, i w którym (por. Rz 11, 36) jest wszelkie przebaczenie, wszelka " +
+                            "łaska, wszelka chwała dla wszystkich pokutników i sprawiedliwych, dla wszystkich błogosławionych, " +
+                            "współweselących się w niebie. ",
+                    10 to "0Niech więc nam nic nie przeszkadza, nic nie oddziela ani niepokoi;\n\n",
+                    11 to "1Wszędzie, na każdym miejscu, o każdej godzinie i o każdej porze, codziennie i nieustannie wierzmy " +
+                            "wszyscy szczerze i pokornie, nośmy w sercu i kochajmy, czcijmy, uwielbiajmy, służmy, chwalmy i " +
+                            "błogosławmy, wychwalajmy i wywyższajmy, wysławiajmy i dzięki składajmy najwyższemu Bogu wiecznemu, " +
+                            "Trójcy i Jedności, Ojcu i Synowi, i Duchowi Świętemu, Stwórcy wszystkich rzeczy i Zbawicielowi " +
+                            "wszystkich w Niego wierzących, ufających i miłujących Go, Temu, który nie ma początku i końca, " +
+                            "który jest niezmienny, niewidzialny, nieomylny, niewysłowiony, niepojęty, niezgłębiony (por. Rz 11, 33), " +
+                            "błogosławiony, chwalebny, przesławny, wywyższony (por. Dn 3, 52), wzniosły, najwyższy, słodki, godny " +
+                            "miłości, ukochany i cały pożądany ponad wszystko na wieki. Amen."
+                )
+            ).let { append(it) }
+            buildChapter(
+                name = "[Rozdział 24]\nZakończenie",
+                array = arrayOf(
+                    1 to "W imię Pańskie! Proszę wszystkich braci, aby nauczyli się tekstu i znaczenia tego, " +
+                            "co jest napisane w tym sposobie życia dla zbawienia dusz naszych i aby to sobie często przywodzili na pamięć. ",
+                    2 to "I błagam Boga, który jest wszechmogący i w Trójcy jedyny, aby błogosławił " +
+                            "wszystkich nauczających, uczących się, zachowujących, pamiętających i spełniających " +
+                            "to wszystko, co jest tu napisane dla zbawienia dusz naszych, ilekroć będą sobie to przypominać i wykonywać. ",
+                    3 to "I całując im nogi, błagam wszystkich, aby ten [sposób życia] bardzo kochali, strzegli i przechowywali. ",
+                    4 to "I w imieniu Boga wszechmogącego, i Ojca św., i na mocy posłuszeństwa ja, brat Franciszek, " +
+                            "surowo nakazuję i zobowiązuję, aby z tego, co jest napisane w tym sposobie życia, " +
+                            "nikt niczego nie ujmował ani niczego do tego pisma nie dodawał (por. Pwt 4, 2; 12, 32), i aby bracia nie mieli innej reguły. ",
+                    5 to "Chwała Ojcu i Synowi, i Duchowi Świętemu, jak była na początku i teraz, i zawsze, i na wieki wieków. Amen.\n\n"
+                )
+            ).let { append(it) }
+        },
         buildAnnotatedString {
             buildChapter(
                 name = "[Bulla]",
@@ -187,7 +690,7 @@ class PolishWritingsRepository : WritingsRepository() {
                         "powagą apostolską wam potwierdzamy i niniejszym pismem bierzemy w opiekę. Jest ona następująca:"
             ).let { append(it) }
             buildChapter(
-                name = "[Rozdział 1]\nW imię Pańskie! Zaczyna się sposób życia braci mniejszych]",
+                name = "[Rozdział 1]\nW imię Pańskie! Zaczyna się sposób życia braci mniejszych",
                 array = arrayOf(
                     1 to "Reguła i życie braci mniejszych polega na zachowaniu świętej Ewangelii Pana naszego " +
                             "Jezusa Chrystusa przez życie w posłuszeństwie, bez własności i w czystości. ",

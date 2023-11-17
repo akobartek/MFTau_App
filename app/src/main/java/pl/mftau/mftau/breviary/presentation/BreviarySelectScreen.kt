@@ -32,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +41,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -61,7 +61,7 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
     var dropDownMenuExpanded by remember { mutableStateOf(false) }
 
-    val daysFromToday by screenModel.daysFromToday.collectAsState()
+    val daysFromToday by screenModel.daysFromToday.collectAsStateWithLifecycle()
     val daysString = screenModel.getCorrectDaysString(daysFromToday)
 
     Scaffold(
