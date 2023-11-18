@@ -10,6 +10,7 @@ import pl.mftau.mftau.core.di.coreModule
 import pl.mftau.mftau.breviary.di.breviaryModule
 import pl.mftau.mftau.gospel.di.gospelModule
 import pl.mftau.mftau.readings.di.readingsModule
+import pl.mftau.mftau.songbook.di.songBookModule
 
 class MFTauApplication : Application() {
     override fun onCreate() {
@@ -18,7 +19,14 @@ class MFTauApplication : Application() {
         startKoin {
             androidLogger(level = Level.DEBUG)
             androidContext(this@MFTauApplication)
-            modules(coreModule, authModule, breviaryModule, gospelModule, readingsModule)
+            modules(
+                coreModule,
+                authModule,
+                songBookModule,
+                breviaryModule,
+                gospelModule,
+                readingsModule
+            )
         }
     }
 }

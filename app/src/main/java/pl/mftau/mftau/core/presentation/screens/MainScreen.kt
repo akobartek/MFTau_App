@@ -59,6 +59,7 @@ import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
 import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
+import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel.NoInternetAction
 import pl.mftau.mftau.core.utils.getBitmapFromUri
@@ -383,18 +384,7 @@ private fun FirstButtonsRow(modifier: Modifier = Modifier) {
         modifier = modifier
     )
     if (pdfDialogVisible)
-        BasicAlertDialog(
-            imageVector = Icons.Default.ErrorOutline,
-            dialogTitleId = R.string.no_pdf_viewer_dialog_title,
-            dialogTextId = R.string.no_pdf_viewer_dialog_msg,
-            confirmBtnTextId = R.string.search,
-            onConfirmation = {
-                pdfDialogVisible = false
-                context.openWebsiteInChromeCustomTabsIfSupported("https://play.google.com/store/search?q=pdf")
-            },
-            dismissBtnTextId = R.string.cancel,
-            onDismissRequest = { pdfDialogVisible = false }
-        )
+        NoPdfAppDialog(onDismiss = { pdfDialogVisible = false })
 }
 
 @Composable

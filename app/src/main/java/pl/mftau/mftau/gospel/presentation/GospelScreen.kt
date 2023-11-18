@@ -22,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,8 +36,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.data.PreferencesRepository
-import pl.mftau.mftau.core.data.dataStore
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauTopBar
@@ -49,15 +46,15 @@ import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 class GospelScreen : Screen {
     @Composable
     override fun Content() {
-        val context = LocalContext.current
         val scope = rememberCoroutineScope()
         val screenModel = getScreenModel<GospelScreenModel>()
+        val repeatGospel by screenModel.repeatGospel.collectAsStateWithLifecycle()
 
         val textToSpeech = koinInject<MyTextToSpeech>()
         var isSpeaking by remember { mutableStateOf(textToSpeech.isSpeaking) }
         textToSpeech.setProgressListener {
             scope.launch {
-                if (PreferencesRepository(context.dataStore).getRepeatGospel()) {
+                if (repeatGospel) {
                     delay(1000)
                     textToSpeech.speak(screenModel.getGospelToRead())
                 } else isSpeaking = false

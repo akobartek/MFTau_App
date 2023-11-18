@@ -23,5 +23,5 @@ val gospelModule = module {
 
     single<GospelRepository> { GospelRepositoryImpl() }
 
-    factory { GospelScreenModel(get()) }
+    factory { GospelScreenModel(get(), get()) }
 }

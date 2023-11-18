@@ -16,21 +16,18 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
 fun ReadingsListLayout(readings: List<Pair<String, AnnotatedString>>) {
-    val navigator = LocalNavigator.current
+    val navigator = LocalNavigator.currentOrThrow
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         readings.forEach { (name, text) ->
-            Column(
-                Modifier.clickable {
-                    navigator?.push(ReadingsTextScreen(name, text))
-                }
-            ) {
+            Column(Modifier.clickable { navigator.push(ReadingsTextScreen(name, text)) }) {
                 Text(
                     text = name,
                     fontSize = 16.sp,

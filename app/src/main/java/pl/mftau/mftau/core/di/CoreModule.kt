@@ -10,10 +10,10 @@ import pl.mftau.mftau.MainViewModel
 import pl.mftau.mftau.auth.data.AuthRepositoryImpl
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.core.data.PreferencesRepository
-import pl.mftau.mftau.core.data.dataStore
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
+import pl.mftau.mftau.core.utils.dataStore
 
 val coreModule = module {
     single { Firebase.auth }

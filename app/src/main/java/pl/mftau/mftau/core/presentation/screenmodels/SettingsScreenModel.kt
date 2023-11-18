@@ -8,7 +8,7 @@ import pl.mftau.mftau.core.data.PreferencesRepository
 
 class SettingsScreenModel(private val preferencesRepository: PreferencesRepository) : ScreenModel {
 
-    val preferencesFlow = preferencesRepository.preferencesFlow
+    val preferencesFlow = preferencesRepository.userPreferencesFlow
 
     fun updateNightMode(value: String) {
         screenModelScope.launch {

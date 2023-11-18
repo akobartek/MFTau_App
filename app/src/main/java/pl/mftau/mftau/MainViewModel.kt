@@ -21,7 +21,7 @@ class MainViewModel(private val preferencesRepository: PreferencesRepository) : 
 
     init {
         viewModelScope.launch {
-            preferencesRepository.preferencesFlow.collect { preferences ->
+            preferencesRepository.userPreferencesFlow.collect { preferences ->
                 preferences.colorTheme.setupAppCompatDelegate()
                 _preferences.update { preferences }
             }

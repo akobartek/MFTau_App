@@ -16,12 +16,16 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.FileProvider
+import androidx.datastore.preferences.preferencesDataStore
 import pl.mftau.mftau.R
+import pl.mftau.mftau.core.data.PreferencesRepository
 import java.io.File
 import java.io.FileOutputStream
 
 fun CharSequence.isValidEmail(): Boolean =
     android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+val Context.dataStore by preferencesDataStore(name = PreferencesRepository.DATA_STORE_NAME)
 
 fun Context.showShortToast(msgId: Int) {
     Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show()
