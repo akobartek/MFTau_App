@@ -16,6 +16,7 @@ class PolishWritingsRepository : WritingsRepository() {
         "Reguła zatwierdzona",
         "Testament",
         "Testament sieneński",
+        "Traktat o radości doskonałej"
     )
 
     override fun buildWritingsBook(accentColor: Color) = arrayOf(
@@ -70,7 +71,7 @@ class PolishWritingsRepository : WritingsRepository() {
                     19 to "Tych wszystkich, do których dojdzie ten list, prosimy przez miłość, którą jest Bóg (por. 1 J 4, 16), aby te wyżej wspomniane wonne słowa Pana naszego Jezusa Chrystusa z miłości ku Bogu życzliwie przyjęli.\n\n",
                     20 to "A ci, którzy nie umieją czytać, niech starają się, aby im często czytano.\n\n",
                     21 to "I niech je zachowują, postępując święcie aż do końca, bo są duchem i życiem (J 6, 64).\n\n",
-                    22 to "A ci, którzy tego nie uczynią, będą musieli zdać rachunek w dzień sądu (por. Mt 12, 36) przed trybunałem Pana naszego Jezusa Chrystusa (por. Rz 14, 10).\n\n"
+                    22 to "A ci, którzy tego nie uczynią, będą musieli zdać rachunek w dzień sądu (por. Mt 12, 36) przed trybunałem Pana naszego Jezusa Chrystusa (por. Rz 14, 10).\n"
                 )
             ).let { append(it) }
         },
@@ -172,12 +173,222 @@ class PolishWritingsRepository : WritingsRepository() {
                         85 to "Ciało jedzą robaki; i tak gubi ciało i duszę w tym krótkim życiu i pójdzie do piekła, gdzie będzie cierpiał męki bez końca.\n\n",
                         86 to "W imię Ojca i Syna, i Ducha Świętego. Amen.\n\n",
                         87 to "Ja, brat Franciszek, sługa wasz najmniejszy, proszę was i zaklinam w miłości, którą jest Bóg (por. 1 J 4, 16) i z chęcią ucałowania waszych stóp, abyście te oraz inne słowa Pana naszego Jezusa Chrystusa przyjęli z pokorą i miłością i spełniali je, i zachowywali.\n\n",
-                        88 to "A tych wszystkich i te wszystkie, którzy je życzliwie przyjmą, zrozumieją i odpis ich poślą innym, i jeśli wytrwają w tym aż do końca (por. Mt 10, 22; 24, 13), niech błogosławi Ojciec i Syn, i Duch Święty. Amen.\n\n"
+                        88 to "A tych wszystkich i te wszystkie, którzy je życzliwie przyjmą, zrozumieją i odpis ich poślą innym, i jeśli wytrwają w tym aż do końca (por. Mt 10, 22; 24, 13), niech błogosławi Ojciec i Syn, i Duch Święty. Amen.\n"
                     )
                 ).let { append(it) }
             }
         ),
-        buildAnnotatedString { },
+        buildAnnotatedString {
+            buildChapter(
+                name = "I\nCiało Pańskie",
+                text = "Pan Jezus powiedział swoim uczniom; Ja jestem drogą, prawdą i życiem. Nikt nie przychodzi do Ojca inaczej, jak tylko przez Mnie. " +
+                        "Jeśli znalibyście Mnie, znalibyście z pewnością i mojego Ojca; i odtąd Go znacie i zobaczyliście Go. Mówi do Niego Filip: " +
+                        "Panie, pokaż nam Ojca, a to nam wystarczy. Mówi mu Jezus: Tak długo jestem z wami, a nie poznaliście Mnie? Filipie, kto widzi Mnie, " +
+                        "widzi i Ojca (J 14,6-9) mego. Ojciec mieszka w światłości niedostępnej (por. 1Tm 6,16) i Duchem jest Bóg (J 4,24), i Boga nikt nigdy " +
+                        "nie widział (J 1,18). Dlatego tylko w duchu można Go oglądać, bo duch jest tym, który ożywia; ciało na nic się nie przyda (J 6,64).\n\n" +
+                        "Ale i Syna w tym, w czym jest równy Ojcu, nikt nie może inaczej oglądać niż Ojca ani inaczej niż Ducha Świętego. " +
+                        "Dlatego potępieni są wszyscy, którzy widzieli Pana Jezusa według człowieczeństwa, ale nie dostrzegli i nie uwierzyli " +
+                        "według ducha i bóstwa, że jest on prawdziwym Synem Bożym. Tak samo potępieni są ci wszyscy, którzy widzą sakrament " +
+                        "[Ciała Chrystusowego], dokonywany słowami Pana na ołtarzu przez ręce kapłana pod postacią chleba i wina, ale nie dostrzegają " +
+                        "i nie wierzą według ducha i bóstwa, że jest to prawdziwie Najświętsze Ciało i Krew Pana naszego Jezusa Chrystusa. " +
+                        "Poświadcza to sam Najwyższy słowami: To jest ciało moje i krew mego Nowego Przymierza [która za wielu będzie wylana] " +
+                        "(por. Mk 14,22.24); i: Kto pożywa ciało moje i pije krew moją, ma życie wieczne (por J 6,55). Stąd Duch Pański przebywający " +
+                        "w wiernych swoich, jest tym, który przyjmuje Najświętsze Ciało i Krew Pana. Wszyscy inni, którzy nie mają udziału w tym Duchu, " +
+                        "a ośmielają się przyjmować je, sąd sobie jedzą i piją (por. 1Kor 11,29).\n" +
+                        "Dlatego: Synowie ludzcy, dokąd będziecie twardego serca? (Ps 4,3). Dlaczego nie poznajecie prawdy i nie wierzycie w Syna Bożego? " +
+                        "(por. J 9,35). Oto uniża się co dzień (por. Flp 2,8) jak wtedy, gdy z tronu królewskiego (por. Mdr 18,15) zstąpił do łona Dziewicy. " +
+                        "Codziennie przychodzi do nas w pokornej postaci. Co dzień zstępuje z łona Ojca na ołtarz w rękach kapłana. I jak ukazał się " +
+                        "świętym apostołom w rzeczywistym ciele, tak i teraz ukazuje się nam w świętym Chlebie. I jak oni swoim wzrokiem cielesnym widzieli " +
+                        "tylko Jego Ciało, lecz wierzyli, że jest Bogiem, ponieważ oglądali Go oczyma ducha, tak i my, widząc chleb i wino oczyma cielesnymi, " +
+                        "starajmy się dostrzegać i wierzmy mocno, że jest to jego żywe i prawdziwe Najświętsze Ciało i Krew. I w taki sposób Pan jest zawsze " +
+                        "ze swymi wiernymi, jak sam mówi: Oto Ja jestem z wami aż do skończenia świata (por. Mt 28,20)."
+            ).let { append(it) }
+            buildChapter(
+                name = "II\nZło samowoli",
+                text = "Pan powiedział do Adama: Z każdego drzewa jedz; ale z drzewa wiadomości dobrego i złego nie jedz (por. Rdz 2,16-17). " +
+                        "Z każdego drzewa rajskiego mógł jeść, ponieważ dopóki nie wykroczył przeciw posłuszeństwu, nie zgrzeszył. " +
+                        "Ten bowiem jada z drzewa poznania dobra, kto przywłaszcza sobie swoją wolę i wynosi się z dobra, jakie Pan mówi i działa w nim. " +
+                        "I tak z podszeptu szatana i z powodu przekroczenia przykazania stało się to owocem poznania złą. A za to trzeba ponieść karę."
+            ).let { append(it) }
+            buildChapter(
+                name = "III\nPosłuszeństwo doskonałe",
+                text = "Pan mówi w Ewangelii: Kto nie wyrzekłby się wszystkiego, co posiada, nie może być moim uczniem (por. Łk 14,33); " +
+                        "i: Kto chciałby zachować swoje życie, straci je (Łk 9,24). Ten człowiek opuszcza wszystko, co ma, i traci swoje ciało, " +
+                        "który siebie samego oddaje całkowicie pod posłuszeństwo w ręce swego przełożonego. I cokolwiek czyni i mówi, " +
+                        "jeśli wie, że nie sprzeciwia się to jego woli, jest to prawdziwe posłuszeństwo, byleby to, co czyni, było dobre. " +
+                        "I choćby podwładny widział coś lepszego i pożyteczniejszego dla swej duszy niż to, co nakazuje przełożony, " +
+                        "niech dobrowolnie złoży Bogu z tego ofiarę i niech stara się spełnić życzenie przełożonego. " +
+                        "To jest bowiem posłuszeństwo z miłości (1P 1,22), ponieważ miłe jest Bogu i bliźniemu.\n\n" +
+                        "Jeśli przełożony wyda jakieś polecenie niezgodne z jego [podwładnego] sumieniem, wolno mu nie posłuchać, " +
+                        "niech go jednak nie opuszcza. A jeśli z tego powodu będzie przez kogoś prześladowany, niech go dla Boga miłuje. " +
+                        "Kto bowiem woli znosić prześladowanie niż odłączyć się od braci, ten trwa rzeczywiście " +
+                        "w doskonałym posłuszeństwie, bo życie swoje oddaje za braci swoich (por. J 15,13).\n\n" +
+                        "Jest bowiem wielu zakonników, którym się wydaje, że widzą lepsze rzeczy do zrobienia niż te, " +
+                        "które nakazują przełożeni; ci oglądają się wstecz (por. Łk 9,62) i powracają do wymiotów własnej woli " +
+                        "(por. Prz 26,11; 2P 2,22). Ci są mordercami i swoim złym przykładem gubią wiele dusz."
+            ).let { append(it) }
+            buildChapter(
+                name = "IV\nNikt nie powinien przywłaszczać sobie przełożeństwa",
+                text = "Nie przyszedłem, aby Mi służono, lecz aby służyć (por. Mt 20, 28) mówi Pan. Ci, którzy są postawieni nad innymi, " +
+                        "tak powinni się chlubić z tego przełożeństwa, jakby zostali wyznaczeni do obowiązku umywania nóg braciom. " +
+                        "I jeśli utrata przełożeństwa zasmuca ich bardziej, niż utrata obowiązku umywania nóg, " +
+                        "tym więcej napełniają sobie trzosy zniebezpieczeństwem dla duszy (por. J 12,6)."
+            ).let { append(it) }
+            buildChapter(
+                name = "V\nNikt nie powinien unosić się pychą, lecz niech chlubi się w Krzyżu Pańskim",
+                text = "Człowieku zastanów się, do jak wysokiej godności podniósł cię Pan Bóg, bo stworzył cię i ukształtował według ciała " +
+                        "na obraz umiłowanego Syna swego i na podobieństwo według ducha (por. Rdz 1,26). I wszystkie stworzenia, które są pod niebem, " +
+                        "służą na swój sposób swemu Stwórcy, uznają Go i słuchają lepiej niż ty. I nawet złe duchy nie ukrzyżowały Go, " +
+                        "lecz to ty wraz z nimi ukrzyżowałeś Go i krzyżujesz nadal przez upodobanie w wadach i grzechach.\n\n" +
+                        "Z czego więc możesz się chlubić? Choćbyś bowiem był tak bystry i mądry, że posiadłbyś wszelką wiedzę (por. 1Kor 13,2) " +
+                        "i umiał wyjaśniać wszystkie rodzaje języków (por. 1Kor 12, 10. 28) i badać wnikliwie tajemnice niebieskie, nie możesz się chlubić " +
+                        "tym wszystkim; bo jeden szatan poznał rzeczy niebieskie i teraz zna sprawy ziemskie lepiej niż wszyscy ludzie, " +
+                        "chociaż mógłby być jakiś człowiek, który otrzymałby od Pana szczególne poznanie najwyższej mądrości. Tak samo, " +
+                        "gdybyś był piękniejszy i bogatszy od wszystkich i gdybyś nawet cuda czynił, tak że wyrzucałbyś złe duchy, wszystko to " +
+                        "zwraca się przeciwko tobie i nie należy do ciebie, i nie możesz się tym wcale chlubić. Lecz w tym możemy się chlubić: " +
+                        "w słabościach naszych (por. 2Kor 12,5) i w codziennym dźwiganiu świętego krzyża Pana naszego Jezusa Chrystusa (por. Łk 14,27)."
+            ).let { append(it) }
+            buildChapter(
+                name = "VI\nNaśladowanie Pana",
+                text = "Bracia, spoglądajmy na dobrego Pasterza, który dla zbawienia swych owiec wycierpiał mękę krzyżową. " +
+                        "Owce Pana poszły za Nim w ucisku i prześladowaniu, w upokorzeniu i głodzie, w chorobie i doświadczeniu, " +
+                        "i we wszystkich innych trudnościach; i w zamian za to otrzymały od Pana życie wieczne.\n\n" +
+                        "Stąd wstyd dla nas, sług Bożych, że święci dokonywali wielkich dzieł, a my chcemy otrzymać chwałę i cześć, opowiadając o nich."
+            ).let { append(it) }
+            buildChapter(
+                name = "VII\nZa wiedzą powinny iść dobre czyny",
+                text = "Apostoł mówi: Litera zabija, a duch ożywia (2Kor 3,6). Litera zabija tych, którzy pragną poznać tylko same słowa, " +
+                        "aby uchodzić za mądrzejszych od innych i zdobyć wielkie bogactwa, i rozdać je krewnym i przyjaciołom.\n\n" +
+                        "I tych zakonników zabija litera, którzy nie chcą postępować według ducha Pisma Bożego, " +
+                        "lecz pragną raczej poznawać tylko słowa i wyjaśniać je innym.\n\n" +
+                        "I tych ożywia duch Pisma Bożego, którzy żadnej wiedzy, jaką posiadają i pragną posiąść, nie przypisują ciału, " +
+                        "lecz słowem i przykładem odnoszą do Najwyższego Pana Boga, do którego należy wszelkie dobro."
+            ).let { append(it) }
+            buildChapter(
+                name = "VIII\nNależy unikać grzechu zazdrości",
+                text = "Apostoł mówi: Nikt nie może powiedzieć: Pan Jezus bez pomocy Ducha Świętego (1Kor 12, 3); i: Nie ma nikogo, " +
+                        "kto by czynił dobro, nie ma ani jednego (Rz 3, 12). Ktokolwiek więc zazdrości bratu swemu dobra, jakie Pan mówi " +
+                        "i czyni w nim, dopuszcza się grzechu bluźnierstwa, bo zazdrości samemu Najwyższemu, który mówi i czyni wszelkie dobro."
+            ).let { append(it) }
+            buildChapter(
+                name = "IX\nMiłość",
+                text = "Pan mówi: Miłujcie nieprzyjaciół waszych [czyńcie dobrze tym, którzy was nienawidzą i módlcie się za prześladujących " +
+                        "i spotwarzających was] (Mt 5,44). Ten bowiem rzeczywiście kocha swego nieprzyjaciela, kto nie boleje nad doznawaną " +
+                        "krzywdą, lecz dla miłości Bożej smuci się grzechem jego duszy. I czynem okazuje mu miłość."
+            ).let { append(it) }
+            buildChapter(
+                name = "X\nUmartwienie ciała",
+                text = "Wielu jest takich, którzy, grzesząc lub doznając krzywdy, składają winy na nieprzyjaciela lub bliźniego. Lecz nie tak jest: każdy bowiem " +
+                        "ma w swej mocy nieprzyjaciela, mianowicie ciało, przez które grzeszy. Dlatego błogosławiony ten sługa (Mt 24,46), który mając " +
+                        "w swej władzy takiego nieprzyjaciela, będzie zawsze trzymał go związanego i roztropnie miał się przed nim na baczności. " +
+                        "Dopóki bowiem tak będzie postępował, żaden inny nieprzyjaciel, widzialny czy niewidzialny, nie będzie mógł mu szkodzić."
+            ).let { append(it) }
+            buildChapter(
+                name = "XI\nNikt nie powinien się gorszyć grzechem bliźniego",
+                text = "Słudze Bożemu tylko jedno nie powinno się podobać: grzech. I jakikolwiek grzech jakaś osoba popełniłaby " +
+                        "i z tego powodu sługa Boży niepokoiłby się i gniewał, ale nie z miłości, gromadzi sobie winę (por. Rz 2,5). " +
+                        "Ten sługa wiedzie życie prawe, wolne od przywiązań, który się nie denerwuje i nie gniewa na nikogo. " +
+                        "I błogosławiony jest ten, który nic sobie nie zatrzymuje, oddając co jest cesarskiego, cesarzowi, a co jest Bożego, Bogu (Mt 22,21)."
+            ).let { append(it) }
+            buildChapter(
+                name = "XII\nJak rozpoznać ducha Pańskiego",
+                text = "Tak można poznać, czy sługa Boży ma ducha Pańskiego: jeśli jego ciało nie będzie wynosiło się pychą - " +
+                        "bo ono zawsze jest przeciwne wszelkiemu dobru - z tego powodu, że Pan czyni przez niego jakieś dobro, " +
+                        "lecz jeśli we własnych oczach uważałby się raczej za lichszego i mniejszego od wszystkich innych ludzi."
+            ).let { append(it) }
+            buildChapter(
+                name = "XIII\nCierpliwość",
+                text = "Błogosławieni pokój czyniący, bo nazwani będą synami Boga (Mt 5,9). Nie może poznać sługa Boży, " +
+                        "ile ma cierpliwości i pokory, dopóki się wszystko dzieje po jego myśli. Gdy zaś przyjdzie czas, kiedy ci, " +
+                        "którzy powinni postępować według jego woli, zaczną mu się sprzeciwiać; ile wtedy okaże cierpliwości i pokory, tyle jej ma, nie więcej."
+            ).let { append(it) }
+            buildChapter(
+                name = "XIV\nUbóstwo ducha",
+                text = "Błogosławieni ubodzy duchem, bo do nich należy królestwo niebieskie (Mt 5,3). Wielu jest takich, którzy oddając się gorliwie modlitwom " +
+                        "i obowiązkom, nękają swe ciała licznymi postami i umartwieniami, lecz z powodu jednego tylko słowa, które zdaje się być krzywdą dla ich ciała, " +
+                        "lub z powodu jakiejś rzeczy, której się ich pozbawia, wzburzają się i wpadają w gniew. Ci nie są ubodzy duchem. Kto bowiem jest rzeczywiście " +
+                        "ubogi duchem, ten nienawidzi siebie samego (por. Łk 14,26) i kocha tych, którzy uderzają go w policzek (por. Mt 5,39)."
+            ).let { append(it) }
+            buildChapter(
+                name = "XV\nPokój",
+                text = "Błogosławieni pokój czyniący, bo nazwani będą synami Boga (Mt 5,9). Ci przynoszą naprawdę pokój, którzy wśród wszystkich cierpień, " +
+                        "jakie ich spotykają na tym świecie, dla miłości Pana naszego Jezusa Chrystusa zachowują pokój duszy i ciała."
+            ).let { append(it) }
+            buildChapter(
+                name = "XVI\nCzystość serca",
+                text = "Błogosławieni czystego serca, bo oni będą oglądać Boga (Mt 5,8). Prawdziwie czystego serca są ci, którzy gardzą dobrami ziemskimi, " +
+                        "szukają niebieskich i nie przestają nigdy czystym sercem i duszą uwielbiać i widzieć Pana, Boga żywego i prawdziwego."
+            ).let { append(it) }
+            buildChapter(
+                name = "XVII\nPokorny sługa boży",
+                text = "Błogosławiony jest ten sługa (Mt 24,46), który nie wynosi się z powodu dobra, jakie Pan mówi i czyni przez niego, bardziej niż z tego, " +
+                        "jakie Pan mówi i czyni przez innego. Grzeszy ten człowiek, który chce więcej otrzymać od swego bliźniego niż dać z siebie Panu Bogu."
+            ).let { append(it) }
+            buildChapter(
+                name = "XVIII\nMiłosierdzie wobec bliźniego",
+                text = "Błogosławiony człowiek, który znosi swego bliźniego z jego ułomnościami, tak jak chciałby, aby jego znoszono, " +
+                        "gdyby był w podobnym położeniu. Błogosławiony sługa, który Panu Bogu oddaje wszystkie dobra, kto bowiem cokolwiek zatrzymuje dla siebie, " +
+                        "ukrywa wsobie pieniądze Pana Boga swego (por. Mt 25,18) i to, co sądził, że ma, będzie mu odjęte (por. Łk 8,18)."
+            ).let { append(it) }
+            buildChapter(
+                name = "XIX\nDobry i pokorny zakonnik",
+                text = "Błogosławiony sługa, który nie uważa się za lepszego, gdy go ludzie chwalą i wywyższają, niż wówczas, " +
+                        "gdy go uważają za słabego, prostego i godnego pogardy; ponieważ człowiek jest tym tylko, czym jest w oczach Boga i niczym więcej.\n\n" +
+                        "Biada temu zakonnikowi, który został wyniesiony do wysokiej godności i sam nie chce dobrowolnie ustąpić. " +
+                        "A błogosławiony jest ten sługa (Mt 24,46), który został wyniesiony wysoko nie z własnej woli i pragnie być zawsze pod stopami innych."
+            ).let { append(it) }
+            buildChapter(
+                name = "XX\nDobry i próżny zakonnik",
+                text = "Błogosławiony ten zakonnik, który znajduje zadowolenie i radość tylko wnajświętszych słowach i dziełach Pana i pociąga przez nie ludzi do miłości Boga " +
+                        "w radości i weselu (por. Ps 50,51). Biada temu zakonnikowi, który ma upodobanie w słowach płochych i próżnych i przez nie skłania ludzi do śmiechu."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXI\nPróżny i gadatliwy zakonnik",
+                text = "Błogosławiony sługa, który gdy mówi, nie ujawnia wszystkich swoich spraw wnadziei nagrody i nie jest skory do mówienia (por. Prz 29,20), " +
+                        "lecz przewiduje roztropnie, co powinien mówić lub opowiadać. Biada temu zakonnikowi, który dobra, jakich mu Pan udziela, chce ludziom okazywać słowami, " +
+                        "by zdobyć uznanie, zamiast ukrywać je w sercu swoim (por. Łk 2,19.51), a innym ukazywać przez czyny.\nOtrzymuje on zapłatę swoją (por. Mt 6,2.5.16), a słuchacze odnoszą mało korzyści."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXII\nZnoszenie oskarżeń",
+                text = "Błogosławiony sługa, który czyjeś uwagi, oskarżenia i upomnienia znosi tak cierpliwie, jakby pochodziły od niego samego. " +
+                        "Błogosławiony sługa, który udzielane mu upomnienia przyjmuje spokojnie, słucha skromnie, pokornie wyznaje swą winę i chętnie wynagradza. " +
+                        "Błogosławiony sługa, który nie jest skory do usprawiedliwiania się i znosi pokornie wstyd i naganę za winę, choćby się nawet jej nie dopuścił."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXIII\nPokora",
+                text = "Błogosławiony sługa, który okazuje się równie pokorny wśród swych podwładnych, jak wśród swych panów. " +
+                        "Błogosławiony sługa, który zawsze pozostaje pod rózgą karności. Sługą wiernym i roztropnym (por. Mt 24,45) jest ten, " +
+                        "który nie zaniedbuje pokuty za wszystkie swoje przewinienia: wewnętrznie przez skruchę, a zewnętrznie przez wyznanie winy i uczynki wynagradzające."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXIV\nPrawdziwa miłość",
+                text = "Błogosławiony sługa, który tak kochałby swego brata chorego, który nie może mu oddać przysługi, jak kocha zdrowego, który może mu pomóc."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXV\nPrawdziwa miłość",
+                text = "Błogosławiony sługa, który tak kochałby i szanował swego brata będącego daleko od niego, " +
+                        "jak gdyby był z nim i nie mówiłby w jego nieobecności tego, czego nie mógłby powiedzieć z miłością w jego obecności."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXVI\nSłudzy Boży powinni szanować duchownych",
+                text = "Błogosławiony sługa, który ma zaufanie do duchownych uczciwie żyjących według zasad Kościoła rzymskiego. A biada tym, którzy nimi gardzą; " +
+                        "choćby bowiem byli oni grzesznikami, jednak nikt nie powinien ich sądzić, bo Pan sam zastrzega sobie prawo sądu nad nimi. " +
+                        "O ile bowiem większa jest ich posługa wobec Najświętszego Ciała i Krwi Pana naszego Jezusa Chrystusa, które oni sami przyjmują i sami tylko innym udzielają, " +
+                        "o tyle większy grzech mają ci, którzy grzeszą przeciwko nim niż przeciwko wszystkim innym ludziom na tym świecie."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXVII\nCnoty, które usuwają wady",
+                text = "Gdzie jest miłość i mądrość, tam nie ma ani bojaźni, ani niewiedzy. Gdzie jest cierpliwość i pokora, tam nie ma gniewu, ani zamętu. " +
+                        "Gdzie jest ubóstwo z radością, tam nie ma ani chciwości, ani skąpstwa. Gdzie jest pokój i rozmyślanie, tam nie ma ani zatroskania, ani roztargnienia. " +
+                        "Gdzie jest bojaźń Pańska, która strzeże domu swego (por. Łk 11,21), tam nieprzyjaciel nie ma możliwości wejścia. " +
+                        "Gdzie jest miłosierdzie i delikatność, tam nie ma ani zbytku, ani zatwardziałości serca."
+            ).let { append(it) }
+            buildChapter(
+                name = "XXVIII\nDobro należy ukrywać, aby go nie stracić",
+                text = "Błogosławiony sługa, który w niebie gromadzi (por Mt 6,20) dobra, jakie Pan mu okazał i nie pragnie ujawniać ich ludziom dla zdobycia uznania, " +
+                        "bo sam Najwyższy okaże jego czyny tym, którym zechce. Błogosławiony sługa, który tajemnice Pańskie zachowuje w sercu swoim (por. Łk 2,19.51).\n"
+            ).let { append(it) }
+        },
         buildAnnotatedString {
             buildChapter(
                 name = "[Prolog]",
@@ -674,7 +885,7 @@ class PolishWritingsRepository : WritingsRepository() {
                     4 to "I w imieniu Boga wszechmogącego, i Ojca św., i na mocy posłuszeństwa ja, brat Franciszek, " +
                             "surowo nakazuję i zobowiązuję, aby z tego, co jest napisane w tym sposobie życia, " +
                             "nikt niczego nie ujmował ani niczego do tego pisma nie dodawał (por. Pwt 4, 2; 12, 32), i aby bracia nie mieli innej reguły. ",
-                    5 to "Chwała Ojcu i Synowi, i Duchowi Świętemu, jak była na początku i teraz, i zawsze, i na wieki wieków. Amen.\n\n"
+                    5 to "Chwała Ojcu i Synowi, i Duchowi Świętemu, jak była na początku i teraz, i zawsze, i na wieki wieków. Amen.\n"
                 )
             ).let { append(it) }
         },
@@ -875,7 +1086,7 @@ class PolishWritingsRepository : WritingsRepository() {
                 text = "Żadnemu więc człowiekowi nie wolno w ogóle naruszać tego dokumentu naszego potwierdzenia " +
                         "albo zuchwałym postępowaniem sprzeciwiać się mu. Gdyby jednak ktoś odważył się na to, " +
                         "niech wie, że ściągnie na siebie gniew Boga wszechmogącego i Jego Świętych Apostołów Piotra i Pawła.\n\n" +
-                        "Dano na Lateranie, 29 listopada, w ósmym roku naszego pontyfikatu. Kończy się zatwierdzenie Reguły Braci Mniejszych.\n\n"
+                        "Dano na Lateranie, 29 listopada, w ósmym roku naszego pontyfikatu. Kończy się zatwierdzenie Reguły Braci Mniejszych.\n"
             ).let { append(it) }
         },
         justifiedString(
@@ -966,7 +1177,7 @@ class PolishWritingsRepository : WritingsRepository() {
                     "I ktokolwiek to zachowa, niech w niebie będzie napełniony błogosławieństwem Ojca najwyższego, " +
                             "a na ziemi błogosławieństwem umiłowanego Syna Jego z Najświętszym Duchem Pocieszycielem " +
                             "i ze wszystkimi mocami niebios, i ze wszystkimi świętymi. I ja, brat Franciszek, najmniejszy wasz sługa, " +
-                            "jak tylko mogę, wewnętrznie i zewnętrznie potwierdzam wam to najświętsze błogosławieństwo.\n\n"
+                            "jak tylko mogę, wewnętrznie i zewnętrznie potwierdzam wam to najświętsze błogosławieństwo.\n"
                 )
             }
         ),
@@ -975,7 +1186,20 @@ class PolishWritingsRepository : WritingsRepository() {
                     "Ponieważ z powodu słabości i bólu w chorobie nie mogę mówić, wyrażę mą wolę braciom moim krótko, w trzech zdaniach, mianowicie:\n" +
                     "aby na znak pamięci na moje błogosławieństwo i mój testament zawsze kochali się wzajemnie;\n" +
                     "aby zawsze kochali i dochowywali wierności naszej pani, świętemu ubóstwu\n" +
-                    "i aby zawsze byli wierni i ulegli dostojnikom i wszystkim duchownym świętej matki Kościoła.\n\n"
+                    "i aby zawsze byli wierni i ulegli dostojnikom i wszystkim duchownym świętej matki Kościoła.\n"
         ),
+        justifiedString(
+            "Tenże (br. Leonard) opowiadał, że pewnego dnia u Świętej Maryi (Matki Boskiej Anielskiej) św. Franciszek zawołał brata Leona i powiedział: " +
+                    "\"Bracie Leonie, pisz\". Ten odpowiedział: \"Jestem gotów\".\n\n\"Pisz - rzecze - czym jest prawdziwa radość. Przybywa posłaniec i mówi, że wszyscy profesorowie " +
+                    "z Paryża wstąpili do zakonu; napisz, to nie prawdziwa radość. Że tak samo uczynili wszyscy prałaci z tamtej strony Alp, arcybiskupi i biskupi, " +
+                    "również król Francji i Anglii; napisz, to nie prawdziwa radość. Tak samo, że moi bracia poszli do niewiernych i nawrócili wszystkich do wiary; " +
+                    "że mam od Boga tak wielką łaskę, że uzdrawiam chorych i czynię wiele cudów; mówię ci, że w tym wszystkim nie kryje się prawdziwa radość.\n\n" +
+                    "Lecz co to jest prawdziwa radość? Wracam z Perugii i późną nocą przychodzę tu, jest zima i słota, i tak zimno, że u dołu tuniki zwisają zmarznięte sople " +
+                    "i ranią wciąż nogi, i krew płynie z tych ran. I cały zabłocony, zziębnięty i zlodowaciały przychodzę do bramy; i gdy długo pukałem i wołałem, " +
+                    "przyszedł brat i pyta: \"Kto jest?\". Odpowiedziałem: Brat Franciszek. A ten mówi: \"Wynoś się; to nie jest pora stosowna do chodzenia; nie wejdziesz\". " +
+                    "A gdy ja znowu nalegam, odpowiada: \"Wynoś się; ty jesteś [człowiek] prosty i niewykształcony. Jesteś teraz zupełnie zbyteczny. Jest nas tylu i takich, " +
+                    "że nie potrzebujemy ciebie\". A ja znowu staję przy bramie i mówię: Na miłość Bożą, przyjmijcie mnie na tę noc. A on odpowiada: \"Nic z tego. Idź tam, " +
+                    "gdzie są krzyżowcy i proś\".\n\nPowiadam ci: jeśli zachowam cierpliwość i nie rozgniewam się, na tym polega prawdziwa radość i prawdziwa cnota, i zbawienie duszy\".\n"
+        )
     )
 }

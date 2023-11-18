@@ -5,11 +5,13 @@ import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 import pl.mftau.mftau.readings.domain.PrayersRepository
 
-class PolishPrayersRepository: PrayersRepository() {
+class PolishPrayersRepository : PrayersRepository() {
     override val prayersNames = arrayOf(
         "Anioł Pański",
         "Antyfona: Święta Maryjo",
@@ -19,6 +21,7 @@ class PolishPrayersRepository: PrayersRepository() {
         "Modlitwa franciszkańska",
         "Modlitwa odmówiona przed krucyfiksem",
         "Modlitwa pochwalna",
+        "Modlitwy pochwalne odmawiane przy wszystkich godzinach",
         "Pieśń słoneczna",
         "Pozdrowienie Błogosławionej Maryi Dziewicy",
         "Pozdrowienie cnót",
@@ -65,21 +68,21 @@ class PolishPrayersRepository: PrayersRepository() {
                 )
             }
             withStyle(SpanStyle(color = accentColor)) { append("W. ") }
-            append("Amen.\n\n")
+            append("Amen.\n")
         },
         justifiedString(
             "Święta Maryjo, Dziewico, wśród niewiast na świecie nie urodziła się podobna Tobie, Córko i Służebnico " +
                     "najwyższego Króla, Ojca niebieskiego, Matko najświętszego Pana naszego Jezusa Chrystusa, Oblubienico " +
                     "Ducha Świętego: módl się za nami wraz ze św. Michałem Archaniołem i wszystkimi mocami " +
-                    "nieba, i wszystkimi świętymi do Twego najświętszego, umiłowanego Syna, Pana i Mistrza.\nChwała Ojcu…\n\n"
+                    "nieba, i wszystkimi świętymi do Twego najświętszego, umiłowanego Syna, Pana i Mistrza.\nChwała Ojcu…\n"
         ),
         justifiedString(
             "Niech ci Pan błogosławi i niech cię strzeże; niech ci ukaże oblicze swoje i zmiłuje się nad tobą.\n" +
-                    "Niech zwróci oblicze swoje ku tobie i niech cię obdarzy pokojem.\nPan niech cię błogosławi, bracie Leonie. Amen.\n\n"
+                    "Niech zwróci oblicze swoje ku tobie i niech cię obdarzy pokojem.\nPan niech cię błogosławi, bracie Leonie. Amen.\n"
         ),
         "Bogu chwała,\nwiekuista niech będzie chwała,\nhołd Maryi,\ncześć świętym,\npokój żyjącym,\n" +
                 "wieczny odpoczynek zmarłym,\nzdrowie chorym,\ngrzesznikom szczera pokuta,\n" +
-                "sprawiedliwym w dobrym wytrwanie,\nżeglarzom na morzu spokój,\npodróżującym pomyślna droga.\n\n",
+                "sprawiedliwym w dobrym wytrwanie,\nżeglarzom na morzu spokój,\npodróżującym pomyślna droga.\n",
         buildAnnotatedString {
             append("Kyrie eleison, Christe eleison, Kyrie eleison.\nChryste, usłysz nas. Chryste, wysłuchaj nas.\n\n")
             append("Ojcze z nieba, Boże,")
@@ -122,7 +125,7 @@ class PolishPrayersRepository: PrayersRepository() {
             }
             withStyle(SpanStyle(color = accentColor)) { append("W. ") }
             append("Amen.\n\n")
-            append("Pod Twoją obronę…\n\n")
+            append("Pod Twoją obronę…\n")
         },
         "O Panie, uczyń z nas narzędzia swojego pokoju,\nAbyśmy siali miłość tam, gdzie panuje nienawiść;\n" +
                 "Wybaczenie tam, gdzie panuje krzywda;\nWiarę tam, gdzie panuje zwątpienie;\n" +
@@ -130,9 +133,9 @@ class PolishPrayersRepository: PrayersRepository() {
                 "Radość tam, gdzie panuje smutek.\nSpraw, abyśmy mogli nie tyle szukać pociechy,\n" +
                 "Co pociechę dawać,\nNie tyle szukać zrozumienia, co rozumieć,\n" +
                 "Nie tyle szukać miłości, co kochać.\nAlbowiem dając – otrzymujemy,\n" +
-                "Wybaczając – zyskujemy przebaczenie,\nA umierając – rodzimy się do wiecznego życia. Amen.\n\n",
+                "Wybaczając – zyskujemy przebaczenie,\nA umierając – rodzimy się do wiecznego życia. Amen.\n",
         "Najwyższy, chwalebny Boże, rozjaśnij ciemności mego serca i daj mi, Panie, prawdziwą wiarę, niezachwianą " +
-                "nadzieję i doskonałą miłość, zrozumienie i poznanie, abym wypełniał Twoje święte i prawdziwe posłannictwo.\n\n",
+                "nadzieję i doskonałą miłość, zrozumienie i poznanie, abym wypełniał Twoje święte i prawdziwe posłannictwo.\n",
         "Święty, święty, święty jest Pan Bóg wszechmogący, który jest i który był, i który ma przyjść.\n" +
                 "I chwalmy, i wywyższajmy Go na wieki.\n\n" +
                 "Godzien, jesteś Panie, Boże nasz, otrzymać sławę, chwałę i cześć, i błogosławieństwo.\n" +
@@ -147,7 +150,48 @@ class PolishPrayersRepository: PrayersRepository() {
                 "I wszelkie stworzenie, które jest w niebie i na ziemi i które jest pod ziemią i morze, i co jest w nim.\n" +
                 "I chwalmy, i wywyższajmy Go na wieki.\n\nChwała Ojcu i Synowi, i Duchowi Świętemu.\n" +
                 "I chwalmy, i wywyższajmy Go na wieki.\n\nJaka była na początku i teraz,\n" +
-                "i zawsze, i na wieki wieków. Amen.\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                "i zawsze, i na wieki wieków. Amen.\nI chwalmy, i wywyższajmy Go na wieki.\n",
+        justifiedString(
+            buildAnnotatedString {
+                withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
+                    appendLine(
+                        "\nZaczynają się modlitwy pochwalne, które zebrał święty Ojciec nasz Franciszek i odmawiał je przy wszystkich " +
+                                "Godzinach [kanonicznych] dnia i nocy, i przed oficjum Błogosławionej Maryi Dziewicy, tak zaczynając: " +
+                                "Najświętszy Ojcze nasz, który jesteś w niebie itd. oraz Chwała. Następnie należy od mawiać modlitwy pochwalne:\n"
+                    )
+                }
+                processIndicesAndText(
+                    arrayOf(
+                        1 to "Święty, święty, święty, Pan Bóg wszechmogący, który jest i który był, i który ma przyjść (por. Ap 4,8):\n" +
+                                "I chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        2 to "Godzien jesteś, Panie, Boże nasz, otrzymać sławę, chwałę i cześć, i błogosławieństwo (por. Ap 4,11):\n" +
+                                "I chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        3 to "Godzien jest Baranek, który był zabity, otrzymać moc i bóstwo, i mądrość, i siłę, " +
+                                "i cześć, i chwałę, i błogosławieństwo (Ap 5,12):\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        4 to "Błogosławmy Ojca i Syna z Duchem Świętym:\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        5 to "Błogosławcie, wszystkie dzieła Pańskie, Panu (Dn 3,57):\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        6 to "Dajcie chwałę Bogu naszemu wszyscy słudzy Jego i którzy się Boga boicie, mali i wielcy (por. Ap 19,5):\n" +
+                                "I chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        7 to "Niech Go pełnego chwały chwalą niebo i ziemia (por. Ps 68,35 – R):\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        8 to "Wszelkie stworzenie, które jest w niebie i na ziemi, i które jest pod ziemią, " +
+                                "i morze i co jest w nim (por. Ap 5,13):\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        9 to "Chwała Ojcu i Synowi, i Duchowi Świętemu:\nI chwalmy, i wywyższajmy Go na wieki.\n\n",
+                        10 to "Jak była na początku i teraz, i zawsze, i na wieki wieków. Amen.\nI chwalmy, i wywyższajmy Go na wieki.\n\n"
+                    )
+                ).let { append(it) }
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp)) {
+                    appendLine("Modlitwa")
+                }
+                processIndicesAndText(
+                    arrayOf(
+                        11 to "Wszechmogący, najświętszy, najwyższy i największy Boże, wszelkie dobro, największe dobro, " +
+                                "całe dobro, który sam jesteś dobry (por. Łk 18,19), Tobie pragniemy oddawać wszelką sławę, " +
+                                "wszelką chwałę, wszelką wdzięczność, wszelką cześć, wszelkie błogosławieństwo i wszelkie dobra. " +
+                                "Niech się stanie. Niech się stanie. Amen.\n"
+                    )
+                ).let { append(it) }
+            }
+        ),
         "Najwyższy, wszechmogący, dobry Panie,\nTwoja jest sława,\nchwała i cześć,\ni wszelkie błogosławieństwo.\n" +
                 "Tobie jednemu, Najwyższy, one przystoją\ni żaden człowiek nie jest godny\nwymówić Twego Imienia\n" +
                 "Pochwalony bądź, Panie mój,\nze wszystkimi Twymi stworzeniami,\nszczególnie z panem bratem słońcem,\n" +
@@ -166,7 +210,7 @@ class PolishPrayersRepository: PrayersRepository() {
                 "przez naszą siostrę śmierć cielesną,\nktórej żaden człowiek żywy uniknąć nie może.\n" +
                 "Biada tym,\nktórzy umierają w grzechach śmiertelnych;\nBłogosławieni ci,\n" +
                 "których śmierć zastanie w Twej najświętszej woli,\nalbowiem śmierć druga\nnie wyrządzi im krzywdy.\n" +
-                "Chwalcie i błogosławcie mojego Pana,\ni dziękujcie Mu, i służcie\nz wielką pokorą.\n\n",
+                "Chwalcie i błogosławcie mojego Pana,\ni dziękujcie Mu, i służcie\nz wielką pokorą.\n",
         "Bądź pozdrowiona, Pani, święta Królowo,\nświęta Boża Rodzicielko, Maryjo,\n" +
                 "która jesteś Dziewicą, uczynioną Kościołem\ni wybraną przez najświętszego Ojca z nieba,\n" +
                 "Ciebie On uświęcił z najświętszym,\numiłowanym Synem swoim\n" +
@@ -176,7 +220,7 @@ class PolishPrayersRepository: PrayersRepository() {
                 "Bądź pozdrowiona, Domu Jego.\nBądź pozdrowiona, Szato Jego,\n" +
                 "Bądź pozdrowiona, Służebnico Jego,\nBądź pozdrowiona, Matko Jego.\n" +
                 "I wy wszystkie święte cnoty,\nktóre Duch Święty\nswą łaską i oświeceniem\n" +
-                "wlewa w serca wiernych,\nabyście z niewiernych\nuczyniły wiernych Bogu.\n\n",
+                "wlewa w serca wiernych,\nabyście z niewiernych\nuczyniły wiernych Bogu.\n",
         justifiedString(
             "Bądź pozdrowiona, Królowo Mądrości, Pan niech cię strzeże z twą siostrą, świętą, czystą Prostotą.\n\n" +
                     "Pani święte Ubóstwo, Pan niech cię strzeże z twą siostrą, świętą Pokorą.\n\n" +
@@ -194,7 +238,7 @@ class PolishPrayersRepository: PrayersRepository() {
                     "Święte Posłuszeństwo zawstydza wszelkie ludzkie " +
                     "i cielesne pożądania, i utrzymuje ciało w umartwieniu, aby było posłuszne duchowi i aby słuchało swego brata, " +
                     "i czyni człowieka poddanym i uległym wszystkim ludziom, i nie tylko samym ludziom, lecz także dzikim " +
-                    "i okrutnym zwierzętom, aby mogły z nim czynić, co zechcą, na ile im Pan z wysoka pozwoli.\n\n",
+                    "i okrutnym zwierzętom, aby mogły z nim czynić, co zechcą, na ile im Pan z wysoka pozwoli.\n",
             firstLineIndent = 0
         ),
         "Ty jesteś Święty Pan Bóg jedyny,\nktóry czynisz cuda.\nTy jesteś mocny,\nTy jesteś wielki,\n" +
@@ -208,9 +252,9 @@ class PolishPrayersRepository: PrayersRepository() {
                 "Ty jesteś opiekunem,\nTy jesteś stróżem i obrońcą naszym;\nTy jesteś mocą,\n" +
                 "Ty jesteś orzeźwieniem.\nTy jesteś nadzieją naszą,\nTy jesteś wiarą naszą,\n" +
                 "Ty jesteś miłością naszą,\nTy jesteś całą słodyczą naszą,\nTy jesteś wiecznym życiem naszym:\n" +
-                "Wielkim i przedziwnym Panem,\nBogiem wszechmogącym, miłosiernym Zbawicielem.\n\n",
+                "Wielkim i przedziwnym Panem,\nBogiem wszechmogącym, miłosiernym Zbawicielem.\n",
         "Wielbimy Cię,\nnajświętszy Panie Jezu Chryste,\ntu i we wszystkich kościołach Twoich, które są na całym świecie,\n" +
-                "i błogosławimy Tobie,\nżeś przez święty krzyż Twój świat odkupić raczył.\n\n",
+                "i błogosławimy Tobie,\nżeś przez święty krzyż Twój świat odkupić raczył.\n",
         justifiedString(
             "Wszechmogący, najświętszy i najwyższy Boże, Ojcze święty i sprawiedliwy, Panie, królu nieba i ziemi, " +
                     "dzięki Ci składamy z powodu Ciebie samego, że Twoją świętą wolą i przez jedynego Syna Twego stworzyłeś " +
@@ -225,19 +269,19 @@ class PolishPrayersRepository: PrayersRepository() {
                     "A ponieważ my, nędzni i grzeszni, wszyscy razem nie jesteśmy godni wymówić Twego Imienia, błagamy " +
                     "pokornie, aby Pan nasz Jezus Chrystus, Syn Twój umiłowany, który Tobie wielce podoba się, składał Ci " +
                     "za wszystko dzięki wraz z Duchem Świętym Pocieszycielem, tak jak Tobie i Jemu się podoba, On, który Ci " +
-                    "za wszystko wystarcza, przez którego tyle dla nas uczyniłeś. Alleluja.\n\n"
+                    "za wszystko wystarcza, przez którego tyle dla nas uczyniłeś. Alleluja.\n"
         ),
         "Wszechmogący, najświętszy, najwyższy i największy Boże, " +
                 "wszelkie dobro, największe dobro, całe dobro, " +
                 "który sam jesteś dobry, Tobie pragniemy oddawać " +
                 "wszelką sławę, wszelką chwałę, wszelką wdzięczność, " +
                 "wszelką cześć, wszelkie błogosławieństwo i wszelkie dobra.\n" +
-                "Niech się stanie. Niech się stanie. Amen.\n\n",
+                "Niech się stanie. Niech się stanie. Amen.\n",
         "Wszechmogący, wiekuisty, sprawiedliwy i miłosierny Boże, daj nam nędznym czynić dla Ciebie to, " +
                 "o czym wiemy, że tego chcesz i chcieć zawsze tego, co się Tobie podoba, abyśmy wewnętrznie oczyszczeni, " +
                 "wewnętrznie oświeceni i rozpaleni ogniem Ducha Świętego, mogli iść śladami umiłowanego Syna Twego, " +
                 "Pana naszego Jezusa Chrystusa i dojść do Ciebie, Najwyższy, jedynie dzięki Twej łasce, który żyjesz i królujesz, " +
-                "i odbierasz hołd w doskonałej Trójcy i prostej Jedności, Bóg wszechmogący przez wszystkie wieki wieków. Amen.\n\n",
+                "i odbierasz hołd w doskonałej Trójcy i prostej Jedności, Bóg wszechmogący przez wszystkie wieki wieków. Amen.\n",
         justifiedString(
             "O Najświętszy Ojcze nasz: Stwórco, Odkupicielu, Pocieszycielu i Zbawicielu nasz.\n\n" +
                     "Który jesteś w niebie: w aniołach i w świętych. Oświecasz ich, aby Cię poznali, bo Ty, Panie jesteś światłością. " +
@@ -261,7 +305,7 @@ class PolishPrayersRepository: PrayersRepository() {
                     "w pełni odpuszczać, abyśmy dla Ciebie prawdziwie kochali nieprzyjaciół i modlili się za nich pobożnie " +
                     "do Ciebie, nikomu złem za złe nie oddając, i abyśmy starali się w Tobie wszystkim służyć pomocą.\n\n" +
                     "I nie wódź nas na pokuszenie: ukryte czy jawne, nagłe czy uporczywe.\n\n" +
-                    "Ale nas zbaw ode złego: przeszłego, obecnego i przyszłego.\n\nChwała Ojcu…\n\n"
+                    "Ale nas zbaw ode złego: przeszłego, obecnego i przyszłego.\n\nChwała Ojcu…\n"
         ),
         "Bójcie się Pana i cześć mu oddajcie.\nGodzien jest Pan odebrać chwałę i cześć.\n" +
                 "Wszyscy, którzy boicie się Pana, chwalcie Go.\nBądź pozdrowiona Maryjo, łaski pełna, Pan z Tobą.\n" +
@@ -273,6 +317,6 @@ class PolishPrayersRepository: PrayersRepository() {
                 "Wszystkie dzieci, chwalcie Pana.\nMłodzieńcy i panny, chwalcie Pana.\n" +
                 "Godzien jest Baranek, który został zabity,\nodebrać sławę, chwałę i cześć.\n" +
                 "Błogosławiona niech będzie Święta Trójca\ni nierozdzielna Jedność\n" +
-                "Święty Michale Archaniele, broń nas w walce. Amen.\n\n",
+                "Święty Michale Archaniele, broń nas w walce. Amen.\n",
     )
 }
