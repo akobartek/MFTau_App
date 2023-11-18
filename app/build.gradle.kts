@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.datastore)
     implementation(libs.browser)
+    implementation(libs.splashscreen)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))

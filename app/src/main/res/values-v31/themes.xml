@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MFTau" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/app_theme_primary</item>
-        <item name="colorSecondary">@color/app_theme_secondary</item>
-        <item name="colorPrimaryDark">@color/app_theme_background</item>
-    </style>
-
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/app_theme_background</item>
         <item name="postSplashScreenTheme">@style/Theme.MFTau</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo_animated</item>
         <item name="colorPrimary">@color/app_theme_primary</item>
         <item name="colorSecondary">@color/app_theme_secondary</item>
     </style>

@@ -4,7 +4,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import pl.mftau.mftau.MainViewModel
 import pl.mftau.mftau.auth.data.AuthRepositoryImpl
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.core.data.PreferencesRepository
@@ -25,4 +27,6 @@ val coreModule = module {
     factory { SettingsScreenModel(get()) }
 
     factory { EmailScreenModel() }
+
+    viewModel { MainViewModel(get()) }
 }

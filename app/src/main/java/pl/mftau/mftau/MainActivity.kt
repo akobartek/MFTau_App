@@ -1,52 +1,66 @@
 package pl.mftau.mftau
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.toArgb
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import cafe.adriel.voyager.navigator.Navigator
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.KoinContext
-import pl.mftau.mftau.core.data.ColorTheme
-import pl.mftau.mftau.core.data.PreferencesRepository
-import pl.mftau.mftau.core.data.UserPreferences
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.ui.CustomTransition
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val preferencesRepository = get<PreferencesRepository>()
-        var currentTheme = ColorTheme.SYSTEM
-        lifecycleScope.launch {
-            runBlocking {
-                currentTheme = preferencesRepository.getTheme()
-                currentTheme.setupAppCompatDelegate()
+        installSplashScreen().apply {
+            setOnExitAnimationListener { screen ->
+                val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 0.5f, 0.0f)
+                zoomX.duration = 400L
+                zoomX.doOnEnd {
+                    screen.remove()
+                    viewModel.splashScreenEnded()
+                }
+
+                val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 0.5f, 0.0f)
+                zoomY.duration = 400L
+                zoomY.doOnEnd {
+                    screen.remove()
+                    viewModel.splashScreenEnded()
+                }
+
+                zoomX.start()
+                zoomY.start()
             }
         }
+
         // TODO() -> handle shortcuts
 
         setContent {
-            val preferences by preferencesRepository.preferencesFlow
-                .collectAsStateWithLifecycle(initialValue = UserPreferences(colorTheme = currentTheme))
+            val preferences by viewModel.preferences.collectAsStateWithLifecycle()
+            val splashScreenEnded by viewModel.splashScreenEnded.collectAsStateWithLifecycle()
+
             KoinContext {
                 MFTauTheme(
                     colorTheme = preferences.colorTheme,
-                    dynamicColor = preferences.dynamicColors
+                    dynamicColor = preferences.dynamicColors,
+                    splashScreenEnded = splashScreenEnded
                 ) {
                     val color = MaterialTheme.colorScheme.primary
                     LaunchedEffect(key1 = preferences) {
-                        preferencesRepository.updateAccentColor(color.toArgb())
+                        viewModel.updateAccentColor(color)
                     }
 
                     Surface(color = MaterialTheme.colorScheme.background) {

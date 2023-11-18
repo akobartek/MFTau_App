@@ -24,7 +24,7 @@
         android:localeConfig="@xml/locale_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MFTau"
+        android:theme="@style/Theme.App.Starting"
         tools:ignore="UnusedAttribute"
         tools:targetApi="34">
 
@@ -32,7 +32,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.MFTau"
+            android:theme="@style/Theme.App.Starting"
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
