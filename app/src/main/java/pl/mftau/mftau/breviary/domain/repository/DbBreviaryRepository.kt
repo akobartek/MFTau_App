@@ -1,7 +1,7 @@
 package pl.mftau.mftau.breviary.domain.repository
 
 import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
-import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
+import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 
 interface DbBreviaryRepository {

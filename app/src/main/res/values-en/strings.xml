@@ -105,7 +105,7 @@
     <string name="remove_from_favourites">Remove from favourites</string>
     <string name="open_pdf">Open song book in PDF file</string>
     <string name="show_added_songs">Show songs added to song book</string>
-    <string name="show_playlist">Show playlist</string>
+    <string name="show_playlists">Show saved playlists</string>
     <string name="show_chords">Show chords</string>
     <string name="hide_chords">Hide chords</string>
     <string name="cd_collapse_bottom_sheet">Collapse bottom sheet</string>

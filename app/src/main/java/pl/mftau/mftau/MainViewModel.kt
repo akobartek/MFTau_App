@@ -5,7 +5,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.core.data.PreferencesRepository
@@ -21,10 +23,12 @@ class MainViewModel(private val preferencesRepository: PreferencesRepository) : 
 
     init {
         viewModelScope.launch {
-            preferencesRepository.userPreferencesFlow.collect { preferences ->
-                preferences.colorTheme.setupAppCompatDelegate()
-                _preferences.update { preferences }
-            }
+            preferencesRepository.userPreferencesFlow
+                .stateIn(this, SharingStarted.WhileSubscribed(5000L), UserPreferences())
+                .collect { preferences ->
+                    preferences.colorTheme.setupAppCompatDelegate()
+                    _preferences.update { preferences }
+                }
         }
     }
 

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
+import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun ResetPasswordDialog(
@@ -41,7 +42,12 @@ fun ResetPasswordDialog(
                 modifier = Modifier.size(24.dp)
             )
         },
-        title = { Text(text = stringResource(id = R.string.reset_password_dialog_title)) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.reset_password_dialog_title),
+                fontFamily = mfTauFont
+            )
+        },
         text = {
             Column {
                 Text(text = stringResource(id = R.string.reset_password_dialog_message))

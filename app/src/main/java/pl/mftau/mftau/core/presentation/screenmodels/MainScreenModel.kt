@@ -4,6 +4,8 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.google.firebase.FirebaseNetworkException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.auth.domain.AuthRepository
@@ -29,9 +31,9 @@ class MainScreenModel(
 
     private fun startObservingUser() {
         screenModelScope.launch(Dispatchers.Default) {
-            authRepository.currentUser.collect { user ->
-                mutableState.update { it.copy(user = user) }
-            }
+            authRepository.currentUser
+                .stateIn(this, SharingStarted.WhileSubscribed(5000L), null)
+                .collect { user -> mutableState.update { it.copy(user = user) } }
         }
     }
 

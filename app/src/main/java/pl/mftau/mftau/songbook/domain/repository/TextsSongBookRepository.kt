@@ -1,22 +1,24 @@
-package pl.mftau.mftau.songbook.domain
+package pl.mftau.mftau.songbook.domain.repository
 
-abstract class SongBookRepository {
+import pl.mftau.mftau.songbook.domain.model.Song
+import pl.mftau.mftau.songbook.domain.model.SongTopic
 
-    enum class Topic(val value: Int) {
-        ALL(0), FAVOURITES(1), SAINT_FRANCIS(2), HOLY_SPIRIT(3),
-        COMMUNION(4), WORSHIP(5), ADORATION(6), ATONEMENT(7),
-        EASTER(8), ADVENT(9), MARY(10), GIFTS(11), KIDS(12), CAROLS(13)
+abstract class TextsSongBookRepository {
+    protected abstract val titles: Array<String>
+    protected abstract val texts: Array<String>
+    protected abstract val chords: Array<String>
+    protected abstract val topics: Map<SongTopic, List<Int>>
+
+    fun getSongs(): List<Song> = titles.mapIndexed { index, title ->
+        //Indexes start from 0 and song book numbers from 1
+        val songTopics = topics.filter { (_, numbers) -> numbers.contains(index + 1) }.keys
+        Song(title = title, text = texts[index], chords = chords[index], topics = songTopics)
     }
 
-    protected abstract val songTitles: Array<String>
-    protected abstract val songs: Array<String>
-    protected abstract val chords: Array<String>
-    protected abstract val topics: Map<Topic, List<Int>>
-
-    /*
-        mollChords = c, cis, d, dis, e, f, fis, g, gis, a, b, h
-        durChords  = C, Cis, D, Dis, E, F, Fis, G, Gis, A, B, H
-    */
+    /**
+    mollChords = c, cis, d, dis, e, f, fis, g, gis, a, b, h
+    durChords  = C, Cis, D, Dis, E, F, Fis, G, Gis, A, B, H
+     */
     fun String.getTransposedChords(valueChange: Int): String =
         this.split("\n").joinToString("\n") { chordsLine ->
             chordsLine.split(" ").joinToString(" ") { chord ->

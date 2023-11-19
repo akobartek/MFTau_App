@@ -1,10 +1,10 @@
-package pl.mftau.mftau.breviary.data.db
+package pl.mftau.mftau.breviary.domain.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
+import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 
 @Dao
 interface BreviaryDao {

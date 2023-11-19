@@ -165,14 +165,10 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
                 ) {
                     Text(
                         text = elem,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(12.dp)
                     )
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .width(1.dp)
-                    )
+                    HorizontalDivider()
                 }
             }
         }

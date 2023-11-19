@@ -9,6 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import pl.mftau.mftau.R
+import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun NoInternetDialog(
@@ -22,7 +23,12 @@ fun NoInternetDialog(
                 contentDescription = null
             )
         },
-        title = { Text(text = stringResource(id = R.string.no_internet_title)) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.no_internet_title),
+                fontFamily = mfTauFont
+            )
+        },
         text = { Text(text = stringResource(id = R.string.no_internet_reconnect_message)) },
         onDismissRequest = {},
         confirmButton = {

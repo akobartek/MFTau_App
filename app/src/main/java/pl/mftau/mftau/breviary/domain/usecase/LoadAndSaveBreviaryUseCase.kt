@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
-import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
+import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository

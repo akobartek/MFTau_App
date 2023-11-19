@@ -2,7 +2,7 @@ package pl.mftau.mftau.songbook.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.PlaylistPlay
+import androidx.compose.material.icons.automirrored.filled.QueueMusic
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.MusicNote
@@ -31,7 +31,7 @@ import pl.mftau.mftau.core.utils.openPdf
 @Composable
 fun SongBookBottomAppBar(
     areChordsVisible: Boolean = false,
-    showChords: () -> Unit = {},
+    toggleChordsVisibility: () -> Unit = {},
     showChangeFontDialog: () -> Unit = {}
 ) {
     val navigator = LocalNavigator.currentOrThrow
@@ -68,11 +68,11 @@ fun SongBookBottomAppBar(
                 // TODO() -> NAVIGATION
             }) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.PlaylistPlay,
-                    contentDescription = stringResource(id = R.string.show_playlist)
+                    imageVector = Icons.AutoMirrored.Filled.QueueMusic,
+                    contentDescription = stringResource(id = R.string.show_playlists)
                 )
             }
-            IconButton(onClick = showChords) {
+            IconButton(onClick = toggleChordsVisibility) {
                 Icon(
                     imageVector = if (areChordsVisible) Icons.Filled.MusicNote else Icons.Filled.MusicOff,
                     contentDescription = stringResource(id = R.string.show_chords)

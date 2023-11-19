@@ -54,6 +54,7 @@ import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.core.data.UserPreferences
 import pl.mftau.mftau.core.presentation.components.TauTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
+import pl.mftau.mftau.ui.theme.mfTauFont
 
 class SettingsScreen : Screen {
     @Composable
@@ -242,7 +243,7 @@ private fun SelectionPreferenceRow(
     if (dialogVisible) {
         AlertDialog(
             icon = { Icon(imageVector = dialogImageVector, contentDescription = null) },
-            title = { Text(text = stringResource(id = dialogTitleId)) },
+            title = { Text(text = stringResource(id = dialogTitleId), fontFamily = mfTauFont) },
             text = {
                 Column(Modifier.selectableGroup()) {
                     values.forEach { value ->

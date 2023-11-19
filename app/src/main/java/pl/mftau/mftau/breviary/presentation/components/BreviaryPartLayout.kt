@@ -28,15 +28,13 @@ internal fun BreviaryPartHeader(title: String, pages: String, verses: String = "
             if (title.isNotBlank())
                 Text(
                     text = title.uppercase(),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = 32.dp)
                 )
             Text(
                 text = verses,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
             )
         }

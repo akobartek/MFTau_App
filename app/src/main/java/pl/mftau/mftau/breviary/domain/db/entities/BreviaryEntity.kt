@@ -1,4 +1,4 @@
-package pl.mftau.mftau.breviary.domain.model
+package pl.mftau.mftau.breviary.domain.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

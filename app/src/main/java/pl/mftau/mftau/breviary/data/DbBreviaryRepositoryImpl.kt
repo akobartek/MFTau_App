@@ -1,11 +1,13 @@
-package pl.mftau.mftau.breviary.data.repository
+package pl.mftau.mftau.breviary.data
 
-import pl.mftau.mftau.breviary.data.db.BreviaryDao
+import androidx.annotation.WorkerThread
+import pl.mftau.mftau.breviary.domain.db.BreviaryDao
 import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
-import pl.mftau.mftau.breviary.domain.model.BreviaryEntity
+import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository
 
+@WorkerThread
 class DbBreviaryRepositoryImpl(private val dao: BreviaryDao) : DbBreviaryRepository {
     override suspend fun insertBreviary(entity: BreviaryEntity): Long =
         dao.insertBreviary(entity)

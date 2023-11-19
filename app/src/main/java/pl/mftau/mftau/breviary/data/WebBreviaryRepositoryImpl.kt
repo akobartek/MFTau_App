@@ -1,4 +1,4 @@
-package pl.mftau.mftau.breviary.data.repository
+package pl.mftau.mftau.breviary.data
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -64,7 +64,7 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
                     ?.select("div")
                 officesDivs?.forEach {
                     val link = it.selectFirst("a")!!.attr("href").split("/")[1]
-                    offices[link] = it.text()
+                    offices.putIfAbsent(link, it.text())
                 }
                 Result.success(offices)
             }
@@ -115,8 +115,9 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         type: BreviaryType,
         onlyHtml: Boolean
     ): Breviary {
-        val element =
-            document.select("table").last { it.outerHtml().contains("Psalm ") }
+        val searchForString = if (type == BreviaryType.INVITATORY) " Psalm " else "Psalmodia"
+        val element = document.select("table")
+            .last { it.outerHtml().contains(searchForString, ignoreCase = true) }
 
         if (type == BreviaryType.OFFICE_OF_READINGS) {
             element.select("i")

@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
+import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun MultipleOfficesDialog(
@@ -44,7 +45,12 @@ fun MultipleOfficesDialog(
                 modifier = Modifier.size(24.dp)
             )
         },
-        title = { Text(text = stringResource(id = R.string.select_office)) },
+        title = {
+            Text(
+                text = stringResource(id = R.string.select_office),
+                fontFamily = mfTauFont
+            )
+        },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 offices.forEach { (link, text) ->

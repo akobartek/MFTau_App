@@ -20,7 +20,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         val DYNAMIC_COLORS = booleanPreferencesKey(DYNAMIC_COLORS_KEY)
         val REPEAT_GOSPEL = booleanPreferencesKey(REPEAT_GOSPEL_KEY)
         val KEEP_SONG_BOOK_AWAKE = booleanPreferencesKey(KEEP_SONG_BOOK_AWAKE_KEY)
-        val SONG_BOOK_SHOW_CORDS = booleanPreferencesKey(SONG_BOOK_SHOW_CORDS_KEY)
+        val SONG_BOOK_ARE_CHORDS_VISIBLE = booleanPreferencesKey(SONG_BOOK_ARE_CHORDS_VISIBLE_KEY)
         val SONG_BOOK_FONT_SIZE = intPreferencesKey(SONG_BOOK_FONT_SIZE_KEY)
         val LAST_USED_EMAIL = stringPreferencesKey(LAST_USED_EMAIL_KEY)
         val ACCENT_COLOR = intPreferencesKey(ACCENT_COLOR_KEY)
@@ -76,6 +76,10 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         updatePreference(color, PreferencesKeys.ACCENT_COLOR)
     }
 
+    suspend fun updateChordsVisibility(visibility: Boolean) {
+        updatePreference(visibility, PreferencesKeys.SONG_BOOK_ARE_CHORDS_VISIBLE)
+    }
+
     private suspend fun <T> updatePreference(value: T, key: Preferences.Key<T>) {
         dataStore.edit { preferences -> preferences[key] = value }
     }
@@ -90,9 +94,9 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
     private fun mapSongBookPreferences(preferences: Preferences): SongBookPreferences {
         val keepSongBookAwake = preferences[PreferencesKeys.KEEP_SONG_BOOK_AWAKE] ?: false
-        val showCords = preferences[PreferencesKeys.SONG_BOOK_SHOW_CORDS] ?: false
-        val fontSize = preferences[PreferencesKeys.SONG_BOOK_FONT_SIZE] ?: 18
-        return SongBookPreferences(keepSongBookAwake, showCords, fontSize)
+        val areChordsVisible = preferences[PreferencesKeys.SONG_BOOK_ARE_CHORDS_VISIBLE] ?: false
+        val fontSize = preferences[PreferencesKeys.SONG_BOOK_FONT_SIZE] ?: 15
+        return SongBookPreferences(keepSongBookAwake, areChordsVisible, fontSize)
     }
 
     companion object {
@@ -102,7 +106,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         private const val DYNAMIC_COLORS_KEY = "dynamic_colors"
         private const val REPEAT_GOSPEL_KEY = "repeat_gospel"
         private const val KEEP_SONG_BOOK_AWAKE_KEY = "keep_song_book_awake"
-        private const val SONG_BOOK_SHOW_CORDS_KEY = "song_book_show_cords"
+        private const val SONG_BOOK_ARE_CHORDS_VISIBLE_KEY = "song_book_are_chords_visible"
         private const val SONG_BOOK_FONT_SIZE_KEY = "song_book_font_size"
         private const val LAST_USED_EMAIL_KEY = "last_used_email"
         private const val ACCENT_COLOR_KEY = "accent_color"

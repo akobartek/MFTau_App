@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun BasicAlertDialog(
@@ -22,7 +23,13 @@ fun BasicAlertDialog(
 ) {
     AlertDialog(
         icon = { Icon(imageVector = imageVector, contentDescription = null) },
-        title = { Text(text = stringResource(id = dialogTitleId), textAlign = TextAlign.Center) },
+        title = {
+            Text(
+                text = stringResource(id = dialogTitleId),
+                textAlign = TextAlign.Center,
+                fontFamily = mfTauFont
+            )
+        },
         text = { Text(text = stringResource(id = dialogTextId)) },
         onDismissRequest = { if (dismissible) onDismissRequest() },
         confirmButton = {

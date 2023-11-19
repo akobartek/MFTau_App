@@ -11,14 +11,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.LockReset
@@ -45,7 +43,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -68,7 +65,7 @@ import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.core.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
-import pl.mftau.mftau.songbook.presentation.SongsListScreen
+import pl.mftau.mftau.songbook.presentation.SongBookListScreen
 import pl.mftau.mftau.ui.WindowInfo
 import pl.mftau.mftau.ui.rememberWindowInfo
 import pl.mftau.mftau.ui.theme.mfTauFont
@@ -180,11 +177,7 @@ private fun ProfileOptions(screenModel: MainScreenModel) {
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(text = state.user?.email ?: "")
                 }
-                HorizontalDivider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .width(1.dp)
-                )
+                HorizontalDivider()
                 Column(modifier = Modifier.padding(horizontal = 4.dp)) {
                     DropdownMenuItem(
                         text = { Text(text = stringResource(id = R.string.sign_out)) },
@@ -401,7 +394,7 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
             ButtonData(
                 title = stringResource(id = R.string.song_book),
                 icon = Icons.Outlined.Lyrics,
-                onClick = { navigator.push(SongsListScreen()) }
+                onClick = { navigator.push(SongBookListScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.breviary),
