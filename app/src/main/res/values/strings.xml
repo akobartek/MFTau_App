@@ -6,7 +6,7 @@
     <string name="cd_more_options_btn">Więcej opcji</string>
     <string name="cd_profile_pic">Zdjęcie profilowe</string>
     <string name="cd_main_screen_btn">Przejdź na ekran %s</string>
-    <string name="cd_back_arrow_btn">Cofnij na poprzedni ekran</string>
+    <string name="cd_navigate_up">Cofnij na poprzedni ekran</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statut</string>
     <string name="readings">Czytelnia</string>
@@ -98,10 +98,13 @@
     <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
     <string name="show_as_list">Wyświetl utwory jako listę</string>
     <string name="change_font_size">Zmień wielkość tekstu</string>
+    <string name="lower_font_size">Zmniejsz wielkość tekstu</string>
+    <string name="increase_font_size">Zwiększ wielkość tekstu</string>
     <string name="max_size_msg">Została już ustawiona maksymalna wielkość!</string>
     <string name="min_size_msg">Została już ustawiona minimalna wielkość!</string>
-    <string name="example_text">Przykładowy tekst:\n\nRef. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
-    <string name="cd_navigate_up">Cofnij do poprzedniego widoku</string>
+    <string name="example_text">Przykładowy tekst:</string>
+    <string name="example_song" translatable="false">Ref. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
+    <string name="reset">Reset</string>
     <string name="add_to_playlist">Dodaj do playlisty</string>
     <string name="add_to_favourites">Dodaj do ulubionych</string>
     <string name="remove_from_playlist">Usuń z playlisty</string>

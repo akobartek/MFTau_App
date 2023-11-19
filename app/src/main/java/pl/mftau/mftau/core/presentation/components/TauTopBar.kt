@@ -34,7 +34,7 @@ fun TauTopBar(
             IconButton(onClick = onNavClick) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
+                    contentDescription = stringResource(id = R.string.cd_navigate_up)
                 )
             }
         },

@@ -46,10 +46,7 @@ fun MultipleOfficesDialog(
             )
         },
         title = {
-            Text(
-                text = stringResource(id = R.string.select_office),
-                fontFamily = mfTauFont
-            )
+            Text(text = stringResource(id = R.string.select_office), fontFamily = mfTauFont)
         },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState())) {

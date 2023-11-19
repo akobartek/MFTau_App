@@ -5,7 +5,7 @@
     <string name="cd_more_options_btn">More options</string>
     <string name="cd_profile_pic">Profile picture</string>
     <string name="cd_main_screen_btn">Open %s screen</string>
-    <string name="cd_back_arrow_btn">Back to previous screen</string>
+    <string name="cd_navigate_up">Back to previous screen</string>
     <string name="statute">Statute</string>
     <string name="readings">Readings</string>
     <string name="song_book">Song book</string>
@@ -95,10 +95,12 @@
     <string name="empty_search_query">If you want to search a song, type the query above!</string>
     <string name="show_as_list">Show songs as list</string>
     <string name="change_font_size">Change font size</string>
+    <string name="lower_font_size">Lower font size</string>
+    <string name="increase_font_size">Increase font size</string>
     <string name="max_size_msg">Current size is the biggest possible!</string>
     <string name="min_size_msg">Current size is the smallest possible!</string>
-    <string name="example_text">Example text:\n\nRef. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
-    <string name="cd_navigate_up">Navigate up</string>
+    <string name="example_text">Example text:</string>
+    <string name="reset">Reset</string>
     <string name="add_to_playlist">Add to playlist</string>
     <string name="add_to_favourites">Add to favourites</string>
     <string name="remove_from_playlist">Remove from playlist</string>

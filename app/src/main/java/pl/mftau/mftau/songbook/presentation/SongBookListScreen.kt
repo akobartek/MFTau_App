@@ -16,8 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
-import androidx.compose.material.icons.filled.StarRate
-import androidx.compose.material.icons.outlined.StarRate
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,12 +36,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.koin.getScreenModel
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.songbook.presentation.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookBottomAppBar
+import pl.mftau.mftau.songbook.presentation.components.SongText
 
 class SongBookListScreen : SongBookScreen() {
     @Composable
@@ -54,15 +55,14 @@ class SongBookListScreen : SongBookScreen() {
 @Composable
 fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
     val state by screenModel.state.collectAsStateWithLifecycle()
+    var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
 
     Scaffold(
         bottomBar = {
             SongBookBottomAppBar(
                 areChordsVisible = state.preferences.areChordsVisible,
                 toggleChordsVisibility = screenModel::toggleChordsVisibility,
-                showChangeFontDialog = {
-                    // TODO()
-                }
+                showChangeFontDialog = { changeFontSizeDialogVisible = true }
             )
         }
     ) { paddingValues ->
@@ -73,7 +73,7 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            items(state.songBook.songs) { song ->
+            items(state.songs) { song ->
                 var expanded by remember { mutableStateOf(false) }
 
                 Card(
@@ -90,22 +90,20 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                                 style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier
                                     .weight(1f)
-                                    .padding(8.dp)
+                                    .padding(start = 8.dp)
                             )
                             IconButton(onClick = {
                                 // TODO() -> SHOW DIALOG TO SELECT PLAYLIST
                             }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
-                                    contentDescription = stringResource(id = R.string.cd_back_arrow_btn)
+                                    contentDescription = stringResource(id = R.string.cd_navigate_up)
                                 )
                             }
-                            IconButton(onClick = {
-                                // TODO() -> ADD TO FAVOURITES
-                            }) {
+                            IconButton(onClick = { screenModel.markSongAsFavourite(song) }) {
                                 Crossfade(targetState = song.isFavourite, label = "") {
                                     Icon(
-                                        imageVector = if (it) Icons.Filled.StarRate else Icons.Outlined.StarRate,
+                                        imageVector = if (it) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                                         contentDescription = stringResource(
                                             id = if (it) R.string.remove_from_favourites else R.string.add_to_favourites
                                         )
@@ -119,10 +117,9 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                                     .padding(horizontal = 8.dp)
                                     .padding(top = 4.dp)
                             ) {
-                                Text(
+                                SongText(
                                     text = song.text,
-                                    fontSize = state.preferences.fontSize.sp,
-                                    letterSpacing = 0.sp,
+                                    fontSize = state.preferences.fontSize,
                                     modifier = Modifier
                                         .weight(1f)
                                         .horizontalScroll(rememberScrollState())
@@ -132,10 +129,9 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                                         modifier = Modifier.padding(horizontal = 4.dp)
                                     )
-                                    Text(
+                                    SongText(
                                         text = song.chords,
-                                        fontSize = state.preferences.fontSize.sp,
-                                        letterSpacing = 0.sp,
+                                        fontSize = state.preferences.fontSize
                                     )
                                 }
                             }
@@ -145,12 +141,19 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
             }
         }
 
-        if (state.songBook.songs.isEmpty())
+        if (state.songs.isEmpty())
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
                 LoadingIndicator()
             }
+
+        if (changeFontSizeDialogVisible)
+            ChangeFontSizeDialog(
+                currentFontSize = state.preferences.fontSize,
+                onSave = screenModel::changeFontSize,
+                dismiss = { changeFontSizeDialogVisible = false }
+            )
     }
 }

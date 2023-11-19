@@ -24,8 +24,8 @@ interface SongBookDao {
     suspend fun deleteSong(song: SongEntity)
 
 
-    @Query("SELECT * from playlist")
-    fun getPlayLists(): Flow<List<PlaylistEntity>>
+    @Query("SELECT * from playlist JOIN playlist_song ON playlist.id = playlist_song.playlistId")
+    fun getPlayLists(): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
 
     @Query(
         "SELECT p.*, ps.count FROM playlist p " +
@@ -41,7 +41,7 @@ interface SongBookDao {
                 "JOIN playlist_song ON playlist.id = playlist_song.playlistId " +
                 "WHERE playlist.id = :playlistId"
     )
-    fun getPlayListWithSongs(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
+    fun getSinglePlaylist(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
 
     @Delete
     suspend fun deletePlaylist(playlist: PlaylistEntity)

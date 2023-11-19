@@ -16,7 +16,7 @@ data class Song(
         title = title,
         text = text,
         chords = chords,
-        topics = topics.joinToString(","),
+        topics = topics.map { it.value }.joinToString(","),
         isFavourite = isOriginallyInSongBook,
         isOriginallyInSongBook = isFavourite
     )

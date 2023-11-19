@@ -30,7 +30,7 @@ class MainScreenModel(
     }
 
     private fun startObservingUser() {
-        screenModelScope.launch(Dispatchers.Default) {
+        screenModelScope.launch {
             authRepository.currentUser
                 .stateIn(this, SharingStarted.WhileSubscribed(5000L), null)
                 .collect { user -> mutableState.update { it.copy(user = user) } }

@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.core.data.PreferencesRepository
@@ -24,7 +23,7 @@ class ReadingsListScreenModel(
     )
 
     init {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val color = Color(preferencesRepository.getAccentColor())
             mutableState.update {
                 it.copy(

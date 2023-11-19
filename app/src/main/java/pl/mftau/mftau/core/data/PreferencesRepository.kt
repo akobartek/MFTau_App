@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
+import pl.mftau.mftau.songbook.domain.model.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
 
 class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
@@ -80,6 +81,10 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         updatePreference(visibility, PreferencesKeys.SONG_BOOK_ARE_CHORDS_VISIBLE)
     }
 
+    suspend fun updateSongBookFontSize(fontSize: Int) {
+        updatePreference(fontSize, PreferencesKeys.SONG_BOOK_FONT_SIZE)
+    }
+
     private suspend fun <T> updatePreference(value: T, key: Preferences.Key<T>) {
         dataStore.edit { preferences -> preferences[key] = value }
     }
@@ -95,7 +100,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     private fun mapSongBookPreferences(preferences: Preferences): SongBookPreferences {
         val keepSongBookAwake = preferences[PreferencesKeys.KEEP_SONG_BOOK_AWAKE] ?: false
         val areChordsVisible = preferences[PreferencesKeys.SONG_BOOK_ARE_CHORDS_VISIBLE] ?: false
-        val fontSize = preferences[PreferencesKeys.SONG_BOOK_FONT_SIZE] ?: 15
+        val fontSize = preferences[PreferencesKeys.SONG_BOOK_FONT_SIZE] ?: DEFAULT_FONT_SIZE
         return SongBookPreferences(keepSongBookAwake, areChordsVisible, fontSize)
     }
 

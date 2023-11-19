@@ -361,9 +361,9 @@ private fun FirstButtonsRow(modifier: Modifier = Modifier) {
                 }
             ),
             ButtonData(
-                title = stringResource(id = R.string.gospel),
-                icon = ImageVector.vectorResource(id = R.drawable.ic_gospel),
-                onClick = { navigator.push(GospelScreen()) }
+                title = stringResource(id = R.string.song_book),
+                icon = Icons.Outlined.Lyrics,
+                onClick = { navigator.push(SongBookListScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.statute),
@@ -392,9 +392,9 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
                 onClick = { navigator.push(ReadingsListScreen()) }
             ),
             ButtonData(
-                title = stringResource(id = R.string.song_book),
-                icon = Icons.Outlined.Lyrics,
-                onClick = { navigator.push(SongBookListScreen()) }
+                title = stringResource(id = R.string.gospel),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_gospel),
+                onClick = { navigator.push(GospelScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.breviary),

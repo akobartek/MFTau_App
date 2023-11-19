@@ -10,19 +10,20 @@ import pl.mftau.mftau.songbook.domain.db.entities.SongEntity
 
 @WorkerThread
 class DbSongBookRepository(private val songBookDao: SongBookDao) {
-    fun getSong(): Flow<List<SongEntity>> = songBookDao.getSongs()
+    fun getSongs(): Flow<List<SongEntity>> = songBookDao.getSongs()
 
     suspend fun upsertSong(song: SongEntity) = songBookDao.upsertSong(song)
 
     suspend fun deleteSong(song: SongEntity) = songBookDao.deleteSong(song)
 
-    fun getPlayLists(): Flow<List<PlaylistEntity>> = songBookDao.getPlayLists()
+    fun getPlayLists(): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>> =
+        songBookDao.getPlayLists()
 
     fun getPlaylistsWithSongCount(): Flow<List<PlaylistWithSongCount>> =
         songBookDao.getPlaylistsWithSongCount()
 
-    fun getPlayListsWithSongs(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>> =
-        songBookDao.getPlayListWithSongs(playlistId)
+    fun getSinglePlaylist(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>> =
+        songBookDao.getSinglePlaylist(playlistId)
 
     suspend fun deletePlaylist(playlist: PlaylistEntity) = songBookDao.deletePlaylist(playlist)
 
