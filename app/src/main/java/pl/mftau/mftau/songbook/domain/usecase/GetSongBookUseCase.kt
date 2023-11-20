@@ -23,7 +23,7 @@ class GetSongBookUseCase(
         }
         val playlists = dbPlaylists.map { (playlistEntity, playlistSongsEntities) ->
             val playlistSongs = playlistSongsEntities.map { entity ->
-                if (entity.title != null) songs.first { it.title == entity.title }
+                if (entity.songTitle != null) songs.first { it.title == entity.songTitle }
                 else songs.first { it.databaseId == entity.songId }
             }
             playlistEntity.toModelObject(playlistSongs)

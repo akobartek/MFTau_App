@@ -101,10 +101,15 @@
     <string name="min_size_msg">Current size is the smallest possible!</string>
     <string name="example_text">Example text:</string>
     <string name="reset">Reset</string>
-    <string name="add_to_playlist">Add to playlist</string>
+    <string name="add_to_playlist">Add to playlists</string>
     <string name="add_to_favourites">Add to favourites</string>
     <string name="remove_from_playlist">Remove from playlist</string>
     <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="save_playlist">Save playlist</string>
+    <string name="playlist_name">Playlist name</string>
+    <string name="new_playlist_name">New playlist name</string>
+    <string name="playlists_updated">Playlists updated</string>
+    <string name="create_playlist">Create list</string>
     <string name="open_pdf">Open song book in PDF file</string>
     <string name="show_added_songs">Show songs added to song book</string>
     <string name="show_playlists">Show saved playlists</string>

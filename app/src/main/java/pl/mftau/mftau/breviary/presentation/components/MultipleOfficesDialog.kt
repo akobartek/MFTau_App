@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -52,7 +53,16 @@ fun MultipleOfficesDialog(
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 offices.forEach { (link, text) ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(vertical = 2.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { selectedOfficeLink = link }
+                            .background(
+                                color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.secondaryContainer
+                                else MaterialTheme.colorScheme.background,
+                            )
+                            .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -60,23 +70,13 @@ fun MultipleOfficesDialog(
                             color =
                             if (selectedOfficeLink == link) MaterialTheme.colorScheme.onSecondaryContainer
                             else MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .padding(vertical = 2.dp)
-                                .fillMaxWidth()
-                                .clickable { selectedOfficeLink = link }
-                                .background(
-                                    color = if (selectedOfficeLink == link) MaterialTheme.colorScheme.secondaryContainer
-                                    else MaterialTheme.colorScheme.background,
-                                    shape = RoundedCornerShape(8.dp)
-                                )
-                                .padding(8.dp)
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
         },
-        onDismissRequest = {},
+        onDismissRequest = onCancel,
         confirmButton = {
             TextButton(onClick = { onSelect(selectedOfficeLink) }) {
                 Text(stringResource(id = R.string.save))

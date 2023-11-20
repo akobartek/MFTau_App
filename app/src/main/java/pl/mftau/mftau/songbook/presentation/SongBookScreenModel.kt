@@ -12,11 +12,15 @@ import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
 import pl.mftau.mftau.songbook.domain.model.SongTopic
 import pl.mftau.mftau.songbook.domain.usecase.GetSongBookUseCase
 import pl.mftau.mftau.songbook.domain.usecase.MarkSongAsFavouriteUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 
 class SongBookScreenModel(
+    private val preferencesRepository: PreferencesRepository,
     private val getSongBookUseCase: GetSongBookUseCase,
     private val markSongAsFavouriteUseCase: MarkSongAsFavouriteUseCase,
-    private val preferencesRepository: PreferencesRepository
+    private val savePlaylistUseCase: SavePlaylistUseCase,
+    private val saveSongsInPlaylistUseCase: SaveSongsInPlaylistUseCase
 ) : StateScreenModel<SongBookScreenModel.SongBookState>(SongBookState()) {
 
     data class SongBookState(
@@ -25,9 +29,11 @@ class SongBookScreenModel(
         val preferences: SongBookPreferences = SongBookPreferences(),
         val selectedFilter: SongTopic = SongTopic.ALL,
         val search: String = "",
+        val songSelectedToPlaylists: Song? = null
     ) {
         override fun equals(other: Any?): Boolean {
-            if (other is SongBookState && songs !== other.songs) return false
+            if (other is SongBookState && (songs !== other.songs || playlists !== other.playlists))
+                return false
             return super.equals(other)
         }
 
@@ -75,6 +81,29 @@ class SongBookScreenModel(
     fun changeFontSize(newSize: Int) {
         screenModelScope.launch(Dispatchers.IO) {
             preferencesRepository.updateSongBookFontSize(newSize)
+        }
+    }
+
+    fun togglePlaylistDialogVisibility(song: Song?) {
+        screenModelScope.launch {
+            mutableState.update { it.copy(songSelectedToPlaylists = song) }
+        }
+    }
+
+    fun saveSongInPlaylists(playlists: List<Playlist>) {
+        screenModelScope.launch {
+            saveSongsInPlaylistUseCase(
+                song = state.value.songSelectedToPlaylists,
+                allPlaylists = state.value.playlists,
+                selectedPlaylists = playlists
+            )
+            togglePlaylistDialogVisibility(null)
+        }
+    }
+
+    fun addNewPlaylist(name: String) {
+        screenModelScope.launch {
+            savePlaylistUseCase(name)
         }
     }
 }

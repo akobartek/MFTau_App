@@ -1,5 +1,7 @@
 package pl.mftau.mftau.auth.presentation
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -78,6 +80,7 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
 
     val (emailRef, passwordRef) = remember { FocusRequester.createRefs() }
     val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     val state by screenModel.state.collectAsStateWithLifecycle()
 
@@ -114,7 +117,11 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                 title = "",
                 onNavClick = navigator::pop
             )
-        }
+        },
+        modifier = Modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null
+        ) { focusManager.clearFocus(true) }
     ) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -123,7 +130,12 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                 .fillMaxSize()
                 .padding(horizontal = 48.dp)
         ) {
-            CommunityLogo(modifier = Modifier.padding(top = 8.dp))
+            CommunityLogo(modifier = Modifier
+                .padding(top = 8.dp)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) { focusManager.clearFocus(true) })
             OutlinedTextField(
                 value = state.email,
                 onValueChange = screenModel::updateEmail,
@@ -213,14 +225,20 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = screenModel::signIn,
+                onClick = {
+                    focusManager.clearFocus(true)
+                    screenModel.signIn()
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(id = R.string.sign_in))
             }
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedButton(
-                onClick = screenModel::signUp,
+                onClick = {
+                    focusManager.clearFocus(true)
+                    screenModel.signUp()
+                },
                 modifier = Modifier.fillMaxWidth(0.75f)
             ) {
                 Text(text = stringResource(id = R.string.sign_up))

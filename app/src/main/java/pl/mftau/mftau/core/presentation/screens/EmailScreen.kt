@@ -2,6 +2,8 @@ package pl.mftau.mftau.core.presentation.screens
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -87,6 +89,7 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
 
     val (nameRef, messageRef) = remember { FocusRequester.createRefs() }
     val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     val state by screenModel.state.collectAsStateWithLifecycle()
 
@@ -142,7 +145,11 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                     contentDescription = stringResource(id = R.string.send_mail)
                 )
             }
-        }
+        },
+        modifier = Modifier.clickable(
+            interactionSource = interactionSource,
+            indication = null
+        ) { focusManager.clearFocus(true) }
     ) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

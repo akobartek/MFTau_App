@@ -2,8 +2,6 @@ package pl.mftau.mftau.songbook.domain.db
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +22,15 @@ interface SongBookDao {
     suspend fun deleteSong(song: SongEntity)
 
 
-    @Query("SELECT * from playlist JOIN playlist_song ON playlist.id = playlist_song.playlistId")
+    @Upsert
+    suspend fun upsertSong(playlist: PlaylistEntity)
+
+    @Query("SELECT * from playlist LEFT JOIN playlist_song ON playlist.id = playlist_song.playlistId")
     fun getPlayLists(): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
 
     @Query(
         "SELECT p.*, ps.count FROM playlist p " +
-                "JOIN ( " +
+                "LEFT JOIN ( " +
                 "   SELECT playlistId, COUNT(playlistId) count FROM playlist_song " +
                 "   GROUP BY playlistId) ps " +
                 "ON p.id = ps.playlistId"
@@ -38,7 +39,7 @@ interface SongBookDao {
 
     @Query(
         "SELECT * from playlist " +
-                "JOIN playlist_song ON playlist.id = playlist_song.playlistId " +
+                "LEFT JOIN playlist_song ON playlist.id = playlist_song.playlistId " +
                 "WHERE playlist.id = :playlistId"
     )
     fun getSinglePlaylist(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
@@ -47,9 +48,12 @@ interface SongBookDao {
     suspend fun deletePlaylist(playlist: PlaylistEntity)
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertToPlaylist(playlistSong: PlaylistSongEntity)
+    @Upsert
+    suspend fun insertToPlaylists(vararg playlistSongs: PlaylistSongEntity)
 
-    @Delete
-    suspend fun deleteFromPlaylist(playlistSong: PlaylistSongEntity)
+    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songTitle = :songTitle")
+    suspend fun deleteBySongTitle(playlistId: Long, songTitle: String)
+
+    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songId = :songId")
+    suspend fun deleteBySongId(playlistId: Long, songId: Long)
 }

@@ -8,6 +8,8 @@ import pl.mftau.mftau.songbook.domain.db.SongBookDao
 import pl.mftau.mftau.songbook.domain.repository.TextsSongBookRepository
 import pl.mftau.mftau.songbook.domain.usecase.GetSongBookUseCase
 import pl.mftau.mftau.songbook.domain.usecase.MarkSongAsFavouriteUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 import pl.mftau.mftau.songbook.presentation.SongBookScreenModel
 
 val songBookModule = module {
@@ -24,5 +26,9 @@ val songBookModule = module {
 
     single { MarkSongAsFavouriteUseCase(get()) }
 
-    factory { SongBookScreenModel(get(), get(), get()) }
+    single { SavePlaylistUseCase(get()) }
+
+    single { SaveSongsInPlaylistUseCase(get()) }
+
+    factory { SongBookScreenModel(get(), get(), get(), get(), get()) }
 }

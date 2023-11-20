@@ -16,6 +16,9 @@ class DbSongBookRepository(private val songBookDao: SongBookDao) {
 
     suspend fun deleteSong(song: SongEntity) = songBookDao.deleteSong(song)
 
+
+    suspend fun upsertPlaylist(playlist: PlaylistEntity) = songBookDao.upsertSong(playlist)
+
     fun getPlayLists(): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>> =
         songBookDao.getPlayLists()
 
@@ -27,9 +30,13 @@ class DbSongBookRepository(private val songBookDao: SongBookDao) {
 
     suspend fun deletePlaylist(playlist: PlaylistEntity) = songBookDao.deletePlaylist(playlist)
 
-    suspend fun insertToPlaylist(playlistSong: PlaylistSongEntity) =
-        songBookDao.insertToPlaylist(playlistSong)
+    suspend fun insertToPlaylist(playlistSongs: Array<PlaylistSongEntity>) =
+        songBookDao.insertToPlaylists(*playlistSongs)
 
-    suspend fun deleteFromPlaylist(playlistSong: PlaylistSongEntity) =
-        songBookDao.deleteFromPlaylist(playlistSong)
+    suspend fun deleteFromPlaylist(entities: List<PlaylistSongEntity>) =
+        entities.forEach { deleteFromPlaylist(it) }
+
+    suspend fun deleteFromPlaylist(entity: PlaylistSongEntity) =
+        if (entity.songTitle == null) songBookDao.deleteBySongId(entity.playlistId, entity.songId!!)
+        else songBookDao.deleteBySongTitle(entity.playlistId, entity.songTitle!!)
 }

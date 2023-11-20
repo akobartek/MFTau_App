@@ -105,10 +105,15 @@
     <string name="example_text">Przykładowy tekst:</string>
     <string name="example_song" translatable="false">Ref. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
     <string name="reset">Reset</string>
-    <string name="add_to_playlist">Dodaj do playlisty</string>
+    <string name="add_to_playlist">Dodaj do playlist</string>
     <string name="add_to_favourites">Dodaj do ulubionych</string>
     <string name="remove_from_playlist">Usuń z playlisty</string>
     <string name="remove_from_favourites">Usuń z ulubionych</string>
+    <string name="save_playlist">Zapisz playlistę</string>
+    <string name="playlist_name">Nazwa playlisty</string>
+    <string name="new_playlist_name">Nazwa nowej playlisty</string>
+    <string name="playlists_updated">Zaktualizowano playlisty</string>
+    <string name="create_playlist">Utwórz listę</string>
     <string name="open_pdf">Otwórz śpiewnik w pliku PDF</string>
     <string name="show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
     <string name="show_playlists">Wyświetl zapisane playlisty</string>

@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.koin.getScreenModel
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.songbook.presentation.components.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookBottomAppBar
 import pl.mftau.mftau.songbook.presentation.components.SongText
@@ -92,9 +93,7 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                                     .weight(1f)
                                     .padding(start = 8.dp)
                             )
-                            IconButton(onClick = {
-                                // TODO() -> SHOW DIALOG TO SELECT PLAYLIST
-                            }) {
+                            IconButton(onClick = { screenModel.togglePlaylistDialogVisibility(song) }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
                                     contentDescription = stringResource(id = R.string.cd_navigate_up)
@@ -154,6 +153,15 @@ fun SongBookListScreenContent(screenModel: SongBookScreenModel) {
                 currentFontSize = state.preferences.fontSize,
                 onSave = screenModel::changeFontSize,
                 dismiss = { changeFontSizeDialogVisible = false }
+            )
+
+        if (state.songSelectedToPlaylists != null)
+            AddToPlaylistDialog(
+                song = state.songSelectedToPlaylists!!,
+                playlists = state.playlists,
+                addNewPlaylist = screenModel::addNewPlaylist,
+                saveSongInPlaylists = screenModel::saveSongInPlaylists,
+                dismiss = { screenModel.togglePlaylistDialogVisibility(null) },
             )
     }
 }
