@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.HistoryEdu
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
@@ -30,7 +31,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 
 class ReadingsListScreen : ReadingsScreen() {
     @Composable
@@ -39,6 +40,7 @@ class ReadingsListScreen : ReadingsScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
@@ -47,7 +49,7 @@ fun ReadingsListScreenContent(screenModel: ReadingsListScreenModel) {
     Scaffold(
         topBar = {
             Column {
-                TauTopBar(
+                TauCenteredTopBar(
                     title = stringResource(id = R.string.readings),
                     onNavClick = navigator::pop,
                 )

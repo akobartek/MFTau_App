@@ -52,7 +52,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.core.data.UserPreferences
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 import pl.mftau.mftau.ui.theme.mfTauFont
 
@@ -71,7 +71,7 @@ fun SettingsScreenContent(screenModel: SettingsScreenModel) {
 
     Scaffold(
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = stringResource(id = R.string.settings),
                 onNavClick = navigator::pop
             )

@@ -38,7 +38,7 @@ import org.koin.compose.koinInject
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.utils.speak
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
@@ -89,7 +89,7 @@ fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isS
 
     Scaffold(
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = stringResource(id = R.string.gospel_for_today),
                 onNavClick = navigator::pop,
                 actions = {

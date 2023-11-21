@@ -1,6 +1,8 @@
 package pl.mftau.mftau.core.utils
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -22,6 +24,14 @@ import pl.mftau.mftau.core.data.PreferencesRepository
 import java.io.File
 import java.io.FileOutputStream
 
+fun <T> List<T>.swap(index1: Int, index2: Int): List<T> {
+    val list = this.toMutableList()
+    val tmp = this[index1]
+    list[index1] = this[index2]
+    list[index2] = tmp
+    return list
+}
+
 fun CharSequence.isValidEmail(): Boolean =
     android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
@@ -29,6 +39,12 @@ val Context.dataStore by preferencesDataStore(name = PreferencesRepository.DATA_
 
 fun Context.showShortToast(msgId: Int) {
     Toast.makeText(this, getString(msgId), Toast.LENGTH_SHORT).show()
+}
+
+fun Context.copyToClipboard(text: String, label: String) {
+    (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
+        .setPrimaryClip(ClipData.newPlainText(label, text))
+        .also { showShortToast(R.string.copied_to_clipboard) }
 }
 
 fun Context.getBitmapFromUri(uri: Uri): Bitmap {

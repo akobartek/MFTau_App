@@ -11,13 +11,13 @@ import androidx.compose.ui.text.style.TextAlign
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
-fun BasicAlertDialog(
+fun MFTauAlertDialog(
     imageVector: ImageVector,
     dismissible: Boolean = true,
     dialogTitleId: Int,
     dialogTextId: Int,
     confirmBtnTextId: Int,
-    onConfirmation: () -> Unit,
+    onConfirm: () -> Unit,
     dismissBtnTextId: Int? = null,
     onDismissRequest: () -> Unit = {}
 ) {
@@ -33,7 +33,7 @@ fun BasicAlertDialog(
         text = { Text(text = stringResource(id = dialogTextId)) },
         onDismissRequest = { if (dismissible) onDismissRequest() },
         confirmButton = {
-            TextButton(onClick = onConfirmation) {
+            TextButton(onClick = onConfirm) {
                 Text(stringResource(id = confirmBtnTextId))
             }
         },

@@ -36,10 +36,10 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
-import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
+import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 
 data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {
     @Composable
@@ -72,7 +72,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
 
     Scaffold(
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = stringResource(id = R.string.saving_breviary),
                 onNavClick = {
                     if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
@@ -94,13 +94,13 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 is State.Cancelled -> {}
                 is State.Loading -> LoadingIndicator()
 
-                is State.Init -> BasicAlertDialog(
+                is State.Init -> MFTauAlertDialog(
                     imageVector = Icons.Default.Save,
                     dialogTitleId = R.string.saving_breviary,
                     dialogTextId = R.string.save_breviary_dialog_msg,
                     dismissible = false,
                     confirmBtnTextId = R.string.save,
-                    onConfirmation = screenModel::checkIfThereAreMultipleOffices,
+                    onConfirm = screenModel::checkIfThereAreMultipleOffices,
                     dismissBtnTextId = R.string.cancel,
                     onDismissRequest = {
                         screenModel.cancelScreen()
@@ -132,24 +132,24 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
             }
 
             if (saveCompleteDialogVisible)
-                BasicAlertDialog(
+                MFTauAlertDialog(
                     imageVector = Icons.Default.Save,
                     dialogTitleId = R.string.saving_breviary,
                     dialogTextId = R.string.save_finished_dialog_msg,
                     confirmBtnTextId = R.string.ok,
-                    onConfirmation = { saveCompleteDialogVisible = false },
+                    onConfirm = { saveCompleteDialogVisible = false },
                     onDismissRequest = { saveCompleteDialogVisible = false }
                 )
 
             if (exitDialogVisible)
-                BasicAlertDialog(
+                MFTauAlertDialog(
                     imageVector = Icons.Default.ErrorOutline,
                     dialogTitleId = R.string.stop_action_title,
                     dialogTextId = R.string.stop_download_dialog_msg,
                     dismissible = false,
                     confirmBtnTextId = R.string.stop,
                     dismissBtnTextId = R.string.cancel,
-                    onConfirmation = {
+                    onConfirm = {
                         exitDialogVisible = false
                         navigator.pop()
                     },

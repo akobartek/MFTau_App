@@ -53,7 +53,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import java.io.Serializable
@@ -98,7 +98,7 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = stringResource(
                     id = when (screenType) {
                         is EmailScreen.EmailScreenType.AskForPray -> R.string.ask_for_pray

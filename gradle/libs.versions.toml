@@ -13,18 +13,21 @@ lifecycle-runtime-ktx = "2.6.2"
 
 room = "2.6.0"
 datastore = "1.0.0"
-browser = "1.6.0"
+browser = "1.7.0"
 splashscreen = "1.0.1"
 
-activity-compose = "1.8.0"
+activity-compose = "1.8.1"
 compose-bom = "2023.10.01"
-firebase-bom = "32.5.0"
+compose-foundation = "1.6.0-beta01"
+compose-material3 = "1.2.0-alpha11"
+firebase-bom = "32.6.0"
 
 voyager = "1.0.0-rc08"
 koin = "3.5.0"
 jsoup = "1.16.2"
 webview = "1.7.0"
 serialization-json = "1.6.0"
+datetime = "0.4.1"
 
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -47,12 +50,13 @@ splashscreen = { group = "androidx.core", name = "core-splashscreen", version.re
 
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose-foundation" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 animation = { group = "androidx.compose.animation", name = "animation" }
-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.2.0-alpha10" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3" }
 materialIcons = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
@@ -69,6 +73,7 @@ koin = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref =
 jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 webview = { group = "io.github.kevinnzou", name = "compose-webview-multiplatform", version.ref = "webview" }
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization-json" }
+datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }

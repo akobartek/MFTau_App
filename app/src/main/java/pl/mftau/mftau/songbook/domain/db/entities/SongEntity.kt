@@ -22,7 +22,7 @@ data class SongEntity(
         text = text,
         chords = chords,
         topics = topics.split(",").map { SongTopic.fromValue(it.toInt()) }.toSet(),
-        isOriginallyInSongBook = isOriginallyInSongBook,
-        isFavourite = isFavourite
+        isFavourite = isFavourite,
+        isOriginallyInSongBook = isOriginallyInSongBook
     )
 }

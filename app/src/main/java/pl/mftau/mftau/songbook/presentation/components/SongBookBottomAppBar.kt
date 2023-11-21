@@ -26,6 +26,9 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
 import pl.mftau.mftau.core.utils.openPdf
+import pl.mftau.mftau.songbook.presentation.screens.AddedSongsListScreen
+import pl.mftau.mftau.songbook.presentation.screens.PlaylistsListScreen
+import pl.mftau.mftau.songbook.presentation.screens.SongEditorScreen
 
 @Preview(showBackground = true)
 @Composable
@@ -56,17 +59,13 @@ fun SongBookBottomAppBar(
                     contentDescription = stringResource(id = R.string.open_pdf)
                 )
             }
-            IconButton(onClick = {
-                // TODO() -> NAVIGATION
-            }) {
+            IconButton(onClick = { navigator.push(AddedSongsListScreen()) }) {
                 Icon(
                     imageVector = Icons.Filled.PostAdd,
                     contentDescription = stringResource(id = R.string.show_added_songs)
                 )
             }
-            IconButton(onClick = {
-                // TODO() -> NAVIGATION
-            }) {
+            IconButton(onClick = { navigator.push(PlaylistsListScreen()) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.QueueMusic,
                     contentDescription = stringResource(id = R.string.show_playlists)
@@ -75,7 +74,9 @@ fun SongBookBottomAppBar(
             IconButton(onClick = toggleChordsVisibility) {
                 Icon(
                     imageVector = if (areChordsVisible) Icons.Filled.MusicNote else Icons.Filled.MusicOff,
-                    contentDescription = stringResource(id = R.string.show_chords)
+                    contentDescription =
+                        if (areChordsVisible) stringResource(id = R.string.hide_chords)
+                        else stringResource(id = R.string.show_chords),
                 )
             }
             IconButton(onClick = showChangeFontDialog) {
@@ -86,9 +87,7 @@ fun SongBookBottomAppBar(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                // TODO() -> NAVIGATION
-            }) {
+            FloatingActionButton(onClick = { navigator.push(SongEditorScreen(null)) }) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.add_song)

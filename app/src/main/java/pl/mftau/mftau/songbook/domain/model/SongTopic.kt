@@ -1,5 +1,8 @@
 package pl.mftau.mftau.songbook.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class SongTopic(val value: Int) {
     ALL(0), FAVOURITES(1), SAINT_FRANCIS(2), HOLY_SPIRIT(3),
     COMMUNION(4), WORSHIP(5), ADORATION(6), ATONEMENT(7), EASTER(8),

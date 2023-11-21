@@ -1,15 +1,15 @@
 package pl.mftau.mftau.songbook.domain.usecase
 
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import pl.mftau.mftau.songbook.data.DbSongBookRepository
-import pl.mftau.mftau.songbook.domain.model.SongBook
 import pl.mftau.mftau.songbook.domain.repository.TextsSongBookRepository
 
-class GetSongBookUseCase(
+class GetPlaylistFromDbUseCase(
     textsSongBookRepository: TextsSongBookRepository,
-    dbRepository: DbSongBookRepository
+    private val dbRepository: DbSongBookRepository
 ) {
-    val songBook by lazy {
+    private val playlists by lazy {
         combine(
             dbRepository.getSongs(),
             dbRepository.getPlayLists()
@@ -23,13 +23,18 @@ class GetSongBookUseCase(
                 } else songs.add(entity.toModelObject())
             }
             val playlists = dbPlaylists.map { (playlistEntity, playlistSongsEntities) ->
-                val playlistSongs = playlistSongsEntities.map { entity ->
-                    if (entity.songTitle != null) songs.first { it.title == entity.songTitle }
-                    else songs.first { it.databaseId == entity.songId }
-                }
+                val playlistSongs = playlistSongsEntities
+                    .sortedBy { entity -> entity.position }
+                    .map { entity ->
+                        if (entity.songTitle != null) songs.first { it.title == entity.songTitle }
+                        else songs.first { it.databaseId == entity.songId }
+                    }
                 playlistEntity.toModelObject(playlistSongs)
             }
-            SongBook(songs = songs, playlists = playlists)
+            playlists
         }
     }
+
+    fun getPlaylist(playlistId: Long) =
+        playlists.map { list -> list.firstOrNull { it.id == playlistId } }
 }

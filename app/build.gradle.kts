@@ -70,6 +70,7 @@ dependencies {
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
+    implementation(libs.compose.foundation)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
@@ -91,6 +92,7 @@ dependencies {
     implementation(libs.jsoup)
     implementation(libs.webview)
     implementation(libs.serialization.json)
+    implementation(libs.datetime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

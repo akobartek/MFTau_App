@@ -36,9 +36,12 @@
     <string name="no_internet_data_message">Brak dostępu do Internetu, wyświetlane dane mogą być nieaktualne!</string>
     <string name="try_again">Spróbuj</string>
     <string name="loading">Ładowanie…</string>
+    <string name="copy">Skopiuj</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka!</string>
     <string name="save">Zapisz</string>
     <string name="load">Załaduj</string>
     <string name="stop">Przerwij</string>
+    <string name="undo">Cofnij</string>
     <string name="cd_clear_field">Wyczyść pole</string>
     <string name="stop_action_title">Przerwanie akcji</string>
     <string name="stop_download_dialog_msg">Jesteś pewny, że chcesz przerwać pobieranie?</string>
@@ -92,14 +95,13 @@
 
     <!-- SONG BOOK STRINGS -->
     <string name="search">Szukaj</string>
-    <string name="song_book_search">Szukaj w śpiewniku</string>
+    <string name="song_book_search">Szukanie w śpiewniku</string>
     <string name="song_book_filter">Filtrowanie śpiewnika</string>
     <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
     <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
-    <string name="show_as_list">Wyświetl utwory jako listę</string>
-    <string name="change_font_size">Zmień wielkość tekstu</string>
-    <string name="lower_font_size">Zmniejsz wielkość tekstu</string>
-    <string name="increase_font_size">Zwiększ wielkość tekstu</string>
+    <string name="change_font_size">Zmiana wielkości tekstu</string>
+    <string name="lower_font_size">Zmniejszenie wielkość tekstu</string>
+    <string name="increase_font_size">Zwiększenie wielkość tekstu</string>
     <string name="max_size_msg">Została już ustawiona maksymalna wielkość!</string>
     <string name="min_size_msg">Została już ustawiona minimalna wielkość!</string>
     <string name="example_text">Przykładowy tekst:</string>
@@ -107,7 +109,10 @@
     <string name="reset">Reset</string>
     <string name="add_to_playlist">Dodaj do playlist</string>
     <string name="add_to_favourites">Dodaj do ulubionych</string>
+    <string name="move_song_up">Przesuń utwór do góry</string>
+    <string name="move_song_down">Przesuń utwór w dół</string>
     <string name="remove_from_playlist">Usuń z playlisty</string>
+    <string name="song_removed">Usunięto utwór</string>
     <string name="remove_from_favourites">Usuń z ulubionych</string>
     <string name="save_playlist">Zapisz playlistę</string>
     <string name="playlist_name">Nazwa playlisty</string>
@@ -117,9 +122,8 @@
     <string name="open_pdf">Otwórz śpiewnik w pliku PDF</string>
     <string name="show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
     <string name="show_playlists">Wyświetl zapisane playlisty</string>
-    <string name="show_chords">Pokaż chwyty</string>
-    <string name="hide_chords">Ukryj chwyty</string>
-    <string name="cd_collapse_bottom_sheet">Zamknij okienko</string>
+    <string name="show_chords">Pokazuj chwyty</string>
+    <string name="hide_chords">Ukrywaj chwyty</string>
     <string name="cd_open_popup_menu">Pokaż dodatkowe opcje</string>
     <string name="category_all">Wszystkie</string>
     <string name="category_favourites">Ulubione</string>
@@ -135,8 +139,8 @@
     <string name="category_gifts">Przygotowanie darów</string>
     <string name="category_kids">Dla dzieci</string>
     <string name="category_carols">Kolędy</string>
-    <string name="add_song">Dodaj utwór</string>
-    <string name="edit_song">Edytuj utwór</string>
+    <string name="add_song">Dodawanie utworu</string>
+    <string name="edit_song">Edycja utworu</string>
     <string name="select_topics">Wybierz tematy:</string>
     <string name="song_title">Tytuł</string>
     <string name="song_text">Tekst utworu</string>
@@ -146,19 +150,27 @@
     <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
     <string name="my_songs">Moje utwory</string>
     <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>
-    <string name="my_playlist">Moja lista</string>
-    <string name="empty_playlist">Twoja lista jest pusta!</string>
-    <string name="clear_playlist">Wyczyść listę</string>
-    <string name="clear">Wyczyść</string>
-    <string name="playlist_clear_dialog_msg">Jesteś pewny wyczyszczenia swojej listy?</string>
-    <string name="share_playlist">Udostępnij listę</string>
-    <string name="share_playlist_dialog_msg">Wyślij poniższy kod żeby udostępnij listę:\n%s</string>
+    <string name="my_playlists">Moje playlisty</string>
+    <plurals name="playlist_song_count">
+        <item quantity="one">%d utwór</item>
+        <item quantity="few">%d utwory</item>
+        <item quantity="other">%d utworów</item>
+    </plurals>
+    <string name="empty_playlists_list">Nie utworzono żadnej playlisty!\nJeśli chcesz, powyżej znajduje się możliwość utworzenia playlisty.</string>
+    <string name="empty_playlist">Do tej playlisty nie przypisano żadnych utworów!</string>
+    <string name="edit_playlist">Edytowanie playlisty</string>
+    <string name="delete_playlist">Usuwanie playlisty</string>
+    <string name="delete_playlist_dialog_msg">Jesteś pewny usunięcia tej listy?</string>
+    <string name="share_playlist">Udostępnianie listy</string>
+    <string name="share_playlist_dialog_msg">Wyślij poniższy kod żeby udostępnić playlistę:</string>
+    <string name="share_empty_list_error">Nie można udostępnić listy bez utworów!</string>
     <string name="import_playlist">Pobieranie listy</string>
     <string name="import_btn">Pobierz</string>
     <string name="playlist_code">Kod listy</string>
     <string name="import_playlist_dialog_msg">Wpisz otrzymany kod poniżej:</string>
     <string name="import_incorrect_code_error">Niepoprawny format kodu!</string>
     <string name="imported_playlist">Pobrana lista</string>
+    <string name="import_error_dialog_msg">Nie znaleziono playlisty o podanym kodzie! Sprawdź czy podany kod został wprowadzony poprawnie.</string>
     <string name="song_transposition_down">Transponuj pół tonu w dół</string>
     <string name="song_transposition_up">Transponuj pół tonu w górę</string>
 
@@ -286,8 +298,6 @@
     <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
     <string name="delete_last_draw">Usuń ostatnie losowanie</string>
     <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
-    <string name="copy_to_clipboard">Skopiuj losowania</string>
-    <string name="copied_to_clipboard">Skopiowano do schowka!</string>
 
     <!-- LANGUAGES STRINGS -->
     <string name="lang_system">Domyślny systemowy</string>

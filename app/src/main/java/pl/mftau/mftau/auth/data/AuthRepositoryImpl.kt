@@ -3,11 +3,13 @@ package pl.mftau.mftau.auth.data
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.auth.domain.model.FirebaseAuthEmailNotVerifiedException
 import pl.mftau.mftau.auth.domain.model.FirestoreUser
@@ -28,7 +30,7 @@ class AuthRepositoryImpl(
                     scope.launch {
                         try {
                             val user = auth.currentUser?.let { authUser ->
-                                val fsUser = firestore.collection(USERS_COLLECTION)
+                                val fsUser = firestore.collection(COLLECTION_USERS)
                                     .document(authUser.uid)
                                     .get().await().toObject<User>()
                                 val photoUri = authUser.providerData
@@ -73,15 +75,17 @@ class AuthRepositoryImpl(
         return try {
             val task = auth.createUserWithEmailAndPassword(email, password).also { it.await() }
             val result = if (task.isSuccessful) {
-                auth.currentUser?.let { user ->
-                    user.sendEmailVerification()
-                    firestore.collection(USERS_COLLECTION)
-                        .document(user.uid)
-                        .set(FirestoreUser.createUser(email))
-                        .also { it.await() }
-                    signOut()
+                withContext(NonCancellable) {
+                    auth.currentUser?.let { user ->
+                        user.sendEmailVerification()
+                        firestore.collection(COLLECTION_USERS)
+                            .document(user.uid)
+                            .set(FirestoreUser.createUser(email))
+                            .also { it.await() }
+                        signOut()
+                    }
+                    Result.success(true)
                 }
-                Result.success(true)
             } else Result.failure(task.exception ?: Exception())
             result
         } catch (exc: Exception) {
@@ -114,22 +118,24 @@ class AuthRepositoryImpl(
     override suspend fun deleteAccount(): Result<Boolean> {
         return try {
             auth.currentUser?.let { user ->
-                firestore.collection(USERS_COLLECTION)
+                firestore.collection(COLLECTION_USERS)
                     .document(user.uid)
                     .delete()
                     .also { it.await() }
             }
-            val task = auth.currentUser?.delete()?.also { it.await() }
-            val result = if (task?.isSuccessful == true) {
-                Result.success(true)
-            } else Result.failure(task?.exception ?: Exception())
-            result
+            withContext(NonCancellable) {
+                val task = auth.currentUser?.delete()?.also { it.await() }
+                val result = if (task?.isSuccessful == true) {
+                    Result.success(true)
+                } else Result.failure(task?.exception ?: Exception())
+                result
+            }
         } catch (exc: Exception) {
             Result.failure(exc)
         }
     }
 
     companion object {
-        private const val USERS_COLLECTION = "users"
+        private const val COLLECTION_USERS = "users"
     }
 }

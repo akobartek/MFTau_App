@@ -59,7 +59,7 @@ import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
 import pl.mftau.mftau.core.presentation.components.ComposeWebView
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 
 data class BreviaryTextScreen(
     val position: Int = 0,
@@ -87,7 +87,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
 
     Scaffold(
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = stringArrayResource(id = R.array.breviary_list)[position],
                 onNavClick = navigator::pop
             )

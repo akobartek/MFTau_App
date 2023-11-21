@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 
 class ReadingsTextScreen(val name: String, val text: AnnotatedString) : ReadingsScreen() {
     @Composable
@@ -30,7 +30,7 @@ fun ReadingsTextScreenContent(name: String, text: AnnotatedString) {
     val navigator = LocalNavigator.currentOrThrow
     Scaffold(
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = name,
                 onNavClick = navigator::pop
             )

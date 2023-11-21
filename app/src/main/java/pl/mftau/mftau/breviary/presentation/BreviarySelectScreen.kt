@@ -110,7 +110,7 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
                     IconButton(onClick = { dropDownMenuExpanded = true }) {
                         Icon(
                             imageVector = Icons.Filled.MoreVert,
-                            contentDescription = "Options"
+                            contentDescription = stringResource(id = R.string.cd_more_options_btn)
                         )
                     }
 

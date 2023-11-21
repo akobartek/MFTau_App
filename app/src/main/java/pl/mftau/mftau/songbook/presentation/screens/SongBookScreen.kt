@@ -1,4 +1,4 @@
-package pl.mftau.mftau.songbook.presentation
+package pl.mftau.mftau.songbook.presentation.screens
 
 import cafe.adriel.voyager.core.screen.Screen
 

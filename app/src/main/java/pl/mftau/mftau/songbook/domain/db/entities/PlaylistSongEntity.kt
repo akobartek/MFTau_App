@@ -26,5 +26,5 @@ data class PlaylistSongEntity(
     @ColumnInfo(name = "playlistId", index = true) var playlistId: Long = 0L,
     @ColumnInfo(name = "songTitle") var songTitle: String? = null,
     @ColumnInfo(name = "songId", index = true) var songId: Long? = null,
-    @ColumnInfo(name = "order") var order: Int = 0
+    @ColumnInfo(name = "position") var position: Int = 0
 )

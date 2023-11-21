@@ -15,6 +15,9 @@ interface SongBookDao {
     @Query("SELECT * FROM song;")
     fun getSongs(): Flow<List<SongEntity>>
 
+    @Query("SELECT * FROM song WHERE isOriginallyInSongBook = 0")
+    fun getUserSongs(): Flow<List<SongEntity>>
+
     @Upsert
     suspend fun upsertSong(song: SongEntity)
 
@@ -25,7 +28,7 @@ interface SongBookDao {
     @Upsert
     suspend fun upsertSong(playlist: PlaylistEntity)
 
-    @Query("SELECT * from playlist LEFT JOIN playlist_song ON playlist.id = playlist_song.playlistId")
+    @Query("SELECT * from playlist LEFT JOIN playlist_song ON playlist.id = playlist_song.playlistId;")
     fun getPlayLists(): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
 
     @Query(
@@ -33,16 +36,9 @@ interface SongBookDao {
                 "LEFT JOIN ( " +
                 "   SELECT playlistId, COUNT(playlistId) count FROM playlist_song " +
                 "   GROUP BY playlistId) ps " +
-                "ON p.id = ps.playlistId"
+                "ON p.id = ps.playlistId;"
     )
     fun getPlaylistsWithSongCount(): Flow<List<PlaylistWithSongCount>>
-
-    @Query(
-        "SELECT * from playlist " +
-                "LEFT JOIN playlist_song ON playlist.id = playlist_song.playlistId " +
-                "WHERE playlist.id = :playlistId"
-    )
-    fun getSinglePlaylist(playlistId: Long): Flow<Map<PlaylistEntity, List<PlaylistSongEntity>>>
 
     @Delete
     suspend fun deletePlaylist(playlist: PlaylistEntity)
@@ -51,9 +47,12 @@ interface SongBookDao {
     @Upsert
     suspend fun insertToPlaylists(vararg playlistSongs: PlaylistSongEntity)
 
-    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songTitle = :songTitle")
+    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId;")
+    suspend fun clearPlaylistSongs(playlistId: Long)
+
+    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songTitle = :songTitle;")
     suspend fun deleteBySongTitle(playlistId: Long, songTitle: String)
 
-    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songId = :songId")
+    @Query("DELETE FROM playlist_song WHERE playlistId = :playlistId AND songId = :songId;")
     suspend fun deleteBySongId(playlistId: Long, songId: Long)
 }

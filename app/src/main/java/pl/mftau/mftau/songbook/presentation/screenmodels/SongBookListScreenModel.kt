@@ -1,4 +1,4 @@
-package pl.mftau.mftau.songbook.presentation
+package pl.mftau.mftau.songbook.presentation.screenmodels
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -15,13 +15,13 @@ import pl.mftau.mftau.songbook.domain.usecase.MarkSongAsFavouriteUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 
-class SongBookScreenModel(
+class SongBookListScreenModel(
     private val preferencesRepository: PreferencesRepository,
     private val getSongBookUseCase: GetSongBookUseCase,
     private val markSongAsFavouriteUseCase: MarkSongAsFavouriteUseCase,
     private val savePlaylistUseCase: SavePlaylistUseCase,
     private val saveSongsInPlaylistUseCase: SaveSongsInPlaylistUseCase
-) : StateScreenModel<SongBookScreenModel.SongBookState>(SongBookState()) {
+) : StateScreenModel<SongBookListScreenModel.SongBookState>(SongBookState()) {
 
     data class SongBookState(
         val songs: List<Song> = listOf(),
@@ -48,12 +48,12 @@ class SongBookScreenModel(
     }
 
     init {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             preferencesRepository.songBookPreferencesFlow.collect { prefs ->
                 mutableState.update { it.copy(preferences = prefs) }
             }
         }
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             getSongBookUseCase.songBook.collect { songBook ->
                 mutableState.update {
                     it.copy(
@@ -65,33 +65,33 @@ class SongBookScreenModel(
         }
     }
 
-    fun markSongAsFavourite(song: Song) {
-        screenModelScope.launch(Dispatchers.IO) {
-            markSongAsFavouriteUseCase(song)
-        }
-    }
-
     fun toggleChordsVisibility() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val visibility = !state.value.preferences.areChordsVisible
             preferencesRepository.updateChordsVisibility(visibility)
         }
     }
 
     fun changeFontSize(newSize: Int) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             preferencesRepository.updateSongBookFontSize(newSize)
         }
     }
 
+    fun markSongAsFavourite(song: Song) {
+        screenModelScope.launch(Dispatchers.IO) {
+            markSongAsFavouriteUseCase(song)
+        }
+    }
+
     fun togglePlaylistDialogVisibility(song: Song?) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             mutableState.update { it.copy(songSelectedToPlaylists = song) }
         }
     }
 
     fun saveSongInPlaylists(playlists: List<Playlist>) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             saveSongsInPlaylistUseCase(
                 song = state.value.songSelectedToPlaylists,
                 allPlaylists = state.value.playlists,
@@ -102,7 +102,7 @@ class SongBookScreenModel(
     }
 
     fun addNewPlaylist(name: String) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.IO) {
             savePlaylistUseCase(name)
         }
     }

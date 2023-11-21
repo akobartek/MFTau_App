@@ -54,11 +54,11 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
-import pl.mftau.mftau.core.presentation.components.TauTopBar
+import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.EmailErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
-import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
+import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.utils.showShortToast
 
@@ -113,7 +113,7 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
-            TauTopBar(
+            TauCenteredTopBar(
                 title = "",
                 onNavClick = navigator::pop
             )
@@ -274,22 +274,22 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
             )
 
         if (state.isSignedUpDialogVisible)
-            BasicAlertDialog(
+            MFTauAlertDialog(
                 imageVector = Icons.Outlined.ManageAccounts,
                 dialogTitleId = R.string.sign_up_successful_dialog_title,
                 dialogTextId = R.string.sign_up_successful_dialog_message,
                 confirmBtnTextId = R.string.ok,
-                onConfirmation = screenModel::toggleSignUpSuccessVisibility,
+                onConfirm = screenModel::toggleSignUpSuccessVisibility,
                 dismissible = false,
             )
 
         if (state.emailUnverifiedDialogVisible)
-            BasicAlertDialog(
+            MFTauAlertDialog(
                 imageVector = Icons.Outlined.ErrorOutline,
                 dialogTitleId = R.string.verify_email_dialog_title,
                 dialogTextId = R.string.verify_email_dialog_message,
                 confirmBtnTextId = R.string.verify_email_send_again,
-                onConfirmation = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
+                onConfirm = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
                 dismissible = false,
                 dismissBtnTextId = R.string.cancel,
                 onDismissRequest = { screenModel.toggleEmailUnverifiedDialogVisibility(false) }

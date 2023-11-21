@@ -53,7 +53,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
-import pl.mftau.mftau.core.presentation.components.BasicAlertDialog
+import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
@@ -65,7 +65,7 @@ import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.core.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
-import pl.mftau.mftau.songbook.presentation.SongBookListScreen
+import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
 import pl.mftau.mftau.ui.WindowInfo
 import pl.mftau.mftau.ui.rememberWindowInfo
 import pl.mftau.mftau.ui.theme.mfTauFont
@@ -127,22 +127,22 @@ fun MainScreenContent(screenModel: MainScreenModel) {
             )
 
         if (state.resetPasswordDialogVisible)
-            BasicAlertDialog(
+            MFTauAlertDialog(
                 imageVector = Icons.Outlined.LockReset,
                 dialogTitleId = R.string.message_sent,
                 dialogTextId = R.string.reset_password_dialog_msg,
                 confirmBtnTextId = R.string.ok,
-                onConfirmation = screenModel::toggleResetPasswordDialogVisibility,
+                onConfirm = screenModel::toggleResetPasswordDialogVisibility,
                 onDismissRequest = screenModel::toggleResetPasswordDialogVisibility
             )
 
         if (state.deleteAccountDialogVisible)
-            BasicAlertDialog(
+            MFTauAlertDialog(
                 imageVector = Icons.Outlined.NoAccounts,
                 dialogTitleId = R.string.delete_account_dialog_title,
                 dialogTextId = R.string.delete_account_dialog_msg,
                 confirmBtnTextId = R.string.delete,
-                onConfirmation = {
+                onConfirm = {
                     screenModel.toggleDeleteAccountDialogVisibility()
                     screenModel.deleteAccount()
                 },

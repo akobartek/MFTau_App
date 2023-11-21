@@ -15,12 +15,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -111,33 +108,15 @@ fun AddToPlaylistDialog(
                         }
                     }
                     item {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(
-                                    color = MaterialTheme.colorScheme.background,
-                                    shape = RoundedCornerShape(8.dp)
-                                ),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            OutlinedTextField(
-                                value = newPlaylistName,
-                                onValueChange = { newPlaylistName = it },
-                                placeholder = { Text(stringResource(id = R.string.new_playlist_name)) },
-                                trailingIcon = {
-                                    if (newPlaylistName.isNotBlank())
-                                        IconButton(onClick = {
-                                            isLoading = true
-                                            addNewPlaylist(newPlaylistName)
-                                        }) {
-                                            Icon(
-                                                imageVector = Icons.Filled.Save,
-                                                contentDescription = stringResource(id = R.string.save_playlist)
-                                            )
-                                        }
-                                },
-                            )
-                        }
+                        CreatePlaylistRow(
+                            newPlaylistName = newPlaylistName,
+                            onChangeName = { newPlaylistName = it },
+                            onSave = {
+                                isLoading = true
+                                addNewPlaylist(newPlaylistName)
+                            },
+                            modifier = Modifier.padding(top = 4.dp)
+                        )
                     }
                 }
 
@@ -164,6 +143,6 @@ fun AddToPlaylistDialog(
                 Text(stringResource(id = R.string.cancel))
             }
         },
-        modifier = Modifier.heightIn(max = 560.dp)
+        modifier = Modifier.heightIn(max = 600.dp)
     )
 }

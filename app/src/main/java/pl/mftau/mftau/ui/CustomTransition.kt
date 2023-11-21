@@ -24,10 +24,11 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.ScreenTransition
 import cafe.adriel.voyager.transitions.ScreenTransitionContent
 import cafe.adriel.voyager.transitions.SlideOrientation
+import pl.mftau.mftau.breviary.presentation.BreviaryScreen
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
-import pl.mftau.mftau.songbook.presentation.SongBookScreen
+import pl.mftau.mftau.songbook.presentation.screens.SongBookScreen
 
 sealed class TransitionType {
     data class Slide(
@@ -57,9 +58,12 @@ fun CustomTransition(
         transition = {
             currentTransitionType = when (navigator.lastItem) {
                 is MainScreen -> currentTransitionType ?: TransitionType.Scale
-                is SongBookScreen -> TransitionType.Scale
-                is GospelScreen -> TransitionType.Slide(SlideOrientation.Vertical)
+                is SongBookScreen ->
+                    TransitionType.Slide(SlideOrientation.Vertical, isReversed = true)
+
+                is GospelScreen -> TransitionType.Scale
                 is ReadingsScreen -> TransitionType.Slide()
+                is BreviaryScreen -> TransitionType.Slide(isReversed = true)
                 else -> TransitionType.Slide(isReversed = true)
             }
 

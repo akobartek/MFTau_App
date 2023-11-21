@@ -11,12 +11,12 @@ import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 fun NoPdfAppDialog(onDismiss: () -> Unit = {}) {
     val context = LocalContext.current
 
-    BasicAlertDialog(
+    MFTauAlertDialog(
         imageVector = Icons.Default.ErrorOutline,
         dialogTitleId = R.string.no_pdf_viewer_dialog_title,
         dialogTextId = R.string.no_pdf_viewer_dialog_msg,
         confirmBtnTextId = R.string.search,
-        onConfirmation = {
+        onConfirm = {
             onDismiss()
             context.openWebsiteInChromeCustomTabsIfSupported("https://play.google.com/store/search?q=pdf")
         },
