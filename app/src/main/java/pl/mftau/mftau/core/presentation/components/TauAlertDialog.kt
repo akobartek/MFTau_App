@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextAlign
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
-fun MFTauAlertDialog(
+fun TauAlertDialog(
     imageVector: ImageVector,
     dismissible: Boolean = true,
     dialogTitleId: Int,

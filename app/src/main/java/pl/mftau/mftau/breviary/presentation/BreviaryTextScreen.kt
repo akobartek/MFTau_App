@@ -118,7 +118,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
 
                 is State.Failure -> NoInternetDialog(
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                    onCancel = {
+                    onDismiss = {
                         screenModel.cancelScreen()
                         navigator.pop()
                     }

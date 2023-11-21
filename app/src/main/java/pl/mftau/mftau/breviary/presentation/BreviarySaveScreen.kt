@@ -36,7 +36,7 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
-import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
+import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
@@ -94,7 +94,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 is State.Cancelled -> {}
                 is State.Loading -> LoadingIndicator()
 
-                is State.Init -> MFTauAlertDialog(
+                is State.Init -> TauAlertDialog(
                     imageVector = Icons.Default.Save,
                     dialogTitleId = R.string.saving_breviary,
                     dialogTextId = R.string.save_breviary_dialog_msg,
@@ -124,7 +124,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
 
                 is State.Failure -> NoInternetDialog(
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                    onCancel = {
+                    onDismiss = {
                         screenModel.cancelScreen()
                         navigator.pop()
                     }
@@ -132,7 +132,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
             }
 
             if (saveCompleteDialogVisible)
-                MFTauAlertDialog(
+                TauAlertDialog(
                     imageVector = Icons.Default.Save,
                     dialogTitleId = R.string.saving_breviary,
                     dialogTextId = R.string.save_finished_dialog_msg,
@@ -142,7 +142,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 )
 
             if (exitDialogVisible)
-                MFTauAlertDialog(
+                TauAlertDialog(
                     imageVector = Icons.Default.ErrorOutline,
                     dialogTitleId = R.string.stop_action_title,
                     dialogTextId = R.string.stop_download_dialog_msg,

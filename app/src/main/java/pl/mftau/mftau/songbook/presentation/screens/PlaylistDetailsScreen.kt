@@ -1,5 +1,6 @@
 package pl.mftau.mftau.songbook.presentation.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.LoadingIndicator
 import pl.mftau.mftau.core.presentation.components.TauNormalTopBar
+import pl.mftau.mftau.core.presentation.components.UnsavedChangesDialog
 import pl.mftau.mftau.songbook.presentation.components.DeletePlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ImportPlaylistErrorDialog
 import pl.mftau.mftau.songbook.presentation.components.ShareCodeDialog
@@ -72,6 +74,14 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     var deletePlaylistDialogVisible by remember { mutableStateOf(false) }
+    var unsavedChangesDialogVisible by remember { mutableStateOf(false) }
+    val onBackPressed = {
+        if (state.editMode) unsavedChangesDialogVisible = true
+        else navigator.pop()
+    }
+
+
+    BackHandler { onBackPressed() }
 
     LaunchedEffect(key1 = state.deletedSong) {
         if (state.deletedSong != null) {
@@ -96,7 +106,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
                 title =
                 if (state.isImported) stringResource(id = R.string.imported_playlist)
                 else state.playlist?.name ?: "",
-                onNavClick = navigator::pop,
+                onNavClick = { onBackPressed() },
                 actions = {
                     AnimatedVisibility(visible = state.editMode) {
                         Row {
@@ -160,15 +170,6 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
                         song = song,
                         preferences = state.preferences,
                         actions = {
-                            if (index < state.tempSongsList.size - 1)
-                                IconButton(onClick = {
-                                    screenModel.swapItems(index, index + 1)
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.ArrowDownward,
-                                        contentDescription = stringResource(id = R.string.move_song_down)
-                                    )
-                                }
                             if (index > 0)
                                 IconButton(onClick = {
                                     screenModel.swapItems(index, index - 1)
@@ -176,6 +177,15 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
                                     Icon(
                                         imageVector = Icons.Filled.ArrowUpward,
                                         contentDescription = stringResource(id = R.string.move_song_up)
+                                    )
+                                }
+                            if (index < state.tempSongsList.size - 1)
+                                IconButton(onClick = {
+                                    screenModel.swapItems(index, index + 1)
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowDownward,
+                                        contentDescription = stringResource(id = R.string.move_song_down)
                                     )
                                 }
                             IconButton(onClick = { screenModel.deleteSong(song) }) {
@@ -222,6 +232,12 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
                     navigator.pop()
                 },
                 onDismiss = { deletePlaylistDialogVisible = false }
+            )
+
+        if (unsavedChangesDialogVisible)
+            UnsavedChangesDialog(
+                onDiscard = navigator::pop,
+                onDismiss = { unsavedChangesDialogVisible = false }
             )
 
         if (state.shareCodeDialogVisible)

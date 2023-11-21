@@ -120,7 +120,7 @@ fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isS
 
                 is State.Failure -> NoInternetDialog(
                     onReconnect = screenModel::loadGospel,
-                    onCancel = navigator::pop
+                    onDismiss = navigator::pop
                 )
             }
         }

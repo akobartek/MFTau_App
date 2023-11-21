@@ -58,7 +58,7 @@ import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.EmailErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
-import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
+import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.utils.showShortToast
 
@@ -270,11 +270,11 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                         else -> {}
                     }
                 },
-                onCancel = screenModel::hideNoInternetDialog
+                onDismiss = screenModel::hideNoInternetDialog
             )
 
         if (state.isSignedUpDialogVisible)
-            MFTauAlertDialog(
+            TauAlertDialog(
                 imageVector = Icons.Outlined.ManageAccounts,
                 dialogTitleId = R.string.sign_up_successful_dialog_title,
                 dialogTextId = R.string.sign_up_successful_dialog_message,
@@ -284,7 +284,7 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
             )
 
         if (state.emailUnverifiedDialogVisible)
-            MFTauAlertDialog(
+            TauAlertDialog(
                 imageVector = Icons.Outlined.ErrorOutline,
                 dialogTitleId = R.string.verify_email_dialog_title,
                 dialogTextId = R.string.verify_email_dialog_message,

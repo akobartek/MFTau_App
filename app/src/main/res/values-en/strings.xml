@@ -39,6 +39,8 @@
     <string name="load">Load</string>
     <string name="stop">Stop</string>
     <string name="undo">Undo</string>
+    <string name="unsaved_changes_dialog_title">Unsaved changes</string>
+    <string name="unsaved_changes_dialog_msg">If you exit, your changes will be discarded. Are you sure?</string>
     <string name="cd_clear_field">Clear field</string>
     <string name="stop_action_title">Stop action</string>
     <string name="stop_download_dialog_msg">Are you sure you want to stop download?</string>
@@ -275,7 +277,6 @@
     <string name="member_add_error">Error with saving member!</string>
     <string name="member_update_error">Error with updating member!</string>
     <string name="member_photo_error">Error with saving photo!</string>
-    <string name="unsaved_changes_dialog_msg">Do you want to discard changes?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
     <string name="member_delete_dialog_msg">Do you want to delete this person?</string>

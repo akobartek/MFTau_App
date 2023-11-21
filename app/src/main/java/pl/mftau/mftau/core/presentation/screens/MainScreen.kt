@@ -53,7 +53,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
-import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
+import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
@@ -123,11 +123,11 @@ fun MainScreenContent(screenModel: MainScreenModel) {
                         else -> {}
                     }
                 },
-                onCancel = screenModel::hideNoInternetDialog
+                onDismiss = screenModel::hideNoInternetDialog
             )
 
         if (state.resetPasswordDialogVisible)
-            MFTauAlertDialog(
+            TauAlertDialog(
                 imageVector = Icons.Outlined.LockReset,
                 dialogTitleId = R.string.message_sent,
                 dialogTextId = R.string.reset_password_dialog_msg,
@@ -137,7 +137,7 @@ fun MainScreenContent(screenModel: MainScreenModel) {
             )
 
         if (state.deleteAccountDialogVisible)
-            MFTauAlertDialog(
+            TauAlertDialog(
                 imageVector = Icons.Outlined.NoAccounts,
                 dialogTitleId = R.string.delete_account_dialog_title,
                 dialogTextId = R.string.delete_account_dialog_msg,

@@ -4,14 +4,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.MFTauAlertDialog
+import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 
 @Composable
 fun DeletePlaylistDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    MFTauAlertDialog(
+    TauAlertDialog(
         imageVector = Icons.Default.Delete,
         dialogTitleId = R.string.delete_playlist,
         dialogTextId = R.string.delete_playlist_dialog_msg,
