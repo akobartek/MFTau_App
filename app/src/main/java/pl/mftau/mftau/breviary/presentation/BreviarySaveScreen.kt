@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -37,17 +39,25 @@ import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.core.presentation.components.TauAlertDialog
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.core.utils.safePop
 
 data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         BreviarySaveScreenContent(
             screenModel = getScreenModel(),
             date = date
         )
+    }
+
+    companion object {
+        const val KEY = "BreviarySaveScreen"
     }
 }
 
@@ -77,8 +87,9 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 onNavClick = {
                     if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
                         exitDialogVisible = true
-                    else navigator.pop()
-                }
+                    else navigator.safePop(BreviarySaveScreen.KEY)
+                },
+                navIcon = Icons.Default.Close
             )
         }
     ) { paddingValues ->
@@ -92,7 +103,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
         ) {
             when (state) {
                 is State.Cancelled -> {}
-                is State.Loading -> LoadingIndicator()
+                is State.Loading -> LoadingBox()
 
                 is State.Init -> TauAlertDialog(
                     imageVector = Icons.Default.Save,

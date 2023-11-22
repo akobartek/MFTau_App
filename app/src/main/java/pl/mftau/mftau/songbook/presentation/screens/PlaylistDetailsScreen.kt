@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MusicNote
@@ -38,13 +39,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.TauNormalTopBar
 import pl.mftau.mftau.core.presentation.components.UnsavedChangesDialog
+import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.songbook.presentation.components.DeletePlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ImportPlaylistErrorDialog
 import pl.mftau.mftau.songbook.presentation.components.ShareCodeDialog
@@ -57,11 +60,18 @@ class PlaylistDetailsScreen(
     private val playlistId: Long? = null,
     private val importCode: String? = null
 ) : SongBookScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         PlaylistDetailsScreenContent(
             getScreenModel<PlaylistDetailsScreenModel>().also { it.init(playlistId, importCode) }
         )
+    }
+
+    companion object {
+        const val KEY = "PlaylistDetailsScreen"
     }
 }
 
@@ -77,7 +87,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
     var unsavedChangesDialogVisible by remember { mutableStateOf(false) }
     val onBackPressed = {
         if (state.editMode) unsavedChangesDialogVisible = true
-        else navigator.pop()
+        else navigator.safePop(PlaylistDetailsScreen.KEY)
     }
 
 
@@ -107,6 +117,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
                 if (state.isImported) stringResource(id = R.string.imported_playlist)
                 else state.playlist?.name ?: "",
                 onNavClick = { onBackPressed() },
+                navIcon = Icons.Default.Close,
                 actions = {
                     AnimatedVisibility(visible = state.editMode) {
                         Row {
@@ -221,7 +232,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
         }
 
         if (state.playlist == null)
-            LoadingIndicator()
+            LoadingBox()
         else if (state.playlist?.songs?.isEmpty() != false)
             SongBookEmptyListInfo(messageId = R.string.empty_playlist)
 

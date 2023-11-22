@@ -35,21 +35,31 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.core.utils.safePush
 import pl.mftau.mftau.songbook.presentation.components.CreatePlaylistRow
 import pl.mftau.mftau.songbook.presentation.components.ImportPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookEmptyListInfo
 import pl.mftau.mftau.songbook.presentation.screenmodels.PlaylistsListScreenModel
 
 class PlaylistsListScreen : SongBookScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         PlaylistsListScreenContent(getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "PlaylistsListScreen"
     }
 }
 
@@ -77,7 +87,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
         topBar = {
             TauCenteredTopBar(
                 title = stringResource(R.string.my_playlists),
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(PlaylistsListScreen.KEY) }
             )
         },
         floatingActionButton = {
@@ -104,7 +114,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer
                     ),
-                    onClick = { navigator.push(PlaylistDetailsScreen(playlistId = playlist.id)) }
+                    onClick = { navigator.safePush(PlaylistDetailsScreen(playlistId = playlist.id)) }
                 ) {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -157,7 +167,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
                         modifier = Modifier.fillMaxWidth(0.85f)
                     )
                     if (isLoading)
-                        LoadingIndicator()
+                        LoadingBox()
                 }
             }
         }
@@ -167,7 +177,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
 
         if (importPlaylistDialogVisible)
             ImportPlaylistDialog(
-                onImport = { code -> navigator.push(PlaylistDetailsScreen(importCode = code)) },
+                onImport = { code -> navigator.safePush(PlaylistDetailsScreen(importCode = code)) },
                 onDismiss = { importPlaylistDialogVisible = false }
             )
     }

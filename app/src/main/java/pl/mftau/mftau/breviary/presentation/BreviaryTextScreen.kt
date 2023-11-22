@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,6 +38,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -57,14 +59,18 @@ import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
 import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
 import pl.mftau.mftau.core.presentation.components.ComposeWebView
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.core.utils.safePop
 
 data class BreviaryTextScreen(
     val position: Int = 0,
     val date: String = ""
 ) : BreviaryScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         BreviaryTextScreenContent(
@@ -72,6 +78,10 @@ data class BreviaryTextScreen(
             position = position,
             date = date
         )
+    }
+
+    companion object {
+        const val KEY = "BreviaryTextScreen"
     }
 }
 
@@ -89,7 +99,8 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
         topBar = {
             TauCenteredTopBar(
                 title = stringArrayResource(id = R.array.breviary_list)[position],
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(BreviaryTextScreen.KEY) },
+                navIcon = Icons.Default.Close
             )
         }
     ) { paddingValues ->
@@ -101,7 +112,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
         ) {
             when (state) {
                 is State.Init, is State.Cancelled -> {}
-                is State.Loading -> LoadingIndicator()
+                is State.Loading -> LoadingBox()
 
                 is State.MultipleOffices -> MultipleOfficesDialog(
                     offices = (state as State.MultipleOffices).offices,

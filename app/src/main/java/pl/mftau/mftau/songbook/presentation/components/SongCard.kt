@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -55,14 +56,17 @@ fun SongCard(
     ) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = song.title,
-                    style = MaterialTheme.typography.titleMedium,
+                SelectionContainer(
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp)
                         .padding(vertical = 12.dp)
-                )
+                ) {
+                    Text(
+                        text = song.title,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
                 actions()
             }
             AnimatedVisibility(visible = expanded) {
@@ -96,13 +100,15 @@ fun SongCard(
                             .padding(horizontal = 8.dp)
                             .padding(top = 4.dp)
                     ) {
-                        SongText(
-                            text = song.text,
-                            fontSize = preferences.fontSize,
-                            modifier = Modifier
-                                .weight(1f)
-                                .horizontalScroll(rememberScrollState())
-                        )
+                        SelectionContainer {
+                            SongText(
+                                text = song.text,
+                                fontSize = preferences.fontSize,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .horizontalScroll(rememberScrollState())
+                            )
+                        }
                         AnimatedVisibility(visible = preferences.areChordsVisible) {
                             if (preferences.areChordsVisible) {
                                 VerticalDivider(

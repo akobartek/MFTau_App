@@ -48,6 +48,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -56,9 +57,12 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
+import pl.mftau.mftau.core.utils.safePop
 import java.io.Serializable
 
 data class EmailScreen(val screenType: EmailScreenType) : Screen {
+    override val key: ScreenKey
+        get() = KEY
 
     @Composable
     override fun Content() {
@@ -76,6 +80,10 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
         data object ReportError : EmailScreenType("sokolowskijbartek@gmail.com") {
             private fun readResolve(): Any = ReportError
         }
+    }
+
+    companion object {
+        const val KEY = "EmailScreen"
     }
 }
 
@@ -105,7 +113,7 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                         is EmailScreen.EmailScreenType.ReportError -> R.string.report_error
                     }
                 ),
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(EmailScreen.KEY) }
             )
         },
         floatingActionButton = {

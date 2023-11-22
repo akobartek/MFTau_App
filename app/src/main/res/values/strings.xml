@@ -42,6 +42,8 @@
     <string name="load">Załaduj</string>
     <string name="stop">Przerwij</string>
     <string name="undo">Cofnij</string>
+    <string name="close_dialog">Zamknij okno</string>
+    <string name="empty_field_error">To pole nie może być puste!</string>
     <string name="unsaved_changes_dialog_title">Niezapisane zmiany</string>
     <string name="unsaved_changes_dialog_msg">Jeśli wyjdziesz, wprowadzone zmiany zostaną odrzucone. Jesteś pewny?</string>
     <string name="cd_clear_field">Wyczyść pole</string>
@@ -148,7 +150,6 @@
     <string name="song_text">Tekst utworu</string>
     <string name="song_chords">Akordy</string>
     <string name="show_preview">Pokaż podgląd</string>
-    <string name="empty_field_error">To pole nie może być puste!</string>
     <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
     <string name="my_songs">Moje utwory</string>
     <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>

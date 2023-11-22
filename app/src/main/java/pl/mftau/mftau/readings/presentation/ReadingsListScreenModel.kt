@@ -15,7 +15,6 @@ class ReadingsListScreenModel(
     private val writingsRepository: WritingsRepository,
     private val preferencesRepository: PreferencesRepository
 ) : StateScreenModel<ReadingsListScreenModel.ReadingsListState>(ReadingsListState()) {
-
     data class ReadingsListState(
         val selectedTab: Int = 0,
         val prayers: List<Pair<String, AnnotatedString>> = listOf(),

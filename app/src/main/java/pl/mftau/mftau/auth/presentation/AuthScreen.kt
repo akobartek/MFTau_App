@@ -48,6 +48,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -60,12 +61,20 @@ import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
 import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
+import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.core.utils.showShortToast
 
 class AuthScreen : Screen {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         AuthScreenContent(screenModel = getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "AuthScreen"
     }
 }
 
@@ -115,7 +124,7 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
         topBar = {
             TauCenteredTopBar(
                 title = "",
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(AuthScreen.KEY) }
             )
         },
         modifier = Modifier.clickable(

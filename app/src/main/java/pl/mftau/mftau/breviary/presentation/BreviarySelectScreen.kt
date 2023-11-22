@@ -39,16 +39,25 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
+import pl.mftau.mftau.core.utils.safePush
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class BreviarySelectScreen : BreviaryScreen() {
+    override val key: ScreenKey
+        get() = BreviaryTextScreen.KEY
+
     @Composable
     override fun Content() {
         BreviarySelectScreenContent(screenModel = getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "BreviarySelectScreen"
     }
 }
 
@@ -102,7 +111,7 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
                 },
                 actions = {
                     IconButton(onClick = {
-                        navigator.push(BreviarySaveScreen(screenModel.dateString))
+                        navigator.safePush(BreviarySaveScreen(screenModel.dateString))
                     }) {
                         Icon(imageVector = Icons.Filled.Save, contentDescription = "Lock")
                     }
@@ -157,7 +166,7 @@ fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
             stringArrayResource(id = R.array.breviary_list).forEachIndexed { index, elem ->
                 Column(
                     Modifier.clickable {
-                        navigator.push(BreviaryTextScreen(index, screenModel.dateString))
+                        navigator.safePush(BreviaryTextScreen(index, screenModel.dateString))
                     }
                 ) {
                     Text(

@@ -16,20 +16,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.songbook.presentation.components.SongBookEmptyListInfo
 import pl.mftau.mftau.songbook.presentation.components.SongCard
 import pl.mftau.mftau.songbook.presentation.screenmodels.UserSongsListScreenModel
 
 class AddedSongsListScreen : SongBookScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         AddedSongsListScreenContent(getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "AddedSongsListScreen"
     }
 }
 
@@ -42,7 +51,7 @@ fun AddedSongsListScreenContent(screenModel: UserSongsListScreenModel) {
         topBar = {
             TauCenteredTopBar(
                 title = stringResource(R.string.my_songs),
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(AddedSongsListScreen.KEY) }
             )
         },
         floatingActionButton = {
@@ -75,6 +84,6 @@ fun AddedSongsListScreenContent(screenModel: UserSongsListScreenModel) {
 
             if (state.songs?.isEmpty() == true)
                 SongBookEmptyListInfo(messageId = R.string.empty_user_songs_list)
-        } else LoadingIndicator()
+        } else LoadingBox()
     }
 }

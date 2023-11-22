@@ -64,11 +64,9 @@ fun CustomTransition(
             currentTransitionType = when (navigator.lastItem) {
                 is MainScreen -> currentTransitionType ?: TransitionType.Scale
                 is SongBookScreen ->
-                    TransitionType.Slide(SlideOrientation.Vertical, isReversed = false)
+                    TransitionType.Slide(SlideOrientation.Vertical, isReversed = true)
 
-                is GospelScreen ->
-                    TransitionType.Slide(SlideOrientation.Vertical, isReversed = false)
-
+                is GospelScreen -> TransitionType.Slide(SlideOrientation.Vertical)
                 is ReadingsScreen -> TransitionType.Slide()
                 is BreviaryScreen -> TransitionType.Slide(isReversed = true)
                 else -> TransitionType.Slide(isReversed = true)

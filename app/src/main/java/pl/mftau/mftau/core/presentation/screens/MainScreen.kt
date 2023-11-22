@@ -62,6 +62,7 @@ import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel.NoInternetA
 import pl.mftau.mftau.core.utils.getBitmapFromUri
 import pl.mftau.mftau.core.utils.openPdf
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
+import pl.mftau.mftau.core.utils.safePush
 import pl.mftau.mftau.core.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
@@ -265,28 +266,28 @@ private fun MainScreenOptions(screenModel: MainScreenModel) {
                     text = { Text(text = stringResource(id = R.string.sign_in)) },
                     onClick = {
                         dropdownExpanded = false
-                        navigator.push(AuthScreen())
+                        navigator.safePush(AuthScreen())
                     }
                 )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.settings)) },
                 onClick = {
                     dropdownExpanded = false
-                    navigator.push(SettingsScreen())
+                    navigator.safePush(SettingsScreen())
                 }
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.ask_for_pray)) },
                 onClick = {
                     dropdownExpanded = false
-                    navigator.push(EmailScreen(EmailScreen.EmailScreenType.AskForPray))
+                    navigator.safePush(EmailScreen(EmailScreen.EmailScreenType.AskForPray))
                 }
             )
             DropdownMenuItem(
                 text = { Text(text = stringResource(id = R.string.report_error)) },
                 onClick = {
                     dropdownExpanded = false
-                    navigator.push(EmailScreen(EmailScreen.EmailScreenType.ReportError))
+                    navigator.safePush(EmailScreen(EmailScreen.EmailScreenType.ReportError))
                 }
             )
         }
@@ -361,9 +362,9 @@ private fun FirstButtonsRow(modifier: Modifier = Modifier) {
                 }
             ),
             ButtonData(
-                title = stringResource(id = R.string.song_book),
-                icon = Icons.Outlined.Lyrics,
-                onClick = { navigator.push(SongBookListScreen()) }
+                title = stringResource(id = R.string.gospel),
+                icon = ImageVector.vectorResource(id = R.drawable.ic_gospel),
+                onClick = { navigator.safePush(GospelScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.statute),
@@ -389,17 +390,17 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
             ButtonData(
                 title = stringResource(id = R.string.readings),
                 icon = Icons.Outlined.CollectionsBookmark,
-                onClick = { navigator.push(ReadingsListScreen()) }
+                onClick = { navigator.safePush(ReadingsListScreen()) }
             ),
             ButtonData(
-                title = stringResource(id = R.string.gospel),
-                icon = ImageVector.vectorResource(id = R.drawable.ic_gospel),
-                onClick = { navigator.push(GospelScreen()) }
+                title = stringResource(id = R.string.song_book),
+                icon = Icons.Outlined.Lyrics,
+                onClick = { navigator.safePush(SongBookListScreen()) }
             ),
             ButtonData(
                 title = stringResource(id = R.string.breviary),
                 icon = ImageVector.vectorResource(id = R.drawable.ic_breviary),
-                onClick = { navigator.push(BreviarySelectScreen()) }
+                onClick = { navigator.safePush(BreviarySelectScreen()) }
             )
         ),
         modifier = modifier

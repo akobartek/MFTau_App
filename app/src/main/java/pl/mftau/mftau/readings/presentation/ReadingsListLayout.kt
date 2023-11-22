@@ -17,6 +17,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import pl.mftau.mftau.core.utils.safePush
 
 @Composable
 fun ReadingsListLayout(readings: List<Pair<String, AnnotatedString>>) {
@@ -27,7 +28,7 @@ fun ReadingsListLayout(readings: List<Pair<String, AnnotatedString>>) {
             .verticalScroll(rememberScrollState())
     ) {
         readings.forEach { (name, text) ->
-            Column(Modifier.clickable { navigator.push(ReadingsTextScreen(name, text)) }) {
+            Column(Modifier.clickable { navigator.safePush(ReadingsTextScreen(name, text)) }) {
                 Text(
                     text = name,
                     style = MaterialTheme.typography.bodyLarge,

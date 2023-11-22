@@ -19,10 +19,24 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.FileProvider
 import androidx.datastore.preferences.preferencesDataStore
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.core.stack.StackEvent
+import cafe.adriel.voyager.navigator.Navigator
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.data.PreferencesRepository
 import java.io.File
 import java.io.FileOutputStream
+
+inline fun <reified T : Screen> Navigator.safePush(screen: T) {
+    // Push only when last item was different screen
+    if (lastItem !is T) push(screen)
+}
+
+fun Navigator.safePop(key: ScreenKey) {
+    // Pop only when screen has given key
+    if (lastItem.key == key) pop()
+}
 
 fun <T> List<T>.swap(index1: Int, index2: Int): List<T> {
     val list = this.toMutableList()

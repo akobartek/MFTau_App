@@ -1,9 +1,7 @@
 package pl.mftau.mftau.songbook.presentation.screens
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,12 +10,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,20 +23,28 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
-import pl.mftau.mftau.core.presentation.components.RevealAnimatedContent
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.songbook.presentation.components.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookBottomAppBar
 import pl.mftau.mftau.songbook.presentation.components.SongCard
+import pl.mftau.mftau.songbook.presentation.components.SongEditorDialog
 import pl.mftau.mftau.songbook.presentation.screenmodels.SongBookListScreenModel
 
 class SongBookListScreen : SongBookScreen() {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         SongBookListScreenContent(getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "SongBookListScreen"
     }
 }
 
@@ -95,8 +98,7 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             }
         }
 
-        if (state.songs.isEmpty())
-            LoadingIndicator()
+        if (state.songs.isEmpty()) LoadingBox()
 
         if (changeFontSizeDialogVisible)
             ChangeFontSizeDialog(
@@ -115,19 +117,10 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             )
     }
 
-    RevealAnimatedContent(
-        offset = fabOffset,
-        isContentVisible = addSongDialogVisible,
-        content = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-            ) {
-                Button(onClick = { addSongDialogVisible = false }) {
-                    Text(text = "WYŁONCZ TO")
-                }
-            }
-        }
+    SongEditorDialog(
+        isVisible = addSongDialogVisible,
+        song = null,
+        onSave = {},
+        onDismiss = { addSongDialogVisible = false }
     )
 }

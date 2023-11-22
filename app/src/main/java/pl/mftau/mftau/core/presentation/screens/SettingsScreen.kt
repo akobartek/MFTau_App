@@ -46,6 +46,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -54,12 +55,20 @@ import pl.mftau.mftau.core.data.ColorTheme
 import pl.mftau.mftau.core.data.UserPreferences
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
+import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class SettingsScreen : Screen {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         SettingsScreenContent(screenModel = getScreenModel())
+    }
+
+    companion object {
+        const val KEY = "SettingsScreen"
     }
 }
 
@@ -73,7 +82,7 @@ fun SettingsScreenContent(screenModel: SettingsScreenModel) {
         topBar = {
             TauCenteredTopBar(
                 title = stringResource(id = R.string.settings),
-                onNavClick = navigator::pop
+                onNavClick = { navigator.safePop(SettingsScreen.KEY) }
             )
         }
     ) { paddingValues ->

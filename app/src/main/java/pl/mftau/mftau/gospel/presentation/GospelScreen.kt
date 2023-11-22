@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.lifecycle.LifecycleEffect
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -36,14 +37,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingIndicator
+import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.core.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.core.utils.speak
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 
 class GospelScreen : Screen {
+    override val key: ScreenKey
+        get() = KEY
+
     @Composable
     override fun Content() {
         val scope = rememberCoroutineScope()
@@ -80,6 +85,10 @@ class GospelScreen : Screen {
             }
         )
     }
+
+    companion object {
+        const val KEY = "GospelScreen"
+    }
 }
 
 @Composable
@@ -91,7 +100,7 @@ fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isS
         topBar = {
             TauCenteredTopBar(
                 title = stringResource(id = R.string.gospel_for_today),
-                onNavClick = navigator::pop,
+                onNavClick = { navigator.safePop(GospelScreen.KEY) },
                 actions = {
                     if (state is State.Success)
                         IconButton(onClick = onClick) {
@@ -115,7 +124,7 @@ fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isS
                 .padding(horizontal = 16.dp)
         ) {
             when (state) {
-                is State.Loading -> LoadingIndicator()
+                is State.Loading -> LoadingBox()
                 is State.Success -> GospelLayout(gospel = (state as State.Success).gospel)
 
                 is State.Failure -> NoInternetDialog(

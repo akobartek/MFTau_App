@@ -30,8 +30,11 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
 import pl.mftau.mftau.core.utils.openPdf
+import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.core.utils.safePush
 import pl.mftau.mftau.songbook.presentation.screens.AddedSongsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.PlaylistsListScreen
+import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
 
 @Preview(showBackground = true)
 @Composable
@@ -49,7 +52,7 @@ fun SongBookBottomAppBar(
 
     BottomAppBar(
         actions = {
-            IconButton(onClick = navigator::pop) {
+            IconButton(onClick = { navigator.safePop(SongBookListScreen.KEY) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(id = R.string.cd_navigate_up)
@@ -64,13 +67,13 @@ fun SongBookBottomAppBar(
                     contentDescription = stringResource(id = R.string.open_pdf)
                 )
             }
-            IconButton(onClick = { navigator.push(AddedSongsListScreen()) }) {
+            IconButton(onClick = { navigator.safePush(AddedSongsListScreen()) }) {
                 Icon(
                     imageVector = Icons.Filled.PostAdd,
                     contentDescription = stringResource(id = R.string.show_added_songs)
                 )
             }
-            IconButton(onClick = { navigator.push(PlaylistsListScreen()) }) {
+            IconButton(onClick = { navigator.safePush(PlaylistsListScreen()) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.QueueMusic,
                     contentDescription = stringResource(id = R.string.show_playlists)
