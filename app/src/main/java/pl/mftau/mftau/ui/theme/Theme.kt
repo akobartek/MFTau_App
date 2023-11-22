@@ -3,7 +3,10 @@ package pl.mftau.mftau.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -11,6 +14,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -112,7 +116,7 @@ fun MFTauTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colorScheme.switch(),
         typography = Typography,
         content = content
     )
@@ -127,3 +131,42 @@ fun getMfTauColorSecondary() =
     if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
         mf_tau_dark_secondary
     else mf_tau_light_secondary
+
+@Composable
+private fun animateColor(targetValue: Color) =
+    animateColorAsState(
+        targetValue = targetValue,
+        animationSpec = tween(durationMillis = 1000),
+        label = "theme"
+    ).value
+
+@Composable
+fun ColorScheme.switch() = copy(
+    primary = animateColor(primary),
+    onPrimary = animateColor(onPrimary),
+    primaryContainer = animateColor(primaryContainer),
+    onPrimaryContainer = animateColor(onPrimaryContainer),
+    secondaryContainer = animateColor(secondaryContainer),
+    onSecondaryContainer = animateColor(onSecondaryContainer),
+    tertiary = animateColor(tertiary),
+    onTertiary = animateColor(onTertiary),
+    tertiaryContainer = animateColor(tertiaryContainer),
+    onTertiaryContainer = animateColor(onTertiaryContainer),
+    error = animateColor(error),
+    errorContainer = animateColor(errorContainer),
+    onError = animateColor(onError),
+    onErrorContainer = animateColor(onErrorContainer),
+    background = animateColor(background),
+    onBackground = animateColor(onBackground),
+    surface = animateColor(surface),
+    onSurface = animateColor(onSurface),
+    surfaceVariant = animateColor(surfaceVariant),
+    onSurfaceVariant = animateColor(onSurfaceVariant),
+    outline = animateColor(outline),
+    inverseOnSurface = animateColor(inverseOnSurface),
+    inverseSurface = animateColor(inverseSurface),
+    inversePrimary = animateColor(inversePrimary),
+    surfaceTint = animateColor(surfaceTint),
+    outlineVariant = animateColor(outlineVariant),
+    scrim = animateColor(scrim),
+)
