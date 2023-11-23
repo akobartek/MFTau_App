@@ -24,7 +24,7 @@ class GetPlaylistFromDbUseCase(
             }
             val playlists = dbPlaylists.map { (playlistEntity, playlistSongsEntities) ->
                 val playlistSongs = playlistSongsEntities
-                    .sortedBy { entity -> entity.position }
+                    .sortedWith(compareBy { it.position })
                     .map { entity ->
                         if (entity.songTitle != null) songs.first { it.title == entity.songTitle }
                         else songs.first { it.databaseId == entity.songId }

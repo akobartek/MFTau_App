@@ -12,10 +12,10 @@ import pl.mftau.mftau.songbook.domain.db.entities.PlaylistWithSongCount
 
 @Dao
 interface SongBookDao {
-    @Query("SELECT * FROM song;")
+    @Query("SELECT * FROM song ORDER BY song.title;")
     fun getSongs(): Flow<List<SongEntity>>
 
-    @Query("SELECT * FROM song WHERE isOriginallyInSongBook = 0")
+    @Query("SELECT * FROM song WHERE isOriginallyInSongBook = 0 ORDER BY song.title")
     fun getUserSongs(): Flow<List<SongEntity>>
 
     @Upsert

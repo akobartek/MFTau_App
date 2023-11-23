@@ -17,6 +17,7 @@ import pl.mftau.mftau.songbook.domain.usecase.GetUserSongsUseCase
 import pl.mftau.mftau.songbook.domain.usecase.ImportPlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.MarkSongAsFavouriteUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SharePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.UpdateSongsInPlaylistUseCase
@@ -39,6 +40,8 @@ val songBookModule = module {
 
 
     single { GetSongBookUseCase(get(), get()) }
+
+    single { SaveSongUseCase(get()) }
 
     single { MarkSongAsFavouriteUseCase(get()) }
 
@@ -63,7 +66,7 @@ val songBookModule = module {
     single { GetUserSongsUseCase(get()) }
 
 
-    factory { SongBookListScreenModel(get(), get(), get(), get(), get()) }
+    factory { SongBookListScreenModel(get(), get(), get(), get(), get(), get()) }
 
     factory { PlaylistsListScreenModel(get(), get()) }
 

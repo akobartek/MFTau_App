@@ -13,11 +13,13 @@ import pl.mftau.mftau.songbook.domain.model.SongTopic
 import pl.mftau.mftau.songbook.domain.usecase.GetSongBookUseCase
 import pl.mftau.mftau.songbook.domain.usecase.MarkSongAsFavouriteUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
+import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 
 class SongBookListScreenModel(
     private val preferencesRepository: PreferencesRepository,
     private val getSongBookUseCase: GetSongBookUseCase,
+    private val saveSongUseCase: SaveSongUseCase,
     private val markSongAsFavouriteUseCase: MarkSongAsFavouriteUseCase,
     private val savePlaylistUseCase: SavePlaylistUseCase,
     private val saveSongsInPlaylistUseCase: SaveSongsInPlaylistUseCase
@@ -29,7 +31,8 @@ class SongBookListScreenModel(
         val preferences: SongBookPreferences = SongBookPreferences(),
         val selectedFilter: SongTopic = SongTopic.ALL,
         val search: String = "",
-        val songSelectedToPlaylists: Song? = null
+        val songSelectedToPlaylists: Song? = null,
+        val songAddedInfoVisible: Boolean = false
     ) {
         override fun equals(other: Any?): Boolean {
             if (other is SongBookState && (songs !== other.songs || playlists !== other.playlists))
@@ -76,6 +79,17 @@ class SongBookListScreenModel(
         screenModelScope.launch {
             preferencesRepository.updateSongBookFontSize(newSize)
         }
+    }
+
+    fun saveSong(song: Song) {
+        screenModelScope.launch(Dispatchers.IO) {
+            saveSongUseCase(song)
+            toggleSongAddedInfoVisibility()
+        }
+    }
+
+    fun toggleSongAddedInfoVisibility() {
+        mutableState.update { it.copy(songAddedInfoVisible = !it.songAddedInfoVisible) }
     }
 
     fun markSongAsFavourite(song: Song) {

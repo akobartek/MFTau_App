@@ -13,18 +13,24 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
+import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.LoadingBox
 import pl.mftau.mftau.songbook.presentation.components.AddToPlaylistDialog
@@ -55,7 +61,24 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
     var addSongDialogVisible by remember { mutableStateOf(false) }
     var fabOffset by remember { mutableStateOf(Offset.Zero) }
 
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = state) {
+        scope.launch {
+            if (state.songAddedInfoVisible)
+                snackbarHostState.showSnackbar(
+                    message = context.getString(R.string.song_saved),
+                    withDismissAction = true
+                ).also { screenModel.toggleSongAddedInfoVisibility() }
+        }
+    }
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         bottomBar = {
             SongBookBottomAppBar(
                 areChordsVisible = state.preferences.areChordsVisible,
@@ -117,10 +140,10 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             )
     }
 
-    SongEditorDialog(
-        isVisible = addSongDialogVisible,
-        song = null,
-        onSave = {},
-        onDismiss = { addSongDialogVisible = false }
-    )
+    if (addSongDialogVisible)
+        SongEditorDialog(
+            song = null,
+            onSave = screenModel::saveSong,
+            onDismiss = { addSongDialogVisible = false }
+        )
 }

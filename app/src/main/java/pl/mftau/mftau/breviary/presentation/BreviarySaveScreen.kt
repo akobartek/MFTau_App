@@ -115,7 +115,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                     dismissBtnTextId = R.string.cancel,
                     onDismissRequest = {
                         screenModel.cancelScreen()
-                        navigator.pop()
+                        navigator.safePop(BreviarySaveScreen.KEY)
                     }
                 )
 
@@ -124,7 +124,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                     onSelect = screenModel::officeSelected,
                     onCancel = {
                         screenModel.cancelScreen()
-                        navigator.pop()
+                        navigator.safePop(BreviarySaveScreen.KEY)
                     }
                 )
 
@@ -137,7 +137,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
                     onDismiss = {
                         screenModel.cancelScreen()
-                        navigator.pop()
+                        navigator.safePop(BreviarySaveScreen.KEY)
                     }
                 )
             }
@@ -162,7 +162,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                     dismissBtnTextId = R.string.cancel,
                     onConfirm = {
                         exitDialogVisible = false
-                        navigator.pop()
+                        navigator.safePop(BreviarySaveScreen.KEY)
                     },
                     onDismissRequest = { exitDialogVisible = false }
                 )

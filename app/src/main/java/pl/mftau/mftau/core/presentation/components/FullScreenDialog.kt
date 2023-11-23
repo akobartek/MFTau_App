@@ -82,7 +82,7 @@ fun FullScreenDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 24.dp, start = 24.dp, end = 24.dp)
+                        .padding(top = 12.dp, start = 12.dp, end = 12.dp)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null

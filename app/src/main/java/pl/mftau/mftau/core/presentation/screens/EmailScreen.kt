@@ -180,10 +180,11 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                 }),
                 maxLines = 1,
                 isError = state.nameError,
-                supportingText = {
-                    if (state.nameError)
+                supportingText = if (state.nameError) {
+                    {
                         Text(text = stringResource(id = R.string.empty_email_name_error))
-                },
+                    }
+                } else null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(nameRef)
@@ -206,8 +207,8 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                 minLines = 4,
                 maxLines = 10,
                 isError = state.textError,
-                supportingText = {
-                    if (state.textError)
+                supportingText = if (state.textError) {
+                    {
                         Text(
                             text = stringResource(
                                 id = when (screenType) {
@@ -216,7 +217,8 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                                 }
                             )
                         )
-                },
+                    }
+                } else null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 12.dp)

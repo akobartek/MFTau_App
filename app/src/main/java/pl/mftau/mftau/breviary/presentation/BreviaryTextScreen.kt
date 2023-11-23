@@ -119,7 +119,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
                     onSelect = screenModel::officeSelected,
                     onCancel = {
                         screenModel.cancelScreen()
-                        navigator.pop()
+                        navigator.safePop(BreviaryTextScreen.KEY)
                     }
                 )
 
@@ -131,7 +131,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
                     onDismiss = {
                         screenModel.cancelScreen()
-                        navigator.pop()
+                        navigator.safePop(BreviaryTextScreen.KEY)
                     }
                 )
             }

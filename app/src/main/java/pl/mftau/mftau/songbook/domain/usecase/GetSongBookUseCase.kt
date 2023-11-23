@@ -29,7 +29,9 @@ class GetSongBookUseCase(
                 }
                 playlistEntity.toModelObject(playlistSongs)
             }
-            SongBook(songs = songs, playlists = playlists)
+            val sortedSongs =
+                songs.sortedWith(compareBy { it.isOriginallyInSongBook })
+            SongBook(songs = sortedSongs, playlists = playlists)
         }
     }
 }

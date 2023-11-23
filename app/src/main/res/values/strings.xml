@@ -146,6 +146,7 @@
     <string name="add_song">Dodawanie utworu</string>
     <string name="edit_song">Edycja utworu</string>
     <string name="select_topics">Wybierz tematy:</string>
+    <string name="song_saved">Zapisano dane o utworze</string>
     <string name="song_title">Tytuł</string>
     <string name="song_text">Tekst utworu</string>
     <string name="song_chords">Akordy</string>

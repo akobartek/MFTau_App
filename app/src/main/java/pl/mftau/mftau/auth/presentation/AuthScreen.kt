@@ -97,7 +97,7 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
         scope.launch {
             if (state.isSignedIn) {
                 context.showShortToast(R.string.signed_in)
-                navigator.pop()
+                navigator.safePop(AuthScreen.KEY)
             }
             if (state.signInErrorSnackbarVisible)
                 snackbarHostState.showSnackbar(
@@ -167,20 +167,20 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                         }
                 },
                 isError = state.emailError != null,
-                supportingText = {
-                    when (state.emailError) {
-                        EmailErrorType.INVALID ->
-                            Text(text = stringResource(id = R.string.email_error_invalid))
-
-                        EmailErrorType.NO_USER ->
-                            Text(text = stringResource(id = R.string.email_error_no_user))
-
-                        EmailErrorType.USER_EXISTS ->
-                            Text(text = stringResource(id = R.string.email_error_user_exists))
-
-                        else -> {}
+                supportingText = if (state.emailError != null) {
+                    {
+                        Text(
+                            text = stringResource(
+                                id = when (state.emailError) {
+                                    EmailErrorType.INVALID -> R.string.email_error_invalid
+                                    EmailErrorType.NO_USER -> R.string.email_error_no_user
+                                    EmailErrorType.USER_EXISTS -> R.string.email_error_user_exists
+                                    else -> R.string.empty_field_error
+                                }
+                            )
+                        )
                     }
-                },
+                } else null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
@@ -210,23 +210,21 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                     }
                 },
                 isError = state.passwordError != null,
-                supportingText = {
-                    when (state.passwordError) {
-                        PasswordErrorType.EMPTY ->
-                            Text(text = stringResource(id = R.string.password_error_empty))
-
-                        PasswordErrorType.TOO_SHORT ->
-                            Text(text = stringResource(id = R.string.password_error_too_short))
-
-                        PasswordErrorType.WRONG ->
-                            Text(text = stringResource(id = R.string.password_error_wrong))
-
-                        PasswordErrorType.INVALID ->
-                            Text(text = stringResource(id = R.string.password_error_invalid))
-
-                        else -> {}
+                supportingText = if (state.passwordError != null) {
+                    {
+                        Text(
+                            text = stringResource(
+                                id = when (state.passwordError) {
+                                    PasswordErrorType.EMPTY -> R.string.password_error_empty
+                                    PasswordErrorType.TOO_SHORT -> R.string.password_error_too_short
+                                    PasswordErrorType.WRONG -> R.string.password_error_wrong
+                                    PasswordErrorType.INVALID -> R.string.password_error_invalid
+                                    else -> R.string.empty_field_error
+                                }
+                            )
+                        )
                     }
-                },
+                } else null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)

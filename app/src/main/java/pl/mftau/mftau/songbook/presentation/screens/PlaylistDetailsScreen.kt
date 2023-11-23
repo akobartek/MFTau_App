@@ -240,7 +240,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
             DeletePlaylistDialog(
                 onConfirm = {
                     screenModel.deletePlaylist()
-                    navigator.pop()
+                    navigator.safePop(PlaylistDetailsScreen.KEY)
                 },
                 onDismiss = { deletePlaylistDialogVisible = false }
             )
@@ -261,7 +261,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
             ImportPlaylistErrorDialog(
                 onConfirm = {
                     screenModel.toggleImportErrorFlag()
-                    navigator.pop()
+                    navigator.safePop(PlaylistDetailsScreen.KEY)
                 }
             )
 

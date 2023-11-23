@@ -19,11 +19,11 @@
         <item>@string/category_communion</item>
         <item>@string/category_worship</item>
         <item>@string/category_adoration</item>
+        <item>@string/category_gifts</item>
         <item>@string/category_atonement</item>
         <item>@string/category_easter</item>
         <item>@string/category_advent</item>
         <item>@string/category_mary</item>
-        <item>@string/category_gifts</item>
         <item>@string/category_kids</item>
         <item>@string/category_carols</item>
     </string-array>

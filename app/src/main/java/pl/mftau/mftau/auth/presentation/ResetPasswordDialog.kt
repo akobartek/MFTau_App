@@ -67,10 +67,11 @@ fun ResetPasswordDialog(
                             }
                     },
                     isError = isError,
-                    supportingText = {
-                        if (isError)
+                    supportingText = if (isError) {
+                        {
                             Text(text = stringResource(id = R.string.reset_password_error))
-                    },
+                        }
+                    } else null,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 4.dp)
