@@ -7,21 +7,23 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 
 @Composable
-fun DeletePlaylistDialog(
+fun DeleteSongDialog(
     isVisible: Boolean,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
     TauAlertDialog(
         isVisible = isVisible,
-        imageVector = Icons.Default.Delete,
-        dialogTitleId = R.string.delete_playlist,
-        dialogTextId = R.string.delete_playlist_dialog_msg,
+        imageVector = Icons.Filled.Delete,
+        dialogTitleId = R.string.delete_song,
+        dialogTextId = R.string.song_delete_dialog_msg,
         confirmBtnTextId = R.string.delete,
         onConfirm = {
-            onDismiss()
             onConfirm()
+            onDismiss()
         },
-        onDismissRequest = {}
+        dismissible = true,
+        dismissBtnTextId = R.string.cancel,
+        onDismissRequest = onDismiss
     )
 }

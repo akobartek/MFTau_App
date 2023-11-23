@@ -8,9 +8,11 @@ import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 
 @Composable
 fun ImportPlaylistErrorDialog(
+    isVisible: Boolean,
     onConfirm: () -> Unit
 ) {
     TauAlertDialog(
+        isVisible = isVisible,
         imageVector = Icons.Default.ErrorOutline,
         dialogTitleId = R.string.import_playlist,
         dialogTextId = R.string.import_error_dialog_msg,

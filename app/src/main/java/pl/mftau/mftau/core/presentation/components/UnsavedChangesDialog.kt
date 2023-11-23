@@ -7,10 +7,12 @@ import pl.mftau.mftau.R
 
 @Composable
 fun UnsavedChangesDialog(
+    isVisible: Boolean,
     onDiscard: () -> Unit,
     onDismiss: () -> Unit
 ) {
     TauAlertDialog(
+        isVisible = isVisible,
         imageVector = Icons.Default.Edit,
         dialogTitleId = R.string.unsaved_changes_dialog_title,
         dialogTextId = R.string.unsaved_changes_dialog_msg,

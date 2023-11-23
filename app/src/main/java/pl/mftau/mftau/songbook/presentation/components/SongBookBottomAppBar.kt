@@ -108,6 +108,5 @@ fun SongBookBottomAppBar(
         },
     )
 
-    if (pdfDialogVisible)
-        NoPdfAppDialog(onDismiss = { pdfDialogVisible = false })
+    NoPdfAppDialog(isVisible = pdfDialogVisible, onDismiss = { pdfDialogVisible = false })
 }

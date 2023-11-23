@@ -7,10 +7,12 @@ import pl.mftau.mftau.R
 
 @Composable
 fun NoInternetDialog(
+    isVisible: Boolean,
     onReconnect: () -> Unit,
     onDismiss: () -> Unit
 ) {
     TauAlertDialog(
+        isVisible = isVisible,
         imageVector = Icons.Default.SignalCellularConnectedNoInternet0Bar,
         dialogTitleId = R.string.no_internet_title,
         dialogTextId = R.string.no_internet_reconnect_message,

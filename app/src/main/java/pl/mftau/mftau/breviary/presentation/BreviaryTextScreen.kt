@@ -128,6 +128,7 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
                 )
 
                 is State.Failure -> NoInternetDialog(
+                    isVisible = true,
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
                     onDismiss = {
                         screenModel.cancelScreen()

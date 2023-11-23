@@ -8,10 +8,14 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 
 @Composable
-fun NoPdfAppDialog(onDismiss: () -> Unit = {}) {
+fun NoPdfAppDialog(
+    isVisible: Boolean,
+    onDismiss: () -> Unit = {}
+) {
     val context = LocalContext.current
 
     TauAlertDialog(
+        isVisible = isVisible,
         imageVector = Icons.Default.ErrorOutline,
         dialogTitleId = R.string.no_pdf_viewer_dialog_title,
         dialogTextId = R.string.no_pdf_viewer_dialog_msg,

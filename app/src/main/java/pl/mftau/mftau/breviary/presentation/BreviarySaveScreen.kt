@@ -106,6 +106,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 is State.Loading -> LoadingBox()
 
                 is State.Init -> TauAlertDialog(
+                    isVisible = true,
                     imageVector = Icons.Default.Save,
                     dialogTitleId = R.string.saving_breviary,
                     dialogTextId = R.string.save_breviary_dialog_msg,
@@ -134,6 +135,7 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 )
 
                 is State.Failure -> NoInternetDialog(
+                    isVisible = true,
                     onReconnect = screenModel::checkIfThereAreMultipleOffices,
                     onDismiss = {
                         screenModel.cancelScreen()
@@ -142,30 +144,30 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
                 )
             }
 
-            if (saveCompleteDialogVisible)
-                TauAlertDialog(
-                    imageVector = Icons.Default.Save,
-                    dialogTitleId = R.string.saving_breviary,
-                    dialogTextId = R.string.save_finished_dialog_msg,
-                    confirmBtnTextId = R.string.ok,
-                    onConfirm = { saveCompleteDialogVisible = false },
-                    onDismissRequest = { saveCompleteDialogVisible = false }
-                )
+            TauAlertDialog(
+                isVisible = saveCompleteDialogVisible,
+                imageVector = Icons.Default.Save,
+                dialogTitleId = R.string.saving_breviary,
+                dialogTextId = R.string.save_finished_dialog_msg,
+                confirmBtnTextId = R.string.ok,
+                onConfirm = { saveCompleteDialogVisible = false },
+                onDismissRequest = { saveCompleteDialogVisible = false }
+            )
 
-            if (exitDialogVisible)
-                TauAlertDialog(
-                    imageVector = Icons.Default.ErrorOutline,
-                    dialogTitleId = R.string.stop_action_title,
-                    dialogTextId = R.string.stop_download_dialog_msg,
-                    dismissible = false,
-                    confirmBtnTextId = R.string.stop,
-                    dismissBtnTextId = R.string.cancel,
-                    onConfirm = {
-                        exitDialogVisible = false
-                        navigator.safePop(BreviarySaveScreen.KEY)
-                    },
-                    onDismissRequest = { exitDialogVisible = false }
-                )
+            TauAlertDialog(
+                isVisible = exitDialogVisible,
+                imageVector = Icons.Default.ErrorOutline,
+                dialogTitleId = R.string.stop_action_title,
+                dialogTextId = R.string.stop_download_dialog_msg,
+                dismissible = false,
+                confirmBtnTextId = R.string.stop,
+                dismissBtnTextId = R.string.cancel,
+                onConfirm = {
+                    exitDialogVisible = false
+                    navigator.safePop(BreviarySaveScreen.KEY)
+                },
+                onDismissRequest = { exitDialogVisible = false }
+            )
         }
     }
 }

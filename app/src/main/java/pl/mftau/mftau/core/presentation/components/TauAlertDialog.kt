@@ -12,6 +12,7 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun TauAlertDialog(
+    isVisible: Boolean,
     imageVector: ImageVector,
     dismissible: Boolean = true,
     dialogTitleId: Int,
@@ -21,27 +22,28 @@ fun TauAlertDialog(
     dismissBtnTextId: Int? = null,
     onDismissRequest: () -> Unit = {}
 ) {
-    AlertDialog(
-        icon = { Icon(imageVector = imageVector, contentDescription = null) },
-        title = {
-            Text(
-                text = stringResource(id = dialogTitleId),
-                textAlign = TextAlign.Center,
-                fontFamily = mfTauFont
-            )
-        },
-        text = { Text(text = stringResource(id = dialogTextId)) },
-        onDismissRequest = { if (dismissible) onDismissRequest() },
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(stringResource(id = confirmBtnTextId))
-            }
-        },
-        dismissButton = {
-            if (dismissBtnTextId != null)
-                TextButton(onClick = onDismissRequest) {
-                    Text(stringResource(id = dismissBtnTextId))
+    if (isVisible)
+        AlertDialog(
+            icon = { Icon(imageVector = imageVector, contentDescription = null) },
+            title = {
+                Text(
+                    text = stringResource(id = dialogTitleId),
+                    textAlign = TextAlign.Center,
+                    fontFamily = mfTauFont
+                )
+            },
+            text = { Text(text = stringResource(id = dialogTextId)) },
+            onDismissRequest = { if (dismissible) onDismissRequest() },
+            confirmButton = {
+                TextButton(onClick = onConfirm) {
+                    Text(stringResource(id = confirmBtnTextId))
                 }
-        }
-    )
+            },
+            dismissButton = {
+                if (dismissBtnTextId != null)
+                    TextButton(onClick = onDismissRequest) {
+                        Text(stringResource(id = dismissBtnTextId))
+                    }
+            }
+        )
 }

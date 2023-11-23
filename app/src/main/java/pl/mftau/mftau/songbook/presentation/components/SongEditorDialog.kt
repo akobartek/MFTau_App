@@ -55,7 +55,10 @@ fun SongEditorDialog(
     var text by rememberSaveable { mutableStateOf(song?.text ?: "") }
     var textError by rememberSaveable { mutableStateOf(false) }
     var chords by rememberSaveable { mutableStateOf(song?.chords ?: "") }
-    val selectedTopics = remember { mutableStateListOf<Int>() }
+    val selectedTopics = remember {
+        val currentTopics = song?.topics?.map { it.value }?.toTypedArray() ?: arrayOf(0)
+        mutableStateListOf(*currentTopics)
+    }
 
     var previewActive by remember { mutableStateOf(false) }
 
@@ -70,13 +73,12 @@ fun SongEditorDialog(
         title = stringResource(id = if (song == null) R.string.add_song else R.string.edit_song),
         onSave = {
             if (verifyInput()) {
-                selectedTopics.add(0, 0)
                 onSave(
                     (song ?: Song()).copy(
                         title = title,
                         text = text + "\n",
                         chords = chords,
-                        topics = selectedTopics.map { SongTopic.fromValue(it + 2) }.toSet(),
+                        topics = selectedTopics.map { SongTopic.fromValue(it) }.toSet(),
                         isOriginallyInSongBook = false
                     )
                 )
@@ -120,12 +122,13 @@ fun SongEditorDialog(
                     ) {
                         stringArrayResource(id = R.array.song_types).let { types ->
                             types.sliceArray(2..<types.size).forEachIndexed { index, type ->
-                                val selected = selectedTopics.contains(index)
+                                val fixedIndex = index + 2
+                                val selected = selectedTopics.contains(fixedIndex)
                                 FilterChip(
                                     selected = selected,
                                     onClick = {
-                                        if (selected) selectedTopics.remove(index)
-                                        else selectedTopics.add(index)
+                                        if (selected) selectedTopics.remove(fixedIndex)
+                                        else selectedTopics.add(fixedIndex)
                                     },
                                     label = { Text(text = type) },
                                     leadingIcon =

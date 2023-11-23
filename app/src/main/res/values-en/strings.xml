@@ -141,6 +141,7 @@
     <string name="category_carols">Carols</string>
     <string name="add_song">Add song</string>
     <string name="edit_song">Edit song</string>
+    <string name="delete_song">Delete song</string>
     <string name="select_topics">Select topics:</string>
     <string name="song_saved">Song data saved</string>
     <string name="song_title">Title</string>

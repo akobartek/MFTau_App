@@ -128,6 +128,7 @@ fun GospelScreenContent(screenModel: GospelScreenModel, onClick: () -> Unit, isS
                 is State.Success -> GospelLayout(gospel = (state as State.Success).gospel)
 
                 is State.Failure -> NoInternetDialog(
+                    isVisible = true,
                     onReconnect = screenModel::loadGospel,
                     onDismiss = navigator::pop
                 )

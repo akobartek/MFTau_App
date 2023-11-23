@@ -236,36 +236,38 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
         else if (state.playlist?.songs?.isEmpty() != false)
             SongBookEmptyListInfo(messageId = R.string.empty_playlist)
 
-        if (deletePlaylistDialogVisible)
-            DeletePlaylistDialog(
-                onConfirm = {
-                    screenModel.deletePlaylist()
-                    navigator.safePop(PlaylistDetailsScreen.KEY)
-                },
-                onDismiss = { deletePlaylistDialogVisible = false }
-            )
+        DeletePlaylistDialog(
+            isVisible = deletePlaylistDialogVisible,
+            onConfirm = {
+                screenModel.deletePlaylist()
+                navigator.safePop(PlaylistDetailsScreen.KEY)
+            },
+            onDismiss = { deletePlaylistDialogVisible = false }
+        )
 
-        if (unsavedChangesDialogVisible)
-            UnsavedChangesDialog(
-                onDiscard = navigator::pop,
-                onDismiss = { unsavedChangesDialogVisible = false }
-            )
+        UnsavedChangesDialog(
+            isVisible = unsavedChangesDialogVisible,
+            onDiscard = navigator::pop,
+            onDismiss = { unsavedChangesDialogVisible = false }
+        )
 
-        if (state.shareCodeDialogVisible)
-            ShareCodeDialog(
-                code = state.shareCode,
-                onDismiss = screenModel::toggleShareCodeDialogVisibility
-            )
+        ShareCodeDialog(
+            isVisible = state.shareCodeDialogVisible,
+            code = state.shareCode,
+            onDismiss = screenModel::toggleShareCodeDialogVisibility
+        )
 
-        if (state.importError)
-            ImportPlaylistErrorDialog(
-                onConfirm = {
-                    screenModel.toggleImportErrorFlag()
-                    navigator.safePop(PlaylistDetailsScreen.KEY)
-                }
-            )
+        ImportPlaylistErrorDialog(
+            isVisible = state.importError,
+            onConfirm = {
+                screenModel.toggleImportErrorFlag()
+                navigator.safePop(PlaylistDetailsScreen.KEY)
+            }
+        )
 
-        if (state.shareError)
-            SharePlaylistErrorDialog(onConfirm = screenModel::toggleShareErrorFlag)
+        SharePlaylistErrorDialog(
+            isVisible = state.shareError,
+            onConfirm = screenModel::toggleShareErrorFlag
+        )
     }
 }

@@ -21,8 +21,8 @@ interface SongBookDao {
     @Upsert
     suspend fun upsertSong(song: SongEntity)
 
-    @Delete
-    suspend fun deleteSong(song: SongEntity)
+    @Query("DELETE FROM song WHERE id = :songId;")
+    suspend fun deleteSong(songId: Long)
 
 
     @Upsert

@@ -24,50 +24,52 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun ShareCodeDialog(
+    isVisible: Boolean,
     code: String,
     onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
 
-    AlertDialog(
-        icon = {
-            Icon(
-                imageVector = Icons.Default.Share,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        title = {
-            Text(
-                text = stringResource(id = R.string.share_playlist),
-                fontFamily = mfTauFont
-            )
-        },
-        text = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (code.isBlank()) CircularProgressIndicator()
-                else {
-                    Text(text = stringResource(id = R.string.share_playlist_dialog_msg))
-                    Spacer(modifier = Modifier.height(8.dp))
-                    SelectionContainer {
-                        Text(text = code)
+    if (isVisible)
+        AlertDialog(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Share,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = stringResource(id = R.string.share_playlist),
+                    fontFamily = mfTauFont
+                )
+            },
+            text = {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    if (code.isBlank()) CircularProgressIndicator()
+                    else {
+                        Text(text = stringResource(id = R.string.share_playlist_dialog_msg))
+                        Spacer(modifier = Modifier.height(8.dp))
+                        SelectionContainer {
+                            Text(text = code)
+                        }
                     }
                 }
-            }
-        },
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = {
-                context.copyToClipboard(code, "playlist")
-                onDismiss()
-            }) {
-                Text(stringResource(id = R.string.copy))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(id = R.string.cancel))
-            }
-        },
-    )
+            },
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(onClick = {
+                    context.copyToClipboard(code, "playlist")
+                    onDismiss()
+                }) {
+                    Text(stringResource(id = R.string.copy))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text(stringResource(id = R.string.cancel))
+                }
+            },
+        )
 }

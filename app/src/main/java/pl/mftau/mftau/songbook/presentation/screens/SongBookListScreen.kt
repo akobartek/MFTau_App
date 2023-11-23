@@ -58,20 +58,20 @@ class SongBookListScreen : SongBookScreen() {
 fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
     val state by screenModel.state.collectAsStateWithLifecycle()
     var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
-    var addSongDialogVisible by remember { mutableStateOf(false) }
     var fabOffset by remember { mutableStateOf(Offset.Zero) }
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-
     LaunchedEffect(key1 = state) {
         scope.launch {
-            if (state.songAddedInfoVisible)
+            if (state.songSavedInfoVisible) {
+                screenModel.toggleSongSavedInfoVisibility()
                 snackbarHostState.showSnackbar(
                     message = context.getString(R.string.song_saved),
                     withDismissAction = true
-                ).also { screenModel.toggleSongAddedInfoVisibility() }
+                )
+            }
         }
     }
 
@@ -84,7 +84,7 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 areChordsVisible = state.preferences.areChordsVisible,
                 toggleChordsVisibility = screenModel::toggleChordsVisibility,
                 showChangeFontDialog = { changeFontSizeDialogVisible = true },
-                onFabClicked = { addSongDialogVisible = true },
+                onFabClicked = screenModel::toggleSongEditorVisibility,
                 onPositioned = { fabOffset = it }
             )
         }
@@ -140,10 +140,10 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             )
     }
 
-    if (addSongDialogVisible)
+    if (state.songEditorVisible)
         SongEditorDialog(
             song = null,
             onSave = screenModel::saveSong,
-            onDismiss = { addSongDialogVisible = false }
+            onDismiss = screenModel::toggleSongEditorVisibility
         )
 }

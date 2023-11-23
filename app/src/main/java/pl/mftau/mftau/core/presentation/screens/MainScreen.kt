@@ -114,42 +114,42 @@ fun MainScreenContent(screenModel: MainScreenModel) {
             }
         }
 
-        if (state.noInternetAction != null)
-            NoInternetDialog(
-                onReconnect = {
-                    screenModel.hideNoInternetDialog()
-                    when (state.noInternetAction) {
-                        NoInternetAction.RESET_PASSWORD -> screenModel.sendResetPasswordEmail()
-                        NoInternetAction.DELETE_ACCOUNT -> screenModel.deleteAccount()
-                        else -> {}
-                    }
-                },
-                onDismiss = screenModel::hideNoInternetDialog
-            )
+        NoInternetDialog(
+            isVisible = state.noInternetAction != null,
+            onReconnect = {
+                screenModel.hideNoInternetDialog()
+                when (state.noInternetAction) {
+                    NoInternetAction.RESET_PASSWORD -> screenModel.sendResetPasswordEmail()
+                    NoInternetAction.DELETE_ACCOUNT -> screenModel.deleteAccount()
+                    else -> {}
+                }
+            },
+            onDismiss = screenModel::hideNoInternetDialog
+        )
 
-        if (state.resetPasswordDialogVisible)
-            TauAlertDialog(
-                imageVector = Icons.Outlined.LockReset,
-                dialogTitleId = R.string.message_sent,
-                dialogTextId = R.string.reset_password_dialog_msg,
-                confirmBtnTextId = R.string.ok,
-                onConfirm = screenModel::toggleResetPasswordDialogVisibility,
-                onDismissRequest = screenModel::toggleResetPasswordDialogVisibility
-            )
+        TauAlertDialog(
+            isVisible = state.resetPasswordDialogVisible,
+            imageVector = Icons.Outlined.LockReset,
+            dialogTitleId = R.string.message_sent,
+            dialogTextId = R.string.reset_password_dialog_msg,
+            confirmBtnTextId = R.string.ok,
+            onConfirm = screenModel::toggleResetPasswordDialogVisibility,
+            onDismissRequest = screenModel::toggleResetPasswordDialogVisibility
+        )
 
-        if (state.deleteAccountDialogVisible)
-            TauAlertDialog(
-                imageVector = Icons.Outlined.NoAccounts,
-                dialogTitleId = R.string.delete_account_dialog_title,
-                dialogTextId = R.string.delete_account_dialog_msg,
-                confirmBtnTextId = R.string.delete,
-                onConfirm = {
-                    screenModel.toggleDeleteAccountDialogVisibility()
-                    screenModel.deleteAccount()
-                },
-                dismissBtnTextId = R.string.cancel,
-                onDismissRequest = screenModel::toggleDeleteAccountDialogVisibility
-            )
+        TauAlertDialog(
+            isVisible = state.deleteAccountDialogVisible,
+            imageVector = Icons.Outlined.NoAccounts,
+            dialogTitleId = R.string.delete_account_dialog_title,
+            dialogTextId = R.string.delete_account_dialog_msg,
+            confirmBtnTextId = R.string.delete,
+            onConfirm = {
+                screenModel.toggleDeleteAccountDialogVisibility()
+                screenModel.deleteAccount()
+            },
+            dismissBtnTextId = R.string.cancel,
+            onDismissRequest = screenModel::toggleDeleteAccountDialogVisibility
+        )
     }
 }
 
@@ -377,8 +377,8 @@ private fun FirstButtonsRow(modifier: Modifier = Modifier) {
         ),
         modifier = modifier
     )
-    if (pdfDialogVisible)
-        NoPdfAppDialog(onDismiss = { pdfDialogVisible = false })
+
+    NoPdfAppDialog(isVisible = pdfDialogVisible, onDismiss = { pdfDialogVisible = false })
 }
 
 @Composable

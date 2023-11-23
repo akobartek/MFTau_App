@@ -99,21 +99,27 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                 context.showShortToast(R.string.signed_in)
                 navigator.safePop(AuthScreen.KEY)
             }
-            if (state.signInErrorSnackbarVisible)
+            if (state.signInErrorSnackbarVisible) {
+                screenModel.signInErrorShowed()
                 snackbarHostState.showSnackbar(
                     message = context.getString(R.string.sign_in_error),
                     withDismissAction = true
-                ).also { screenModel.signInErrorShowed() }
-            if (state.signUpErrorSnackbarVisible)
+                )
+            }
+            if (state.signUpErrorSnackbarVisible) {
+                screenModel.signUpErrorShowed()
                 snackbarHostState.showSnackbar(
                     message = context.getString(R.string.sign_up_error),
                     withDismissAction = true
-                ).also { screenModel.signUpErrorShowed() }
-            if (state.forgottenPasswordDialogSuccess)
+                )
+            }
+            if (state.forgottenPasswordDialogSuccess) {
+                screenModel.toggleForgottenPasswordSuccessVisibility()
                 snackbarHostState.showSnackbar(
                     message = context.getString(R.string.message_sent),
                     withDismissAction = true
-                ).also { screenModel.toggleForgottenPasswordSuccessVisibility() }
+                )
+            }
         }
     }
 
@@ -266,40 +272,40 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                 isError = state.forgottenPasswordDialogError
             )
 
-        if (state.noInternetAction != null)
-            NoInternetDialog(
-                onReconnect = {
-                    screenModel.hideNoInternetDialog()
-                    when (state.noInternetAction) {
-                        NoInternetAction.SIGN_IN -> screenModel.signIn()
-                        NoInternetAction.SIGN_UP -> screenModel.signUp()
-                        NoInternetAction.RESET_PASSWORD -> screenModel.toggleForgottenPasswordDialogVisibility()
-                        else -> {}
-                    }
-                },
-                onDismiss = screenModel::hideNoInternetDialog
-            )
+        NoInternetDialog(
+            isVisible = state.noInternetAction != null,
+            onReconnect = {
+                screenModel.hideNoInternetDialog()
+                when (state.noInternetAction) {
+                    NoInternetAction.SIGN_IN -> screenModel.signIn()
+                    NoInternetAction.SIGN_UP -> screenModel.signUp()
+                    NoInternetAction.RESET_PASSWORD -> screenModel.toggleForgottenPasswordDialogVisibility()
+                    else -> {}
+                }
+            },
+            onDismiss = screenModel::hideNoInternetDialog
+        )
 
-        if (state.isSignedUpDialogVisible)
-            TauAlertDialog(
-                imageVector = Icons.Outlined.ManageAccounts,
-                dialogTitleId = R.string.sign_up_successful_dialog_title,
-                dialogTextId = R.string.sign_up_successful_dialog_message,
-                confirmBtnTextId = R.string.ok,
-                onConfirm = screenModel::toggleSignUpSuccessVisibility,
-                dismissible = false,
-            )
+        TauAlertDialog(
+            isVisible = state.isSignedUpDialogVisible,
+            imageVector = Icons.Outlined.ManageAccounts,
+            dialogTitleId = R.string.sign_up_successful_dialog_title,
+            dialogTextId = R.string.sign_up_successful_dialog_message,
+            confirmBtnTextId = R.string.ok,
+            onConfirm = screenModel::toggleSignUpSuccessVisibility,
+            dismissible = false,
+        )
 
-        if (state.emailUnverifiedDialogVisible)
-            TauAlertDialog(
-                imageVector = Icons.Outlined.ErrorOutline,
-                dialogTitleId = R.string.verify_email_dialog_title,
-                dialogTextId = R.string.verify_email_dialog_message,
-                confirmBtnTextId = R.string.verify_email_send_again,
-                onConfirm = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
-                dismissible = false,
-                dismissBtnTextId = R.string.cancel,
-                onDismissRequest = { screenModel.toggleEmailUnverifiedDialogVisibility(false) }
-            )
+        TauAlertDialog(
+            isVisible = state.emailUnverifiedDialogVisible,
+            imageVector = Icons.Outlined.ErrorOutline,
+            dialogTitleId = R.string.verify_email_dialog_title,
+            dialogTextId = R.string.verify_email_dialog_message,
+            confirmBtnTextId = R.string.verify_email_send_again,
+            onConfirm = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
+            dismissible = false,
+            dismissBtnTextId = R.string.cancel,
+            onDismissRequest = { screenModel.toggleEmailUnverifiedDialogVisibility(false) }
+        )
     }
 }

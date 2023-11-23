@@ -8,9 +8,11 @@ import pl.mftau.mftau.core.presentation.components.TauAlertDialog
 
 @Composable
 fun SharePlaylistErrorDialog(
+    isVisible: Boolean,
     onConfirm:()->Unit
 ) {
     TauAlertDialog(
+        isVisible = isVisible,
         imageVector = Icons.Default.ErrorOutline,
         dialogTitleId = R.string.share_playlist,
         dialogTextId = R.string.share_empty_list_error,

@@ -145,6 +145,7 @@
     <string name="category_carols">Kolędy</string>
     <string name="add_song">Dodawanie utworu</string>
     <string name="edit_song">Edycja utworu</string>
+    <string name="delete_song">Usuwanie utworu</string>
     <string name="select_topics">Wybierz tematy:</string>
     <string name="song_saved">Zapisano dane o utworze</string>
     <string name="song_title">Tytuł</string>

@@ -32,7 +32,8 @@ class SongBookListScreenModel(
         val selectedFilter: SongTopic = SongTopic.ALL,
         val search: String = "",
         val songSelectedToPlaylists: Song? = null,
-        val songAddedInfoVisible: Boolean = false
+        val songEditorVisible: Boolean = false,
+        val songSavedInfoVisible: Boolean = false
     ) {
         override fun equals(other: Any?): Boolean {
             if (other is SongBookState && (songs !== other.songs || playlists !== other.playlists))
@@ -84,12 +85,16 @@ class SongBookListScreenModel(
     fun saveSong(song: Song) {
         screenModelScope.launch(Dispatchers.IO) {
             saveSongUseCase(song)
-            toggleSongAddedInfoVisibility()
+            toggleSongSavedInfoVisibility()
         }
     }
 
-    fun toggleSongAddedInfoVisibility() {
-        mutableState.update { it.copy(songAddedInfoVisible = !it.songAddedInfoVisible) }
+    fun toggleSongEditorVisibility() {
+        mutableState.update { it.copy(songEditorVisible = !it.songEditorVisible) }
+    }
+
+    fun toggleSongSavedInfoVisibility() {
+        mutableState.update { it.copy(songSavedInfoVisible = !it.songSavedInfoVisible) }
     }
 
     fun markSongAsFavourite(song: Song) {

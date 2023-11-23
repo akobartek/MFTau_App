@@ -15,7 +15,7 @@ class DbSongBookRepository(private val songBookDao: SongBookDao) {
 
     suspend fun upsertSong(song: SongEntity) = songBookDao.upsertSong(song)
 
-    suspend fun deleteSong(song: SongEntity) = songBookDao.deleteSong(song)
+    suspend fun deleteSong(song: SongEntity) = songBookDao.deleteSong(song.id)
 
 
     suspend fun upsertPlaylist(playlist: PlaylistEntity) = songBookDao.upsertSong(playlist)

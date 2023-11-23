@@ -10,6 +10,7 @@ import pl.mftau.mftau.songbook.domain.repository.RemotePlaylistRepository
 import pl.mftau.mftau.songbook.domain.repository.TextsSongBookRepository
 import pl.mftau.mftau.songbook.domain.usecase.DeletePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.DeleteSongFromPlaylist
+import pl.mftau.mftau.songbook.domain.usecase.DeleteSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.GetPlaylistsUseCase
 import pl.mftau.mftau.songbook.domain.usecase.GetPlaylistFromDbUseCase
 import pl.mftau.mftau.songbook.domain.usecase.GetSongBookUseCase
@@ -43,6 +44,8 @@ val songBookModule = module {
 
     single { SaveSongUseCase(get()) }
 
+    single { DeleteSongUseCase(get()) }
+
     single { MarkSongAsFavouriteUseCase(get()) }
 
     single { SavePlaylistUseCase(get()) }
@@ -72,5 +75,5 @@ val songBookModule = module {
 
     factory { PlaylistDetailsScreenModel(get(), get(), get(), get(), get(), get(), get()) }
 
-    factory { UserSongsListScreenModel(get()) }
+    factory { UserSongsListScreenModel(get(), get(), get()) }
 }
