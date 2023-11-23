@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.auth.domain.model.User
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.common.data.PreferencesRepository
 
 class MainScreenModel(
     private val authRepository: AuthRepository,

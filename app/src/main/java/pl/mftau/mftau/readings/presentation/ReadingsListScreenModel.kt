@@ -6,7 +6,7 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.common.data.PreferencesRepository
 import pl.mftau.mftau.readings.domain.PrayersRepository
 import pl.mftau.mftau.readings.domain.WritingsRepository
 

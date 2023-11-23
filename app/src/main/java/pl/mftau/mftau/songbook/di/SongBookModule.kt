@@ -1,7 +1,7 @@
 package pl.mftau.mftau.songbook.di
 
 import org.koin.dsl.module
-import pl.mftau.mftau.core.data.MFTauDatabase
+import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.songbook.data.DbSongBookRepository
 import pl.mftau.mftau.songbook.data.FirebasePlaylistRepository
 import pl.mftau.mftau.songbook.data.MFTauSongBookRepository

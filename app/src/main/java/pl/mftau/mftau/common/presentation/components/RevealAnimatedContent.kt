@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.components
+package pl.mftau.mftau.common.presentation.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec

@@ -32,7 +32,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.utils.safePop
 
 class ReadingsListScreen : ReadingsScreen() {

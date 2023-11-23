@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.components
+package pl.mftau.mftau.common.presentation.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon

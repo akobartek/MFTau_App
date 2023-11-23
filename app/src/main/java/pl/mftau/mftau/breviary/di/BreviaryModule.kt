@@ -2,7 +2,7 @@ package pl.mftau.mftau.breviary.di
 
 import org.koin.dsl.module
 import pl.mftau.mftau.breviary.domain.db.BreviaryDao
-import pl.mftau.mftau.core.data.MFTauDatabase
+import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.breviary.data.DbBreviaryRepositoryImpl
 import pl.mftau.mftau.breviary.data.WebBreviaryRepositoryImpl
 import pl.mftau.mftau.breviary.domain.repository.DbBreviaryRepository

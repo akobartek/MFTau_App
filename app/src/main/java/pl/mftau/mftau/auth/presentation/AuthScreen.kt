@@ -55,12 +55,12 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.EmailErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
-import pl.mftau.mftau.core.presentation.components.TauAlertDialog
-import pl.mftau.mftau.core.presentation.components.NoInternetDialog
+import pl.mftau.mftau.common.presentation.components.TauAlertDialog
+import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.core.utils.showShortToast
 

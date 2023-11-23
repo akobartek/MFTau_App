@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.core.data.PreferencesRepository
-import pl.mftau.mftau.core.data.UserPreferences
+import pl.mftau.mftau.common.data.PreferencesRepository
+import pl.mftau.mftau.common.data.UserPreferences
 
 class MainViewModel(private val preferencesRepository: PreferencesRepository) : ViewModel() {
 

@@ -54,7 +54,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.core.utils.safePop

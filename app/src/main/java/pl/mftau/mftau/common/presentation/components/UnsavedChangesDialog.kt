@@ -1,9 +1,10 @@
-package pl.mftau.mftau.core.presentation.components
+package pl.mftau.mftau.common.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
+import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 
 @Composable
 fun UnsavedChangesDialog(

@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.NoPdfAppDialog
+import pl.mftau.mftau.common.presentation.components.NoPdfAppDialog
 import pl.mftau.mftau.core.utils.openPdf
 import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.core.utils.safePush

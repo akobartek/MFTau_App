@@ -51,9 +51,9 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.data.ColorTheme
-import pl.mftau.mftau.core.data.UserPreferences
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.ui.theme.ColorTheme
+import pl.mftau.mftau.common.data.UserPreferences
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 import pl.mftau.mftau.core.utils.safePop
 import pl.mftau.mftau.ui.theme.mfTauFont

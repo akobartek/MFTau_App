@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.TauAlertDialog
+import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 
 @Composable
 fun SharePlaylistErrorDialog(

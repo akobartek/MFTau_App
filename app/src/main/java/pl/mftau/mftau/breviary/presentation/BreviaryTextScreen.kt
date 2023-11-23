@@ -58,10 +58,10 @@ import pl.mftau.mftau.breviary.presentation.components.CanticleLayout
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
 import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
-import pl.mftau.mftau.core.presentation.components.ComposeWebView
-import pl.mftau.mftau.core.presentation.components.LoadingBox
-import pl.mftau.mftau.core.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.components.ComposeWebView
+import pl.mftau.mftau.common.presentation.components.LoadingBox
+import pl.mftau.mftau.common.presentation.components.NoInternetDialog
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.utils.safePop
 
 data class BreviaryTextScreen(

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.data
+package pl.mftau.mftau.common.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

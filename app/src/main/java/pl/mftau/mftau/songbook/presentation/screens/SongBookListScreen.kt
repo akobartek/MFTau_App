@@ -1,8 +1,11 @@
 package pl.mftau.mftau.songbook.presentation.screens
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,7 +36,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.LoadingBox
+import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.songbook.presentation.components.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookBottomAppBar
@@ -54,6 +58,7 @@ class SongBookListScreen : SongBookScreen() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
     val state by screenModel.state.collectAsStateWithLifecycle()
@@ -95,6 +100,12 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
+            stickyHeader {
+                Box(Modifier.fillMaxWidth()) {
+                    Text(text = "xDDDDDDDDDDDD")
+                }
+            }
+
             items(state.songs, key = { it.title }) { song ->
                 SongCard(
                     song = song,

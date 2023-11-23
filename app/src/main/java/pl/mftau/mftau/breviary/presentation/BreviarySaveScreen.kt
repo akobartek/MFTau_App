@@ -38,10 +38,10 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
 import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
-import pl.mftau.mftau.core.presentation.components.TauAlertDialog
-import pl.mftau.mftau.core.presentation.components.LoadingBox
-import pl.mftau.mftau.core.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.components.TauAlertDialog
+import pl.mftau.mftau.common.presentation.components.LoadingBox
+import pl.mftau.mftau.common.presentation.components.NoInternetDialog
+import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.utils.safePop
 
 data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {

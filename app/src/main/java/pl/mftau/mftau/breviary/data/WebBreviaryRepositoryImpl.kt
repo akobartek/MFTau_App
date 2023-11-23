@@ -34,7 +34,7 @@ import pl.mftau.mftau.breviary.domain.model.Canticle
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.common.data.PreferencesRepository
 
 class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRepository) :
     WebBreviaryRepository {

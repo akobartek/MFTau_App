@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.data.ColorTheme
+import pl.mftau.mftau.ui.theme.ColorTheme
 import pl.mftau.mftau.ui.theme.MFTauTheme
 import pl.mftau.mftau.ui.theme.getMfTauColorPrimary
 import pl.mftau.mftau.ui.theme.getMfTauColorSecondary

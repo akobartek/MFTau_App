@@ -3,8 +3,8 @@ package pl.mftau.mftau.core.presentation.screenmodels
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.core.data.ColorTheme
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.ui.theme.ColorTheme
+import pl.mftau.mftau.common.data.PreferencesRepository
 
 class SettingsScreenModel(private val preferencesRepository: PreferencesRepository) : ScreenModel {
 

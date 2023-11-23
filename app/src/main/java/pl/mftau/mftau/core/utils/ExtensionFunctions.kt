@@ -24,7 +24,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.common.data.PreferencesRepository
 import java.io.File
 import java.io.FileOutputStream
 

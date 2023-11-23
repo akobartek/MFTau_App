@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.data
+package pl.mftau.mftau.common.data
 
 import android.util.Log
 import androidx.datastore.core.DataStore
@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
+import pl.mftau.mftau.ui.theme.ColorTheme
 
 class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {

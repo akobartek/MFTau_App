@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.core.data.PreferencesRepository
+import pl.mftau.mftau.common.data.PreferencesRepository
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.domain.GospelRepository
 import pl.mftau.mftau.gospel.data.GospelRepositoryImpl

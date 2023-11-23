@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.components
+package pl.mftau.mftau.common.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

@@ -1,4 +1,6 @@
-package pl.mftau.mftau.core.data
+package pl.mftau.mftau.common.data
+
+import pl.mftau.mftau.ui.theme.ColorTheme
 
 data class UserPreferences(
     val colorTheme: ColorTheme = ColorTheme.SYSTEM,
