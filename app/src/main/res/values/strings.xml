@@ -102,7 +102,6 @@
     <string name="song_book_search">Szukanie w śpiewniku</string>
     <string name="song_book_filter">Filtrowanie śpiewnika</string>
     <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
-    <string name="empty_search_query">Jeśli chcesz wyszukać pieśń, wpisz powyżej zapytanie!</string>
     <string name="change_font_size">Zmiana wielkości tekstu</string>
     <string name="lower_font_size">Zmniejszenie wielkość tekstu</string>
     <string name="increase_font_size">Zwiększenie wielkość tekstu</string>

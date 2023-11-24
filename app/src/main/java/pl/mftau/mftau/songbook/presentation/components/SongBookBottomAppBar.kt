@@ -18,13 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.layout.boundsInRoot
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
@@ -36,14 +31,12 @@ import pl.mftau.mftau.songbook.presentation.screens.AddedSongsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.PlaylistsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
 
-@Preview(showBackground = true)
 @Composable
 fun SongBookBottomAppBar(
     areChordsVisible: Boolean = false,
     toggleChordsVisibility: () -> Unit = {},
     showChangeFontDialog: () -> Unit = {},
-    onFabClicked: () -> Unit = {},
-    onPositioned: (Offset) -> Unit = {}
+    onFabClicked: () -> Unit = {}
 ) {
     val navigator = LocalNavigator.currentOrThrow
     val context = LocalContext.current
@@ -95,11 +88,7 @@ fun SongBookBottomAppBar(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { onFabClicked() },
-                modifier = Modifier.onGloballyPositioned { cords ->
-                    onPositioned(cords.boundsInRoot().center)
-                }) {
+            FloatingActionButton(onClick = { onFabClicked() },) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.add_song)

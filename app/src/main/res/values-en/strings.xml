@@ -99,7 +99,6 @@
     <string name="song_book_search">Search the song book</string>
     <string name="song_book_filter">Filter the song book</string>
     <string name="empty_search_list">No songs with this phrase found!</string>
-    <string name="empty_search_query">If you want to search a song, type the query above!</string>
     <string name="change_font_size">Change font size</string>
     <string name="lower_font_size">Lower font size</string>
     <string name="increase_font_size">Increase font size</string>

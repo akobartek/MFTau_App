@@ -3,6 +3,13 @@ package pl.mftau.mftau.songbook.presentation.screenmodels
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.common.data.PreferencesRepository
@@ -16,6 +23,7 @@ import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 
+@OptIn(FlowPreview::class)
 class SongBookListScreenModel(
     private val preferencesRepository: PreferencesRepository,
     private val getSongBookUseCase: GetSongBookUseCase,
@@ -29,8 +37,7 @@ class SongBookListScreenModel(
         val songs: List<Song> = listOf(),
         val playlists: List<Playlist> = listOf(),
         val preferences: SongBookPreferences = SongBookPreferences(),
-        val selectedFilter: SongTopic = SongTopic.ALL,
-        val search: String = "",
+        val isLoading: Boolean = true,
         val songSelectedToPlaylists: Song? = null,
         val songEditorVisible: Boolean = false,
         val songSavedInfoVisible: Boolean = false
@@ -45,11 +52,25 @@ class SongBookListScreenModel(
             var result = songs.hashCode()
             result = 31 * result + playlists.hashCode()
             result = 31 * result + preferences.hashCode()
-            result = 31 * result + selectedFilter.hashCode()
-            result = 31 * result + search.hashCode()
+            result = 31 * result + isLoading.hashCode()
+            result = 31 * result + (songSelectedToPlaylists?.hashCode() ?: 0)
+            result = 31 * result + songEditorVisible.hashCode()
+            result = 31 * result + songSavedInfoVisible.hashCode()
             return result
         }
     }
+
+    data class SearchBarState(
+        val searchQuery: String = "",
+        val selectedFilter: SongTopic = SongTopic.ALL
+    ) {
+        fun isChanged() = isQueryChanged() || isFilterChanged()
+        fun isQueryChanged() = searchQuery.isNotBlank()
+        fun isFilterChanged() = selectedFilter != SongTopic.ALL
+    }
+
+    private val _searchBarState = MutableStateFlow(SearchBarState())
+    val searchBarState = _searchBarState.asStateFlow()
 
     init {
         screenModelScope.launch(Dispatchers.IO) {
@@ -58,15 +79,52 @@ class SongBookListScreenModel(
             }
         }
         screenModelScope.launch(Dispatchers.IO) {
-            getSongBookUseCase.songBook.collect { songBook ->
-                mutableState.update {
-                    it.copy(
-                        songs = songBook.songs,
-                        playlists = songBook.playlists,
-                    )
+            searchBarState
+                .onEach { toggleLoadingState(true) }
+                .debounce { searchState ->
+                    if (searchState.isQueryChanged()) 1226L // PDK
+                    else 0L
                 }
-            }
+                .combine(getSongBookUseCase.songBook) { searchState, songBook ->
+                    val songs =
+                        if (!searchState.isChanged()) songBook.songs
+                        else filterSongs(searchState, songBook.songs)
+
+                    mutableState.update {
+                        it.copy(
+                            songs = songs,
+                            playlists = songBook.playlists,
+                            isLoading = false
+                        )
+                    }
+                }
+                .onEach { toggleLoadingState(false) }
+                .stateIn(this)
         }
+    }
+
+    private fun filterSongs(searchState: SearchBarState, allSongs: List<Song>): List<Song> {
+        var filteredSongs = allSongs
+
+        if (searchState.isFilterChanged())
+            filteredSongs = filteredSongs.filter { it.topics.contains(searchState.selectedFilter) }
+
+        if (searchState.isQueryChanged())
+            filteredSongs = filteredSongs.filter { it.isMatchingQuery(searchState.searchQuery) }
+
+        return filteredSongs
+    }
+
+    fun onSearchQueryChange(query: String) {
+        _searchBarState.update { it.copy(searchQuery = query) }
+    }
+
+    fun onSearchFilterChange(filter: SongTopic) {
+        _searchBarState.update { it.copy(selectedFilter = filter) }
+    }
+
+    private fun toggleLoadingState(isLoading: Boolean) {
+        mutableState.update { it.copy(isLoading = isLoading) }
     }
 
     fun toggleChordsVisibility() {
