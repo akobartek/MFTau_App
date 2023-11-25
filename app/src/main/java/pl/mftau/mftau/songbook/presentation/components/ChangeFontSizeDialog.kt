@@ -35,6 +35,7 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun ChangeFontSizeDialog(
+    isVisible: Boolean,
     currentFontSize: Int,
     onSave: (Int) -> Unit,
     dismiss: () -> Unit
@@ -44,71 +45,72 @@ fun ChangeFontSizeDialog(
     val minValue = 12
     val maxValue = 36
 
-    AlertDialog(
-        icon = {
-            Icon(imageVector = Icons.Filled.FormatSize, contentDescription = null)
-        },
-        title = {
-            Text(text = stringResource(id = R.string.change_font_size), fontFamily = mfTauFont)
-        },
-        text = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.example_text),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                SongText(
-                    text = stringResource(id = R.string.example_song),
-                    fontSize = selectedFontSize,
-                    modifier = Modifier
-                        .heightIn(max = 360.dp)
-                        .horizontalScroll(rememberScrollState())
-                        .verticalScroll(rememberScrollState())
-                )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    IconButton(onClick = {
-                        if (selectedFontSize > minValue) selectedFontSize--
-                        else context.showShortToast(R.string.min_size_msg)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.TextDecrease,
-                            tint = MaterialTheme.colorScheme.primary,
-                            contentDescription = stringResource(id = R.string.lower_font_size)
-                        )
-                    }
-                    TextButton(onClick = { selectedFontSize = DEFAULT_FONT_SIZE }) {
-                        Text(text = stringResource(id = R.string.reset))
-                    }
-                    IconButton(onClick = {
-                        if (selectedFontSize < maxValue) selectedFontSize++
-                        else context.showShortToast(R.string.max_size_msg)
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.TextIncrease,
-                            tint = MaterialTheme.colorScheme.primary,
-                            contentDescription = stringResource(id = R.string.increase_font_size)
-                        )
+    if (isVisible)
+        AlertDialog(
+            icon = {
+                Icon(imageVector = Icons.Filled.FormatSize, contentDescription = null)
+            },
+            title = {
+                Text(text = stringResource(id = R.string.change_font_size), fontFamily = mfTauFont)
+            },
+            text = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.example_text),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    SongText(
+                        text = stringResource(id = R.string.example_song),
+                        fontSize = selectedFontSize,
+                        modifier = Modifier
+                            .heightIn(max = 360.dp)
+                            .horizontalScroll(rememberScrollState())
+                            .verticalScroll(rememberScrollState())
+                    )
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        IconButton(onClick = {
+                            if (selectedFontSize > minValue) selectedFontSize--
+                            else context.showShortToast(R.string.min_size_msg)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.TextDecrease,
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = stringResource(id = R.string.lower_font_size)
+                            )
+                        }
+                        TextButton(onClick = { selectedFontSize = DEFAULT_FONT_SIZE }) {
+                            Text(text = stringResource(id = R.string.reset))
+                        }
+                        IconButton(onClick = {
+                            if (selectedFontSize < maxValue) selectedFontSize++
+                            else context.showShortToast(R.string.max_size_msg)
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.TextIncrease,
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = stringResource(id = R.string.increase_font_size)
+                            )
+                        }
                     }
                 }
+            },
+            onDismissRequest = {},
+            confirmButton = {
+                TextButton(onClick = {
+                    onSave(selectedFontSize)
+                    dismiss()
+                }) {
+                    Text(stringResource(id = R.string.save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = dismiss) {
+                    Text(stringResource(id = R.string.cancel))
+                }
             }
-        },
-        onDismissRequest = {},
-        confirmButton = {
-            TextButton(onClick = {
-                onSave(selectedFontSize)
-                dismiss()
-            }) {
-                Text(stringResource(id = R.string.save))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = dismiss) {
-                Text(stringResource(id = R.string.cancel))
-            }
-        }
-    )
+        )
 }

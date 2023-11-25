@@ -4,7 +4,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +21,9 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,14 +43,15 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.getScreenModel
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
+import pl.mftau.mftau.common.presentation.components.ListScrollbar
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.songbook.presentation.components.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookBottomAppBar
 import pl.mftau.mftau.songbook.presentation.components.SongBookEmptyListInfo
+import pl.mftau.mftau.songbook.presentation.components.SongBookSearchBar
 import pl.mftau.mftau.songbook.presentation.components.SongCard
 import pl.mftau.mftau.songbook.presentation.components.SongEditorDialog
-import pl.mftau.mftau.songbook.presentation.components.SongBookSearchBar
 import pl.mftau.mftau.songbook.presentation.screenmodels.SongBookListScreenModel
 import kotlin.math.roundToInt
 
@@ -71,10 +74,12 @@ class SongBookListScreen : SongBookScreen() {
 fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
     val state by screenModel.state.collectAsStateWithLifecycle()
     val searchBarState by screenModel.searchBarState.collectAsStateWithLifecycle()
+    val searchBarHeightDp = 56.dp + 12.dp
+    val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
     var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
 
     val lazyListState = rememberLazyListState()
-    val searchBarHeightPx = with(LocalDensity.current) { 68.dp.roundToPx().toFloat() }
+    val firstItemIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
     var searchBarOffsetHeightPx by remember { mutableStateOf(0f) }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -88,10 +93,15 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         }
     }
 
+    var songIndexToAnimate by remember { mutableIntStateOf(0) }
+    LaunchedEffect(songIndexToAnimate) {
+        lazyListState.animateScrollToItem(songIndexToAnimate)
+    }
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(key1 = state) {
+    LaunchedEffect(state.songSavedInfoVisible) {
         scope.launch {
             if (state.songSavedInfoVisible) {
                 screenModel.toggleSongSavedInfoVisibility()
@@ -101,6 +111,9 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 )
             }
         }
+    }
+    LaunchedEffect(searchBarState) {
+        lazyListState.animateScrollToItem(0)
     }
 
     Scaffold(
@@ -117,64 +130,79 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         },
         modifier = Modifier.nestedScroll(nestedScrollConnection)
     ) { paddingValues ->
-        LazyColumn(
-            state = lazyListState,
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            stickyHeader {
-                SongBookSearchBar(
-                    query = searchBarState.searchQuery,
-                    onQueryChanged = screenModel::onSearchQueryChange,
-                    filter = searchBarState.selectedFilter,
-                    onFilterChanged = screenModel::onSearchFilterChange,
-                    modifier = Modifier
-                        .offset { IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt()) }
-                )
-            }
-
-            if (state.isLoading)
-                item { Column(Modifier.fillParentMaxHeight()) { LoadingBox() } }
-            else if (state.songs.isNotEmpty()) {
-                items(state.songs, key = { it.title }) { song ->
-                    SongCard(
-                        song = song,
-                        preferences = state.preferences,
-                        actions = {
-                            IconButton(onClick = { screenModel.togglePlaylistDialogVisibility(song) }) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
-                                    contentDescription = stringResource(id = R.string.cd_navigate_up)
-                                )
+        Row(modifier = Modifier.padding(paddingValues)) {
+            LazyColumn(
+                state = lazyListState,
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                stickyHeader {
+                    SongBookSearchBar(
+                        query = searchBarState.searchQuery,
+                        onQueryChanged = screenModel::onSearchQueryChange,
+                        filter = searchBarState.selectedFilter,
+                        onFilterChanged = screenModel::onSearchFilterChange,
+                        modifier = Modifier
+                            .offset {
+                                IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt())
                             }
-                            IconButton(onClick = { screenModel.markSongAsFavourite(song) }) {
-                                Crossfade(targetState = song.isFavourite, label = "") {
-                                    Icon(
-                                        imageVector = if (it) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                                        contentDescription = stringResource(
-                                            id = if (it) R.string.remove_from_favourites else R.string.add_to_favourites
-                                        )
-                                    )
-                                }
-                            }
-                        }
                     )
                 }
-            } else item {
-                Column(Modifier.fillParentMaxHeight()) {
-                    SongBookEmptyListInfo(messageId = R.string.empty_search_list)
+
+                if (state.isLoading)
+                    item { Column(Modifier.fillParentMaxHeight()) { LoadingBox() } }
+                else if (state.songs.isNotEmpty()) {
+                    items(state.songs, key = { it.title }) { song ->
+                        SongCard(
+                            song = song,
+                            preferences = state.preferences,
+                            actions = {
+                                IconButton(onClick = {
+                                    screenModel.togglePlaylistDialogVisibility(
+                                        song
+                                    )
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
+                                        contentDescription = stringResource(id = R.string.cd_navigate_up)
+                                    )
+                                }
+                                IconButton(onClick = { screenModel.markSongAsFavourite(song) }) {
+                                    Crossfade(targetState = song.isFavourite, label = "") {
+                                        Icon(
+                                            imageVector = if (it) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                                            contentDescription = stringResource(
+                                                id = if (it) R.string.remove_from_favourites else R.string.add_to_favourites
+                                            )
+                                        )
+                                    }
+                                }
+                            },
+                            modifier = Modifier.fillParentMaxWidth()
+                        )
+                    }
+                } else item {
+                    Column(Modifier.fillParentMaxHeight()) {
+                        SongBookEmptyListInfo(messageId = R.string.empty_search_list)
+                    }
                 }
             }
+
+            ListScrollbar(
+                isVisible = !state.isLoading && state.songs.isNotEmpty(),
+                headerHeight = searchBarHeightDp,
+                listSize = state.songs.size,
+                firstVisibleItemIndex = firstItemIndex.value,
+                onDrag = { songIndexToAnimate = it }
+            )
         }
 
-        if (changeFontSizeDialogVisible)
-            ChangeFontSizeDialog(
-                currentFontSize = state.preferences.fontSize,
-                onSave = screenModel::changeFontSize,
-                dismiss = { changeFontSizeDialogVisible = false }
-            )
+        ChangeFontSizeDialog(
+            isVisible = changeFontSizeDialogVisible,
+            currentFontSize = state.preferences.fontSize,
+            onSave = screenModel::changeFontSize,
+            dismiss = { changeFontSizeDialogVisible = false }
+        )
 
         if (state.songSelectedToPlaylists != null)
             AddToPlaylistDialog(

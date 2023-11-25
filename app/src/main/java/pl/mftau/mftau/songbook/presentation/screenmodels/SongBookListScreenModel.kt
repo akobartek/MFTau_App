@@ -107,7 +107,10 @@ class SongBookListScreenModel(
         var filteredSongs = allSongs
 
         if (searchState.isFilterChanged())
-            filteredSongs = filteredSongs.filter { it.topics.contains(searchState.selectedFilter) }
+            filteredSongs = filteredSongs.filter {
+                if (searchState.selectedFilter == SongTopic.FAVOURITES) it.isFavourite
+                else it.topics.contains(searchState.selectedFilter)
+            }
 
         if (searchState.isQueryChanged())
             filteredSongs = filteredSongs.filter { it.isMatchingQuery(searchState.searchQuery) }

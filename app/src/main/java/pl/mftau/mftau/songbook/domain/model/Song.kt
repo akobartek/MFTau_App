@@ -18,6 +18,10 @@ data class Song(
     @get:Exclude var isFavourite: Boolean = false,
     @get:Exclude var isOriginallyInSongBook: Boolean = true
 ) {
+    companion object {
+        private const val SIMILARITY_THRESHOLD = 0.33
+    }
+
     fun toDbEntity() = SongEntity(
         id = databaseId,
         title = title,
@@ -41,7 +45,7 @@ data class Song(
         val updatedText = text.getStringToSearch()
         return updatedTitle.contains(updatedQuery) ||
                 updatedText.contains(updatedQuery) ||
-                updatedTitle.getSimilarity(updatedQuery) > 0.33
+                updatedTitle.getSimilarity(updatedQuery) > SIMILARITY_THRESHOLD
     }
 
     private fun String.getStringToSearch(): String {
