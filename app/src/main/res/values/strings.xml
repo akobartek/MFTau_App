@@ -52,6 +52,9 @@
     <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
     <string name="no_pdf_viewer_dialog_title">Brak przeglądarek PDF</string>
     <string name="no_pdf_viewer_dialog_msg">Na telefonie nie znaleziono żadnej przeglądarki plików PDF. Jeśli chcesz otworzyć ten plik, musisz najpierw zainstalować przeglądarkę.</string>
+    <string name="notification_dialog_title">Powiadomienia</string>
+    <string name="notification_ask_dialog_message">Czy chcesz otrzymywać powiadomienia na temat wspólnoty?</string>
+    <string name="notification_denied_dialog_message">Jeśli będziesz chciał włączyć powiadomienia, możesz zrobić to w ustawieniach aplikacji.</string>
 
     <!-- EMAIL STRINGS -->
     <string name="send_mail">Wyślij maila</string>

@@ -49,6 +49,9 @@
     <string name="choose_pdf_viewer">Choose PDF viewer</string>
     <string name="no_pdf_viewer_dialog_title">No PDF viewer found</string>
     <string name="no_pdf_viewer_dialog_msg">No PDF viewer was found on the phone. If you want to open this file, you must first install a viewer.</string>
+    <string name="notification_dialog_title">Notifications</string>
+    <string name="notification_ask_dialog_message">Would you like to receive notifications about the community?</string>
+    <string name="notification_denied_dialog_message">If you want to turn on notifications, you can do so in the application settings.</string>
 
     <!-- EMAIL STRINGS -->
     <string name="send_mail">Send mail</string>
