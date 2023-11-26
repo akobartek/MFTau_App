@@ -35,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -187,7 +188,7 @@ private fun LanguagePreferenceRow() {
         LocalContext.current.getSystemService(Context.LOCALE_SERVICE) as LocaleManager
     val values = stringArrayResource(id = R.array.languages)
     val codes = stringArrayResource(id = R.array.languages_codes)
-    var currentLanguage by remember {
+    var currentLanguage by rememberSaveable {
         mutableStateOf(localeManager.applicationLocales[0]?.language ?: "")
     }
 
@@ -215,7 +216,7 @@ private fun SelectionPreferenceRow(
     dialogTitleId: Int,
     onSave: (String) -> Unit
 ) {
-    var dialogVisible by remember { mutableStateOf(false) }
+    var dialogVisible by rememberSaveable { mutableStateOf(false) }
     val getCorrectValueByCode = {
         val index = codes.indexOf(currentValue)
         values[if (index != -1) index else 0]

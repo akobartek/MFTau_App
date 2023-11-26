@@ -33,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -84,7 +85,7 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
     val snackbarHostState = remember { SnackbarHostState() }
 
     var deletePlaylistDialogVisible by remember { mutableStateOf(false) }
-    var unsavedChangesDialogVisible by remember { mutableStateOf(false) }
+    var unsavedChangesDialogVisible by rememberSaveable { mutableStateOf(false) }
     val onBackPressed = {
         if (state.editMode) unsavedChangesDialogVisible = true
         else navigator.safePop(PlaylistDetailsScreen.KEY)

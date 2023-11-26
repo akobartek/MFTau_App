@@ -22,7 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,8 +68,8 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
         screenModel.setup(date = date)
     }
 
-    var exitDialogVisible by remember { mutableStateOf(false) }
-    var saveCompleteDialogVisible by remember { mutableStateOf(false) }
+    var exitDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var saveCompleteDialogVisible by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(key1 = state) {
         if (state is State.DownloadingState) {
             val id = (state as State.DownloadingState).entity.id

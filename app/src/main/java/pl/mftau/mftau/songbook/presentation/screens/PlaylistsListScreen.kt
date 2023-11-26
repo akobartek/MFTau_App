@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,10 +73,10 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
 
     val state by screenModel.state.collectAsStateWithLifecycle()
 
-    var newPlaylistName by remember { mutableStateOf("") }
-    var importPlaylistDialogVisible by remember { mutableStateOf(false) }
+    var newPlaylistName by rememberSaveable { mutableStateOf("") }
+    var importPlaylistDialogVisible by rememberSaveable { mutableStateOf(false) }
 
-    var isLoading by remember { mutableStateOf(false) }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
     val listModifier = if (isLoading) Modifier.blur(16.dp) else Modifier
 
     LaunchedEffect(key1 = state) {

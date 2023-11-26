@@ -27,7 +27,7 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (psalm.name != null)
+            if (!psalm.name.isNullOrBlank())
                 Text(
                     text = "${psalm.name}${if (psalm.title != null) "\n${psalm.title}" else ""}",
                     color = MaterialTheme.colorScheme.primary,
@@ -36,7 +36,7 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
                     fontSize = 16.sp,
                     modifier = Modifier.fillMaxWidth()
                 )
-            if (psalm.subtitle != null)
+            if (!psalm.subtitle.isNullOrBlank())
                 Text(
                     text = psalm.subtitle!!,
                     textAlign = TextAlign.Center,

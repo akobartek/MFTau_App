@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,9 +54,11 @@ fun AddToPlaylistDialog(
     val context = LocalContext.current
     val density = LocalDensity.current
 
-    var selectedPlaylists by remember { mutableStateOf(playlists.filter { it.songs.contains(song) }) }
-    var newPlaylistName by remember { mutableStateOf("") }
-    var isLoading by remember { mutableStateOf(false) }
+    var selectedPlaylists by rememberSaveable {
+        mutableStateOf(playlists.filter { it.songs.contains(song) })
+    }
+    var newPlaylistName by rememberSaveable { mutableStateOf("") }
+    var isLoading by rememberSaveable { mutableStateOf(false) }
     val listModifier = if (isLoading) Modifier.blur(16.dp) else Modifier
     var listHeight by remember { mutableStateOf(0.dp) }
 

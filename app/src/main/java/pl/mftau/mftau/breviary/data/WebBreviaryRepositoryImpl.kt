@@ -619,9 +619,14 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         psalm.antiphon2 = processTextDiv(divs.lastOrNull())
         if (divs.size >= 5) {
             divs[1].child(0).let { elem ->
-
-                psalm.name = elem.textNodes().firstOrNull()?.text() ?: ""
-                psalm.title = elem.textNodes().lastOrNull()?.text() ?: ""
+                psalm.name =
+                    if (elem.children().size == 1)
+                        elem.child(0).textNodes().firstOrNull()?.text() ?: ""
+                    else elem.child(0).text() ?: ""
+                psalm.title =
+                    if (elem.children().size == 1)
+                        elem.child(0).textNodes().lastOrNull()?.text() ?: ""
+                    else elem.child(2).text() ?: ""
             }
             psalm.subtitle = divs[2].child(0).text()
         }

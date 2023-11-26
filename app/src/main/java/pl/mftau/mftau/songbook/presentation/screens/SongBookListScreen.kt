@@ -20,12 +20,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -80,7 +82,8 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         if (windowInfo.screenHeightInfo is WindowInfo.WindowType.Compact) 0.dp
         else 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
-    var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
+    var changeFontSizeDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var firstVisibleItemIndex by rememberSaveable { mutableIntStateOf(0) }
 
     val lazyListState = rememberLazyListState()
     var searchBarOffsetHeightPx by remember { mutableStateOf(0f) }
@@ -96,7 +99,13 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         }
     }
 
-    var songIndexToAnimate by remember { mutableIntStateOf(0) }
+    DisposableEffect(Unit) {
+        onDispose {
+            firstVisibleItemIndex = lazyListState.firstVisibleItemIndex
+        }
+    }
+
+    var songIndexToAnimate by remember { mutableIntStateOf(firstVisibleItemIndex) }
     LaunchedEffect(songIndexToAnimate) {
         lazyListState.animateScrollToItem(songIndexToAnimate)
     }

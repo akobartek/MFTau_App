@@ -32,7 +32,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
@@ -49,7 +49,7 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 
 class BreviarySelectScreen : BreviaryScreen() {
     override val key: ScreenKey
-        get() = BreviaryTextScreen.KEY
+        get() = KEY
 
     @Composable
     override fun Content() {
@@ -65,7 +65,7 @@ class BreviarySelectScreen : BreviaryScreen() {
 @Composable
 fun BreviarySelectScreenContent(screenModel: BreviarySelectScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
-    var dropDownMenuExpanded by remember { mutableStateOf(false) }
+    var dropDownMenuExpanded by rememberSaveable { mutableStateOf(false) }
 
     val daysFromToday by screenModel.daysFromToday.collectAsStateWithLifecycle()
     val daysString = screenModel.getCorrectDaysString(daysFromToday)

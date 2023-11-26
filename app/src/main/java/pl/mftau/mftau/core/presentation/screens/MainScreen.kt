@@ -34,7 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -156,7 +156,7 @@ fun MainScreenContent(screenModel: MainScreenModel) {
 @Composable
 private fun ProfileOptions(screenModel: MainScreenModel) {
     val state by screenModel.state.collectAsStateWithLifecycle()
-    var dropdownExpanded by remember { mutableStateOf(false) }
+    var dropdownExpanded by rememberSaveable { mutableStateOf(false) }
 
     AnimatedVisibility(visible = state.user != null) {
         Box {
@@ -244,7 +244,7 @@ private fun ProfilePicture(photoUri: Uri?) {
 @Composable
 private fun MainScreenOptions(screenModel: MainScreenModel) {
     val navigator = LocalNavigator.currentOrThrow
-    var dropdownExpanded by remember { mutableStateOf(false) }
+    var dropdownExpanded by rememberSaveable { mutableStateOf(false) }
     val state by screenModel.state.collectAsStateWithLifecycle()
 
     Box {
@@ -350,7 +350,7 @@ private fun ButtonsRow(
 private fun FirstButtonsRow(modifier: Modifier = Modifier) {
     val navigator = LocalNavigator.currentOrThrow
     val context = LocalContext.current
-    var pdfDialogVisible by remember { mutableStateOf(false) }
+    var pdfDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     ButtonsRow(
         buttonsData = listOf(

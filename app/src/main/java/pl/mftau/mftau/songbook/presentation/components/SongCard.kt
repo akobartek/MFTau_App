@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,8 +49,8 @@ fun SongCard(
     onClick: ((Song) -> Unit)? = null
 ) {
     val focusManager = LocalFocusManager.current
-    var expanded by remember { mutableStateOf(false) }
-    var chords by remember { mutableStateOf(song.chords) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var chords by rememberSaveable { mutableStateOf(song.chords) }
 
     Card(
         colors = CardDefaults.cardColors(

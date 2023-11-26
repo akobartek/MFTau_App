@@ -31,7 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
@@ -173,7 +173,7 @@ private fun InvitatoryLayout(invitatory: Invitatory) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
-    var optionSelected by remember { mutableIntStateOf(0) }
+    var optionSelected by rememberSaveable { mutableIntStateOf(0) }
     val selectedReading =
         if (optionSelected == 0) officeOfReadings.firstReading
         else officeOfReadings.firstReadingVersion2
