@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.AlertDialog
@@ -53,7 +55,8 @@ fun FilterSongsDialog(
             text = {
                 FlowRow(
                     horizontalArrangement = Arrangement.SpaceAround,
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    modifier = Modifier.verticalScroll(rememberScrollState())
                 ) {
                     stringArrayResource(id = R.array.song_types).forEachIndexed { index, type ->
                         val selected = selectedTopic == index

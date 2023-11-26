@@ -50,44 +50,48 @@ fun ListScrollbar(
             val colorOn = MaterialTheme.colorScheme.primary
             val colorOff = MaterialTheme.colorScheme.surfaceVariant
 
-            Canvas(
-                modifier = Modifier
-                    .height(height)
-                    .pointerInput(remember { MutableInteractionSource() }) {
-                        detectVerticalDragGestures(
-                            onVerticalDrag = { change, _ ->
-                                val newPositionPx = change.position.y.coerceIn(0f, heightPx)
-                                onDrag((listSize * (newPositionPx / heightPx)).roundToInt())
-                            }
-                        )
-                    }
-            ) {
-                val visible = visibleItems.value - 2 // it works best with -2 value
-                val rectHeightPx =
-                    ((heightPx / listSize) * visible).coerceIn(20.dp.toPx(), heightPx)
-                val middleItemPosition =
-                    firstVisibleItemIndex.value.toFloat() + visible.toFloat() / 2
-                val centerY = middleItemPosition / listSize * heightPx
+            if (heightPx > 0)
+                Canvas(
+                    modifier = Modifier
+                        .height(height)
+                        .pointerInput(remember { MutableInteractionSource() }) {
+                            detectVerticalDragGestures(
+                                onVerticalDrag = { change, _ ->
+                                    val newPositionPx = change.position.y.coerceIn(0f, heightPx)
+                                    onDrag((listSize * (newPositionPx / heightPx)).roundToInt())
+                                }
+                            )
+                        }
+                ) {
+                    val visible = visibleItems.value - 2 // it works best with -2 value
+                    val rectHeightPx =
+                        ((heightPx / listSize) * visible).coerceIn(20.dp.toPx(), heightPx)
+                    val middleItemPosition =
+                        firstVisibleItemIndex.value.toFloat() + visible.toFloat() / 2
+                    val centerY = middleItemPosition / listSize * heightPx
 
-                drawLine(
-                    color = colorOn,
-                    start = Offset(center.x, 0f),
-                    end = Offset(center.x, centerY),
-                    strokeWidth = 1.dp.toPx()
-                )
-                drawLine(
-                    color = colorOff,
-                    start = Offset(center.x, centerY),
-                    end = Offset(center.x, size.height),
-                    strokeWidth = 1.dp.toPx()
-                )
-                drawRoundRect(
-                    color = colorOn,
-                    topLeft = Offset(x = center.x - 4.dp.toPx(), y = centerY - rectHeightPx / 2),
-                    size = Size(width = 8.dp.toPx(), height = rectHeightPx),
-                    cornerRadius = CornerRadius(x = 4.dp.toPx(), y = 4.dp.toPx())
-                )
-            }
+                    drawLine(
+                        color = colorOn,
+                        start = Offset(center.x, 0f),
+                        end = Offset(center.x, centerY),
+                        strokeWidth = 1.dp.toPx()
+                    )
+                    drawLine(
+                        color = colorOff,
+                        start = Offset(center.x, centerY),
+                        end = Offset(center.x, size.height),
+                        strokeWidth = 1.dp.toPx()
+                    )
+                    drawRoundRect(
+                        color = colorOn,
+                        topLeft = Offset(
+                            x = center.x - 4.dp.toPx(),
+                            y = centerY - rectHeightPx / 2
+                        ),
+                        size = Size(width = 8.dp.toPx(), height = rectHeightPx),
+                        cornerRadius = CornerRadius(x = 4.dp.toPx(), y = 4.dp.toPx())
+                    )
+                }
         }
     }
 }

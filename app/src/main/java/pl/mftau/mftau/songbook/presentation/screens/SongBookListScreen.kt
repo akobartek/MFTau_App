@@ -5,8 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,6 +52,8 @@ import pl.mftau.mftau.songbook.presentation.components.SongBookSearchBar
 import pl.mftau.mftau.songbook.presentation.components.SongCard
 import pl.mftau.mftau.songbook.presentation.components.SongEditorDialog
 import pl.mftau.mftau.songbook.presentation.screenmodels.SongBookListScreenModel
+import pl.mftau.mftau.ui.WindowInfo
+import pl.mftau.mftau.ui.rememberWindowInfo
 import kotlin.math.roundToInt
 
 class SongBookListScreen : SongBookScreen() {
@@ -73,9 +73,12 @@ class SongBookListScreen : SongBookScreen() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
+    val windowInfo = rememberWindowInfo()
     val state by screenModel.state.collectAsStateWithLifecycle()
     val searchBarState by screenModel.searchBarState.collectAsStateWithLifecycle()
-    val searchBarHeightDp = 56.dp + 12.dp
+    val searchBarHeightDp =
+        if (windowInfo.screenHeightInfo is WindowInfo.WindowType.Compact) 0.dp
+        else 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
     var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
 
@@ -133,18 +136,19 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                stickyHeader {
-                    SongBookSearchBar(
-                        query = searchBarState.searchQuery,
-                        onQueryChanged = screenModel::onSearchQueryChange,
-                        filter = searchBarState.selectedFilter,
-                        onFilterChanged = screenModel::onSearchFilterChange,
-                        modifier = Modifier
-                            .offset {
-                                IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt())
-                            }
-                    )
-                }
+                if (windowInfo.screenHeightInfo !is WindowInfo.WindowType.Compact)
+                    stickyHeader {
+                        SongBookSearchBar(
+                            query = searchBarState.searchQuery,
+                            onQueryChanged = screenModel::onSearchQueryChange,
+                            filter = searchBarState.selectedFilter,
+                            onFilterChanged = screenModel::onSearchFilterChange,
+                            modifier = Modifier
+                                .offset {
+                                    IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt())
+                                }
+                        )
+                    }
 
                 if (state.isLoading)
                     item { Column(Modifier.fillParentMaxHeight()) { LoadingBox() } }
