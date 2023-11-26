@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,7 +55,7 @@ fun SongEditorDialog(
     var text by rememberSaveable { mutableStateOf(song?.text ?: "") }
     var textError by rememberSaveable { mutableStateOf(false) }
     var chords by rememberSaveable { mutableStateOf(song?.chords ?: "") }
-    val selectedTopics = rememberSaveable {
+    val selectedTopics = remember {
         val currentTopics = song?.topics?.map { it.value }?.toTypedArray() ?: arrayOf(0)
         mutableStateListOf(*currentTopics)
     }
