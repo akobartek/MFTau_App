@@ -5,6 +5,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,7 +23,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -79,7 +80,6 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
     var changeFontSizeDialogVisible by remember { mutableStateOf(false) }
 
     val lazyListState = rememberLazyListState()
-    val firstItemIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
     var searchBarOffsetHeightPx by remember { mutableStateOf(0f) }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -111,9 +111,6 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 )
             }
         }
-    }
-    LaunchedEffect(searchBarState) {
-        lazyListState.animateScrollToItem(0)
     }
 
     Scaffold(
@@ -191,11 +188,16 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             ListScrollbar(
                 isVisible = !state.isLoading && state.songs.isNotEmpty(),
                 headerHeight = searchBarHeightDp,
+                listState = lazyListState,
                 listSize = state.songs.size,
-                firstVisibleItemIndex = firstItemIndex.value,
                 onDrag = { songIndexToAnimate = it }
             )
         }
+
+        // TODO() -> It crashes sometimes, check this behaviour on newer compose versions
+//        LaunchedEffect(state.songs) {
+//            lazyListState.animateScrollToItem(0)
+//        }
 
         ChangeFontSizeDialog(
             isVisible = changeFontSizeDialogVisible,
