@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
+import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
 
 @Composable
 fun NoPdfAppDialog(

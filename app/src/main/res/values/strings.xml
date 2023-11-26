@@ -185,10 +185,10 @@
     <string name="theme_dialog_title">Wybierz motyw</string>
     <string name="dynamic_colors_title">Dynamiczne kolory</string>
     <string name="dynamic_colors_summary">Podłącz aplikację do kolorów systemu</string>
+    <string name="awake_screen_title">Wygaszanie ekranu</string>
+    <string name="awake_screen_summary">Nie wygaszaj ekranu podczas korzystania z  aplikacji</string>
     <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
     <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
-    <string name="awake_song_book_title">Ciągły ekran śpiewnika</string>
-    <string name="awake_song_book_summary">Nie wygaszaj ekranu śpiewnika</string>
     <string name="open_song_book_as_pdf_title">Otwieranie śpiewnika jako PDF</string>
     <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
     <string name="language_setting_title">Język aplikacji</string>

@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.utils.showShortToast
+import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
 import pl.mftau.mftau.ui.theme.mfTauFont
 

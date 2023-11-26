@@ -16,7 +16,7 @@ import pl.mftau.mftau.common.data.PreferencesRepository
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
-import pl.mftau.mftau.core.utils.dataStore
+import pl.mftau.mftau.common.utils.dataStore
 
 val coreModule = module {
     single {

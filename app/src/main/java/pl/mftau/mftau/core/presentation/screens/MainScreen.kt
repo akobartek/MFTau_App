@@ -20,7 +20,6 @@ import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.LockReset
-import androidx.compose.material.icons.outlined.Lyrics
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.NoAccounts
 import androidx.compose.material.icons.outlined.OpenInBrowser
@@ -59,11 +58,11 @@ import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.presentation.components.NoPdfAppDialog
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel.NoInternetAction
-import pl.mftau.mftau.core.utils.getBitmapFromUri
-import pl.mftau.mftau.core.utils.openPdf
-import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
-import pl.mftau.mftau.core.utils.safePush
-import pl.mftau.mftau.core.utils.showShortToast
+import pl.mftau.mftau.common.utils.getBitmapFromUri
+import pl.mftau.mftau.common.utils.openPdf
+import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
+import pl.mftau.mftau.common.utils.safePush
+import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
@@ -394,7 +393,7 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
             ),
             ButtonData(
                 title = stringResource(id = R.string.song_book),
-                icon = Icons.Outlined.Lyrics,
+                icon = ImageVector.vectorResource(id = R.drawable.ic_song_book),
                 onClick = { navigator.safePush(SongBookListScreen()) }
             ),
             ButtonData(

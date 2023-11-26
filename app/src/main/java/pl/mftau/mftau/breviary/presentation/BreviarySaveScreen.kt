@@ -42,7 +42,7 @@ import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.safePop
 
 data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {
     override val key: ScreenKey

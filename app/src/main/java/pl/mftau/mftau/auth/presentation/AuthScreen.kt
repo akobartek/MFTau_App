@@ -61,8 +61,8 @@ import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
 import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.core.utils.safePop
-import pl.mftau.mftau.core.utils.showShortToast
+import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.showShortToast
 
 class AuthScreen : Screen {
     override val key: ScreenKey

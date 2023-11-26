@@ -17,7 +17,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import pl.mftau.mftau.core.utils.safePush
+import pl.mftau.mftau.common.utils.safePush
 
 @Composable
 fun ReadingsListLayout(readings: List<Pair<String, AnnotatedString>>) {

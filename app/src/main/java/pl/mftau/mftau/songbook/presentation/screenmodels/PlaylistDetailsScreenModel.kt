@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.mftau.mftau.common.data.PreferencesRepository
-import pl.mftau.mftau.core.utils.swap
+import pl.mftau.mftau.common.utils.swap
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences

@@ -180,10 +180,10 @@
     <string name="theme_dialog_title">Choose theme</string>
     <string name="dynamic_colors_title">Dynamic colors</string>
     <string name="dynamic_colors_summary">Connect app to system colors</string>
+    <string name="awake_screen_title">Keep screen awake</string>
+    <string name="awake_screen_summary">Do not turn off the screen in the app</string>
     <string name="repeat_gospel_title">Repeat Gospel</string>
     <string name="repeat_gospel_summary">Repeat Gospel after the end of hearing</string>
-    <string name="awake_song_book_title">Stay awake in song book</string>
-    <string name="awake_song_book_summary">Do not turn off the song book screen</string>
     <string name="open_song_book_as_pdf_title">Opening song book as PDF</string>
     <string name="open_song_book_as_pdf_summary">Default screen song book is PDF file</string>
     <string name="language_setting_title">App language</string>

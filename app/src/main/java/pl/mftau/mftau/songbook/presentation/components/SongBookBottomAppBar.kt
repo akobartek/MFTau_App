@@ -24,9 +24,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.NoPdfAppDialog
-import pl.mftau.mftau.core.utils.openPdf
-import pl.mftau.mftau.core.utils.safePop
-import pl.mftau.mftau.core.utils.safePush
+import pl.mftau.mftau.common.utils.openPdf
+import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.songbook.presentation.screens.AddedSongsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.PlaylistsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen

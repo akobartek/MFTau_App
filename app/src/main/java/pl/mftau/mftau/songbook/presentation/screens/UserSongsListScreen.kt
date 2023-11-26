@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.presentation.components.DeleteSongDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookEmptyListInfo

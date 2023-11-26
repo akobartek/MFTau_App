@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.utils
+package pl.mftau.mftau.common.utils
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -21,7 +21,6 @@ import androidx.core.content.FileProvider
 import androidx.datastore.preferences.preferencesDataStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.Navigator
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.data.PreferencesRepository

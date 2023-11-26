@@ -56,8 +56,8 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
-import pl.mftau.mftau.core.utils.openWebsiteInChromeCustomTabsIfSupported
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
+import pl.mftau.mftau.common.utils.safePop
 import java.io.Serializable
 
 data class EmailScreen(val screenType: EmailScreenType) : Screen {

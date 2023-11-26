@@ -62,7 +62,7 @@ import pl.mftau.mftau.common.presentation.components.ComposeWebView
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.safePop
 
 data class BreviaryTextScreen(
     val position: Int = 0,

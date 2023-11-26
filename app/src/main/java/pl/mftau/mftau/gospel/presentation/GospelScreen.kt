@@ -40,8 +40,8 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
-import pl.mftau.mftau.core.utils.speak
+import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.speak
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.presentation.GospelScreenModel.State
 

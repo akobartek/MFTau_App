@@ -44,7 +44,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.utils.safePush
+import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class BreviarySelectScreen : BreviaryScreen() {

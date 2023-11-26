@@ -28,9 +28,9 @@ class SettingsScreenModel(private val preferencesRepository: PreferencesReposito
         }
     }
 
-    fun updateKeepSongBookAwake(keepSongBookAwake: Boolean) {
+    fun updateKeepScreenAwake(keepScreenAwake: Boolean) {
         screenModelScope.launch {
-            preferencesRepository.updateKeepSongBookAwake(keepSongBookAwake)
+            preferencesRepository.updateKeepScreenAwake(keepScreenAwake)
         }
     }
 }

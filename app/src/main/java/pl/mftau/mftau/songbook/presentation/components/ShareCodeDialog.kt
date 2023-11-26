@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.utils.copyToClipboard
+import pl.mftau.mftau.common.utils.copyToClipboard
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable

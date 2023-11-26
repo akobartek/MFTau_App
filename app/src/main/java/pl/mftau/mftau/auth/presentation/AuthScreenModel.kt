@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.auth.domain.model.FirebaseAuthEmailNotVerifiedException
 import pl.mftau.mftau.common.data.PreferencesRepository
-import pl.mftau.mftau.core.utils.isValidEmail
+import pl.mftau.mftau.common.utils.isValidEmail
 import java.util.regex.Pattern
 
 class AuthScreenModel(

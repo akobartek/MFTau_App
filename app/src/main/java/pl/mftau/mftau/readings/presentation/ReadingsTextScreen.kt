@@ -20,7 +20,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.safePop
 
 class ReadingsTextScreen(val name: String, val text: AnnotatedString) : ReadingsScreen() {
     override val key: ScreenKey

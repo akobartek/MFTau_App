@@ -56,7 +56,7 @@ import pl.mftau.mftau.ui.theme.ColorTheme
 import pl.mftau.mftau.common.data.UserPreferences
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
-import pl.mftau.mftau.core.utils.safePop
+import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 class SettingsScreen : Screen {
@@ -108,16 +108,16 @@ fun SettingsScreenContent(screenModel: SettingsScreenModel) {
                     onCheckedChange = screenModel::updateDynamicColors
                 )
             SwitchPreferenceRow(
+                title = stringResource(id = R.string.awake_screen_title),
+                summary = stringResource(id = R.string.awake_screen_summary),
+                checked = preferences.keepScreenAwake,
+                onCheckedChange = screenModel::updateKeepScreenAwake
+            )
+            SwitchPreferenceRow(
                 title = stringResource(id = R.string.repeat_gospel_title),
                 summary = stringResource(id = R.string.repeat_gospel_summary),
                 checked = preferences.repeatGospel,
                 onCheckedChange = screenModel::updateRepeatGospel
-            )
-            SwitchPreferenceRow(
-                title = stringResource(id = R.string.awake_song_book_title),
-                summary = stringResource(id = R.string.awake_song_book_summary),
-                checked = preferences.keepSongBookAwake,
-                onCheckedChange = screenModel::updateKeepSongBookAwake
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                 LanguagePreferenceRow()

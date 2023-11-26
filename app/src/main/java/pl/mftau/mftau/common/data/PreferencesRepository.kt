@@ -21,7 +21,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         val THEME = stringPreferencesKey(THEME_KEY)
         val DYNAMIC_COLORS = booleanPreferencesKey(DYNAMIC_COLORS_KEY)
         val REPEAT_GOSPEL = booleanPreferencesKey(REPEAT_GOSPEL_KEY)
-        val KEEP_SONG_BOOK_AWAKE = booleanPreferencesKey(KEEP_SONG_BOOK_AWAKE_KEY)
+        val KEEP_SCREEN_AWAKE = booleanPreferencesKey(KEEP_SCREEN_AWAKE_KEY)
         val SONG_BOOK_ARE_CHORDS_VISIBLE = booleanPreferencesKey(SONG_BOOK_ARE_CHORDS_VISIBLE_KEY)
         val SONG_BOOK_FONT_SIZE = intPreferencesKey(SONG_BOOK_FONT_SIZE_KEY)
         val LAST_USED_EMAIL = stringPreferencesKey(LAST_USED_EMAIL_KEY)
@@ -66,8 +66,8 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         updatePreference(repeatGospel, PreferencesKeys.REPEAT_GOSPEL)
     }
 
-    suspend fun updateKeepSongBookAwake(keepSongBookAwake: Boolean) {
-        updatePreference(keepSongBookAwake, PreferencesKeys.KEEP_SONG_BOOK_AWAKE)
+    suspend fun updateKeepScreenAwake(keepScreenAwake: Boolean) {
+        updatePreference(keepScreenAwake, PreferencesKeys.KEEP_SCREEN_AWAKE)
     }
 
     suspend fun updateLastUsedEmail(email: String) {
@@ -94,15 +94,14 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         val colorTheme = ColorTheme.fromValue(preferences[PreferencesKeys.THEME])
         val dynamicColors = preferences[PreferencesKeys.DYNAMIC_COLORS] ?: false
         val repeatGospel = preferences[PreferencesKeys.REPEAT_GOSPEL] ?: false
-        val keepSongBookAwake = preferences[PreferencesKeys.KEEP_SONG_BOOK_AWAKE] ?: false
-        return UserPreferences(colorTheme, dynamicColors, repeatGospel, keepSongBookAwake)
+        val keepScreenAwake = preferences[PreferencesKeys.KEEP_SCREEN_AWAKE] ?: false
+        return UserPreferences(colorTheme, dynamicColors, repeatGospel, keepScreenAwake)
     }
 
     private fun mapSongBookPreferences(preferences: Preferences): SongBookPreferences {
-        val keepSongBookAwake = preferences[PreferencesKeys.KEEP_SONG_BOOK_AWAKE] ?: false
         val areChordsVisible = preferences[PreferencesKeys.SONG_BOOK_ARE_CHORDS_VISIBLE] ?: false
         val fontSize = preferences[PreferencesKeys.SONG_BOOK_FONT_SIZE] ?: DEFAULT_FONT_SIZE
-        return SongBookPreferences(keepSongBookAwake, areChordsVisible, fontSize)
+        return SongBookPreferences(areChordsVisible, fontSize)
     }
 
     companion object {
@@ -111,7 +110,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         private const val THEME_KEY = "theme"
         private const val DYNAMIC_COLORS_KEY = "dynamic_colors"
         private const val REPEAT_GOSPEL_KEY = "repeat_gospel"
-        private const val KEEP_SONG_BOOK_AWAKE_KEY = "keep_song_book_awake"
+        private const val KEEP_SCREEN_AWAKE_KEY = "keep_screen_awake"
         private const val SONG_BOOK_ARE_CHORDS_VISIBLE_KEY = "song_book_are_chords_visible"
         private const val SONG_BOOK_FONT_SIZE_KEY = "song_book_font_size"
         private const val LAST_USED_EMAIL_KEY = "last_used_email"

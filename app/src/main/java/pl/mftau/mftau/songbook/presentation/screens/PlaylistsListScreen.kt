@@ -43,8 +43,8 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.core.utils.safePop
-import pl.mftau.mftau.core.utils.safePush
+import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.songbook.presentation.components.CreatePlaylistRow
 import pl.mftau.mftau.songbook.presentation.components.ImportPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.SongBookEmptyListInfo
