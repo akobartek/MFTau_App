@@ -37,6 +37,12 @@ class MainViewModel(private val preferencesRepository: PreferencesRepository) : 
 
     }
 
+    fun updateNotificationsAsked(asked: Boolean) {
+        viewModelScope.launch {
+            preferencesRepository.updateNotificationAsked(asked)
+        }
+    }
+
     fun updateAccentColor(color: Color) {
         viewModelScope.launch {
             preferencesRepository.updateAccentColor(color.toArgb())

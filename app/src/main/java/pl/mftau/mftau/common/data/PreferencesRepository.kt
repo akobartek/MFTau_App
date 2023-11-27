@@ -19,6 +19,7 @@ import pl.mftau.mftau.ui.theme.ColorTheme
 class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
         val THEME = stringPreferencesKey(THEME_KEY)
+        val NOTIFICATIONS_ASKED = booleanPreferencesKey(NOTIFICATIONS_ASKED_KEY)
         val DYNAMIC_COLORS = booleanPreferencesKey(DYNAMIC_COLORS_KEY)
         val REPEAT_GOSPEL = booleanPreferencesKey(REPEAT_GOSPEL_KEY)
         val KEEP_SCREEN_AWAKE = booleanPreferencesKey(KEEP_SCREEN_AWAKE_KEY)
@@ -52,6 +53,10 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
     suspend fun getAccentColor() =
         dataStore.data.firstOrNull()?.get(PreferencesKeys.ACCENT_COLOR) ?: 0
+
+    suspend fun updateNotificationAsked(asked: Boolean) {
+        updatePreference(asked, PreferencesKeys.NOTIFICATIONS_ASKED)
+    }
 
     suspend fun updateTheme(colorTheme: ColorTheme) {
         colorTheme.setupAppCompatDelegate()
@@ -91,11 +96,18 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     }
 
     private fun mapUserPreferences(preferences: Preferences): UserPreferences {
+        val notificationsAsked = preferences[PreferencesKeys.NOTIFICATIONS_ASKED] ?: false
         val colorTheme = ColorTheme.fromValue(preferences[PreferencesKeys.THEME])
         val dynamicColors = preferences[PreferencesKeys.DYNAMIC_COLORS] ?: false
         val repeatGospel = preferences[PreferencesKeys.REPEAT_GOSPEL] ?: false
         val keepScreenAwake = preferences[PreferencesKeys.KEEP_SCREEN_AWAKE] ?: false
-        return UserPreferences(colorTheme, dynamicColors, repeatGospel, keepScreenAwake)
+        return UserPreferences(
+            notificationsAsked,
+            colorTheme,
+            dynamicColors,
+            repeatGospel,
+            keepScreenAwake
+        )
     }
 
     private fun mapSongBookPreferences(preferences: Preferences): SongBookPreferences {
@@ -107,6 +119,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     companion object {
         const val DATA_STORE_NAME = "user_preferences"
         private const val TAG = "PreferencesRepository"
+        private const val NOTIFICATIONS_ASKED_KEY = "notification_asked"
         private const val THEME_KEY = "theme"
         private const val DYNAMIC_COLORS_KEY = "dynamic_colors"
         private const val REPEAT_GOSPEL_KEY = "repeat_gospel"

@@ -21,6 +21,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.navigator.Navigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.Firebase
+import com.google.firebase.messaging.messaging
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.compose.KoinContext
 import pl.mftau.mftau.R
@@ -39,26 +41,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
             setOnExitAnimationListener { screen ->
-                val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 0.5f, 0.0f)
-                zoomX.duration = 400L
-                zoomX.doOnEnd {
+                try {
+                    val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 0.5f, 0.0f)
+                    zoomX.duration = 400L
+                    zoomX.doOnEnd {
+                        screen.remove()
+                        viewModel.splashScreenEnded()
+                    }
+
+                    val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 0.5f, 0.0f)
+                    zoomY.duration = 400L
+                    zoomY.doOnEnd {
+                        screen.remove()
+                        viewModel.splashScreenEnded()
+                    }
+
+                    zoomX.start()
+                    zoomY.start()
+                } catch (exc: NullPointerException) {
                     screen.remove()
                     viewModel.splashScreenEnded()
                 }
-
-                val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 0.5f, 0.0f)
-                zoomY.duration = 400L
-                zoomY.doOnEnd {
-                    screen.remove()
-                    viewModel.splashScreenEnded()
-                }
-
-                zoomX.start()
-                zoomY.start()
             }
         }
-
-        askNotificationPermission()
 
         var shortcut = intent.getStringExtra("shortcut")
         intent.putExtra("shortcut", "")
@@ -66,6 +71,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val preferences by viewModel.preferences.collectAsStateWithLifecycle()
             val splashScreenEnded by viewModel.splashScreenEnded.collectAsStateWithLifecycle()
+
+            if (!preferences.notificationsAsked)
+                askNotificationPermission()
 
             KoinContext {
                 MFTauTheme(
@@ -100,6 +108,9 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun askNotificationPermission() {
+        Firebase.messaging.subscribeToTopic("all")
+        viewModel.updateNotificationsAsked(true)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this, Manifest.permission.POST_NOTIFICATIONS
@@ -110,6 +121,7 @@ class MainActivity : ComponentActivity() {
                     .setIcon(R.drawable.logo_color)
                     .setTitle(R.string.notification_dialog_title)
                     .setMessage(R.string.notification_ask_dialog_message)
+                    .setCancelable(false)
                     .setPositiveButton(R.string.yes) { dialog, _ ->
                         dialog.dismiss()
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -130,6 +142,7 @@ class MainActivity : ComponentActivity() {
                         .setIcon(R.drawable.logo_color)
                         .setTitle(R.string.notification_dialog_title)
                         .setMessage(R.string.notification_denied_dialog_message)
+                        .setCancelable(false)
                         .setPositiveButton(R.string.ok) { dialog, _ -> dialog.dismiss() }
                         .create()
                         .show()

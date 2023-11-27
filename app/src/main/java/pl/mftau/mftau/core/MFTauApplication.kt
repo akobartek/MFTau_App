@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import pl.mftau.mftau.auth.di.authModule
 import pl.mftau.mftau.breviary.di.breviaryModule
+import pl.mftau.mftau.common.di.commonModule
 import pl.mftau.mftau.core.di.coreModule
 import pl.mftau.mftau.gospel.di.gospelModule
 import pl.mftau.mftau.readings.di.readingsModule
@@ -20,6 +21,7 @@ class MFTauApplication : Application() {
             androidLogger(level = Level.DEBUG)
             androidContext(this@MFTauApplication)
             modules(
+                commonModule,
                 coreModule,
                 authModule,
                 songBookModule,
