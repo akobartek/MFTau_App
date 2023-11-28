@@ -79,7 +79,7 @@ fun MultipleOfficesDialog(
         onDismissRequest = onCancel,
         confirmButton = {
             TextButton(onClick = { onSelect(selectedOfficeLink) }) {
-                Text(stringResource(id = R.string.save))
+                Text(stringResource(id = R.string.load))
             }
         },
         dismissButton = {

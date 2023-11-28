@@ -16,7 +16,7 @@ sealed class Breviary {
 
     data class OfficeOfReadings(
         val opening: AnnotatedString = buildAnnotatedString { },
-        val hymn: BreviaryPart = BreviaryPart(),
+        val hymn: Hymn = Hymn(),
         val psalmody: Psalmody = Psalmody(),
         val additionalPart: BreviaryPart = BreviaryPart(),
         val firstReading: BreviaryPart = BreviaryPart(),
@@ -31,7 +31,7 @@ sealed class Breviary {
 
     data class MajorHour(
         val opening: AnnotatedString = buildAnnotatedString { },
-        val hymn: BreviaryPart = BreviaryPart(),
+        val hymn: Hymn = Hymn(),
         val psalmody: Psalmody = Psalmody(),
         val reading: BreviaryPart = BreviaryPart(),
         val responsory: BreviaryPart = BreviaryPart(),
@@ -44,7 +44,7 @@ sealed class Breviary {
 
     data class MinorHour(
         val opening: AnnotatedString = buildAnnotatedString { },
-        val hymn: BreviaryPart = BreviaryPart(),
+        val hymn: Hymn = Hymn(),
         val psalmody: Psalmody = Psalmody(),
         val reading: BreviaryPart = BreviaryPart(),
         val prayer: BreviaryPart = BreviaryPart(),
@@ -53,7 +53,7 @@ sealed class Breviary {
 
     data class Compline(
         val opening: AnnotatedString = buildAnnotatedString { },
-        val hymn: BreviaryPart = BreviaryPart(),
+        val hymn: Hymn = Hymn(),
         val psalmody: Psalmody = Psalmody(),
         val reading: BreviaryPart = BreviaryPart(),
         val responsory: BreviaryPart = BreviaryPart(),

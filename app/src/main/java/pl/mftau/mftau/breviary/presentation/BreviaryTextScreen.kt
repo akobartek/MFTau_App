@@ -1,32 +1,19 @@
 package pl.mftau.mftau.breviary.presentation
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Down
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,9 +39,10 @@ import pl.mftau.mftau.breviary.domain.model.Breviary.MinorHour
 import pl.mftau.mftau.breviary.domain.model.Breviary.OfficeOfReadings
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel.State
-import pl.mftau.mftau.breviary.presentation.components.BreviaryPartHeader
 import pl.mftau.mftau.breviary.presentation.components.BreviaryPartLayout
+import pl.mftau.mftau.breviary.presentation.components.BreviaryPartWithSelectionLayout
 import pl.mftau.mftau.breviary.presentation.components.CanticleLayout
+import pl.mftau.mftau.breviary.presentation.components.HymnLayout
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
 import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
 import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
@@ -181,64 +169,21 @@ fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
 
     Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
         Text(text = officeOfReadings.opening, fontSize = 15.sp)
-        BreviaryPartLayout(title = "Hymn", breviaryPart = officeOfReadings.hymn)
+        HymnLayout(hymn = officeOfReadings.hymn)
         PsalmodyLayout(psalmody = officeOfReadings.psalmody)
         BreviaryPartLayout(title = "", breviaryPart = officeOfReadings.additionalPart)
-        Column {
-            BreviaryPartHeader(
-                title = "I Czytanie",
-                pages = selectedReading.breviaryPages,
-                verses = selectedReading.verses
-            )
-            MultiChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                options.forEachIndexed { index, option ->
-                    SegmentedButton(
-                        shape = SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = options.size
-                        ),
-                        icon = {
-                            SegmentedButtonDefaults.Icon(
-                                active = optionSelected == index,
-                                activeContent = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Done,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(SegmentedButtonDefaults.IconSize)
-                                    )
-                                },
-                                inactiveContent = null
-                            )
-                        },
-                        onCheckedChange = { optionSelected = index },
-                        checked = optionSelected == index
-                    ) {
-                        Text(option)
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            AnimatedContent(
-                targetState = optionSelected,
-                transitionSpec = {
-                    slideIntoContainer(
-                        animationSpec = tween(400, easing = EaseIn),
-                        towards = Down
-                    ).togetherWith(
-                        slideOutOfContainer(
-                            animationSpec = tween(400, easing = EaseOut),
-                            towards = Down
-                        )
-                    )
-                },
-                label = "reading"
-            ) { targetState ->
-                val text =
-                    if (targetState == 0) officeOfReadings.firstReading.text
-                    else officeOfReadings.firstReadingVersion2.text
-                Text(text = text, fontSize = 15.sp)
-            }
-        }
+        BreviaryPartWithSelectionLayout(
+            title = "I Czytanie",
+            breviaryPages = selectedReading.breviaryPages,
+            verses = selectedReading.verses,
+            optionSelected = optionSelected,
+            options = options,
+            texts = listOf(
+                officeOfReadings.firstReading.text,
+                officeOfReadings.firstReadingVersion2.text
+            ),
+            onOptionSelected = { optionSelected = it }
+        )
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.firstResponsory)
         BreviaryPartLayout(title = "II Czytanie", breviaryPart = officeOfReadings.secondReading)
         BreviaryPartLayout(title = "Responsorium", breviaryPart = officeOfReadings.secondResponsory)
@@ -253,7 +198,7 @@ fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
 private fun MajorHourLayout(majorHour: MajorHour) {
     Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
         Text(text = majorHour.opening, fontSize = 15.sp)
-        BreviaryPartLayout(title = "Hymn", breviaryPart = majorHour.hymn)
+        HymnLayout(hymn = majorHour.hymn)
         PsalmodyLayout(psalmody = majorHour.psalmody)
         BreviaryPartLayout(title = "Czytanie", breviaryPart = majorHour.reading)
         BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = majorHour.responsory)
@@ -269,7 +214,7 @@ private fun MajorHourLayout(majorHour: MajorHour) {
 private fun MinorHourLayout(minorHour: MinorHour) {
     Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
         Text(text = minorHour.opening, fontSize = 15.sp)
-        BreviaryPartLayout(title = "Hymn", breviaryPart = minorHour.hymn)
+        HymnLayout(hymn = minorHour.hymn)
         PsalmodyLayout(psalmody = minorHour.psalmody)
         BreviaryPartLayout(title = "Czytanie", breviaryPart = minorHour.reading)
         BreviaryPartLayout(title = "Modlitwa", breviaryPart = minorHour.prayer)
@@ -281,7 +226,7 @@ private fun MinorHourLayout(minorHour: MinorHour) {
 private fun ComplineLayout(compline: Compline) {
     Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
         Text(text = compline.opening, fontSize = 15.sp)
-        BreviaryPartLayout(title = "Hymn", breviaryPart = compline.hymn)
+        HymnLayout(hymn = compline.hymn)
         PsalmodyLayout(psalmody = compline.psalmody)
         BreviaryPartLayout(title = "Czytanie", breviaryPart = compline.reading)
         BreviaryPartLayout(title = "Responsorium krótkie", breviaryPart = compline.responsory)

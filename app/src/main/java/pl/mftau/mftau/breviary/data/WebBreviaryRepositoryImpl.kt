@@ -31,6 +31,7 @@ import pl.mftau.mftau.breviary.domain.model.Breviary.OfficeOfReadings
 import pl.mftau.mftau.breviary.domain.model.BreviaryPart
 import pl.mftau.mftau.breviary.domain.model.BreviaryType
 import pl.mftau.mftau.breviary.domain.model.Canticle
+import pl.mftau.mftau.breviary.domain.model.Hymn
 import pl.mftau.mftau.breviary.domain.model.Psalm
 import pl.mftau.mftau.breviary.domain.model.Psalmody
 import pl.mftau.mftau.breviary.domain.repository.WebBreviaryRepository
@@ -145,13 +146,14 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
             }
             .forEach { it.parentNode()?.remove() }
         // Remove different variants
-        element.select("ul").forEach { ulElem ->
-            val idsToRemove = ulElem.select("a").map { it.attr("rel") }
-            idsToRemove.forEachIndexed { index, id ->
-                if (index > 0) element.getElementById(id)?.remove()
+        if (onlyHtml)
+            element.select("ul").forEach { ulElem ->
+                val idsToRemove = ulElem.select("a").map { it.attr("rel") }
+                idsToRemove.forEachIndexed { index, id ->
+                    if (index > 0) element.getElementById(id)?.remove()
+                }
+                ulElem.remove()
             }
-            ulElem.remove()
-        }
         // Remove unnecessary links
         element.select("a")
             .filter { elem ->
@@ -225,11 +227,11 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
             psalm.title = elem.child(2).text() ?: ""
         }
         psalmElements?.removeAt(0)
-        psalmElements?.firstOrNull()?.children()?.firstOrNull()?.let { elem ->
+        psalmElements?.select(".ww")?.firstOrNull()?.let { elem ->
             psalm.subtitle = elem.text()
         }
         psalmElements?.removeAt(0)
-        psalmElements?.firstOrNull()?.let { elem ->
+        psalmElements?.select("a")?.firstOrNull()?.let { elem ->
             psalm.breviaryPages =
                 elem.textNodes()[0]?.text() + "\n" + elem.lastElementChild()?.text()
         }
@@ -559,28 +561,50 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         }
     }
 
-    private fun processHymn(elements: Elements): BreviaryPart {
+    private fun processHymn(elements: Elements): Hymn {
         val openingAndPsalmodyElement =
             elements.firstOrNull()?.firstElementChild()?.lastElementChild()
         val hymnPages = openingAndPsalmodyElement?.select("a")
             ?.firstOrNull { it.html().contains("LG skrócone") }
             ?.text()
-        val hymnText = buildAnnotatedString {
-            val hymnElements = openingAndPsalmodyElement?.children()?.let { children ->
-                children.slice(
+
+        val getText = { children: Elements? ->
+            buildAnnotatedString {
+                val textElements = children?.slice(
                     children.indexOfFirst { it.hasClass("a") }
                             ..children.indexOfLast { it.hasClass("b") }
                 )
-            }
-            hymnElements?.forEachIndexed { index, div ->
-                if (index > 0 && div.hasClass("a")) appendLine()
-                if (div.hasClass("b")) append("\u00A0\u00A0")
-                append(processTextDiv(div))
-                if (index < hymnElements.size - 1)
-                    appendLine()
+                textElements?.forEachIndexed { index, div ->
+                    if (index > 0 && div.hasClass("a")) appendLine()
+                    if (div.hasClass("b")) append("\u00A0\u00A0")
+                    append(processTextDiv(div))
+                    if (index < textElements.size - 1)
+                        appendLine()
+                }
             }
         }
-        return BreviaryPart(hymnPages ?: "", hymnText)
+
+        val psalmodyElemIndex = openingAndPsalmodyElement?.children()
+            ?.indexOfFirst { it.html().contains("Psalmodia", ignoreCase = true) }
+        val ulElem = openingAndPsalmodyElement?.select("ul")?.firstOrNull()
+        val versionDivs =
+            if ((openingAndPsalmodyElement?.children()?.indexOf(ulElem) ?: 0)
+                < (psalmodyElemIndex ?: 0)
+            ) {
+                ulElem
+                    ?.select("a")
+                    ?.map { it.attr("rel") }
+                    ?.map { id -> openingAndPsalmodyElement.getElementById(id) }
+            } else null
+
+        val hymnText = getText(
+            if (versionDivs.isNullOrEmpty()) openingAndPsalmodyElement?.children()
+            else versionDivs[0]?.children()
+        )
+        val version2Text =
+            if (!versionDivs.isNullOrEmpty()) getText(versionDivs[1]?.children())
+            else null
+        return Hymn(hymnPages ?: "", hymnText, "", version2Text)
     }
 
     private fun processPsalmody(elements: Elements): Psalmody {
@@ -597,6 +621,26 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
 
         val psalms = arrayListOf<Psalm>()
         val allPsalmsDivs = psalmodyChildren?.filter { it.tagName() == "div" }?.toMutableList()
+        // check for nested elements
+        allPsalmsDivs?.forEachIndexed { index, elem ->
+            val nestedAntiphon = elem.children().firstOrNull { it.hasClass("cd") }
+            nestedAntiphon?.let {
+                allPsalmsDivs.add(index + 1, it)
+                it.remove()
+            }
+
+            // nested text divs
+            val nested = elem.children().filter { nestedElem ->
+                val children = nestedElem.children()
+                children.any { it.hasClass("c") } || children.any { it.hasClass("d") }
+            }
+            nested.forEach { nestedElem ->
+                nestedElem.select("div").forEach {
+                    it.appendTo(allPsalmsDivs[index])
+                }
+                elem.children().filter { it -> it.tagName() == "br" }.forEach { it.remove() }
+            }
+        }
         repeat(3) {
             val antiphonDivs = allPsalmsDivs?.filter { it.className() == "cd" }?.take(2)
             antiphonDivs?.let {

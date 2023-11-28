@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
@@ -59,6 +60,7 @@ import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.EmailErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.PasswordErrorType
 import pl.mftau.mftau.auth.presentation.AuthScreenModel.NoInternetAction
+import pl.mftau.mftau.common.presentation.autofill
 import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.utils.safePop
@@ -192,6 +194,10 @@ fun AuthScreenContent(screenModel: AuthScreenModel) {
                     .padding(top = 24.dp)
                     .focusRequester(emailRef)
                     .focusProperties { next = passwordRef }
+                    .autofill(
+                        autofillTypes = listOf(AutofillType.EmailAddress),
+                        onFill = { screenModel.updateEmail(it) },
+                    )
             )
             OutlinedTextField(
                 value = state.password,
