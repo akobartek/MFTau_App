@@ -7,8 +7,6 @@ import com.google.firebase.firestore.firestore
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import pl.mftau.mftau.auth.data.AuthRepositoryImpl
-import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.common.data.PreferencesRepository
 import pl.mftau.mftau.common.utils.dataStore
@@ -25,7 +23,5 @@ val commonModule = module {
 
     single { Firebase.auth }
     single { Firebase.firestore }
-
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
     single { PreferencesRepository(androidContext().dataStore) }
 }

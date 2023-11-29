@@ -11,16 +11,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import pl.mftau.mftau.auth.domain.AuthRepository
-import pl.mftau.mftau.auth.domain.model.FirebaseAuthEmailNotVerifiedException
+import pl.mftau.mftau.auth.domain.model.EmailNotVerifiedException
 import pl.mftau.mftau.auth.domain.model.FirestoreUser
 import pl.mftau.mftau.auth.domain.model.User
 import pl.mftau.mftau.auth.domain.model.UserType
 
 
-class AuthRepositoryImpl(
+class FirebaseAuthRepository(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : AuthRepository {
+
+    override val currentUserEmail: String
+        get() = auth.currentUser?.email.orEmpty()
 
     override val currentUser: Flow<User?>
         get() = callbackFlow {
@@ -62,7 +65,7 @@ class AuthRepositoryImpl(
                     if (user.isEmailVerified || user.email == "example@mftau.pl")
                         Result.success(true)
                     else
-                        Result.failure(FirebaseAuthEmailNotVerifiedException())
+                        Result.failure(EmailNotVerifiedException())
                 } ?: Result.failure(Exception())
             } else Result.failure(task.exception ?: Exception())
             result

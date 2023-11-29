@@ -19,10 +19,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.CollectionsBookmark
+import androidx.compose.material.icons.outlined.Diversity3
 import androidx.compose.material.icons.outlined.LockReset
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.NoAccounts
 import androidx.compose.material.icons.outlined.OpenInBrowser
+import androidx.compose.material.icons.outlined.PersonPin
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -50,6 +52,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
+import pl.mftau.mftau.auth.domain.model.UserType
 import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
 import pl.mftau.mftau.common.presentation.components.TauAlertDialog
@@ -64,6 +67,7 @@ import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
+import pl.mftau.mftau.leaders.presentation.screens.PeopleListScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
 import pl.mftau.mftau.ui.WindowInfo
@@ -104,12 +108,18 @@ fun MainScreenContent(screenModel: MainScreenModel) {
             FirstButtonsRow()
             Spacer(modifier = Modifier.height(24.dp))
             SecondButtonsRow()
+            AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
+                LeaderButtonRow()
+            }
         } else {
             CommunityLogo(Modifier.padding(top = 4.dp))
             Spacer(modifier = Modifier.height(32.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 FirstButtonsRow()
                 SecondButtonsRow()
+            }
+            AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
+                LeaderButtonRow()
             }
         }
 
@@ -403,5 +413,26 @@ private fun SecondButtonsRow(modifier: Modifier = Modifier) {
             )
         ),
         modifier = modifier
+    )
+}
+
+@Composable
+fun LeaderButtonRow(modifier: Modifier = Modifier) {
+    val navigator = LocalNavigator.currentOrThrow
+
+    ButtonsRow(
+        buttonsData = listOf(
+            ButtonData(
+                title = stringResource(id = R.string.people),
+                icon = Icons.Outlined.PersonPin,
+                onClick = { navigator.safePush(PeopleListScreen()) }
+            ),
+            ButtonData(
+                title = stringResource(id = R.string.meetings),
+                icon = Icons.Outlined.Diversity3,
+                onClick = { navigator.safePush(BreviarySelectScreen()) }
+            )
+        ),
+        modifier = modifier.padding(top = 24.dp)
     )
 }

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.songbook.presentation.components
+package pl.mftau.mftau.leaders.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -7,7 +7,7 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.TauAlertDialog
 
 @Composable
-fun DeletePlaylistDialog(
+fun DeletePersonDialog(
     isVisible: Boolean,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
@@ -15,8 +15,8 @@ fun DeletePlaylistDialog(
     TauAlertDialog(
         isVisible = isVisible,
         imageVector = Icons.Default.Delete,
-        dialogTitleId = R.string.delete_playlist,
-        dialogTextId = R.string.delete_playlist_dialog_msg,
+        dialogTitleId = R.string.delete_person,
+        dialogTextId = R.string.delete_person_dialog_msg,
         confirmBtnTextId = R.string.delete,
         onConfirm = {
             onDismiss()

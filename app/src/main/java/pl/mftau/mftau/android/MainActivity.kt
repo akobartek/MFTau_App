@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.activities
+package pl.mftau.mftau.android
 
 import android.Manifest
 import android.animation.ObjectAnimator

@@ -7,7 +7,7 @@
         android:shortcutShortLabel="@string/song_book">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="pl.mftau.mftau.core.presentation.activities.MainActivity"
+            android:targetClass="pl.mftau.mftau.android.MainActivity"
             android:targetPackage="pl.mftau.mftau">
             <extra
                 android:name="shortcut"
@@ -22,7 +22,7 @@
         android:shortcutShortLabel="@string/breviary">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="pl.mftau.mftau.core.presentation.activities.MainActivity"
+            android:targetClass="pl.mftau.mftau.android.MainActivity"
             android:targetPackage="pl.mftau.mftau">
             <extra
                 android:name="shortcut"

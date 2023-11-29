@@ -11,7 +11,7 @@
     <string name="song_book">Song book</string>
     <string name="breviary">Breviary</string>
     <string name="gospel">Gospel</string>
-    <string name="members">Members</string>
+    <string name="people">People</string>
     <string name="meetings">Meetings</string>
     <string name="community_logo">MF Tau community logo</string>
     <string name="menu_description">Menu with options like sign in or open settings.</string>
@@ -39,6 +39,11 @@
     <string name="load">Load</string>
     <string name="stop">Stop</string>
     <string name="undo">Undo</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
     <string name="close_dialog">Close dialog window</string>
     <string name="empty_field_error">This field cannot be empty!</string>
     <string name="unsaved_changes_dialog_title">Unsaved changes</string>
@@ -263,31 +268,19 @@
     <string name="meeting_delete_dialog_msg">Do you want to delete this meeting?</string>
     <string name="meeting_delete_successfully">Meeting deleted!</string>
 
-    <!-- MEMBERS STRINGS -->
-    <string name="empty_member_list">There are no members saved!</string>
-    <string name="member_name">Name</string>
-    <string name="is_responsible">Is responsible?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <!-- PEOPLE STRINGS -->
+    <string name="empty_people_list">There are no people saved!</string>
+    <string name="person_name">Name</string>
     <string name="city">City</string>
-    <string name="member_photo_description">Member\'s photo</string>
-    <string name="select_photo">Select photo</string>
-    <string name="add_member">Add member</string>
-    <string name="edit_member">Edit member</string>
-    <string name="delete_member">Delete member</string>
-    <string name="empty_name_error">Name can not be empty!</string>
-    <string name="empty_city_error">City can not be empty!</string>
-    <string name="member_with_photo_saved">Member and photo saved successfully!</string>
-    <string name="member_added">Member saved successfully!</string>
-    <string name="member_add_error">Error with saving member!</string>
-    <string name="member_update_error">Error with updating member!</string>
-    <string name="member_photo_error">Error with saving photo!</string>
-    <string name="discard">Discard</string>
-    <string name="keep_editing">Keep editing</string>
-    <string name="member_delete_dialog_msg">Do you want to delete this person?</string>
-    <string name="delete">Delete</string>
-    <string name="member_delete_successfully">Member deleted!</string>
-    <string name="delete_error">Error occurred!</string>
+    <string name="select_person_type">Select person function</string>
+    <string name="add_person">Add person</string>
+    <string name="edit_person">Edit person</string>
+    <string name="delete_person">Delete person</string>
+    <string name="person_saved">Person saved successfully!</string>
+    <string name="person_save_error">Error occurred while saving person!</string>
+    <string name="delete_person_dialog_msg">Are you sure you want to delete this person from database?</string>
+    <string name="person_delete_successfully">Person deleted!</string>
+    <string name="person_delete_error">Error occurred!</string>
     <string name="emauses">Emauses</string>
     <string name="not_drawn_female">was not drawn, add this person to the last pair.</string>
     <string name="not_drawn_male">was not drawn, add this person to the last pair.</string>
@@ -299,6 +292,12 @@
     <string name="reset_draws_msg">Are you sure you want to reset all draws?</string>
     <string name="delete_last_draw">Delete last draw</string>
     <string name="delete_last_draw_msg">Are you sure you want to delete last draw?</string>
+    <string name="person_sympathizer">Sympathizer</string>
+    <string name="person_member">Member</string>
+    <string name="person_responsible">Responsible</string>
+    <string name="person_leader">Leader</string>
+    <string name="person_assistant">Assistant</string>
+    <string name="person_other">Other</string>
 
     <!-- LANGUAGES STRINGS -->
     <string name="lang_system">System default</string>

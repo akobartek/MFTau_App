@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.services
+package pl.mftau.mftau.android
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,7 +11,6 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.activities.MainActivity
 
 class PushNotificationService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {

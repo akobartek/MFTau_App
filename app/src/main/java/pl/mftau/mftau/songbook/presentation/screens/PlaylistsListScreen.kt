@@ -163,7 +163,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
                         onChangeName = { newPlaylistName = it },
                         onSave = {
                             isLoading = true
-                            screenModel.addNewPlaylist(newPlaylistName)
+                            screenModel.addNewPlaylist(newPlaylistName.trim())
                         },
                         modifier = Modifier.fillMaxWidth(0.85f)
                     )

@@ -54,6 +54,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.ui.theme.ColorTheme
 import pl.mftau.mftau.common.data.UserPreferences
+import pl.mftau.mftau.common.presentation.components.MultiSelectDialog
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 import pl.mftau.mftau.common.utils.safePop
@@ -250,54 +251,13 @@ private fun SelectionPreferenceRow(
         }
     }
 
-    if (dialogVisible) {
-        AlertDialog(
-            icon = { Icon(imageVector = dialogImageVector, contentDescription = null) },
-            title = { Text(text = stringResource(id = dialogTitleId), fontFamily = mfTauFont) },
-            text = {
-                Column(Modifier.selectableGroup()) {
-                    values.forEach { value ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .selectable(
-                                    selected = (value == selectedValue),
-                                    onClick = { onValueSelected(value) },
-                                    role = Role.RadioButton
-                                )
-                                .padding(horizontal = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = (value == selectedValue),
-                                onClick = null
-                            )
-                            Text(
-                                text = value,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 16.dp)
-                            )
-                        }
-                    }
-                }
-            },
-            onDismissRequest = { dialogVisible = false },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        dialogVisible = false
-                        onSave(codes[values.indexOf(selectedValue)])
-                    }
-                ) {
-                    Text(stringResource(id = R.string.save))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { dialogVisible = false }) {
-                    Text(stringResource(id = R.string.cancel))
-                }
-            }
-        )
-    }
+    MultiSelectDialog(
+        isVisible = dialogVisible,
+        imageVector = dialogImageVector,
+        titleId = dialogTitleId,
+        currentValue = selectedValue,
+        values = values,
+        onSave = { onSave(codes[values.indexOf(it)]) },
+        onDismiss = { dialogVisible = false }
+    )
 }

@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core.presentation.activities
+package pl.mftau.mftau.android
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb

@@ -75,9 +75,9 @@ fun SongEditorDialog(
             if (verifyInput()) {
                 onSave(
                     (song ?: Song()).copy(
-                        title = title,
-                        text = text + "\n",
-                        chords = chords,
+                        title = title.trim(),
+                        text = text.trim() + "\n",
+                        chords = chords.trim(),
                         topics = selectedTopics.map { SongTopic.fromValue(it) }.toSet(),
                         isOriginallyInSongBook = false
                     )

@@ -116,7 +116,7 @@ fun AddToPlaylistDialog(
                             onChangeName = { newPlaylistName = it },
                             onSave = {
                                 isLoading = true
-                                addNewPlaylist(newPlaylistName)
+                                addNewPlaylist(newPlaylistName.trim())
                             },
                             modifier = Modifier.padding(top = 4.dp)
                         )

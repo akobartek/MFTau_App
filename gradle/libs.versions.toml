@@ -26,7 +26,7 @@ voyager = "1.0.0-rc08"
 koin = "3.5.0"
 jsoup = "1.16.2"
 webview = "1.7.0"
-serialization-json = "1.6.0"
+serialization-json = "1.6.1"
 datetime = "0.4.1"
 
 junit = "4.13.2"

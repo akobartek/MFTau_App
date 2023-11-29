@@ -28,12 +28,6 @@
         <item>@string/category_carols</item>
     </string-array>
 
-    <string-array name="meeting_types">
-        <item>@string/formation</item>
-        <item>@string/prayerful</item>
-        <item>@string/other</item>
-    </string-array>
-
     <string-array name="languages">
         <item>@string/lang_system</item>
         <item>@string/lang_pl</item>
@@ -56,5 +50,20 @@
         <item>SYSTEM</item>
         <item>DARK</item>
         <item>LIGHT</item>
+    </string-array>
+
+    <string-array name="person_types">
+        <item>@string/person_sympathizer</item>
+        <item>@string/person_member</item>
+        <item>@string/person_responsible</item>
+        <item>@string/person_leader</item>
+        <item>@string/person_assistant</item>
+        <item>@string/person_other</item>
+    </string-array>
+
+    <string-array name="meeting_types">
+        <item>@string/formation</item>
+        <item>@string/prayerful</item>
+        <item>@string/other</item>
     </string-array>
 </resources>

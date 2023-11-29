@@ -13,7 +13,7 @@
     <string name="breviary">Brewiarz</string>
     <string name="gospel">Ewangelia</string>
     <string name="song_book">Śpiewnik</string>
-    <string name="members">Członkowie</string>
+    <string name="people">Ludzie</string>
     <string name="meetings">Spotkania</string>
     <string name="community_logo">Logo wspólnoty MF Tau</string>
     <string name="menu_description">Menu z opcjami zalogowania się oraz otworzeniem ustawień.</string>
@@ -42,6 +42,11 @@
     <string name="load">Załaduj</string>
     <string name="stop">Przerwij</string>
     <string name="undo">Cofnij</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="discard">Odrzuć</string>
+    <string name="keep_editing">Pozostań</string>
+    <string name="delete">Usuń</string>
     <string name="close_dialog">Zamknij okno</string>
     <string name="empty_field_error">To pole nie może być puste!</string>
     <string name="unsaved_changes_dialog_title">Niezapisane zmiany</string>
@@ -268,31 +273,19 @@
     <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
     <string name="meeting_delete_successfully">Spotkanie usunięte!</string>
 
-    <!-- MEMBERS STRINGS -->
-    <string name="empty_member_list">Nie ma żadnych dodanych osób!</string>
-    <string name="member_name">Imię i nazwisko</string>
-    <string name="is_responsible">Odpowiedzialny?</string>
-    <string name="yes">Tak</string>
-    <string name="no">Nie</string>
+    <!-- PEOPLE STRINGS -->
+    <string name="empty_people_list">Nie znaleziono żadnych dodanych osób!</string>
+    <string name="person_name">Imię i nazwisko</string>
     <string name="city">Miasto</string>
-    <string name="member_photo_description">Zdjęcie osoby</string>
-    <string name="select_photo">Wybierz zdjęcie</string>
-    <string name="add_member">Dodawanie osoby</string>
-    <string name="edit_member">Edytowanie osoby</string>
-    <string name="delete_member">Usuń osobę</string>
-    <string name="empty_name_error">Uzupełnij imię i nazwisko!</string>
-    <string name="empty_city_error">Uzupełnij miasto!</string>
-    <string name="member_with_photo_saved">Zapisano osobę oraz zdjęcie!</string>
-    <string name="member_added">Zapisano osobę!</string>
-    <string name="member_add_error">Błąd w trakcie zapisywania osoby!</string>
-    <string name="member_update_error">Błąd w trakcie aktualizacji danych!</string>
-    <string name="member_photo_error">Błąd w trakcie zapisywania zdjęcia!</string>
-    <string name="discard">Odrzuć</string>
-    <string name="keep_editing">Pozostań</string>
-    <string name="member_delete_dialog_msg">Usunąć tę osobę?</string>
-    <string name="delete">Usuń</string>
-    <string name="member_delete_successfully">Usunięto osobę!</string>
-    <string name="delete_error">Wystąpił błąd podczas usuwania!</string>
+    <string name="select_person_type">Wybierz funkcję osoby</string>
+    <string name="add_person">Dodawanie osoby</string>
+    <string name="edit_person">Edytowanie osoby</string>
+    <string name="delete_person">Usuń osobę</string>
+    <string name="person_saved">Zapisano osobę!</string>
+    <string name="person_save_error">Napotkano błąd w trakcie zapisywania osoby!</string>
+    <string name="delete_person_dialog_msg">Jesteś pewny usunięcia tej osoby z bazy danych?</string>
+    <string name="person_delete_successfully">Usunięto osobę!</string>
+    <string name="person_delete_error">Wystąpił błąd podczas usuwania!</string>
     <string name="emauses">Emausy</string>
     <string name="not_drawn_female" tools:ignore="Typos">nie została wylosowana, dodaj tę osobę do ostatniej pary.</string>
     <string name="not_drawn_male" tools:ignore="Typos">nie został wylosowany, dodaj tę osobę do ostatniej pary.</string>
@@ -304,6 +297,12 @@
     <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
     <string name="delete_last_draw">Usuń ostatnie losowanie</string>
     <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
+    <string name="person_sympathizer">Sympatyk</string>
+    <string name="person_member">Członek</string>
+    <string name="person_responsible">Odpowiedzialny</string>
+    <string name="person_leader">Lider</string>
+    <string name="person_assistant">Asystent</string>
+    <string name="person_other">Inny</string>
 
     <!-- LANGUAGES STRINGS -->
     <string name="lang_system">Domyślny systemowy</string>

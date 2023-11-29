@@ -15,7 +15,7 @@
     </queries>
 
     <application
-        android:name=".core.MFTauApplication"
+        android:name=".android.MFTauApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
@@ -30,7 +30,7 @@
         tools:targetApi="34">
 
         <activity
-            android:name=".core.presentation.activities.MainActivity"
+            android:name=".android.MainActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.App.Starting"
@@ -57,7 +57,7 @@
         </service>
 
         <service
-            android:name=".core.presentation.services.PushNotificationService"
+            android:name=".android.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action

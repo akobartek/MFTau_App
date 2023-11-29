@@ -1,4 +1,4 @@
-package pl.mftau.mftau.core
+package pl.mftau.mftau.android
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
@@ -10,6 +10,7 @@ import pl.mftau.mftau.breviary.di.breviaryModule
 import pl.mftau.mftau.common.di.commonModule
 import pl.mftau.mftau.core.di.coreModule
 import pl.mftau.mftau.gospel.di.gospelModule
+import pl.mftau.mftau.leaders.di.leadersModule
 import pl.mftau.mftau.readings.di.readingsModule
 import pl.mftau.mftau.songbook.di.songBookModule
 
@@ -27,7 +28,8 @@ class MFTauApplication : Application() {
                 songBookModule,
                 breviaryModule,
                 gospelModule,
-                readingsModule
+                readingsModule,
+                leadersModule
             )
         }
     }
