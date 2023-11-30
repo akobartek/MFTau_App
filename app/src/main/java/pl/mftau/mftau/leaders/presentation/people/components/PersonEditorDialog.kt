@@ -2,7 +2,6 @@ package pl.mftau.mftau.leaders.presentation.people.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -93,7 +92,7 @@ fun PersonEditorDialog(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    placeholder = { Text(stringResource(id = R.string.person_name)) },
+                    label = { Text(stringResource(id = R.string.person_name)) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
                     isError = nameError,
                     singleLine = true,
@@ -108,7 +107,7 @@ fun PersonEditorDialog(
                 OutlinedTextField(
                     value = city,
                     onValueChange = { city = it },
-                    placeholder = { Text(stringResource(id = R.string.person_city)) },
+                    label = { Text(stringResource(id = R.string.person_city)) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
                     isError = cityError,
                     supportingText = if (cityError) {
@@ -120,45 +119,43 @@ fun PersonEditorDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    OutlinedTextField(
-                        value = types[type],
-                        onValueChange = {},
-                        placeholder = { Text(stringResource(id = R.string.person_city)) },
-                        leadingIcon = {
-                            PersonType.fromIndex(type).getTypeIcon()?.let {
-                                Icon(
-                                    imageVector = it,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(40.dp)
-                                        .padding(8.dp)
-                                )
-                            }
-                        },
-                        trailingIcon = {
+                OutlinedTextField(
+                    value = types[type],
+                    onValueChange = {},
+                    label = { Text(stringResource(id = R.string.person_type)) },
+                    leadingIcon = {
+                        PersonType.fromIndex(type).getTypeIcon()?.let {
                             Icon(
-                                imageVector = Icons.Default.ArrowDropDown,
-                                contentDescription = null
+                                imageVector = it,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .padding(8.dp)
                             )
-                        },
-                        enabled = false,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                            disabledBorderColor = MaterialTheme.colorScheme.outline,
-                            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        modifier = Modifier.clickable { typesDialogVisible = true }
-                    )
-                }
+                        }
+                    },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = null
+                        )
+                    },
+                    enabled = false,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    modifier = Modifier.clickable { typesDialogVisible = true }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
-                    placeholder = { Text(stringResource(id = R.string.person_notes)) },
+                    label = { Text(stringResource(id = R.string.person_notes)) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                     maxLines = 6,
                     modifier = Modifier.fillMaxWidth()

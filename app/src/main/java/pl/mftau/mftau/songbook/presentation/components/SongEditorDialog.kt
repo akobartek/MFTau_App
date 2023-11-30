@@ -102,7 +102,7 @@ fun SongEditorDialog(
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        placeholder = { Text(stringResource(id = R.string.song_title)) },
+                        label = { Text(stringResource(id = R.string.song_title)) },
                         isError = titleError,
                         supportingText = if (titleError) {
                             {
@@ -151,7 +151,7 @@ fun SongEditorDialog(
                         OutlinedTextField(
                             value = text,
                             onValueChange = { text = it },
-                            placeholder = { Text(stringResource(id = R.string.song_text)) },
+                            label = { Text(stringResource(id = R.string.song_text)) },
                             isError = textError,
                             supportingText = if (textError) {
                                 {
@@ -166,7 +166,7 @@ fun SongEditorDialog(
                         OutlinedTextField(
                             value = chords,
                             onValueChange = { chords = it },
-                            placeholder = { Text(stringResource(id = R.string.song_chords)) },
+                            label = { Text(stringResource(id = R.string.song_chords)) },
                             minLines = 4,
                             modifier = Modifier
                                 .widthIn(max = 120.dp)

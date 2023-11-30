@@ -45,6 +45,8 @@ import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.leaders.presentation.LeadersScreen
+import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingCard
+import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingEditorDialog
 import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingsEmptyListInfo
 import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingsOptionsIcon
 import pl.mftau.mftau.leaders.presentation.meetings.screenmodels.MeetingsListScreenModel
@@ -130,7 +132,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                             Tab(
                                 selected = selectedTab.first == index,
                                 onClick = { screenModel.updateSelection(index) },
-                                text = { Text(text = type)},
+                                text = { Text(text = type) },
                                 unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
@@ -173,20 +175,10 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                         .fillMaxSize()
                 ) {
                     items(state.filteredMeetings, key = { it.id + targetState }) { meeting ->
-//                    SongCard(
-//                        song = song,
-//                        onClick = { screenModel.toggleSongEditorVisibility(it) },
-//                        actions = {
-//                            IconButton(onClick = {
-//                                songDeleteClicked = song
-//                            }) {
-//                                Icon(
-//                                    imageVector = Icons.Filled.Delete,
-//                                    contentDescription = stringResource(id = R.string.delete_song)
-//                                )
-//                            }
-//                        }
-//                    )
+                        MeetingCard(
+                            meeting = meeting,
+                            onClick = { screenModel.toggleMeetingEditorVisibility(meeting) },
+                        )
                     }
                 }
 
@@ -196,5 +188,11 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
         }
     }
 
-//    if (state.meetingEditorVisible)
+    if (state.meetingEditorVisible)
+        MeetingEditorDialog(
+            meeting = state.meetingToEdit,
+            onSave = screenModel::saveMeeting,
+            onDelete = screenModel::deleteMeeting,
+            onDismiss = screenModel::toggleMeetingEditorVisibility
+        )
 }

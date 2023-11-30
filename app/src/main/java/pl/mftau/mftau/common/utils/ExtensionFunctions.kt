@@ -26,6 +26,9 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.common.data.PreferencesRepository
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 inline fun <reified T : Screen> Navigator.safePush(screen: T) {
     // Push only when last item was different screen
@@ -47,6 +50,9 @@ fun <T> List<T>.swap(index1: Int, index2: Int): List<T> {
 
 fun CharSequence.isValidEmail(): Boolean =
     android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun Date.getDateFormatted(): String =
+    SimpleDateFormat("dd.MM.yyyy", Locale.US).format(this)
 
 val Context.dataStore by preferencesDataStore(name = PreferencesRepository.DATA_STORE_NAME)
 

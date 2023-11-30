@@ -25,7 +25,7 @@ fun CreatePlaylistRow(
     OutlinedTextField(
         value = newPlaylistName,
         onValueChange = onChangeName,
-        placeholder = { Text(stringResource(id = R.string.new_playlist_name)) },
+        label = { Text(stringResource(id = R.string.new_playlist_name)) },
         trailingIcon = {
             if (newPlaylistName.isNotBlank())
                 IconButton(onClick = onSave) {
