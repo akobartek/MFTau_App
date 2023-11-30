@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -50,6 +49,7 @@ import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.copyToClipboard
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.core.presentation.components.EmptyListInfo
+import pl.mftau.mftau.leaders.presentation.LeadersScreen
 import pl.mftau.mftau.leaders.presentation.people.components.EmausCard
 import pl.mftau.mftau.leaders.presentation.people.components.EmausFullListDialog
 import pl.mftau.mftau.leaders.presentation.people.components.EmausNoPeopleErrorDialog

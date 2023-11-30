@@ -62,8 +62,8 @@
     </string-array>
 
     <string-array name="meeting_types">
-        <item>@string/formation</item>
-        <item>@string/prayerful</item>
-        <item>@string/other</item>
+        <item>@string/meeting_formation</item>
+        <item>@string/meeting_prayerful</item>
+        <item>@string/meeting_other</item>
     </string-array>
 </resources>

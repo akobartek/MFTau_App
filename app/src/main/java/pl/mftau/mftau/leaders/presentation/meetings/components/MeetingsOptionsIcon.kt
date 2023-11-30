@@ -1,10 +1,9 @@
-package pl.mftau.mftau.leaders.presentation.people.components
+package pl.mftau.mftau.leaders.presentation.meetings.components
 
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.CopyAll
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -22,14 +21,12 @@ import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
 
 @Composable
-fun EmausOptionsIcon(
-    onCopyDraws: () -> Unit,
-    onDeleteLastDraw: () -> Unit,
-    onResetDraws: () -> Unit
+fun MeetingsOptionsIcon(
+    onShowPresence: () -> Unit,
+    onClearMeetings: () -> Unit
 ) {
     var dropdownExpanded by rememberSaveable { mutableStateOf(false) }
-    var deleteLastDrawDialogVisible by rememberSaveable { mutableStateOf(false) }
-    var resetDrawsDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var clearMeetingsDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     IconButton(onClick = { dropdownExpanded = !dropdownExpanded }) {
         Icon(
@@ -43,7 +40,7 @@ fun EmausOptionsIcon(
         modifier = Modifier.defaultMinSize(minWidth = 200.dp)
     ) {
         DropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.copy_draw)) },
+            text = { Text(text = stringResource(id = R.string.show_presence)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.CopyAll,
@@ -52,24 +49,11 @@ fun EmausOptionsIcon(
             },
             onClick = {
                 dropdownExpanded = false
-                onCopyDraws()
+                onShowPresence()
             }
         )
         DropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.delete_last_draw)) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = null
-                )
-            },
-            onClick = {
-                dropdownExpanded = false
-                deleteLastDrawDialogVisible = true
-            }
-        )
-        DropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.reset_draws)) },
+            text = { Text(text = stringResource(id = R.string.clear_meetings)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.DeleteForever,
@@ -78,20 +62,14 @@ fun EmausOptionsIcon(
             },
             onClick = {
                 dropdownExpanded = false
-                resetDrawsDialogVisible = true
+                clearMeetingsDialogVisible = true
             }
         )
     }
 
-    DeleteLastDrawDialog(
-        isVisible = deleteLastDrawDialogVisible,
-        onConfirm = onDeleteLastDraw,
-        onDismiss = { deleteLastDrawDialogVisible = false }
-    )
-
-    DeleteAllDrawsDialog(
-        isVisible = resetDrawsDialogVisible,
-        onConfirm = onResetDraws,
-        onDismiss = { resetDrawsDialogVisible = false }
+    ClearMeetingsDialog(
+        isVisible = clearMeetingsDialogVisible,
+        onConfirm = onClearMeetings,
+        onDismiss = { clearMeetingsDialogVisible = false }
     )
 }

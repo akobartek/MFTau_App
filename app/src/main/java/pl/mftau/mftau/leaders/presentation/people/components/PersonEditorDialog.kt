@@ -50,6 +50,7 @@ fun PersonEditorDialog(
     var nameError by rememberSaveable { mutableStateOf(false) }
     var city by rememberSaveable { mutableStateOf(person?.city ?: "") }
     var cityError by rememberSaveable { mutableStateOf(false) }
+    var notes by rememberSaveable { mutableStateOf(person?.notes ?: "") }
     var type by rememberSaveable { mutableStateOf(person?.type?.index ?: 1) }
     var typesDialogVisible by rememberSaveable { mutableStateOf(false) }
     val types = stringArrayResource(id = R.array.person_types)
@@ -70,7 +71,8 @@ fun PersonEditorDialog(
                     (person ?: Person()).copy(
                         name = name.trim(),
                         city = city.trim(),
-                        type = PersonType.fromIndex(type)
+                        type = PersonType.fromIndex(type),
+                        notes = notes.trim()
                     )
                 )
                 onDismiss()
@@ -106,7 +108,7 @@ fun PersonEditorDialog(
                 OutlinedTextField(
                     value = city,
                     onValueChange = { city = it },
-                    placeholder = { Text(stringResource(id = R.string.city)) },
+                    placeholder = { Text(stringResource(id = R.string.person_city)) },
                     keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
                     isError = cityError,
                     supportingText = if (cityError) {
@@ -122,7 +124,7 @@ fun PersonEditorDialog(
                     OutlinedTextField(
                         value = types[type],
                         onValueChange = {},
-                        placeholder = { Text(stringResource(id = R.string.city)) },
+                        placeholder = { Text(stringResource(id = R.string.person_city)) },
                         leadingIcon = {
                             PersonType.fromIndex(type).getTypeIcon()?.let {
                                 Icon(
@@ -152,6 +154,15 @@ fun PersonEditorDialog(
                         modifier = Modifier.clickable { typesDialogVisible = true }
                     )
                 }
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = notes,
+                    onValueChange = { notes = it },
+                    placeholder = { Text(stringResource(id = R.string.person_notes)) },
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                    maxLines = 6,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     )

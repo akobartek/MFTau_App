@@ -42,19 +42,6 @@ class PeopleListScreenModel(
         }
     }
 
-    init {
-        checkInvalidUserException { scope ->
-            peopleRepository.people
-                .onEach { mutableState.update { it.copy(isLoading = true) } }
-                .stateIn(scope, SharingStarted.WhileSubscribed(5000L), null)
-                .collect { people ->
-                    mutableState.update {
-                        it.copy(people = people ?: listOf(), isLoading = false)
-                    }
-                }
-        }
-    }
-
     private fun checkInvalidUserException(action: suspend (CoroutineScope) -> Unit) {
         screenModelScope.launch(Dispatchers.IO) {
             try {
@@ -62,6 +49,19 @@ class PeopleListScreenModel(
             } catch (exc: InvalidUserException) {
                 mutableState.update { it.copy(isLoading = false) }
             }
+        }
+    }
+
+    init {
+        checkInvalidUserException { scope ->
+            peopleRepository.people
+                .stateIn(scope, SharingStarted.WhileSubscribed(5000L), null)
+                .onEach { mutableState.update { it.copy(isLoading = true) } }
+                .collect { people ->
+                    mutableState.update {
+                        it.copy(people = people ?: listOf(), isLoading = false)
+                    }
+                }
         }
     }
 

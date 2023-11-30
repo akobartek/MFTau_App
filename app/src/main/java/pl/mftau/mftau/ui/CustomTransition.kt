@@ -30,7 +30,7 @@ import cafe.adriel.voyager.transitions.SlideOrientation
 import pl.mftau.mftau.breviary.presentation.BreviaryScreen
 import pl.mftau.mftau.core.presentation.screens.MainScreen
 import pl.mftau.mftau.gospel.presentation.GospelScreen
-import pl.mftau.mftau.leaders.presentation.people.screens.LeadersScreen
+import pl.mftau.mftau.leaders.presentation.LeadersScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookScreen
 
@@ -70,7 +70,9 @@ fun CustomTransition(
                 is GospelScreen -> TransitionType.Slide(SlideOrientation.Vertical)
                 is ReadingsScreen -> TransitionType.Slide()
                 is BreviaryScreen -> TransitionType.Slide(isReversed = true)
-                is LeadersScreen -> TransitionType.Slide(SlideOrientation.Vertical)
+                is LeadersScreen ->
+                    TransitionType.Slide(SlideOrientation.Vertical, isReversed = true)
+
                 else -> TransitionType.Slide(isReversed = true)
             }
 

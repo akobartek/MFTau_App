@@ -235,10 +235,10 @@
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
     <string name="meeting_name">Nazwa spotkania</string>
-    <string name="notes">Notatki</string>
-    <string name="formation">Formacyjne</string>
-    <string name="prayerful">Modlitewne</string>
-    <string name="other">Inne</string>
+    <string name="meeting_notes">Notatki</string>
+    <string name="meeting_formation">Formacyjne</string>
+    <string name="meeting_prayerful">Modlitewne</string>
+    <string name="meeting_other">Inne</string>
     <string name="calendar_description">Ikona służąca ustawieniu daty spotkania.</string>
     <string name="check_list_description">Sprawdź obecność członków na spotkaniu.</string>
     <string name="add_meeting">Dodawanie spotkania</string>
@@ -248,9 +248,7 @@
     <string name="empty_meeting_type_error">Uzupełnij typ spotkania!</string>
     <string name="empty_meeting_date_error">Wybierz datę spotkania!</string>
     <string name="meeting_saved">Zapisano spotkanie!</string>
-    <string name="meeting_add_error">Błąd w trakcie zapisywania spotkania!</string>
-    <string name="meeting_updated">Zaktualizowano spotkanie!</string>
-    <string name="meeting_update_error">Błąd w trakcie aktualizacji spotkania!</string>
+    <string name="meeting_save_error">Błąd w trakcie zapisywania spotkania!</string>
     <string name="check_presence_dialog_msg">Chcesz teraz sprawdzić obecność na spotkaniu?</string>
     <string name="check_presence">Sprawdź obecność</string>
     <string name="show_presence">Pokaż obecności</string>
@@ -265,18 +263,19 @@
     <string name="justified">Usprawiedliwienie</string>
     <string name="absent">Nieobecność</string>
     <string name="reason_for_absence">Powód nieobecności: %s</string>
-    <string name="delete_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
-    <string name="delete_meetings">Usuń wszystkie spotkania</string>
-    <string name="delete_meetings_successfully">Usunięto wszystkie spotkania!</string>
+    <string name="clear_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
+    <string name="clear_meetings">Wyczyść spotkania</string>
     <string name="meeting_type">Typ spotkania</string>
     <string name="set_date">Ustaw datę</string>
     <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
-    <string name="meeting_delete_successfully">Spotkanie usunięte!</string>
+    <string name="meeting_delete_success">Spotkanie usunięte!</string>
+    <string name="meeting_delete_error">Napotkano błąd w trakcie usuwania spotkania!</string>
 
     <!-- PEOPLE STRINGS -->
     <string name="empty_people_list">Nie znaleziono żadnych dodanych osób!</string>
     <string name="person_name">Imię i nazwisko</string>
-    <string name="city">Miasto</string>
+    <string name="person_city">Miasto</string>
+    <string name="person_notes">Dodatkowe informacje</string>
     <string name="select_person_type">Wybierz funkcję osoby</string>
     <string name="person_sympathizer">Sympatyk</string>
     <string name="person_member">Członek</string>

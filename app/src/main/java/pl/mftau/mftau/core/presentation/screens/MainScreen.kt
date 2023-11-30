@@ -67,6 +67,7 @@ import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
+import pl.mftau.mftau.leaders.presentation.meetings.screens.MeetingsListScreen
 import pl.mftau.mftau.leaders.presentation.people.screens.PeopleListScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
@@ -430,7 +431,7 @@ fun LeaderButtonRow(modifier: Modifier = Modifier) {
             ButtonData(
                 title = stringResource(id = R.string.meetings),
                 icon = Icons.Outlined.Diversity3,
-                onClick = { navigator.safePush(BreviarySelectScreen()) }
+                onClick = { navigator.safePush(MeetingsListScreen()) }
             )
         ),
         modifier = modifier.padding(top = 16.dp)

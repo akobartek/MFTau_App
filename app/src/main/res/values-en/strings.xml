@@ -230,10 +230,10 @@
     <!-- MEETINGS STRINGS -->
     <string name="empty_meeting_list">There are no meetings saved!</string>
     <string name="meeting_name">Name</string>
-    <string name="notes">Notes</string>
-    <string name="formation">Formation</string>
-    <string name="prayerful">Prayer</string>
-    <string name="other">Other</string>
+    <string name="meeting_notes">Notes</string>
+    <string name="meeting_formation">Formation</string>
+    <string name="meeting_prayerful">Prayer</string>
+    <string name="meeting_other">Other</string>
     <string name="calendar_description">Icon used to set meeting date.</string>
     <string name="check_list_description">Check presence of members on the meeting.</string>
     <string name="add_meeting">Add meeting</string>
@@ -243,9 +243,7 @@
     <string name="empty_meeting_type_error">Type can not be empty!</string>
     <string name="empty_meeting_date_error">You must to set date of meeting!</string>
     <string name="meeting_saved">Meeting saved successfully!</string>
-    <string name="meeting_add_error">Error with saving meeting!</string>
-    <string name="meeting_updated">Meeting updated!</string>
-    <string name="meeting_update_error">Error with updating meeting!</string>
+    <string name="meeting_save_error">Error with saving meeting!</string>
     <string name="check_presence_dialog_msg">Do you want to check members\' presence on this meeting now?</string>
     <string name="check_presence">Check presence</string>
     <string name="show_presence">Show presence</string>
@@ -260,18 +258,19 @@
     <string name="justified">Justified</string>
     <string name="absent">Absent</string>
     <string name="reason_for_absence">Reason for absence: %s</string>
-    <string name="delete_meetings_dialog_msg">Do you want to delete ALL meetings?</string>
-    <string name="delete_meetings">Delete all meetings</string>
-    <string name="delete_meetings_successfully">All meetings deleted</string>
+    <string name="clear_meetings_dialog_msg">Do you want to delete ALL meetings?</string>
+    <string name="clear_meetings">Clear meetings</string>
     <string name="meeting_type">Meeting type</string>
     <string name="set_date">Set date</string>
     <string name="meeting_delete_dialog_msg">Do you want to delete this meeting?</string>
-    <string name="meeting_delete_successfully">Meeting deleted!</string>
+    <string name="meeting_delete_success">Meeting deleted!</string>
+    <string name="meeting_delete_error">Error occurred while deleting the meeting!</string>
 
     <!-- PEOPLE STRINGS -->
     <string name="empty_people_list">There are no people saved!</string>
     <string name="person_name">Name</string>
-    <string name="city">City</string>
+    <string name="person_city">City</string>
+    <string name="person_notes">Additional notes</string>
     <string name="select_person_type">Select person function</string>
     <string name="person_sympathizer">Sympathizer</string>
     <string name="person_member">Member</string>
@@ -286,7 +285,7 @@
     <string name="person_save_error">Error occurred while saving person!</string>
     <string name="delete_person_dialog_msg">Are you sure you want to delete this person from database?</string>
     <string name="person_delete_success">Person deleted!</string>
-    <string name="person_delete_error">Error occurred!</string>
+    <string name="person_delete_error">Error occurred while deleting the person!</string>
     <string name="emaus">Emaus</string>
     <string name="draw_start">Start draw</string>
     <string name="draw_delete_success">Draws deleted!</string>

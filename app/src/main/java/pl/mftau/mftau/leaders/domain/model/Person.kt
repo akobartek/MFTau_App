@@ -4,5 +4,6 @@ data class Person(
     var id: String = "",
     var name: String = "",
     var city: String = "",
-    var type: PersonType = PersonType.MEMBER
+    var type: PersonType = PersonType.MEMBER,
+    var notes: String = ""
 )

@@ -35,6 +35,7 @@ import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.common.utils.safePush
+import pl.mftau.mftau.leaders.presentation.LeadersScreen
 import pl.mftau.mftau.leaders.presentation.people.components.PeopleEmptyListInfo
 import pl.mftau.mftau.leaders.presentation.people.components.PersonCard
 import pl.mftau.mftau.leaders.presentation.people.components.PersonEditorDialog
