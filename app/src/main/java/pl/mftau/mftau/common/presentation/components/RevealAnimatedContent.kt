@@ -23,11 +23,12 @@ import kotlinx.coroutines.launch
 fun RevealAnimatedContent(
     offset: Offset = Offset.Zero,
     isContentVisible: Boolean = false,
+    duration: Int = 444,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
     val animationSpec: AnimationSpec<Float> = tween(
-        durationMillis = 444,
+        durationMillis = duration,
         easing = EaseOut
     )
     val offsetX = remember { Animatable(0f) }

@@ -67,7 +67,7 @@ import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.gospel.presentation.GospelScreen
-import pl.mftau.mftau.leaders.presentation.screens.PeopleListScreen
+import pl.mftau.mftau.leaders.presentation.people.screens.PeopleListScreen
 import pl.mftau.mftau.readings.presentation.ReadingsListScreen
 import pl.mftau.mftau.songbook.presentation.screens.SongBookListScreen
 import pl.mftau.mftau.ui.WindowInfo
@@ -102,22 +102,22 @@ fun MainScreenContent(screenModel: MainScreenModel) {
             Spacer(modifier = Modifier.weight(1f))
             MainScreenOptions(screenModel)
         }
-        if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
-            CommunityLogo(Modifier.padding(top = 16.dp))
-            Spacer(modifier = Modifier.height(40.dp))
-            FirstButtonsRow()
+        if (windowInfo.screenHeightInfo is WindowInfo.WindowType.Compact) {
+            CommunityLogo()
             Spacer(modifier = Modifier.height(24.dp))
-            SecondButtonsRow()
-            AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
-                LeaderButtonRow()
-            }
-        } else {
-            CommunityLogo(Modifier.padding(top = 4.dp))
-            Spacer(modifier = Modifier.height(32.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 FirstButtonsRow()
                 SecondButtonsRow()
             }
+            AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
+                LeaderButtonRow()
+            }
+        } else {
+            CommunityLogo(Modifier.padding(top = 16.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+            FirstButtonsRow()
+            Spacer(modifier = Modifier.height(16.dp))
+            SecondButtonsRow()
             AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
                 LeaderButtonRow()
             }
@@ -433,6 +433,6 @@ fun LeaderButtonRow(modifier: Modifier = Modifier) {
                 onClick = { navigator.safePush(BreviarySelectScreen()) }
             )
         ),
-        modifier = modifier.padding(top = 24.dp)
+        modifier = modifier.padding(top = 16.dp)
     )
 }

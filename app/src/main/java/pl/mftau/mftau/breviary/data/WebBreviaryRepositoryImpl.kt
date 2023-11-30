@@ -351,7 +351,7 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
                     ?.text() ?: ""
                 val text = buildAnnotatedString {
                     val children = teDeumDiv.children()
-                        .firstOrNull { it.html().contains("abc1") }
+                        .firstOrNull { it.html().contains("abc1") && it.tagName() == "div" }
                         ?.children()?.firstOrNull { it.id() == "abc1" }
                         ?.firstElementChild()?.children()
                     val nestedText = children?.last()?.children() ?: listOf()

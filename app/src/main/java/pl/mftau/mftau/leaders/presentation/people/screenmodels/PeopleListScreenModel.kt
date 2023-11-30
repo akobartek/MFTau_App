@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.screenmodels
+package pl.mftau.mftau.leaders.presentation.people.screenmodels
 
 import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -20,7 +20,6 @@ class PeopleListScreenModel(
     data class PeopleListState(
         val people: List<Person> = listOf(),
         val isLoading: Boolean = true,
-        val loadingError: Boolean = false, // TODO() handle loading error
         val personEditorVisible: Boolean = false,
         val personToEdit: Person? = null,
         val personSavedSuccessfully: Boolean? = null,
@@ -35,7 +34,6 @@ class PeopleListScreenModel(
         override fun hashCode(): Int {
             var result = people.hashCode()
             result = 31 * result + isLoading.hashCode()
-            result = 31 * result + loadingError.hashCode()
             result = 31 * result + personEditorVisible.hashCode()
             result = 31 * result + (personToEdit?.hashCode() ?: 0)
             result = 31 * result + (personSavedSuccessfully?.hashCode() ?: 0)
@@ -62,7 +60,7 @@ class PeopleListScreenModel(
             try {
                 action(this)
             } catch (exc: InvalidUserException) {
-                mutableState.update { it.copy(loadingError = true, isLoading = false) }
+                mutableState.update { it.copy(isLoading = false) }
             }
         }
     }

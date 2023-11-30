@@ -108,29 +108,30 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun askNotificationPermission() {
-        Firebase.messaging.subscribeToTopic("all")
         viewModel.updateNotificationsAsked(true)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-                && !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
-            ) {
-                MaterialAlertDialogBuilder(this)
-                    .setIcon(R.drawable.logo_color)
-                    .setTitle(R.string.notification_dialog_title)
-                    .setMessage(R.string.notification_ask_dialog_message)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { dialog, _ ->
-                        dialog.dismiss()
+        MaterialAlertDialogBuilder(this)
+            .setIcon(R.drawable.logo_color)
+            .setTitle(R.string.notification_dialog_title)
+            .setMessage(R.string.notification_ask_dialog_message)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, _ ->
+                dialog.dismiss()
+                Firebase.messaging.subscribeToTopic("all")
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (ContextCompat.checkSelfPermission(
+                            this, Manifest.permission.POST_NOTIFICATIONS
+                        ) != PackageManager.PERMISSION_GRANTED
+                        && !shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
+                    ) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                     }
-                    .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
-                    .create()
-                    .show()
+                }
             }
-        }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)

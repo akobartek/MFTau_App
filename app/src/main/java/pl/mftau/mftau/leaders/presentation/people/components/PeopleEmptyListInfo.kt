@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.components
+package pl.mftau.mftau.leaders.presentation.people.components
 
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R

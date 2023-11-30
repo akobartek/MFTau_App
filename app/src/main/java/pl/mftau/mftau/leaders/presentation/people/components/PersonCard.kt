@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.components
+package pl.mftau.mftau.leaders.presentation.people.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,8 @@ import pl.mftau.mftau.leaders.domain.model.Person
 fun PersonCard(
     modifier: Modifier = Modifier,
     person: Person,
-    onClick: ((Person) -> Unit)
+    showOnlyName: Boolean = false,
+    onClick: ((Person) -> Unit) = {}
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -33,32 +34,33 @@ fun PersonCard(
         modifier = modifier.fillMaxWidth()
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = if (showOnlyName) Arrangement.Center else Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 100.dp)
+                .heightIn(min = if (showOnlyName) 76.dp else 100.dp)
                 .padding(8.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 20.dp)
-            ) {
-                Text(
-                    text = person.city,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.weight(1f)
-                )
-                person.type.getTypeIcon()?.let {
-                    Icon(
-                        imageVector = it,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
+            if (!showOnlyName)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 20.dp)
+                ) {
+                    Text(
+                        text = person.city,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.weight(1f)
                     )
+                    person.type.getTypeIcon()?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
-            }
             Text(
                 text = person.name.reversed().replaceFirst(" ", "\n").reversed(),
                 style = MaterialTheme.typography.titleMedium,

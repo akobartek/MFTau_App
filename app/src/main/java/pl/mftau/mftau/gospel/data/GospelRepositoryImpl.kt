@@ -1,9 +1,11 @@
 package pl.mftau.mftau.gospel.data
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jsoup.Jsoup
 import pl.mftau.mftau.gospel.domain.GospelRepository
 import pl.mftau.mftau.gospel.domain.model.Gospel
-import java.util.Calendar
 import kotlin.coroutines.cancellation.CancellationException
 
 class GospelRepositoryImpl : GospelRepository {
@@ -45,12 +47,12 @@ class GospelRepositoryImpl : GospelRepository {
 
 
     private fun buildGospelUrl(): String {
-        val calendar = Calendar.getInstance()
-        val dayInt = calendar.get(Calendar.DAY_OF_MONTH)
+        val date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val dayInt = date.dayOfMonth
         val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
-        val monthInt = calendar.get(Calendar.MONTH) + 1
+        val monthInt = date.monthNumber
         val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
-        val year = calendar.get(Calendar.YEAR).toString()
+        val year = date.year
 
         return "https://niezbednik.niedziela.pl/liturgia/$year-$month-$day/"
     }

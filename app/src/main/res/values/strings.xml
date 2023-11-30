@@ -278,31 +278,36 @@
     <string name="person_name">Imię i nazwisko</string>
     <string name="city">Miasto</string>
     <string name="select_person_type">Wybierz funkcję osoby</string>
-    <string name="add_person">Dodawanie osoby</string>
-    <string name="edit_person">Edytowanie osoby</string>
-    <string name="delete_person">Usuń osobę</string>
-    <string name="person_saved">Zapisano osobę!</string>
-    <string name="person_save_error">Napotkano błąd w trakcie zapisywania osoby!</string>
-    <string name="delete_person_dialog_msg">Jesteś pewny usunięcia tej osoby z bazy danych?</string>
-    <string name="person_delete_successfully">Usunięto osobę!</string>
-    <string name="person_delete_error">Wystąpił błąd podczas usuwania!</string>
-    <string name="emauses">Emausy</string>
-    <string name="not_drawn_female" tools:ignore="Typos">nie została wylosowana, dodaj tę osobę do ostatniej pary.</string>
-    <string name="not_drawn_male" tools:ignore="Typos">nie został wylosowany, dodaj tę osobę do ostatniej pary.</string>
-    <string name="no_people_msg">Musisz najpierw dodać członków do bazy!</string>
-    <string name="empty_draw_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
-    <string name="full_draws_msg" tools:ignore="Typos">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>
-    <string name="reload_members">Odśwież dane członków</string>
-    <string name="reset_draws">Wyczyść losowania</string>
-    <string name="reset_draws_msg">Jesteś pewny, że chcesz wyczyścić wszystkie losowania?</string>
-    <string name="delete_last_draw">Usuń ostatnie losowanie</string>
-    <string name="delete_last_draw_msg">Usunąć ostatnie losowanie?</string>
     <string name="person_sympathizer">Sympatyk</string>
     <string name="person_member">Członek</string>
     <string name="person_responsible">Odpowiedzialny</string>
     <string name="person_leader">Lider</string>
     <string name="person_assistant">Asystent</string>
     <string name="person_other">Inny</string>
+    <string name="add_person">Dodawanie osoby</string>
+    <string name="edit_person">Edytowanie osoby</string>
+    <string name="delete_person">Usuń osobę</string>
+    <string name="person_saved">Zapisano osobę!</string>
+    <string name="person_save_error">Napotkano błąd w trakcie zapisywania osoby!</string>
+    <string name="delete_person_dialog_msg">Jesteś pewny usunięcia tej osoby z bazy danych?</string>
+    <string name="person_delete_success">Usunięto osobę!</string>
+    <string name="person_delete_error">Wystąpił błąd podczas usuwania!</string>
+    <string name="emaus">Emaus</string>
+    <string name="draw_start">Zacznij losowanie</string>
+    <string name="draw_delete_success">Usunięto losowania!</string>
+    <string name="draw_delete_error">Wystąpił błąd podczas usuwania losowań!</string>
+    <string name="deleted_person">Usunięta osoba</string>
+    <string name="not_drawn_header">Osoby nie wylosowane w ostatnim losowaniu</string>
+    <string name="not_drawn_sub_header" tools:ignore="Typos">Dodaj je do którejś pary lub zrób kolejne losowanie</string>
+    <string name="draws_header" tools:ignore="Typos">Wylosowane pary:</string>
+    <string name="no_people_msg">Jeśli chcesz losować, musisz najpierw dodać ludzi do bazy!</string>
+    <string name="draws_empty_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
+    <string name="draws_full_msg" tools:ignore="Typos">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>
+    <string name="copy_draw">Kopiuj losowanie</string>
+    <string name="reset_draws">Wyczyść losowania</string>
+    <string name="reset_draws_msg">Jesteś pewny, że chcesz usunąć wszystkie losowania?</string>
+    <string name="delete_last_draw">Usuń ostatnie losowanie</string>
+    <string name="delete_last_draw_msg">Jesteś pewny, że chcesz usunąć ostatnie losowanie?</string>
 
     <!-- LANGUAGES STRINGS -->
     <string name="lang_system">Domyślny systemowy</string>

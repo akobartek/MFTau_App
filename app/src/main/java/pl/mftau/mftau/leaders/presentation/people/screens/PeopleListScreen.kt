@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.screens
+package pl.mftau.mftau.leaders.presentation.people.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,10 +35,10 @@ import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.common.utils.safePush
-import pl.mftau.mftau.leaders.presentation.components.PeopleEmptyListInfo
-import pl.mftau.mftau.leaders.presentation.components.PersonCard
-import pl.mftau.mftau.leaders.presentation.components.PersonEditorDialog
-import pl.mftau.mftau.leaders.presentation.screenmodels.PeopleListScreenModel
+import pl.mftau.mftau.leaders.presentation.people.components.PeopleEmptyListInfo
+import pl.mftau.mftau.leaders.presentation.people.components.PersonCard
+import pl.mftau.mftau.leaders.presentation.people.components.PersonEditorDialog
+import pl.mftau.mftau.leaders.presentation.people.screenmodels.PeopleListScreenModel
 
 class PeopleListScreen : LeadersScreen() {
     override val key: ScreenKey
@@ -84,7 +84,7 @@ fun PeopleListScreenContent(screenModel: PeopleListScreenModel) {
                 screenModel.togglePersonDeletedVisibility()
                 snackbarHostState.showSnackbar(
                     message = context.getString(
-                        if (deletedSuccessfully) R.string.person_delete_successfully
+                        if (deletedSuccessfully) R.string.person_delete_success
                         else R.string.person_delete_error
                     ),
                     withDismissAction = true
@@ -102,10 +102,10 @@ fun PeopleListScreenContent(screenModel: PeopleListScreenModel) {
                 title = stringResource(R.string.people),
                 onNavClick = { navigator.safePop(PeopleListScreen.KEY) },
                 actions = {
-                    IconButton(onClick = { navigator.safePush(EmausesScreen()) }) {
+                    IconButton(onClick = { navigator.safePush(EmausScreen()) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_draws),
-                            contentDescription = stringResource(id = R.string.emauses),
+                            contentDescription = stringResource(id = R.string.emaus),
                             modifier = Modifier.size(24.dp)
                         )
                     }
@@ -130,7 +130,10 @@ fun PeopleListScreenContent(screenModel: PeopleListScreenModel) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                items(state.people.size, key = { state.people[it].id }) { index ->
+                items(
+                    count = state.people.size,
+                    key = { state.people[it].id }
+                ) { index ->
                     val person = state.people[index]
                     PersonCard(
                         person = person,

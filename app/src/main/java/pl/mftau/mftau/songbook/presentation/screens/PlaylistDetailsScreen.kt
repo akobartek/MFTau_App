@@ -91,7 +91,6 @@ fun PlaylistDetailsScreenContent(screenModel: PlaylistDetailsScreenModel) {
         else navigator.safePop(PlaylistDetailsScreen.KEY)
     }
 
-
     BackHandler { onBackPressed() }
 
     LaunchedEffect(key1 = state.deletedSong) {
