@@ -171,10 +171,11 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
                         LoadingBox()
                 }
             }
+            if (state.playlists.isEmpty())
+                item {
+                    SongBookEmptyListInfo(messageId = R.string.empty_playlists_list)
+                }
         }
-
-        if (state.playlists.isEmpty())
-            SongBookEmptyListInfo(messageId = R.string.empty_playlists_list)
 
         if (importPlaylistDialogVisible)
             ImportPlaylistDialog(

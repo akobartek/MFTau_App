@@ -327,7 +327,7 @@ private fun MainScreenButton(
             ),
             modifier = Modifier.size(48.dp)
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = buttonData.title.uppercase(),
             color = MaterialTheme.colorScheme.primary,
