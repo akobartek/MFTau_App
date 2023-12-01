@@ -248,11 +248,11 @@
     <string name="delete_meeting">Usuń spotkanie</string>
     <string name="meeting_saved">Zapisano spotkanie!</string>
     <string name="meeting_save_error">Błąd w trakcie zapisywania spotkania!</string>
-    <string name="check_presence_dialog_msg">Chcesz teraz sprawdzić obecność na spotkaniu?</string>
-    <string name="check_presence">Sprawdź obecność</string>
+    <string name="check_presence">Sprawdzanie obecności</string>
     <string name="show_presence">Pokaż obecności</string>
+    <string name="mark_as_present">Oznacz jako obecny</string>
+    <string name="mark_as_absent">Oznacz jako nieobecny</string>
     <string name="justify_absence">Usprawiedliwianie nieobecności</string>
-    <string name="absence_dialog_title">%s - usprawiedliwienie</string>
     <string name="absence_dialog_message">Podaj powód nieobecności:</string>
     <string name="reason">Powód</string>
     <string name="reason_empty_error">Powód nie może być pusty!</string>

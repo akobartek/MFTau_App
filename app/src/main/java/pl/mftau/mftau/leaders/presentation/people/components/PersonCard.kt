@@ -2,6 +2,7 @@ package pl.mftau.mftau.leaders.presentation.people.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -24,7 +25,8 @@ fun PersonCard(
     modifier: Modifier = Modifier,
     person: Person,
     showOnlyName: Boolean = false,
-    onClick: ((Person) -> Unit) = {}
+    onClick: ((Person) -> Unit) = {},
+    additionalContent: @Composable ColumnScope.() -> Unit = {}
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -66,6 +68,7 @@ fun PersonCard(
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
+            additionalContent()
         }
     }
 }

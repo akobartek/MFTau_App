@@ -243,11 +243,11 @@
     <string name="delete_meeting">Delete meeting</string>
     <string name="meeting_saved">Meeting saved successfully!</string>
     <string name="meeting_save_error">Error with saving meeting!</string>
-    <string name="check_presence_dialog_msg">Do you want to check members\' presence on this meeting now?</string>
     <string name="check_presence">Check presence</string>
     <string name="show_presence">Show presence</string>
+    <string name="mark_as_present">Mark as present</string>
+    <string name="mark_as_absent">Mark as absent</string>
     <string name="justify_absence">Justify absence</string>
-    <string name="absence_dialog_title">%s - justification</string>
     <string name="absence_dialog_message">Give the reason for absence:</string>
     <string name="reason">Reason</string>
     <string name="reason_empty_error">Reason can not be empty!</string>

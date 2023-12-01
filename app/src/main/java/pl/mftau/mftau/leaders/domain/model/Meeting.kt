@@ -8,6 +8,6 @@ data class Meeting(
     var meetingType: MeetingType = MeetingType.FORMATION,
     var date: Timestamp = Timestamp.now(),
     var notes: String = "",
-    var attendanceList: ArrayList<String> = arrayListOf(),
-    var absenceList: HashMap<String, String> = HashMap()
+    var attendanceList: List<String> = listOf(),
+    var absenceList: Map<String, String> = mapOf()
 )

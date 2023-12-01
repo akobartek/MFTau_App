@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -15,15 +14,19 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.leaders.domain.model.InvalidUserException
 import pl.mftau.mftau.leaders.domain.model.Meeting
 import pl.mftau.mftau.leaders.domain.model.MeetingType
+import pl.mftau.mftau.leaders.domain.model.Person
 import pl.mftau.mftau.leaders.domain.repository.MeetingsRepository
+import pl.mftau.mftau.leaders.domain.repository.PeopleRepository
 
 class MeetingsListScreenModel(
-    private val meetingsRepository: MeetingsRepository
+    private val meetingsRepository: MeetingsRepository,
+    private val peopleRepository: PeopleRepository
 ) : StateScreenModel<MeetingsListScreenModel.MeetingsListState>(MeetingsListState()) {
 
     data class MeetingsListState(
         val filteredMeetings: List<Meeting> = listOf(),
         val meetings: List<Meeting> = listOf(),
+        val people: List<Person> = listOf(),
         val isLoading: Boolean = true,
         val meetingEditorVisible: Boolean = false,
         val meetingToEdit: Meeting? = null,
@@ -31,7 +34,7 @@ class MeetingsListScreenModel(
         val meetingDeletedSuccessfully: Boolean? = null
     ) {
         override fun equals(other: Any?): Boolean {
-            if (other is MeetingsListState && meetings !== other.meetings)
+            if (other is MeetingsListState && (meetings !== other.meetings || people !== other.people))
                 return false
             return super.equals(other)
         }
@@ -69,6 +72,13 @@ class MeetingsListScreenModel(
                     mutableState.update { it.copy(meetings = meetings ?: listOf()) }
                     toggleLoadingState(false)
                     filterMeetings()
+                }
+        }
+        checkInvalidUserException { scope ->
+            peopleRepository.people
+                .stateIn(scope, SharingStarted.WhileSubscribed(5000L), null)
+                .collect { people ->
+                    mutableState.update { it.copy(people = people ?: listOf()) }
                 }
         }
     }

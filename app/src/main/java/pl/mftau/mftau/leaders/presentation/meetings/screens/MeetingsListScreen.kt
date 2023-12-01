@@ -153,11 +153,11 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
             targetState = selectedTab,
             transitionSpec = {
                 slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
+                    animationSpec = tween(200, easing = EaseIn),
                     towards = if (selectedTab.second) SlideDirection.Right else SlideDirection.Left
                 ).togetherWith(
                     slideOutOfContainer(
-                        animationSpec = tween(300, easing = EaseOut),
+                        animationSpec = tween(200, easing = EaseOut),
                         towards = if (selectedTab.second) SlideDirection.Right else SlideDirection.Left
                     )
                 )
@@ -170,9 +170,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
             if (!state.isLoading) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     items(state.filteredMeetings, key = { it.id + targetState }) { meeting ->
                         MeetingCard(
@@ -191,6 +189,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
     if (state.meetingEditorVisible)
         MeetingEditorDialog(
             meeting = state.meetingToEdit,
+            people = state.people,
             onSave = screenModel::saveMeeting,
             onDelete = screenModel::deleteMeeting,
             onDismiss = screenModel::toggleMeetingEditorVisibility

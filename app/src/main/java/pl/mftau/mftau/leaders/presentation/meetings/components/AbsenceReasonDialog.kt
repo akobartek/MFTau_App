@@ -1,4 +1,4 @@
-package pl.mftau.mftau.auth.presentation
+package pl.mftau.mftau.leaders.presentation.meetings.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,57 +21,51 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
-fun ResetPasswordDialog(
-    onReset: (String) -> Unit,
-    onCancel: () -> Unit,
-    isError: Boolean
+fun AbsenceReasonDialog(
+    onConfirm: (String) -> Unit,
+    onDismiss: () -> Unit,
+    currentReason: String
 ) {
-    var email by rememberSaveable { mutableStateOf("") }
+    var reason by rememberSaveable { mutableStateOf(currentReason) }
 
     AlertDialog(
         icon = {
             Icon(
-                imageVector = Icons.Default.Lock,
+                imageVector = Icons.Default.Balance,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
         },
         title = {
             Text(
-                text = stringResource(id = R.string.reset_password_dialog_title),
+                text = stringResource(id = R.string.justify_absence),
                 fontFamily = mfTauFont
             )
         },
         text = {
             Column {
-                Text(text = stringResource(id = R.string.reset_password_dialog_message))
+                Text(text = stringResource(id = R.string.absence_dialog_message))
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = reason,
+                    onValueChange = { reason = it },
                     singleLine = true,
-                    placeholder = { Text(text = stringResource(id = R.string.email)) },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                    placeholder = { Text(text = stringResource(id = R.string.reason)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
                     trailingIcon = {
-                        if (email.isNotBlank())
-                            IconButton(onClick = { email = "" }) {
+                        if (reason.isNotBlank())
+                            IconButton(onClick = { reason = "" }) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
                                     contentDescription = stringResource(id = R.string.cd_clear_field)
                                 )
                             }
                     },
-                    isError = isError,
-                    supportingText = if (isError) {
-                        {
-                            Text(text = stringResource(id = R.string.reset_password_error))
-                        }
-                    } else null,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 4.dp)
@@ -80,12 +74,12 @@ fun ResetPasswordDialog(
         },
         onDismissRequest = {},
         confirmButton = {
-            TextButton(onClick = { onReset(email) }) {
-                Text(stringResource(id = R.string.send))
+            TextButton(onClick = { onConfirm(reason) }) {
+                Text(stringResource(id = R.string.save))
             }
         },
         dismissButton = {
-            TextButton(onClick = onCancel) {
+            TextButton(onClick = onDismiss) {
                 Text(stringResource(id = R.string.cancel))
             }
         },

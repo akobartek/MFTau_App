@@ -37,5 +37,5 @@ val leadersModule = module {
 
     factory { EmausScreenModel(get(), get(), get(), get()) }
 
-    factory { MeetingsListScreenModel(get()) }
+    factory { MeetingsListScreenModel(get(), get()) }
 }
