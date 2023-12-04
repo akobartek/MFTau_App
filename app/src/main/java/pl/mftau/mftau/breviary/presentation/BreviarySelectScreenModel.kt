@@ -47,7 +47,7 @@ class BreviarySelectScreenModel(
         val day = if (dayInt < 10) "0$dayInt" else dayInt.toString()
         val monthInt = date.monthNumber
         val month = if (monthInt < 10) "0$monthInt" else monthInt.toString()
-        val year = date.year
+        val year = date.year.toString().substring(2)
         dateString = "$day.$month.$year"
         return " ($day.$month)"
     }

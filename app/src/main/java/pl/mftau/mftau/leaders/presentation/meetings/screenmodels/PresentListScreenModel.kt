@@ -96,7 +96,7 @@ class PresentListScreenModel(
         }
     }
 
-    fun toggleDetailsVisibility(presence: PersonPresence) {
+    fun toggleDetailsVisibility(presence: PersonPresence?) {
         mutableState.update { it.copy(detailsPersonSelected = presence) }
     }
 

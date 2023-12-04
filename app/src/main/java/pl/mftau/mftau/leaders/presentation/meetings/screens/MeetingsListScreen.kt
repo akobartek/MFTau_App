@@ -151,7 +151,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
         }
     ) { paddingValues ->
         AnimatedContent(
-            targetState = selectedTab,
+            targetState = selectedTab.first,
             transitionSpec = {
                 slideIntoContainer(
                     animationSpec = tween(200, easing = EaseIn),
@@ -169,7 +169,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                 .fillMaxSize()
         ) { targetState ->
             if (!state.isLoading) {
-                val meetings = state.meetings[MeetingType.fromIndex(targetState.first)] ?: listOf()
+                val meetings = state.meetings[MeetingType.fromIndex(targetState)] ?: listOf()
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.fillMaxSize()

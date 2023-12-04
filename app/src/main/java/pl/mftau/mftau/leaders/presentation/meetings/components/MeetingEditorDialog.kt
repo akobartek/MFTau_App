@@ -156,7 +156,7 @@ fun MeetingEditorDialog(
                             label = { Text(stringResource(id = R.string.meeting_name)) },
                             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                             isError = nameError,
-                            singleLine = true,
+                            maxLines = 3,
                             supportingText = if (nameError) {
                                 {
                                     Text(text = stringResource(id = R.string.empty_field_error))

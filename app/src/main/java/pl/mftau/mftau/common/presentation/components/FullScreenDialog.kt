@@ -33,7 +33,7 @@ import pl.mftau.mftau.R
 fun FullScreenDialog(
     isVisible: Boolean,
     title: String,
-    onSave: () -> Unit = {},
+    onSave: (() -> Unit)? = {},
     onDismiss: () -> Unit,
     content: @Composable ColumnScope.() -> Unit = {},
     action: @Composable RowScope.() -> Unit = {}
@@ -74,9 +74,10 @@ fun FullScreenDialog(
                             .weight(1f)
                             .padding(horizontal = 8.dp)
                     )
-                    TextButton(onClick = onSave) {
-                        Text(text = stringResource(id = R.string.save))
-                    }
+                    if (onSave != null)
+                        TextButton(onClick = onSave) {
+                            Text(text = stringResource(id = R.string.save))
+                        }
                     action()
                 }
                 Column(

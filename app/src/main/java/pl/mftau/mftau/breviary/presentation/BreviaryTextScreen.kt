@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -158,7 +157,6 @@ private fun InvitatoryLayout(invitatory: Invitatory) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OfficeOfReadingsLayout(officeOfReadings: OfficeOfReadings) {
     var optionSelected by rememberSaveable { mutableIntStateOf(0) }

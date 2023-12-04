@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,11 +22,12 @@ import pl.mftau.mftau.leaders.domain.model.Meeting
 fun MeetingCard(
     modifier: Modifier = Modifier,
     meeting: Meeting,
-    onClick: (Meeting) -> Unit = {}
+    onClick: (Meeting) -> Unit = {},
+    background: Color? = null
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = background ?: MaterialTheme.colorScheme.secondaryContainer
         ),
         onClick = { onClick(meeting) },
         modifier = modifier.fillMaxWidth()
@@ -36,21 +38,27 @@ fun MeetingCard(
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 16.dp)
         ) {
+            val textColor =
+                if (background == null) MaterialTheme.colorScheme.onSecondaryContainer
+                else MaterialTheme.colorScheme.scrim
             Row {
                 Text(
                     text = meeting.name,
+                    color = textColor,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
                     text = meeting.date.toDate().getDateFormatted(),
+                    color = textColor,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
             if (meeting.notes.isNotBlank())
                 Text(
                     text = meeting.notes,
+                    color = textColor,
                     fontStyle = FontStyle.Italic,
                     style = MaterialTheme.typography.bodySmall
                 )
