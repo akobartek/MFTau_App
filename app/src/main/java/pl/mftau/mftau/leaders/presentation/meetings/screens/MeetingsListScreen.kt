@@ -44,6 +44,8 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.safePush
+import pl.mftau.mftau.leaders.domain.model.MeetingType
 import pl.mftau.mftau.leaders.presentation.LeadersScreen
 import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingCard
 import pl.mftau.mftau.leaders.presentation.meetings.components.MeetingEditorDialog
@@ -118,10 +120,9 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                     actions = {
                         if (state.meetings.isNotEmpty())
                             MeetingsOptionsIcon(
+                                showPresenceVisible = state.people.isNotEmpty(),
                                 onClearMeetings = screenModel::clearMeetings,
-                                onShowPresence = {
-                                    // TODO
-                                }
+                                onShowPresence = { navigator.safePush(PresenceListScreen()) }
                             )
                     }
                 )
@@ -168,11 +169,12 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                 .fillMaxSize()
         ) { targetState ->
             if (!state.isLoading) {
+                val meetings = state.meetings[MeetingType.fromIndex(targetState.first)] ?: listOf()
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    items(state.filteredMeetings, key = { it.id + targetState }) { meeting ->
+                    items(meetings, key = { it.id }) { meeting ->
                         MeetingCard(
                             meeting = meeting,
                             onClick = { screenModel.toggleMeetingEditorVisibility(meeting) },
@@ -180,7 +182,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
                     }
                 }
 
-                if (state.filteredMeetings.isEmpty())
+                if (meetings.isEmpty())
                     MeetingsEmptyListInfo()
             } else LoadingBox()
         }
@@ -190,6 +192,7 @@ fun MeetingsListScreenContent(screenModel: MeetingsListScreenModel) {
         MeetingEditorDialog(
             meeting = state.meetingToEdit,
             people = state.people,
+            currentTab = selectedTab.first,
             onSave = screenModel::saveMeeting,
             onDelete = screenModel::deleteMeeting,
             onDismiss = screenModel::toggleMeetingEditorVisibility

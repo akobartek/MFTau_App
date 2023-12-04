@@ -3,8 +3,8 @@ package pl.mftau.mftau.leaders.presentation.meetings.components
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.outlined.CopyAll
 import androidx.compose.material.icons.outlined.DeleteForever
+import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -22,6 +22,7 @@ import pl.mftau.mftau.R
 
 @Composable
 fun MeetingsOptionsIcon(
+    showPresenceVisible: Boolean,
     onShowPresence: () -> Unit,
     onClearMeetings: () -> Unit
 ) {
@@ -39,19 +40,20 @@ fun MeetingsOptionsIcon(
         onDismissRequest = { dropdownExpanded = false },
         modifier = Modifier.defaultMinSize(minWidth = 200.dp)
     ) {
-        DropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.show_presence)) },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.CopyAll,
-                    contentDescription = null
-                )
-            },
-            onClick = {
-                dropdownExpanded = false
-                onShowPresence()
-            }
-        )
+        if (showPresenceVisible)
+            DropdownMenuItem(
+                text = { Text(text = stringResource(id = R.string.show_presence)) },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.QueryStats,
+                        contentDescription = null
+                    )
+                },
+                onClick = {
+                    dropdownExpanded = false
+                    onShowPresence()
+                }
+            )
         DropdownMenuItem(
             text = { Text(text = stringResource(id = R.string.clear_meetings)) },
             leadingIcon = {

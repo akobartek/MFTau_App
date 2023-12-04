@@ -27,6 +27,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         val SONG_BOOK_FONT_SIZE = intPreferencesKey(SONG_BOOK_FONT_SIZE_KEY)
         val LAST_USED_EMAIL = stringPreferencesKey(LAST_USED_EMAIL_KEY)
         val ACCENT_COLOR = intPreferencesKey(ACCENT_COLOR_KEY)
+        val PRESENCE_SHOW_JUSTIFIED = booleanPreferencesKey(PRESENCE_SHOW_JUSTIFIED_KEY)
     }
 
     val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -53,6 +54,9 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
     suspend fun getAccentColor() =
         dataStore.data.firstOrNull()?.get(PreferencesKeys.ACCENT_COLOR) ?: 0
+
+    fun getShowJustified() =
+        dataStore.data.map { it[PreferencesKeys.PRESENCE_SHOW_JUSTIFIED] ?: false }
 
     suspend fun updateNotificationAsked(asked: Boolean) {
         updatePreference(asked, PreferencesKeys.NOTIFICATIONS_ASKED)
@@ -89,6 +93,10 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
     suspend fun updateSongBookFontSize(fontSize: Int) {
         updatePreference(fontSize, PreferencesKeys.SONG_BOOK_FONT_SIZE)
+    }
+
+    suspend fun updatePresenceShowJustified(showJustified: Boolean) {
+        updatePreference(showJustified, PreferencesKeys.PRESENCE_SHOW_JUSTIFIED)
     }
 
     private suspend fun <T> updatePreference(value: T, key: Preferences.Key<T>) {
@@ -128,5 +136,6 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         private const val SONG_BOOK_FONT_SIZE_KEY = "song_book_font_size"
         private const val LAST_USED_EMAIL_KEY = "last_used_email"
         private const val ACCENT_COLOR_KEY = "accent_color"
+        private const val PRESENCE_SHOW_JUSTIFIED_KEY = "presence_show_justified"
     }
 }

@@ -24,8 +24,7 @@ class MeetingsListScreenModel(
 ) : StateScreenModel<MeetingsListScreenModel.MeetingsListState>(MeetingsListState()) {
 
     data class MeetingsListState(
-        val filteredMeetings: List<Meeting> = listOf(),
-        val meetings: List<Meeting> = listOf(),
+        val meetings: Map<MeetingType, List<Meeting>> = mapOf(),
         val people: List<Person> = listOf(),
         val isLoading: Boolean = true,
         val meetingEditorVisible: Boolean = false,
@@ -69,9 +68,16 @@ class MeetingsListScreenModel(
                 .stateIn(scope, SharingStarted.WhileSubscribed(5000L), null)
                 .onEach { toggleLoadingState(true) }
                 .collect { meetings ->
-                    mutableState.update { it.copy(meetings = meetings ?: listOf()) }
+                    val map = hashMapOf<MeetingType, List<Meeting>>()
+                    map[MeetingType.FORMATION] =
+                        meetings?.filter { it.meetingType == MeetingType.FORMATION } ?: listOf()
+                    map[MeetingType.PRAYERFUL] =
+                        meetings?.filter { it.meetingType == MeetingType.PRAYERFUL } ?: listOf()
+                    map[MeetingType.OTHER] =
+                        meetings?.filter { it.meetingType == MeetingType.OTHER } ?: listOf()
+
+                    mutableState.update { it.copy(meetings = map) }
                     toggleLoadingState(false)
-                    filterMeetings()
                 }
         }
         checkInvalidUserException { scope ->
@@ -89,14 +95,6 @@ class MeetingsListScreenModel(
 
     fun updateSelection(selection: Int) {
         _selectedTabState.update { Pair(selection, it.first > selection) }
-        filterMeetings()
-    }
-
-    private fun filterMeetings() {
-        val filtered = state.value.meetings.filter {
-            it.meetingType == MeetingType.fromIndex(selectedTabState.value.first)
-        }
-        mutableState.update { it.copy(filteredMeetings = filtered) }
     }
 
     fun saveMeeting(meeting: Meeting) {

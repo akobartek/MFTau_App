@@ -12,6 +12,7 @@ import pl.mftau.mftau.leaders.domain.usecase.DeleteDrawsUseCase
 import pl.mftau.mftau.leaders.domain.usecase.DrawNewEmausesUseCase
 import pl.mftau.mftau.leaders.domain.usecase.GetLastDrawUseCase
 import pl.mftau.mftau.leaders.presentation.meetings.screenmodels.MeetingsListScreenModel
+import pl.mftau.mftau.leaders.presentation.meetings.screenmodels.PresentListScreenModel
 import pl.mftau.mftau.leaders.presentation.people.screenmodels.EmausScreenModel
 import pl.mftau.mftau.leaders.presentation.people.screenmodels.PeopleListScreenModel
 
@@ -38,4 +39,6 @@ val leadersModule = module {
     factory { EmausScreenModel(get(), get(), get(), get()) }
 
     factory { MeetingsListScreenModel(get(), get()) }
+
+    factory { PresentListScreenModel(get(), get(), get()) }
 }
