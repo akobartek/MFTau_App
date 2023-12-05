@@ -8,13 +8,13 @@ import pl.mftau.mftau.songbook.domain.model.SongTopic
 
 @Entity(tableName = "song")
 data class SongEntity(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0L,
-    @ColumnInfo(name = "title") var title: String = "",
-    @ColumnInfo(name = "text") var text: String = "",
-    @ColumnInfo(name = "chords") var chords: String = "",
-    @ColumnInfo(name = "topics") var topics: String = "",
-    @ColumnInfo(name = "isFavourite") var isFavourite: Boolean = false,
-    @ColumnInfo(name = "isOriginallyInSongBook") var isOriginallyInSongBook: Boolean = false
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
+    @ColumnInfo(name = "title") val title: String = "",
+    @ColumnInfo(name = "text") val text: String = "",
+    @ColumnInfo(name = "chords") val chords: String = "",
+    @ColumnInfo(name = "topics") val topics: String = "",
+    @ColumnInfo(name = "isFavourite") val isFavourite: Boolean = false,
+    @ColumnInfo(name = "isOriginallyInSongBook") val isOriginallyInSongBook: Boolean = false
 ) {
     fun toModelObject() = Song(
         databaseId = id,

@@ -138,7 +138,8 @@ fun EmausScreenContent(screenModel: EmausScreenModel) {
             FloatingActionButton(
                 onClick = screenModel::startDraw,
                 modifier = Modifier.onGloballyPositioned {
-                    fabOffset = it.positionInParent()
+                    if (it.isAttached)
+                        fabOffset = it.positionInParent()
                 }
             ) {
                 Icon(

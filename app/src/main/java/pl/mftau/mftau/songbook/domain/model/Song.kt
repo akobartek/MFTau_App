@@ -10,13 +10,13 @@ import kotlin.math.min
 
 @Serializable
 data class Song(
-    var title: String = "",
-    var text: String = "",
-    var chords: String = "",
-    @get:Exclude var databaseId: Long = 0L,
-    @get:Exclude var topics: Set<SongTopic> = setOf(),
-    @get:Exclude var isFavourite: Boolean = false,
-    @get:Exclude var isOriginallyInSongBook: Boolean = true
+    val title: String = "",
+    val text: String = "",
+    val chords: String = "",
+    @get:Exclude val databaseId: Long = 0L,
+    @get:Exclude val topics: Set<SongTopic> = setOf(),
+    @get:Exclude val isFavourite: Boolean = false,
+    @get:Exclude val isOriginallyInSongBook: Boolean = true
 ) {
     companion object {
         private const val SIMILARITY_THRESHOLD = 0.33

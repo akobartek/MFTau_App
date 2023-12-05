@@ -30,11 +30,12 @@ class FirebasePeopleRepository(
         val collection = firestore.collection(COLLECTION_CITIES)
             .document(getCity())
             .collection(COLLECTION_PEOPLE)
-        if (person.id.isBlank())
-            person.id = collection.document().id
+        val personSave = person.copy(
+            id = person.id.ifBlank { collection.document().id }
+        )
         val task = collection
-            .document(person.id)
-            .set(person)
+            .document(personSave.id)
+            .set(personSave)
         task.await()
         return task.isSuccessful
     }

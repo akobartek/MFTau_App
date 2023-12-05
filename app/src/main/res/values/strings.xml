@@ -222,6 +222,7 @@
     <string name="cd_download_success">%s prawidłowo pobrana</string>
     <string name="cd_download_loading">%s w trakcie pobierania</string>
     <string name="cd_download_error">Wystąpił błąd podczas pobierania %s</string>
+    <string name="breviary_copyright">Teksty Liturgii Godzin:\n© Copyright by Konferencja Episkopatu Polski i Wydawnictwo Pallottinum</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Ewangelia na dziś</string>

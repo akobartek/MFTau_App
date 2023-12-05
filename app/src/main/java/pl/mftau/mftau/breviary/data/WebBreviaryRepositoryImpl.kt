@@ -217,29 +217,30 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         val opening =
             processTextDiv(elements.firstOrNull()?.firstElementChild()?.firstElementChild())
 
-        val psalm = Psalm()
         val psalmElements = elements.lastOrNull()
             ?.firstElementChild()
             ?.firstElementChild()
             ?.children()
+        var psalmName: String? = null
+        var psalmTitle: String? = null
+        var psalmSubtitle: String? = null
         psalmElements?.firstOrNull()?.children()?.firstOrNull()?.let { elem ->
-            psalm.name = elem.child(0).text() ?: ""
-            psalm.title = elem.child(2).text() ?: ""
+            psalmName = elem.child(0).text() ?: ""
+            psalmTitle = elem.child(2).text() ?: ""
         }
         psalmElements?.removeAt(0)
         psalmElements?.select(".ww")?.firstOrNull()?.let { elem ->
-            psalm.subtitle = elem.text()
+            psalmSubtitle = elem.text()
         }
         psalmElements?.removeAt(0)
-        psalmElements?.select("a")?.firstOrNull()?.let { elem ->
-            psalm.breviaryPages =
-                elem.textNodes()[0]?.text() + "\n" + elem.lastElementChild()?.text()
+        val psalmPages = psalmElements?.select("a")?.firstOrNull()?.let { elem ->
+            elem.textNodes()[0]?.text() + "\n" + elem.lastElementChild()?.text()
         }
         psalmElements?.removeAt(0)
-        psalmElements?.select(".cd")?.firstOrNull()?.let { div ->
+        val antiphon = psalmElements?.select(".cd")?.firstOrNull()?.let { div ->
             val fonts = div.children()
             val texts = div.textNodes()
-            psalm.antiphon1 = buildAnnotatedString {
+            buildAnnotatedString {
                 fonts.forEachIndexed { index, element ->
                     withStyle(style = SpanStyle(color = accentColor)) {
                         append(element.text())
@@ -247,17 +248,25 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
                     append(texts[index].text())
                 }
             }
-        }
-        psalm.text = buildAnnotatedString {
-            append(psalm.antiphon1)
+        } ?: buildAnnotatedString { }
+        val psalmText = buildAnnotatedString {
+            append(antiphon)
             psalmElements?.select(".zak")?.forEach { element ->
                 appendLine().appendLine()
                 element.textNodes().forEach { textNode ->
                     append(textNode.text() + "\n")
                 }
-                append(psalm.antiphon1)
+                append(antiphon)
             }
         }
+        val psalm = Psalm(
+            antiphon1 = antiphon,
+            name = psalmName,
+            title = psalmTitle,
+            subtitle = psalmSubtitle,
+            breviaryPages = psalmPages,
+            text = psalmText
+        )
 
         val ending = buildAnnotatedString {
             withStyle(style = SpanStyle(color = accentColor)) {
@@ -658,28 +667,31 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
     }
 
     private fun processPsalm(divs: List<Element>): Psalm {
-        val psalm = Psalm()
-        psalm.antiphon1 = processTextDiv(divs.firstOrNull())
-        psalm.antiphon2 = processTextDiv(divs.lastOrNull())
+        val antiphon1 = processTextDiv(divs.firstOrNull())
+        val antiphon2 = processTextDiv(divs.lastOrNull())
+
+        var name: String? = null
+        var title: String? = null
+        var subtitle: String? = null
         if (divs.size >= 5) {
             divs[1].child(0).let { elem ->
-                psalm.name =
+                name =
                     if (elem.children().size == 1)
                         elem.child(0).textNodes().firstOrNull()?.text() ?: ""
                     else elem.child(0).text() ?: ""
-                psalm.title =
+                title =
                     if (elem.children().size == 1)
                         elem.child(0).textNodes().lastOrNull()?.text() ?: ""
                     else elem.child(2).text() ?: ""
             }
-            psalm.subtitle = divs[2].child(0).text()
+            subtitle = divs[2].child(0).text()
         }
-        psalm.part = when (divs.size) {
+        val part = when (divs.size) {
             4 -> divs[1].text()
             6 -> divs[3].text()
             else -> null
         }
-        psalm.text = buildAnnotatedString {
+        val text = buildAnnotatedString {
             divs[divs.size - 2].children().forEachIndexed { index, element ->
                 if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
                 append(processTextDiv(element))
@@ -687,7 +699,15 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
                     appendLine()
             }
         }
-        return psalm
+        return Psalm(
+            antiphon1 = antiphon1,
+            antiphon2 = antiphon2,
+            name = name,
+            title = title,
+            subtitle = subtitle,
+            part = part,
+            text = text
+        )
     }
 
     private fun processReading(elements: Elements): BreviaryPart {

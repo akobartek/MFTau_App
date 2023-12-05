@@ -31,11 +31,12 @@ class FirebaseMeetingsRepository(
         val collection = firestore.collection(COLLECTION_CITIES)
             .document(getCity())
             .collection(COLLECTION_MEETINGS)
-        if (meeting.id.isBlank())
-            meeting.id = collection.document().id
+        val meetingSave = meeting.copy(
+            id = meeting.id.ifBlank { collection.document().id }
+        )
         val task = collection
-            .document(meeting.id)
-            .set(meeting)
+            .document(meetingSave.id)
+            .set(meetingSave)
         task.await()
         return task.isSuccessful
     }

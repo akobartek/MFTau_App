@@ -80,7 +80,8 @@ fun AddToPlaylistDialog(
                     contentPadding = PaddingValues(4.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = listModifier.onGloballyPositioned { coords ->
-                        listHeight = with(density) { coords.size.height.toDp() }
+                        if (coords.isAttached)
+                            listHeight = with(density) { coords.size.height.toDp() }
                     }
                 ) {
                     items(playlists) { playlist ->

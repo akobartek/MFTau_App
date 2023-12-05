@@ -65,9 +65,15 @@ class BreviaryTextScreenModel(
         screenModelScope.launch(Dispatchers.IO) {
             mutableState.update { State.Loading }
             val result = loadSingleUseCase(office, date, type)
-            mutableState.update {
-                if (result.isFailure || result.getOrNull() == null) State.Failure
-                else State.BreviaryAvailable(result.getOrNull()!!)
+            if (result.isSuccess && result.getOrNull() != null)
+                mutableState.update { State.BreviaryAvailable(result.getOrNull()!!) }
+            else {
+                val dbResult = dbLoadUseCase(date, type)
+                mutableState.update {
+                    val value = dbResult.getOrNull()
+                    if (dbResult.isFailure || value == null || value.html.isBlank()) State.Failure
+                    else State.BreviaryAvailable(dbResult.getOrNull()!!)
+                }
             }
         }
     }
