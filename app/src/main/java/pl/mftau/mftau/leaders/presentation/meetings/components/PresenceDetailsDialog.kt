@@ -164,18 +164,17 @@ fun PresenceDetailsDialog(
                             modifier = Modifier.fillMaxSize()
                         ) {
                             items(meetings, key = { it.id }) { meeting ->
-                                val meetingWithoutNotes = meeting.copy(notes = "")
+                                val meetingWithoutNotes = meeting.copy(
+                                    notes =
+                                    if (!meeting.absenceList.containsKey(personPresence.personId)) ""
+                                    else stringResource(
+                                        id = R.string.reason_for_absence,
+                                        meeting.absenceList[personPresence.personId] ?: ""
+                                    )
+                                )
                                 val background = when {
                                     meeting.attendanceList.contains(personPresence.personId) -> colors.first
-                                    meeting.absenceList.containsKey(personPresence.personId) -> {
-                                        meetingWithoutNotes.notes =
-                                            stringResource(
-                                                id = R.string.reason_for_absence,
-                                                meeting.absenceList[personPresence.personId] ?: ""
-                                            )
-                                        colors.second
-                                    }
-
+                                    meeting.absenceList.containsKey(personPresence.personId) -> colors.second
                                     else -> colors.third
                                 }
                                 MeetingCard(meeting = meetingWithoutNotes, background = background)

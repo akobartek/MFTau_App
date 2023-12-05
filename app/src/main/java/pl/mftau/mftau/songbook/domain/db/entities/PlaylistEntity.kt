@@ -12,9 +12,9 @@ import pl.mftau.mftau.songbook.domain.model.Song
 
 @Entity(tableName = "playlist")
 data class PlaylistEntity(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0L,
-    @ColumnInfo(name = "name") var name: String = "",
-    @ColumnInfo(name = "createdAt") var createdAt: Long = Clock.System.now().toEpochMilliseconds()
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
+    @ColumnInfo(name = "name") val name: String = "",
+    @ColumnInfo(name = "createdAt") val createdAt: Long = Clock.System.now().toEpochMilliseconds()
 ) {
     fun toModelObject(songs: List<Song> = listOf()) =
         Playlist(

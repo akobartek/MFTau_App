@@ -17,9 +17,14 @@ class GetSongBookUseCase(
             val songs = textsSongBookRepository.getSongs().toMutableList()
             dbSongs.forEach { entity ->
                 if (entity.isOriginallyInSongBook) {
-                    val songBookSong = songs.find { it.title == entity.title }
-                    songBookSong?.databaseId = entity.id
-                    songBookSong?.isFavourite = entity.isFavourite
+                    val index = songs.indexOfFirst { it.title == entity.title }
+                    if (index > -1) {
+                        val song = songs[index].copy(
+                            databaseId = entity.id,
+                            isFavourite = entity.isFavourite
+                        )
+                        songs[index] = song
+                    }
                 } else songs.add(entity.toModelObject())
             }
             val playlists = dbPlaylists.map { (playlistEntity, playlistSongsEntities) ->

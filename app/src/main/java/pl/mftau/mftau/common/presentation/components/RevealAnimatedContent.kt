@@ -45,23 +45,25 @@ fun RevealAnimatedContent(
             .fillMaxSize(size.value)
             .alpha(size.value * 1.5f)
             .onGloballyPositioned {
-                scope.launch {
-                    offsetX.animateTo(
-                        targetValue = if (isContentVisible) 0f else offset.x,
-                        animationSpec = animationSpec
-                    )
-                }
-                scope.launch {
-                    offsetY.animateTo(
-                        targetValue = if (isContentVisible) 0f else offset.y,
-                        animationSpec = animationSpec
-                    )
-                }
-                scope.launch {
-                    size.animateTo(
-                        targetValue = if (isContentVisible) 1f else 0f,
-                        animationSpec = animationSpec
-                    )
+                if (it.isAttached) {
+                    scope.launch {
+                        offsetX.animateTo(
+                            targetValue = if (isContentVisible) 0f else offset.x,
+                            animationSpec = animationSpec
+                        )
+                    }
+                    scope.launch {
+                        offsetY.animateTo(
+                            targetValue = if (isContentVisible) 0f else offset.y,
+                            animationSpec = animationSpec
+                        )
+                    }
+                    scope.launch {
+                        size.animateTo(
+                            targetValue = if (isContentVisible) 1f else 0f,
+                            animationSpec = animationSpec
+                        )
+                    }
                 }
             }
     ) {

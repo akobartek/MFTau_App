@@ -217,6 +217,7 @@
     <string name="cd_download_success">%s successfully downloaded</string>
     <string name="cd_download_loading">%s downloading in progress</string>
     <string name="cd_download_error">Error occurred while downloading %s</string>
+    <string name="breviary_copyright">Texts of the Liturgy of the Hours:\n© Copyright by Polish Episcopal Conference and Pallottinum Publishing House</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Gospel for today</string>
