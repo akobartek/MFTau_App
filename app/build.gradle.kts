@@ -15,8 +15,8 @@ android {
         applicationId = "pl.mftau.mftau"
         minSdk = 25
         targetSdk = 34
-        versionCode = 29
-        versionName = "7.0.1"
+        versionCode = 30
+        versionName = "7.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

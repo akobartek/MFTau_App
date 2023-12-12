@@ -11,9 +11,11 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.ScreenKey
@@ -138,7 +141,15 @@ fun PeopleListScreenContent(screenModel: PeopleListScreenModel) {
                     val person = state.people[index]
                     PersonCard(
                         person = person,
-                        onClick = { screenModel.togglePersonEditorVisibility(person) }
+                        onClick = { screenModel.togglePersonEditorVisibility(person) },
+                        additionalContent = {
+                            if (person.notes.isNotBlank())
+                                Text(
+                                    text = person.notes,
+                                    fontStyle = FontStyle.Italic,
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                        }
                     )
                 }
             }
