@@ -673,7 +673,7 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         var name: String? = null
         var title: String? = null
         var subtitle: String? = null
-        if (divs.size >= 5) {
+        if (divs.size == 5 || divs.size == 6) {
             divs[1].child(0).let { elem ->
                 name =
                     if (elem.children().size == 1)
@@ -692,11 +692,31 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
             else -> null
         }
         val text = buildAnnotatedString {
-            divs[divs.size - 2].children().forEachIndexed { index, element ->
-                if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
-                append(processTextDiv(element))
-                if (index < divs[divs.size - 2].children().size - 1)
-                    appendLine()
+            if (divs.size <= 6) {
+                divs[divs.size - 2].children().forEachIndexed { index, element ->
+                    if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
+                    append(processTextDiv(element))
+                    if (index < divs[divs.size - 2].children().size - 1)
+                        appendLine()
+                }
+            } else {
+                divs.forEach { div ->
+                    if (div.hasAttr("align") || div.hasClass("ww")) {
+                        withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)) {
+                            append(processTextDiv(div))
+                        }
+                    } else if (div.hasAttr("style")) {
+                        div.children().forEachIndexed { index, element ->
+                            if (element.hasClass("c")) append("\u00A0\u00A0\u00A0\u00A0")
+                            append(processTextDiv(element))
+                            if (index < div.children().size - 1) appendLine()
+                        }
+                    }
+                }
+                // process psalms one by one ->
+                // if hasAttr("align") -> align processTextDiv to center
+                // if has class .ww -> italic processTextDiv
+                // else process psalm as above
             }
         }
         return Psalm(
