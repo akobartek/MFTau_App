@@ -157,8 +157,9 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         // Remove unnecessary links
         element.select("a")
             .filter { elem ->
-                elem.attr("href")
-                    .contains("javascript") || elem.hasAttr("onclick")
+                elem.attr("href").contains("javascript")
+                        || elem.attr("href").contains("../../")
+                        || elem.hasAttr("onclick")
             }
             .forEach { it.remove() }
         element.select("a")
@@ -769,7 +770,8 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
 
     private fun processCanticle(elements: Elements, isCompline: Boolean = false): Canticle {
         val canticleHeaderElements = elements[3]?.children()
-        val canticleName = canticleHeaderElements?.firstOrNull()?.selectFirst("div")?.text() ?: ""
+        val canticleName = canticleHeaderElements?.firstOrNull()
+            ?.selectFirst("div")?.text()?.replace("-", "") ?: ""
         val canticlePages = canticleHeaderElements?.firstOrNull()?.select("a")
             ?.firstOrNull { it.html().contains("LG skrócone") }?.text() ?: ""
         val canticleVerses = canticleHeaderElements?.lastOrNull()?.text() ?: ""
