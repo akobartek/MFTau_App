@@ -42,14 +42,14 @@ class MainActivity : ComponentActivity() {
         installSplashScreen().apply {
             setOnExitAnimationListener { screen ->
                 try {
-                    val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 0.5f, 0.0f)
+                    val zoomX = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 1f, 0.0f)
                     zoomX.duration = 400L
                     zoomX.doOnEnd {
                         screen.remove()
                         viewModel.splashScreenEnded()
                     }
 
-                    val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 0.5f, 0.0f)
+                    val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 1f, 0.0f)
                     zoomY.duration = 400L
                     zoomY.doOnEnd {
                         screen.remove()
