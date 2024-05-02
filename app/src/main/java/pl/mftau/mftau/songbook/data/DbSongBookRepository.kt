@@ -38,5 +38,5 @@ class DbSongBookRepository(private val songBookDao: SongBookDao) {
 
     suspend fun deleteFromPlaylist(entity: PlaylistSongEntity) =
         if (entity.songTitle == null) songBookDao.deleteBySongId(entity.playlistId, entity.songId!!)
-        else songBookDao.deleteBySongTitle(entity.playlistId, entity.songTitle!!)
+        else songBookDao.deleteBySongTitle(entity.playlistId, entity.songTitle)
 }

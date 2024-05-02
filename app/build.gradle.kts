@@ -15,13 +15,10 @@ android {
         applicationId = "pl.mftau.mftau"
         minSdk = 25
         targetSdk = 34
-        versionCode = 32
-        versionName = "7.0.4"
+        versionCode = 33
+        versionName = "7.0.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {

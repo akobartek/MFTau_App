@@ -34,7 +34,6 @@ class MainViewModel(private val preferencesRepository: PreferencesRepository) : 
 
     fun splashScreenEnded() {
         _splashScreenEnded.update { true }
-
     }
 
     fun updateNotificationsAsked(asked: Boolean) {

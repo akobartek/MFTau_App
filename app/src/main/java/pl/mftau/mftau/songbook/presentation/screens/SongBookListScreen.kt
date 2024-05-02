@@ -221,7 +221,7 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 if (state.isLoading)
                     item { Column(Modifier.fillParentMaxHeight()) { LoadingBox() } }
                 else if (state.songs.isNotEmpty()) {
-                    items(state.songs, key = { it.title }) { song ->
+                    items(state.songs, key = { "${it.databaseId}:${it.title}" }) { song ->
                         SongCard(
                             song = song,
                             preferences = state.preferences,

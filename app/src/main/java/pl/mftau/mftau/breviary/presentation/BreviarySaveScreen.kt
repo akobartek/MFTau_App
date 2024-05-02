@@ -131,7 +131,11 @@ fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String
 
                 is State.DownloadingState -> DownloadingStateLayout(
                     entity = (state as State.DownloadingState).entity,
-                    onBackPressed = { exitDialogVisible = true }
+                    onBackPressed = {
+                        if ((state as State.DownloadingState).entity.id == 0L)
+                            exitDialogVisible = true
+                        else navigator.safePop(BreviarySaveScreen.KEY)
+                    }
                 )
 
                 is State.Failure -> NoInternetDialog(
@@ -194,7 +198,7 @@ private fun DownloadingStateLayout(entity: BreviaryEntity, onBackPressed: () -> 
         )
     }
 
-    BackHandler(enabled = entity.id > 0L, onBack = onBackPressed)
+    BackHandler(enabled = true, onBack = onBackPressed)
 }
 
 @Composable

@@ -84,7 +84,7 @@ fun AddToPlaylistDialog(
                             listHeight = with(density) { coords.size.height.toDp() }
                     }
                 ) {
-                    items(playlists) { playlist ->
+                    items(playlists, key = { it.id }) { playlist ->
                         val isSelected = selectedPlaylists.contains(playlist)
                         Row(
                             modifier = Modifier

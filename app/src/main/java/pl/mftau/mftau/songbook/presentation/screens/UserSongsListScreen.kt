@@ -103,7 +103,7 @@ fun AddedSongsListScreenContent(screenModel: UserSongsListScreenModel) {
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                items(state.songs ?: listOf(), key = { it.title }) { song ->
+                items(state.songs ?: listOf(), key = { "${it.databaseId}:${it.title}" }) { song ->
                     SongCard(
                         song = song,
                         onClick = { screenModel.toggleSongEditorVisibility(it) },

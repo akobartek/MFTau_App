@@ -110,7 +110,7 @@ fun PlaylistsListScreenContent(screenModel: PlaylistsListScreenModel) {
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            items(state.playlists) { (playlist, songsCount) ->
+            items(state.playlists, key = { it.first.id }) { (playlist, songsCount) ->
                 Card(
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.secondaryContainer

@@ -38,7 +38,7 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
                 )
             if (!psalm.subtitle.isNullOrBlank())
                 Text(
-                    text = psalm.subtitle!!,
+                    text = psalm.subtitle,
                     textAlign = TextAlign.Center,
                     fontStyle = FontStyle.Italic,
                     fontSize = 13.sp,
@@ -47,12 +47,12 @@ internal fun PsalmLayout(psalm: Psalm, isInvitatoryPsalm: Boolean = false) {
         }
         if (psalm.breviaryPages != null)
             Text(
-                text = psalm.breviaryPages!!,
+                text = psalm.breviaryPages,
                 fontSize = 10.sp
             )
         if (psalm.part != null)
             Text(
-                text = psalm.part!!,
+                text = psalm.part,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
