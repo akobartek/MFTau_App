@@ -58,7 +58,6 @@ import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.core.presentation.screenmodels.EmailScreenModel
 import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
 import pl.mftau.mftau.common.utils.safePop
-import java.io.Serializable
 
 data class EmailScreen(val screenType: EmailScreenType) : Screen {
     override val key: ScreenKey
@@ -72,14 +71,8 @@ data class EmailScreen(val screenType: EmailScreenType) : Screen {
         )
     }
 
-    sealed class EmailScreenType(val email: String) : Serializable {
-        data object AskForPray : EmailScreenType("modlitwa@mftau.pl") {
-            private fun readResolve(): Any = AskForPray
-        }
-
-        data object ReportError : EmailScreenType("sokolowskijbartek@gmail.com") {
-            private fun readResolve(): Any = ReportError
-        }
+    enum class EmailScreenType(val email: String) {
+        AskForPray("modlitwa@mftau.pl"), ReportError("sokolowskijbartek@gmail.com")
     }
 
     companion object {
@@ -109,8 +102,8 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
             TauCenteredTopBar(
                 title = stringResource(
                     id = when (screenType) {
-                        is EmailScreen.EmailScreenType.AskForPray -> R.string.ask_for_pray
-                        is EmailScreen.EmailScreenType.ReportError -> R.string.report_error
+                        EmailScreen.EmailScreenType.AskForPray -> R.string.ask_for_pray
+                        EmailScreen.EmailScreenType.ReportError -> R.string.report_error
                     }
                 ),
                 onNavClick = { navigator.safePop(EmailScreen.KEY) }
@@ -197,8 +190,8 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                     Text(
                         text = stringResource(
                             id = when (screenType) {
-                                is EmailScreen.EmailScreenType.AskForPray -> R.string.intention
-                                is EmailScreen.EmailScreenType.ReportError -> R.string.error_description
+                                EmailScreen.EmailScreenType.AskForPray -> R.string.intention
+                                EmailScreen.EmailScreenType.ReportError -> R.string.error_description
                             }
                         )
                     )
@@ -212,8 +205,8 @@ fun EmailScreenContent(screenModel: EmailScreenModel, screenType: EmailScreen.Em
                         Text(
                             text = stringResource(
                                 id = when (screenType) {
-                                    is EmailScreen.EmailScreenType.AskForPray -> R.string.empty_email_intention_error
-                                    is EmailScreen.EmailScreenType.ReportError -> R.string.empty_email_description_error
+                                    EmailScreen.EmailScreenType.AskForPray -> R.string.empty_email_intention_error
+                                    EmailScreen.EmailScreenType.ReportError -> R.string.empty_email_description_error
                                 }
                             )
                         )
