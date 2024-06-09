@@ -43,6 +43,7 @@ import pl.mftau.mftau.breviary.presentation.components.BreviaryPartWithSelection
 import pl.mftau.mftau.breviary.presentation.components.CanticleLayout
 import pl.mftau.mftau.breviary.presentation.components.HymnLayout
 import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
+import pl.mftau.mftau.breviary.presentation.components.ProcessingFailedDialog
 import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
 import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
 import pl.mftau.mftau.common.presentation.components.ComposeWebView
@@ -50,6 +51,7 @@ import pl.mftau.mftau.common.presentation.components.LoadingBox
 import pl.mftau.mftau.common.presentation.components.NoInternetDialog
 import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
+import pl.mftau.mftau.common.utils.safePush
 
 data class BreviaryTextScreen(
     val position: Int = 0,
@@ -95,7 +97,6 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(horizontal = 8.dp)
         ) {
             when (state) {
                 is State.Init, is State.Cancelled -> {}
@@ -114,14 +115,35 @@ fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: In
                     breviary = (state as State.BreviaryAvailable).breviary
                 )
 
-                is State.Failure -> NoInternetDialog(
-                    isVisible = true,
-                    onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                    onDismiss = {
-                        screenModel.cancelScreen()
-                        navigator.safePop(BreviaryTextScreen.KEY)
-                    }
-                )
+                is State.Failure -> {
+                    val failure = state as State.Failure
+                    if (failure.processingFailed)
+                        ProcessingFailedDialog(
+                            isVisible = true,
+                            buttonClicked = failure.downloadsClicked,
+                            onDownloads = {
+                                if (failure.downloadsClicked)
+                                    screenModel.checkIfThereAreMultipleOffices()
+                                else {
+                                    screenModel.onDownloadsDialogClicked()
+                                    navigator.safePush(BreviarySaveScreen(date))
+                                }
+                            },
+                            onDismiss = {
+                                screenModel.cancelScreen()
+                                navigator.safePop(BreviaryTextScreen.KEY)
+                            }
+                        )
+                    else
+                        NoInternetDialog(
+                            isVisible = true,
+                            onReconnect = screenModel::checkIfThereAreMultipleOffices,
+                            onDismiss = {
+                                screenModel.cancelScreen()
+                                navigator.safePop(BreviaryTextScreen.KEY)
+                            }
+                        )
+                }
             }
         }
     }
@@ -134,6 +156,7 @@ private fun BreviaryLayout(breviary: Breviary) {
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 32.dp)
+                .padding(horizontal = if (breviary is BreviaryHtml) 0.dp else 8.dp)
         ) {
             when (breviary) {
                 is Invitatory -> InvitatoryLayout(invitatory = breviary)

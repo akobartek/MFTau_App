@@ -218,6 +218,9 @@
     <string name="cd_download_loading">%s downloading in progress</string>
     <string name="cd_download_error">Error occurred while downloading %s</string>
     <string name="breviary_copyright">Texts of the Liturgy of the Hours:\n© Copyright by Polish Episcopal Conference and Pallottinum Publishing House</string>
+    <string name="processing_failed_dialog_title">Processing failed</string>
+    <string name="processing_failed_dialog_message">A problem was encountered while processing text. Downloading the breviary should fix this error.</string>
+    <string name="processing_failed_downloads_button">Download</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Gospel for today</string>

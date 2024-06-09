@@ -405,10 +405,10 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
     }
 
     private fun getMajorHour(elements: Elements): MajorHour {
-        val canticleAndIntercessions = elements[4]?.child(0)
-        val intercessionsPages = canticleAndIntercessions?.select("a")
-            ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
-        val intercessions = processTextDiv(canticleAndIntercessions?.select("div")?.lastOrNull())
+        val canticleAndIntercessions = elements[4].child(0)
+        val intercessionsPages = canticleAndIntercessions.select("a")
+            .firstOrNull { it.html().contains("LG skrócone") }?.text()
+        val intercessions = processTextDiv(canticleAndIntercessions.select("div").lastOrNull())
 
         val lastChild = elements.lastOrNull()?.child(0)?.children()
         val lordsPrayer = buildAnnotatedString {
@@ -635,7 +635,8 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
         allPsalmsDivs?.forEachIndexed { index, elem ->
             val nestedAntiphon = elem.children().firstOrNull { it.hasClass("cd") }
             nestedAntiphon?.let {
-                allPsalmsDivs.add(index + 1, it)
+                if (!it.text().contains("Jeżeli poniższa pieśń jest śpiewana"))
+                    allPsalmsDivs.add(index + 1, it)
                 it.remove()
             }
 
@@ -651,6 +652,7 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
                 elem.children().filter { it -> it.tagName() == "br" }.forEach { it.remove() }
             }
         }
+        allPsalmsDivs?.removeAll { it.text().isBlank() }
         repeat(3) {
             val antiphonDivs = allPsalmsDivs?.filter { it.className() == "cd" }?.take(2)
             antiphonDivs?.let {
@@ -732,18 +734,18 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
     }
 
     private fun processReading(elements: Elements): BreviaryPart {
-        val readingHeaderElements = elements[1]?.children()
-        val readingPages = readingHeaderElements?.firstOrNull()
+        val readingHeaderElements = elements[1].children()
+        val readingPages = readingHeaderElements.firstOrNull()
             ?.select("a")
             ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
-        val readingVerses = readingHeaderElements?.lastOrNull()?.text()
+        val readingVerses = readingHeaderElements.lastOrNull()?.text()
 
-        val readingAndResponsory = elements[2]?.child(0)
+        val readingAndResponsory = elements[2].child(0)
         val readingText = buildAnnotatedString {
-            val slice = readingAndResponsory?.children()?.slice(
+            val slice = readingAndResponsory.children().slice(
                 0..readingAndResponsory.children().indexOf(readingAndResponsory.selectFirst("a"))
-            )?.filter { it.tagName() == "div" }
-            slice?.forEachIndexed { index, element ->
+            ).filter { it.tagName() == "div" }
+            slice.forEachIndexed { index, element ->
                 if (index > 0) appendLine()
                 append(processTextDiv(element))
             }
@@ -761,23 +763,23 @@ class WebBreviaryRepositoryImpl(private val preferencesRepository: PreferencesRe
     }
 
     private fun processResponsory(elements: Elements): BreviaryPart {
-        val readingAndResponsory = elements[2]?.child(0)
-        val responsoryPages = readingAndResponsory?.select("a")
-            ?.firstOrNull { it.html().contains("LG skrócone") }?.text()
-        val responsory = processTextDiv(readingAndResponsory?.select("div")?.lastOrNull())
+        val readingAndResponsory = elements[2].child(0)
+        val responsoryPages = readingAndResponsory.select("a")
+            .firstOrNull { it.html().contains("LG skrócone") }?.text()
+        val responsory = processTextDiv(readingAndResponsory.select("div").lastOrNull())
         return BreviaryPart(responsoryPages ?: "", responsory)
     }
 
     private fun processCanticle(elements: Elements, isCompline: Boolean = false): Canticle {
-        val canticleHeaderElements = elements[3]?.children()
-        val canticleName = canticleHeaderElements?.firstOrNull()
+        val canticleHeaderElements = elements[3].children()
+        val canticleName = canticleHeaderElements.firstOrNull()
             ?.selectFirst("div")?.text()?.replace("-", "") ?: ""
-        val canticlePages = canticleHeaderElements?.firstOrNull()?.select("a")
+        val canticlePages = canticleHeaderElements.firstOrNull()?.select("a")
             ?.firstOrNull { it.html().contains("LG skrócone") }?.text() ?: ""
-        val canticleVerses = canticleHeaderElements?.lastOrNull()?.text() ?: ""
+        val canticleVerses = canticleHeaderElements.lastOrNull()?.text() ?: ""
 
-        val canticleAndIntercessions = elements[4]?.child(0)
-        val divsList = canticleAndIntercessions?.select("div")?.firstOrNull()?.children()?.toList()
+        val canticleAndIntercessions = elements[4].child(0)
+        val divsList = canticleAndIntercessions.select("div").firstOrNull()?.children()?.toList()
         val antiphonDivs = divsList
             ?.filter { it.className() == "cd" || it.className() == "cdx" }
             ?.take(2)

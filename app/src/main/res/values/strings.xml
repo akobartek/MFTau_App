@@ -223,6 +223,9 @@
     <string name="cd_download_loading">%s w trakcie pobierania</string>
     <string name="cd_download_error">Wystąpił błąd podczas pobierania %s</string>
     <string name="breviary_copyright">Teksty Liturgii Godzin:\n© Copyright by Konferencja Episkopatu Polski i Wydawnictwo Pallottinum</string>
+    <string name="processing_failed_dialog_title">Błąd przetwarzania</string>
+    <string name="processing_failed_dialog_message">Podczas przetwarzania tekstu napotkano problem. Pobranie brewiarza powinno naprawić błąd.</string>
+    <string name="processing_failed_downloads_button">Pobierz</string>
 
     <!-- GOSPEL STRINGS -->
     <string name="gospel_for_today">Ewangelia na dziś</string>

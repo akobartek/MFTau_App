@@ -15,8 +15,8 @@ android {
         applicationId = "pl.mftau.mftau"
         minSdk = 25
         targetSdk = 34
-        versionCode = 33
-        versionName = "7.0.5"
+        versionCode = 34
+        versionName = "7.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -3,6 +3,7 @@ package pl.mftau.mftau.songbook.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
 import pl.mftau.mftau.songbook.domain.model.SongTopic
@@ -63,7 +65,13 @@ fun FilterSongsDialog(
                         FilterChip(
                             selected = selected,
                             onClick = { selectedTopic = index },
-                            label = { Text(text = type) },
+                            label = {
+                                Text(
+                                    text = type,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.defaultMinSize(minWidth = 90.dp)
+                                )
+                            },
                             modifier = Modifier.padding(horizontal = 4.dp)
                         )
                     }

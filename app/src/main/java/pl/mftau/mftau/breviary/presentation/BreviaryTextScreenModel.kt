@@ -22,7 +22,7 @@ class BreviaryTextScreenModel(
         data object Loading : State()
         data class MultipleOffices(val offices: Map<String, String>) : State()
         data class BreviaryAvailable(val breviary: Breviary) : State()
-        data object Failure : State()
+        data class Failure(val processingFailed: Boolean, val downloadsClicked: Boolean = false) : State()
         data object Cancelled : State()
     }
 
@@ -46,10 +46,12 @@ class BreviaryTextScreenModel(
                 if (offices == null) loadBreviary()
                 else mutableState.update { State.MultipleOffices(offices) }
             } else {
+                result.exceptionOrNull()?.let { println("XDDDD ${it.cause}") }
                 val dbResult = dbLoadUseCase(date, type)
                 mutableState.update {
                     val value = dbResult.getOrNull()
-                    if (dbResult.isFailure || value == null || value.html.isBlank()) State.Failure
+                    if (dbResult.isFailure || value == null || value.html.isBlank())
+                        State.Failure(processingFailed = false)
                     else State.BreviaryAvailable(dbResult.getOrNull()!!)
                 }
             }
@@ -71,7 +73,8 @@ class BreviaryTextScreenModel(
                 val dbResult = dbLoadUseCase(date, type)
                 mutableState.update {
                     val value = dbResult.getOrNull()
-                    if (dbResult.isFailure || value == null || value.html.isBlank()) State.Failure
+                    if (dbResult.isFailure || value == null || value.html.isBlank())
+                        State.Failure(processingFailed = true)
                     else State.BreviaryAvailable(dbResult.getOrNull()!!)
                 }
             }
@@ -80,5 +83,9 @@ class BreviaryTextScreenModel(
 
     fun cancelScreen() {
         mutableState.update { State.Cancelled }
+    }
+
+    fun onDownloadsDialogClicked() {
+        mutableState.update { State.Failure(processingFailed = true, downloadsClicked = true) }
     }
 }
