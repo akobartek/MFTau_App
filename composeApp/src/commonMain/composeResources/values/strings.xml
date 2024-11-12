@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BASIC STRINGS -->
+    <string name="app_name" translatable="false">MF Tau</string>
+    <string name="community_name">Młodzież\nFranciszkańska\nTAU</string>
+    <string name="cd_more_options_btn">Więcej opcji</string>
+    <string name="cd_profile_pic">Zdjęcie profilowe</string>
+    <string name="cd_main_screen_btn">Przejdź na ekran %s</string>
+    <string name="cd_navigate_up">Cofnij na poprzedni ekran</string>
+    <string name="mftau_website" translatable="false">mftau.pl</string>
+    <string name="statute">Statut</string>
+    <string name="readings">Czytelnia</string>
+    <string name="breviary">Brewiarz</string>
+    <string name="gospel">Ewangelia</string>
+    <string name="song_book">Śpiewnik</string>
+    <string name="people">Ludzie</string>
+    <string name="meetings">Spotkania</string>
+    <string name="community_logo">Logo wspólnoty MF Tau</string>
+    <string name="menu_description">Menu z opcjami zalogowania się oraz otworzeniem ustawień.</string>
+    <string name="sign_in">Zaloguj</string>
+    <string name="sign_up">Zarejestruj</string>
+    <string name="sign_out">Wyloguj</string>
+    <string name="reset_password">Resetuj hasło</string>
+    <string name="reset_password_dialog_msg">Na Twój adres mailowy została wiadomość z linkiem do zmiany hasła.</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="delete_account_dialog_title">Usuwanie konta</string>
+    <string name="delete_account_dialog_msg">Jesteś pewny, że chcesz usunąć konto z systemu?</string>
+    <string name="delete_account_success">Konto zostało usunięte</string>
+    <string name="register">Zarejestruj</string>
+    <string name="settings">Ustawienia</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="ask_for_pray">Poproś o modlitwę</string>
+    <string name="report_error">Zgłoś błąd</string>
+    <string name="no_internet_title">Brak Internetu</string>
+    <string name="no_internet_reconnect_message">Wystąpił problem z połączeniem internetowym, chcesz spróbować ponownie?</string>
+    <string name="no_internet_data_message">Brak dostępu do Internetu, wyświetlane dane mogą być nieaktualne!</string>
+    <string name="try_again">Spróbuj</string>
+    <string name="loading">Ładowanie…</string>
+    <string name="copy">Skopiuj</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka!</string>
+    <string name="save">Zapisz</string>
+    <string name="load">Załaduj</string>
+    <string name="stop">Przerwij</string>
+    <string name="undo">Cofnij</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="discard">Odrzuć</string>
+    <string name="keep_editing">Pozostań</string>
+    <string name="delete">Usuń</string>
+    <string name="close_dialog">Zamknij okno</string>
+    <string name="empty_field_error">To pole nie może być puste!</string>
+    <string name="unsaved_changes_dialog_title">Niezapisane zmiany</string>
+    <string name="unsaved_changes_dialog_msg">Jeśli wyjdziesz, wprowadzone zmiany zostaną odrzucone. Jesteś pewny?</string>
+    <string name="cd_clear_field">Wyczyść pole</string>
+    <string name="stop_action_title">Przerwanie akcji</string>
+    <string name="stop_download_dialog_msg">Jesteś pewny, że chcesz przerwać pobieranie?</string>
+    <string name="choose_pdf_viewer">Wybierz przeglądarkę PDF</string>
+    <string name="no_pdf_viewer_dialog_title">Brak przeglądarek PDF</string>
+    <string name="no_pdf_viewer_dialog_msg">Na telefonie nie znaleziono żadnej przeglądarki plików PDF. Jeśli chcesz otworzyć ten plik, musisz najpierw zainstalować przeglądarkę.</string>
+    <string name="notification_dialog_title">Powiadomienia</string>
+    <string name="notification_ask_dialog_message">Czy chcesz otrzymywać powiadomienia na temat wspólnoty?</string>
+    <string name="notification_denied_dialog_message">Jeśli będziesz chciał włączyć powiadomienia, możesz zrobić to w ustawieniach aplikacji.</string>
+
+    <!-- EMAIL STRINGS -->
+    <string name="send_mail">Wyślij maila</string>
+    <string name="send_mail_error">Nie znaleziono żadnego klienta mailowego!</string>
+    <string name="email_name">Imię</string>
+    <string name="intention">Intencja</string>
+    <string name="error_description">Opis problemu</string>
+    <string name="empty_email_name_error">Imię nie może być puste!</string>
+    <string name="empty_email_intention_error">Intencja nie może być pusta!</string>
+    <string name="empty_email_description_error">Opis nie może być pusty!</string>
+    <string name="privacy_policy_part1">Oświadczam, iż zapoznałem(-am) się i akceptuję\u0020</string>
+    <string name="privacy_policy_part2">zasady ochrony danych osobowych</string>
+    <string name="rodo_error_message">Aby wysłać wiadomość musisz zaakceptować zasady ochrony danych osobowych!</string>
+
+    <!-- LOGIN STRINGS -->
+    <string name="email">Email</string>
+    <string name="clear_email">Wyczyść email</string>
+    <string name="password">Hasło</string>
+    <string name="show_password">Pokaż hasło</string>
+    <string name="hide_password">Ukryj hasło</string>
+    <string name="back_to_sign_in">Powrót do logowania</string>
+    <string name="forgot_password">Zapomniałem hasło</string>
+    <string name="create_account">Utwórz konto</string>
+    <string name="email_error_invalid">Nieprawidłowy adres mailowy.</string>
+    <string name="email_error_no_user">Nie znaleziono konta powiązanego z tym adresem!</string>
+    <string name="email_error_user_exists">Istnieje już konto przypisane do tego adresu!</string>
+    <string name="password_error_empty">Podaj hasło!</string>
+    <string name="password_error_too_short">Hasło musi mieć co najmniej 8 znaków.</string>
+    <string name="password_error_wrong">Hasło musi składać się z małych i dużych liter oraz cyfr.</string>
+    <string name="password_error_invalid">Wpisano złe hasło!</string>
+    <string name="send">Wyślij</string>
+    <string name="cancel">Anuluj</string>
+    <string name="message_sent">Wysłano wiadomość</string>
+    <string name="sign_up_error">Błąd w trakcie rejestracji, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
+    <string name="sign_up_successful_dialog_title">Zarejestrowano</string>
+    <string name="sign_up_successful_dialog_message">Aby korzystać z konta musisz zatwierdzić je poprzez kliknięcie linku w wiadomości na mailu.</string>
+    <string name="signed_in">Zalogowano</string>
+    <string name="sign_in_error">Błąd w trakcie logowania, sprawdź swoje połączenie i spróbuj ponownie za kilka minut!</string>
+    <string name="verify_email_dialog_title">Weryfikacja maila</string>
+    <string name="verify_email_dialog_message">Aby korzystać z konta musisz zatwierdzić adres mailowy. Jeśli chcesz, możesz ponowić wysłanie wiadomości.</string>
+    <string name="verify_email_send_again">Ponów</string>
+    <string name="reset_password_dialog_title">Resetowanie hasła</string>
+    <string name="reset_password_dialog_message">Wpisz adres mailowy:</string>
+    <string name="reset_password_error">Resetowanie nieudane, sprawdź połączenie i poprawność adresu!</string>
+
+    <!-- SONG BOOK STRINGS -->
+    <string name="search">Szukaj</string>
+    <string name="song_book_search">Szukanie w śpiewniku</string>
+    <string name="song_book_filter">Filtrowanie śpiewnika</string>
+    <string name="empty_search_list">Nie znaleziono żadnej pieśni z podanym wyrażaniem!</string>
+    <string name="change_font_size">Zmiana wielkości tekstu</string>
+    <string name="lower_font_size">Zmniejszenie wielkość tekstu</string>
+    <string name="increase_font_size">Zwiększenie wielkość tekstu</string>
+    <string name="max_size_msg">Została już ustawiona maksymalna wielkość!</string>
+    <string name="min_size_msg">Została już ustawiona minimalna wielkość!</string>
+    <string name="example_text">Przykładowy tekst:</string>
+    <string name="example_song" translatable="false">Ref. Zabierz mnie, pójdziemy razem,\nja się chwycę twego sznura,\nzdejmę buty, żeby lepiej czuć kamienie.</string>
+    <string name="reset">Reset</string>
+    <string name="add_to_playlist">Dodaj do playlist</string>
+    <string name="add_to_favourites">Dodaj do ulubionych</string>
+    <string name="move_song_up">Przesuń utwór do góry</string>
+    <string name="move_song_down">Przesuń utwór w dół</string>
+    <string name="remove_from_playlist">Usuń z playlisty</string>
+    <string name="song_removed">Usunięto utwór</string>
+    <string name="remove_from_favourites">Usuń z ulubionych</string>
+    <string name="save_playlist">Zapisz playlistę</string>
+    <string name="playlist_name">Nazwa playlisty</string>
+    <string name="new_playlist_name">Nazwa nowej playlisty</string>
+    <string name="playlists_updated">Zaktualizowano playlisty</string>
+    <string name="create_playlist">Utwórz listę</string>
+    <string name="open_pdf">Otwórz śpiewnik w pliku PDF</string>
+    <string name="show_added_songs">Wyświetl listę utworów dodanych do śpiewnika</string>
+    <string name="show_playlists">Wyświetl zapisane playlisty</string>
+    <string name="show_chords">Pokazuj chwyty</string>
+    <string name="hide_chords">Ukrywaj chwyty</string>
+    <string name="cd_open_popup_menu">Pokaż dodatkowe opcje</string>
+    <string name="category_all">Wszystkie</string>
+    <string name="category_favourites">Ulubione</string>
+    <string name="category_francis">Franciszkańskie</string>
+    <string name="category_holy_spirit">Duch Święty</string>
+    <string name="category_communion">Komunia</string>
+    <string name="category_worship">Uwielbienie</string>
+    <string name="category_adoration">Adoracja</string>
+    <string name="category_atonement">Pokutne i postne</string>
+    <string name="category_easter">Wielkanocne</string>
+    <string name="category_advent">Adwentowe</string>
+    <string name="category_mary">Maryjne</string>
+    <string name="category_gifts">Przygotowanie darów</string>
+    <string name="category_kids">Dla dzieci</string>
+    <string name="category_carols">Kolędy</string>
+    <string name="add_song">Dodawanie utworu</string>
+    <string name="edit_song">Edycja utworu</string>
+    <string name="delete_song">Usuwanie utworu</string>
+    <string name="select_topics">Wybierz tematy:</string>
+    <string name="song_saved">Zapisano dane o utworze</string>
+    <string name="song_title">Tytuł</string>
+    <string name="song_text">Tekst utworu</string>
+    <string name="song_chords">Akordy</string>
+    <string name="show_preview">Pokaż podgląd</string>
+    <string name="song_delete_dialog_msg">Jesteś pewny usunięcia tego utworu?</string>
+    <string name="my_songs">Moje utwory</string>
+    <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>
+    <string name="my_playlists">Moje playlisty</string>
+    <plurals name="playlist_song_count">
+        <item quantity="one">%d utwór</item>
+        <item quantity="few">%d utwory</item>
+        <item quantity="other">%d utworów</item>
+    </plurals>
+    <string name="empty_playlists_list">Nie utworzono żadnej playlisty!\nJeśli chcesz, powyżej znajduje się możliwość utworzenia playlisty.</string>
+    <string name="empty_playlist">Do tej playlisty nie przypisano żadnych utworów!</string>
+    <string name="edit_playlist">Edytowanie playlisty</string>
+    <string name="delete_playlist">Usuwanie playlisty</string>
+    <string name="delete_playlist_dialog_msg">Jesteś pewny usunięcia tej listy?</string>
+    <string name="share_playlist">Udostępnianie listy</string>
+    <string name="share_playlist_dialog_msg">Wyślij poniższy kod żeby udostępnić playlistę:</string>
+    <string name="share_empty_list_error">Nie można udostępnić listy bez utworów!</string>
+    <string name="import_playlist">Pobieranie listy</string>
+    <string name="import_btn">Pobierz</string>
+    <string name="playlist_code">Kod listy</string>
+    <string name="import_playlist_dialog_msg">Wpisz otrzymany kod poniżej:</string>
+    <string name="import_incorrect_code_error">Niepoprawny format kodu!</string>
+    <string name="imported_playlist">Pobrana lista</string>
+    <string name="import_error_dialog_msg">Nie znaleziono playlisty o podanym kodzie! Sprawdź czy podany kod został wprowadzony poprawnie.</string>
+    <string name="song_transposition_down">Transponuj pół tonu w dół</string>
+    <string name="song_transposition_up">Transponuj pół tonu w górę</string>
+
+    <!-- PREFERENCES STRINGS -->
+    <string name="preferences">Ustawienia</string>
+    <string name="selection_setting_summary">Obecnie: %s</string>
+    <string name="theme_title">Motyw</string>
+    <string name="theme_dialog_title">Wybierz motyw</string>
+    <string name="dynamic_colors_title">Dynamiczne kolory</string>
+    <string name="dynamic_colors_summary">Podłącz aplikację do kolorów systemu</string>
+    <string name="awake_screen_title">Wygaszanie ekranu</string>
+    <string name="awake_screen_summary">Nie wygaszaj ekranu podczas korzystania z  aplikacji</string>
+    <string name="repeat_gospel_title">Powtarzanie Ewangelii</string>
+    <string name="repeat_gospel_summary">Automatycznie powtarzaj odtwarzanie Ewangelii</string>
+    <string name="open_song_book_as_pdf_title">Otwieranie śpiewnika jako PDF</string>
+    <string name="open_song_book_as_pdf_summary">Domyślnie pokazuj śpiewnik jako plik PDF</string>
+    <string name="language_setting_title">Język aplikacji</string>
+    <string name="language_setting_dialog_title">Wybierz twój język</string>
+
+    <!-- BREVIARY STRINGS -->
+    <string name="breviary_yesterday">Wczorajszy brewiarz</string>
+    <string name="breviary_today">Dzisiejszy brewiarz</string>
+    <string name="breviary_tomorrow">Jutrzejszy brewiarz</string>
+    <string name="saving_breviary">Zapisywanie brewiarza</string>
+    <string name="select_office">Wybierz Oficjum</string>
+    <string name="invitatory">Wezwanie</string>
+    <string name="office_of_readings">Godzina czytań</string>
+    <string name="lauds">Jutrznia</string>
+    <string name="midmorning_prayer">Modlitwa przedpołudniowa</string>
+    <string name="midday_prayer">Modlitwa południowa</string>
+    <string name="midafternoon_prayer">Modlitwa popołudniowa</string>
+    <string name="vespers">Nieszpory</string>
+    <string name="compline">Kompleta</string>
+    <string name="save_breviary_dialog_msg">Czy chcesz pobrać i zapisać na telefonie brewiarz z wybranego dnia?</string>
+    <string name="save_finished_dialog_msg">Pobrano oraz zapisano brewiarz, załadowane treści zostaną wyświetlone w sytuacji braku internetu.</string>
+    <string name="save_in_memory">Zapis w pamięci telefonu</string>
+    <string name="cd_download_success">%s prawidłowo pobrana</string>
+    <string name="cd_download_loading">%s w trakcie pobierania</string>
+    <string name="cd_download_error">Wystąpił błąd podczas pobierania %s</string>
+    <string name="breviary_copyright">Teksty Liturgii Godzin:\n© Copyright by Konferencja Episkopatu Polski i Wydawnictwo Pallottinum</string>
+    <string name="processing_failed_dialog_title">Błąd przetwarzania</string>
+    <string name="processing_failed_dialog_message">Podczas przetwarzania tekstu napotkano problem. Pobranie brewiarza powinno naprawić błąd.</string>
+    <string name="processing_failed_downloads_button">Pobierz</string>
+
+    <!-- GOSPEL STRINGS -->
+    <string name="gospel_for_today">Ewangelia na dziś</string>
+    <string name="listen_gospel">Słuchaj Ewangelii</string>
+    <string name="language_not_supported">Wystąpił błąd w trakcie odczytywania</string>
+
+    <!-- READINGS STRINGS -->
+    <string name="prayers">Modlitwy</string>
+    <string name="writings">Pisma</string>
+
+    <!-- MEETINGS STRINGS -->
+    <string name="empty_meeting_list">Nie dodano jeszcze żadnego spotkania!</string>
+    <string name="meeting_name">Nazwa spotkania</string>
+    <string name="meeting_type">Typ spotkania</string>
+    <string name="meeting_date">Data spotkania</string>
+    <string name="meeting_notes">Notatki</string>
+    <string name="meeting_formation">Formacyjne</string>
+    <string name="meeting_prayerful">Modlitewne</string>
+    <string name="meeting_other">Inne</string>
+    <string name="calendar_description">Ikona służąca ustawieniu daty spotkania.</string>
+    <string name="check_list_description">Sprawdź obecność członków na spotkaniu.</string>
+    <string name="add_meeting">Dodawanie spotkania</string>
+    <string name="edit_meeting">Edytowanie spotkania</string>
+    <string name="delete_meeting">Usuń spotkanie</string>
+    <string name="meeting_saved">Zapisano spotkanie!</string>
+    <string name="meeting_save_error">Błąd w trakcie zapisywania spotkania!</string>
+    <string name="check_presence">Sprawdzanie obecności</string>
+    <string name="show_presence">Pokaż obecności</string>
+    <string name="mark_as_present">Oznacz jako obecny</string>
+    <string name="mark_as_absent">Oznacz jako nieobecny</string>
+    <string name="justify_absence">Usprawiedliwianie nieobecności</string>
+    <string name="absence_dialog_message">Podaj powód nieobecności:</string>
+    <string name="reason">Powód</string>
+    <string name="presence">Obecności</string>
+    <string name="present">Obecność - %d%s</string>
+    <string name="justified">Wytłumaczenie - %d%s</string>
+    <string name="absent">Nieobecność - %d%s</string>
+    <string name="reason_for_absence">Powód nieobecności: %s</string>
+    <string name="clear_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
+    <string name="clear_meetings">Wyczyść spotkania</string>
+    <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
+    <string name="meeting_delete_success">Spotkanie usunięte!</string>
+    <string name="meeting_delete_error">Napotkano błąd w trakcie usuwania spotkania!</string>
+
+    <!-- PEOPLE STRINGS -->
+    <string name="empty_people_list">Nie znaleziono żadnych dodanych osób!</string>
+    <string name="person_name">Imię i nazwisko</string>
+    <string name="person_city">Miasto</string>
+    <string name="person_type">Funkcja osoby</string>
+    <string name="person_notes">Dodatkowe informacje</string>
+    <string name="select_person_type">Wybierz funkcję osoby</string>
+    <string name="person_sympathizer">Sympatyk</string>
+    <string name="person_member">Członek</string>
+    <string name="person_responsible">Odpowiedzialny</string>
+    <string name="person_leader">Lider</string>
+    <string name="person_assistant">Asystent</string>
+    <string name="person_other">Inny</string>
+    <string name="add_person">Dodawanie osoby</string>
+    <string name="edit_person">Edytowanie osoby</string>
+    <string name="delete_person">Usuń osobę</string>
+    <string name="person_saved">Zapisano osobę!</string>
+    <string name="person_save_error">Napotkano błąd w trakcie zapisywania osoby!</string>
+    <string name="delete_person_dialog_msg">Jesteś pewny usunięcia tej osoby z bazy danych?</string>
+    <string name="person_delete_success">Usunięto osobę!</string>
+    <string name="person_delete_error">Wystąpił błąd podczas usuwania!</string>
+    <string name="emaus">Emaus</string>
+    <string name="draw_start">Zacznij losowanie</string>
+    <string name="draw_delete_success">Usunięto losowania!</string>
+    <string name="draw_delete_error">Wystąpił błąd podczas usuwania losowań!</string>
+    <string name="deleted_person">Usunięta osoba</string>
+    <string name="not_drawn_header">Osoby nie wylosowane w ostatnim losowaniu</string>
+    <string name="not_drawn_sub_header">Dodaj je do którejś pary lub zrób kolejne losowanie</string>
+    <string name="draws_header">Wylosowane pary:</string>
+    <string name="no_people_msg">Jeśli chcesz losować, musisz najpierw dodać ludzi do bazy!</string>
+    <string name="draws_empty_list">Nie przeprowadzono jeszcze żadnego losowania!</string>
+    <string name="draws_full_msg">Wszystkie możliwe pary zostały już rozlosowane, czy chcesz zresetować losowania?</string>
+    <string name="copy_draw">Kopiuj losowanie</string>
+    <string name="reset_draws">Wyczyść losowania</string>
+    <string name="reset_draws_msg">Jesteś pewny, że chcesz usunąć wszystkie losowania?</string>
+    <string name="delete_last_draw">Usuń ostatnie losowanie</string>
+    <string name="delete_last_draw_msg">Jesteś pewny, że chcesz usunąć ostatnie losowanie?</string>
+
+    <!-- LANGUAGES STRINGS -->
+    <string name="lang_system">Domyślny systemowy</string>
+    <string name="lang_pl">Polski</string>
+    <string name="lang_en">Angielski</string>
+
+    <!-- THEME STRINGS -->
+    <string name="theme_system">Domyślny systemowy</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_light">Jasny</string>
+
+    <!-- ARRAYS -->
+    <string-array name="breviary_list">
+        <item>Wezwanie</item>
+        <item>Godzina czytań</item>
+        <item>Jutrznia</item>
+        <item>Modlitwa przedpołudniowa</item>
+        <item>Modlitwa południowa</item>
+        <item>Modlitwa popołudniowa</item>
+        <item>Nieszpory</item>
+        <item>Kompleta</item>
+    </string-array>
+
+    <string-array name="song_types">
+        <item>Wszystkie</item>
+        <item>Ulubione</item>
+        <item>Franciszkańskie</item>
+        <item>Duch Święty</item>
+        <item>Komunia</item>
+        <item>Uwielbienie</item>
+        <item>Adoracja</item>
+        <item>Przygotowanie darów</item>
+        <item>Wielkanocne</item>
+        <item>Adwentowe</item>
+        <item>Maryjne</item>
+        <item>Pokutne</item>
+        <item>Dla dzieci</item>
+        <item>Kolędy</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Domyślny</item>
+        <item>Polski</item>
+        <item>Angielski</item>
+    </string-array>
+
+    <string-array name="languages_codes">
+        <item />
+        <item>pl</item>
+        <item>en</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>Domyślny</item>
+        <item>Ciemny</item>
+        <item>Jasny</item>
+    </string-array>
+
+    <string-array name="themes_codes">
+        <item>SYSTEM</item>
+        <item>DARK</item>
+        <item>LIGHT</item>
+    </string-array>
+
+    <string-array name="person_types">
+        <item>Sympatyk</item>
+        <item>Członek</item>
+        <item>Odpowiedzialny</item>
+        <item>Lider</item>
+        <item>Asystent</item>
+        <item>Inny</item>
+    </string-array>
+
+    <string-array name="meeting_types">
+        <item>Formacyjne</item>
+        <item>Modlitewne</item>
+        <item>Inne</item>
+    </string-array>
+</resources>
