@@ -31,8 +31,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.FullScreenDialog
-import pl.mftau.mftau.common.presentation.components.MultiSelectDialog
+import pl.mftau.mftau.common.presentation.composables.FullScreenDialog
+import pl.mftau.mftau.common.presentation.composables.MultiSelectDialog
 import pl.mftau.mftau.leaders.domain.model.Person
 import pl.mftau.mftau.leaders.domain.model.PersonType
 import pl.mftau.mftau.ui.theme.ColorTheme

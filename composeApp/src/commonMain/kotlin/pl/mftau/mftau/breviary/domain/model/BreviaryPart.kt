@@ -6,5 +6,5 @@ import androidx.compose.ui.text.buildAnnotatedString
 data class BreviaryPart(
     val breviaryPages: String = "",
     val text: AnnotatedString = buildAnnotatedString {  },
-    val verses: String = ""
+    val verses: String = "",
 )

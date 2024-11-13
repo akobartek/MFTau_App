@@ -38,7 +38,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.FullScreenDialog
+import pl.mftau.mftau.common.presentation.composables.FullScreenDialog
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
 import pl.mftau.mftau.songbook.domain.model.SongTopic

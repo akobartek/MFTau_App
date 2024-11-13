@@ -55,10 +55,10 @@ import pl.mftau.mftau.R
 import pl.mftau.mftau.auth.domain.model.UserType
 import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
-import pl.mftau.mftau.common.presentation.components.TauAlertDialog
+import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
-import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.common.presentation.components.NoPdfAppDialog
+import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
+import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel
 import pl.mftau.mftau.core.presentation.screenmodels.MainScreenModel.NoInternetAction
 import pl.mftau.mftau.common.utils.getBitmapFromUri

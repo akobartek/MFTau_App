@@ -37,7 +37,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.model.Song

@@ -55,9 +55,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.FullScreenDialog
-import pl.mftau.mftau.common.presentation.components.MultiSelectDialog
-import pl.mftau.mftau.common.presentation.components.UnsavedChangesDialog
+import pl.mftau.mftau.common.presentation.composables.FullScreenDialog
+import pl.mftau.mftau.common.presentation.composables.MultiSelectDialog
+import pl.mftau.mftau.common.presentation.composables.UnsavedChangesDialog
 import pl.mftau.mftau.common.utils.getDateFormatted
 import pl.mftau.mftau.leaders.domain.model.Meeting
 import pl.mftau.mftau.leaders.domain.model.MeetingType

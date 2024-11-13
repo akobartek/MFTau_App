@@ -1,34 +1,30 @@
 package pl.mftau.mftau.breviary.presentation
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.breviary_list
+import org.jetbrains.compose.resources.stringArrayResource
+import org.koin.compose.koinInject
 import pl.mftau.mftau.breviary.domain.model.Breviary
 import pl.mftau.mftau.breviary.domain.model.Breviary.BreviaryHtml
 import pl.mftau.mftau.breviary.domain.model.Breviary.Compline
@@ -36,114 +32,77 @@ import pl.mftau.mftau.breviary.domain.model.Breviary.Invitatory
 import pl.mftau.mftau.breviary.domain.model.Breviary.MajorHour
 import pl.mftau.mftau.breviary.domain.model.Breviary.MinorHour
 import pl.mftau.mftau.breviary.domain.model.Breviary.OfficeOfReadings
-import pl.mftau.mftau.breviary.domain.model.BreviaryType
-import pl.mftau.mftau.breviary.presentation.BreviaryTextScreenModel.State
-import pl.mftau.mftau.breviary.presentation.components.BreviaryPartLayout
-import pl.mftau.mftau.breviary.presentation.components.BreviaryPartWithSelectionLayout
-import pl.mftau.mftau.breviary.presentation.components.CanticleLayout
-import pl.mftau.mftau.breviary.presentation.components.HymnLayout
-import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
-import pl.mftau.mftau.breviary.presentation.components.ProcessingFailedDialog
-import pl.mftau.mftau.breviary.presentation.components.PsalmLayout
-import pl.mftau.mftau.breviary.presentation.components.PsalmodyLayout
-import pl.mftau.mftau.common.presentation.components.ComposeWebView
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.safePop
-import pl.mftau.mftau.common.utils.safePush
+import pl.mftau.mftau.breviary.presentation.BreviaryTextViewModel.State
+import pl.mftau.mftau.breviary.presentation.composables.BreviaryPartLayout
+import pl.mftau.mftau.breviary.presentation.composables.BreviaryPartWithSelectionLayout
+import pl.mftau.mftau.breviary.presentation.composables.CanticleLayout
+import pl.mftau.mftau.breviary.presentation.composables.HymnLayout
+import pl.mftau.mftau.breviary.presentation.composables.MultipleOfficesDialog
+import pl.mftau.mftau.breviary.presentation.composables.PsalmLayout
+import pl.mftau.mftau.breviary.presentation.composables.PsalmodyLayout
+import pl.mftau.mftau.common.presentation.composables.ComposeWebView
+import pl.mftau.mftau.common.presentation.composables.HeightSpacer
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 
-data class BreviaryTextScreen(
-    val position: Int = 0,
-    val date: String = ""
-) : BreviaryScreen() {
-    override val key: ScreenKey
-        get() = KEY
+@Composable
+fun BreviaryTextScreen(
+    onBackPressed: () -> Unit,
+    position: Int,
+    date: String,
+    viewModel: BreviaryTextViewModel = koinInject()
+) {
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
+    val accentColor = MaterialTheme.colorScheme.primary
 
-    @Composable
-    override fun Content() {
-        BreviaryTextScreenContent(
-            screenModel = getScreenModel(),
-            position = position,
-            date = date
-        )
+    LaunchedEffect(Unit) {
+        viewModel.setup(position, date, accentColor)
     }
 
-    companion object {
-        const val KEY = "BreviaryTextScreen"
+    ScreenLayout(
+        title = stringArrayResource(Res.array.breviary_list)[position],
+        onBackPressed = onBackPressed
+    ) {
+        BreviaryTextScreenContent(
+            state = screenState,
+            onOfficeSelected = viewModel::officeSelected,
+            onReconnect = viewModel::checkIfThereAreMultipleOffices,
+            onCancel = {
+                viewModel.cancelScreen()
+                onBackPressed()
+            }
+        )
     }
 }
 
 @Composable
-fun BreviaryTextScreenContent(screenModel: BreviaryTextScreenModel, position: Int, date: String) {
-    val navigator = LocalNavigator.currentOrThrow
-    val state by screenModel.state.collectAsStateWithLifecycle().also {
-        screenModel.setup(
-            type = BreviaryType.fromPosition(position),
-            date = date
-        )
-    }
+fun BreviaryTextScreenContent(
+    state: State,
+    onOfficeSelected: (String) -> Unit,
+    onReconnect: () -> Unit,
+    onCancel: () -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (state) {
+            is State.Init, is State.Cancelled -> {}
+            is State.Loading -> LoadingBox()
 
-    Scaffold(
-        topBar = {
-            TauCenteredTopBar(
-                title = stringArrayResource(id = R.array.breviary_list)[position],
-                onNavClick = { navigator.safePop(BreviaryTextScreen.KEY) },
-                navIcon = Icons.Default.Close
+            is State.MultipleOffices -> MultipleOfficesDialog(
+                offices = state.offices,
+                onSelect = onOfficeSelected,
+                onCancel = onCancel
             )
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            when (state) {
-                is State.Init, is State.Cancelled -> {}
-                is State.Loading -> LoadingBox()
 
-                is State.MultipleOffices -> MultipleOfficesDialog(
-                    offices = (state as State.MultipleOffices).offices,
-                    onSelect = screenModel::officeSelected,
-                    onCancel = {
-                        screenModel.cancelScreen()
-                        navigator.safePop(BreviaryTextScreen.KEY)
-                    }
+            is State.BreviaryAvailable -> {
+                BreviaryLayout(breviary = state.breviary)
+            }
+
+            is State.Failure -> {
+                NoInternetDialog(
+                    isVisible = true,
+                    onReconnect = onReconnect,
+                    onDismiss = onCancel
                 )
-
-                is State.BreviaryAvailable -> BreviaryLayout(
-                    breviary = (state as State.BreviaryAvailable).breviary
-                )
-
-                is State.Failure -> {
-                    val failure = state as State.Failure
-                    if (failure.processingFailed)
-                        ProcessingFailedDialog(
-                            isVisible = true,
-                            buttonClicked = failure.downloadsClicked,
-                            onDownloads = {
-                                if (failure.downloadsClicked)
-                                    screenModel.checkIfThereAreMultipleOffices()
-                                else {
-                                    screenModel.onDownloadsDialogClicked()
-                                    navigator.safePush(BreviarySaveScreen(date))
-                                }
-                            },
-                            onDismiss = {
-                                screenModel.cancelScreen()
-                                navigator.safePop(BreviaryTextScreen.KEY)
-                            }
-                        )
-                    else
-                        NoInternetDialog(
-                            isVisible = true,
-                            onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                            onDismiss = {
-                                screenModel.cancelScreen()
-                                navigator.safePop(BreviaryTextScreen.KEY)
-                            }
-                        )
-                }
             }
         }
     }
@@ -164,7 +123,8 @@ private fun BreviaryLayout(breviary: Breviary) {
                 is MajorHour -> MajorHourLayout(majorHour = breviary)
                 is MinorHour -> MinorHourLayout(minorHour = breviary)
                 is Compline -> ComplineLayout(compline = breviary)
-                is BreviaryHtml -> ComposeWebView(html = breviary.html)
+                is BreviaryHtml ->
+                    ComposeWebView(html = breviary.getCorrectedHtml(isSystemInDarkTheme()))
             }
         }
     }
@@ -175,7 +135,7 @@ private fun InvitatoryLayout(invitatory: Invitatory) {
     Column {
         Text(text = invitatory.opening, fontSize = 15.sp)
         PsalmLayout(psalm = invitatory.psalm, isInvitatoryPsalm = true)
-        Spacer(modifier = Modifier.height(16.dp))
+        HeightSpacer(16.dp)
         Text(text = invitatory.ending, fontSize = 15.sp)
     }
 }

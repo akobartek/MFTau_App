@@ -5,13 +5,22 @@ import androidx.compose.ui.text.buildAnnotatedString
 
 sealed class Breviary {
     data class BreviaryHtml(
-        val html: String = ""
-    ) : Breviary()
+        val html: String = "",
+    ) : Breviary() {
+        fun getCorrectedHtml(isDarkMode: Boolean): String =
+            if (isDarkMode) {
+                "<html><head><style type=\"text/css\">body{color: #fff;}" +
+                        "</style></head><body>" +
+                        html +
+                        "</body></html>"
+                            .replace("black", "white")
+            } else html
+    }
 
     data class Invitatory(
         val opening: AnnotatedString = buildAnnotatedString { },
         val psalm: Psalm = Psalm(),
-        val ending: AnnotatedString = buildAnnotatedString { }
+        val ending: AnnotatedString = buildAnnotatedString { },
     ) : Breviary()
 
     data class OfficeOfReadings(
@@ -26,7 +35,7 @@ sealed class Breviary {
         val secondResponsory: BreviaryPart = BreviaryPart(),
         val teDeum: BreviaryPart? = null,
         val prayer: BreviaryPart = BreviaryPart(),
-        val ending: AnnotatedString = buildAnnotatedString { }
+        val ending: AnnotatedString = buildAnnotatedString { },
     ) : Breviary()
 
     data class MajorHour(
@@ -39,7 +48,7 @@ sealed class Breviary {
         val intercessions: BreviaryPart = BreviaryPart(),
         val lordsPrayer: AnnotatedString = buildAnnotatedString { },
         val prayer: BreviaryPart = BreviaryPart(),
-        val ending: AnnotatedString = buildAnnotatedString { }
+        val ending: AnnotatedString = buildAnnotatedString { },
     ) : Breviary()
 
     data class MinorHour(
@@ -48,7 +57,7 @@ sealed class Breviary {
         val psalmody: Psalmody = Psalmody(),
         val reading: BreviaryPart = BreviaryPart(),
         val prayer: BreviaryPart = BreviaryPart(),
-        val ending: AnnotatedString = buildAnnotatedString { }
+        val ending: AnnotatedString = buildAnnotatedString { },
     ) : Breviary()
 
     data class Compline(
@@ -59,6 +68,6 @@ sealed class Breviary {
         val responsory: BreviaryPart = BreviaryPart(),
         val canticle: Canticle = Canticle(),
         val prayer: BreviaryPart = BreviaryPart(),
-        val antiphon: BreviaryPart = BreviaryPart()
+        val antiphon: BreviaryPart = BreviaryPart(),
     ) : Breviary()
 }

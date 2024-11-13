@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.TauAlertDialog
+import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 
 @Composable
 fun DeleteAllDrawsDialog(

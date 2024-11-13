@@ -46,8 +46,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
 import pl.mftau.mftau.common.data.UserPreferences
-import pl.mftau.mftau.common.presentation.components.MultiSelectDialog
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.composables.MultiSelectDialog
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.core.presentation.screenmodels.SettingsScreenModel
 import pl.mftau.mftau.ui.theme.ColorTheme

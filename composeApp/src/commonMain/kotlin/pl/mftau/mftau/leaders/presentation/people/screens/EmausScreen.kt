@@ -44,8 +44,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.RevealAnimatedContent
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.composables.RevealAnimatedContent
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.copyToClipboard
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.core.presentation.components.EmptyListInfo

@@ -45,9 +45,9 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.TauNormalTopBar
-import pl.mftau.mftau.common.presentation.components.UnsavedChangesDialog
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.TauNormalTopBar
+import pl.mftau.mftau.common.presentation.composables.UnsavedChangesDialog
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.songbook.presentation.components.DeletePlaylistDialog
 import pl.mftau.mftau.songbook.presentation.components.ImportPlaylistErrorDialog

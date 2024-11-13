@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -54,9 +53,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.ListScrollbar
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.NoPdfAppDialog
+import pl.mftau.mftau.common.presentation.composables.ListScrollbar
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
 import pl.mftau.mftau.common.utils.openPdf
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.common.utils.safePush

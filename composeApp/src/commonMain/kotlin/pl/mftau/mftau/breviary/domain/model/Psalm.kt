@@ -11,5 +11,5 @@ data class Psalm(
     val part: String? = null,
     val antiphon1: AnnotatedString = buildAnnotatedString { },
     val text: AnnotatedString = buildAnnotatedString {  },
-    val antiphon2: AnnotatedString = buildAnnotatedString { }
+    val antiphon2: AnnotatedString = buildAnnotatedString { },
 )

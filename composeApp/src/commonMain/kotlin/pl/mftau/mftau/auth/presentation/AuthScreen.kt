@@ -74,9 +74,9 @@ import mftau.composeapp.generated.resources.verify_email_dialog_title
 import mftau.composeapp.generated.resources.verify_email_send_again
 import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.common.presentation.autofill
-import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.common.presentation.components.TauAlertDialog
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
+import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.showShortToast
 import pl.mftau.mftau.core.presentation.components.CommunityLogo
 

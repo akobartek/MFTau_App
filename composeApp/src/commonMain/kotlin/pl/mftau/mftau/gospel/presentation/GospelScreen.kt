@@ -37,9 +37,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.common.utils.speak
 import pl.mftau.mftau.gospel.domain.model.Gospel

@@ -1,23 +1,12 @@
 package pl.mftau.mftau.breviary.presentation
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,204 +15,146 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import pl.mftau.mftau.R
-import pl.mftau.mftau.breviary.domain.db.entities.BreviaryEntity
-import pl.mftau.mftau.breviary.presentation.BreviarySaveScreenModel.State
-import pl.mftau.mftau.breviary.presentation.components.MultipleOfficesDialog
-import pl.mftau.mftau.common.presentation.components.TauAlertDialog
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.NoInternetDialog
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.safePop
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.ok
+import mftau.composeapp.generated.resources.save
+import mftau.composeapp.generated.resources.save_breviary_dialog_msg
+import mftau.composeapp.generated.resources.save_finished_dialog_msg
+import mftau.composeapp.generated.resources.saving_breviary
+import mftau.composeapp.generated.resources.stop
+import mftau.composeapp.generated.resources.stop_action_title
+import mftau.composeapp.generated.resources.stop_download_dialog_msg
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import pl.mftau.mftau.breviary.presentation.BreviarySaveViewModel.State
+import pl.mftau.mftau.breviary.presentation.composables.DownloadLayout
+import pl.mftau.mftau.breviary.presentation.composables.MultipleOfficesDialog
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
+import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 
-data class BreviarySaveScreen(val date: String = "") : BreviaryScreen() {
-    override val key: ScreenKey
-        get() = KEY
+@Composable
+fun BreviarySaveScreen(
+    onBackPressed: () -> Unit,
+    date: String,
+    viewModel: BreviarySaveViewModel = koinInject()
+) {
+    val screenState by viewModel.screenState.collectAsStateMultiplatform()
+    var exitDialogVisible by rememberSaveable { mutableStateOf(false) }
 
-    @Composable
-    override fun Content() {
+    LaunchedEffect(Unit) {
+        viewModel.setup(date)
+    }
+
+    LaunchedEffect(key1 = screenState) {
+        val currentState = screenState
+        if (currentState is State.Downloading && currentState.breviaryDay.id > 0)
+            exitDialogVisible = false
+    }
+
+    val handleBackPress = {
+        val currentState = screenState
+        if (currentState is State.Downloading && currentState.breviaryDay.id == 0L)
+            exitDialogVisible = true
+        else onBackPressed()
+    }
+
+    ScreenLayout(
+        title = stringResource(Res.string.saving_breviary),
+        onBackPressed = handleBackPress
+    ) {
         BreviarySaveScreenContent(
-            screenModel = getScreenModel(),
-            date = date
+            state = screenState,
+            onBackPressed = handleBackPress,
+            onCheckOffices = viewModel::checkIfThereAreMultipleOffices,
+            onOfficeSelected = viewModel::officeSelected,
+            onCancelScreen = viewModel::cancelScreen,
         )
     }
 
-    companion object {
-        const val KEY = "BreviarySaveScreen"
-    }
+    TauAlertDialog(
+        isVisible = exitDialogVisible,
+        imageVector = Icons.Default.ErrorOutline,
+        dialogTitleId = Res.string.stop_action_title,
+        dialogTextId = Res.string.stop_download_dialog_msg,
+        dismissible = false,
+        confirmBtnTextId = Res.string.stop,
+        dismissBtnTextId = Res.string.cancel,
+        onConfirm = {
+            exitDialogVisible = false
+            onBackPressed()
+        },
+        onDismissRequest = { exitDialogVisible = false }
+    )
 }
 
 @Composable
-fun BreviarySaveScreenContent(screenModel: BreviarySaveScreenModel, date: String) {
-    val navigator = LocalNavigator.currentOrThrow
-    val state by screenModel.state.collectAsStateWithLifecycle().also {
-        screenModel.setup(date = date)
-    }
-
-    var exitDialogVisible by rememberSaveable { mutableStateOf(false) }
+fun BreviarySaveScreenContent(
+    state: State,
+    onBackPressed: () -> Unit,
+    onCheckOffices: () -> Unit,
+    onOfficeSelected: (String) -> Unit,
+    onCancelScreen: () -> Unit,
+) {
     var saveCompleteDialogVisible by rememberSaveable { mutableStateOf(false) }
+
     LaunchedEffect(key1 = state) {
-        if (state is State.DownloadingState) {
-            val id = (state as State.DownloadingState).entity.id
-            if (id > 0) {
-                exitDialogVisible = false
-                saveCompleteDialogVisible = true
-            }
-        }
+        if (state is State.Downloading && state.breviaryDay.id > 0)
+            saveCompleteDialogVisible = true
     }
 
-    Scaffold(
-        topBar = {
-            TauCenteredTopBar(
-                title = stringResource(id = R.string.saving_breviary),
-                onNavClick = {
-                    if (state is State.DownloadingState && (state as State.DownloadingState).entity.id == 0L)
-                        exitDialogVisible = true
-                    else navigator.safePop(BreviarySaveScreen.KEY)
-                },
-                navIcon = Icons.Default.Close
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(horizontal = 8.dp)
-        ) {
-            when (state) {
-                is State.Cancelled -> {}
-                is State.Loading -> LoadingBox()
-
-                is State.Init -> TauAlertDialog(
-                    isVisible = true,
-                    imageVector = Icons.Default.Save,
-                    dialogTitleId = R.string.saving_breviary,
-                    dialogTextId = R.string.save_breviary_dialog_msg,
-                    dismissible = false,
-                    confirmBtnTextId = R.string.save,
-                    onConfirm = screenModel::checkIfThereAreMultipleOffices,
-                    dismissBtnTextId = R.string.cancel,
-                    onDismissRequest = {
-                        screenModel.cancelScreen()
-                        navigator.safePop(BreviarySaveScreen.KEY)
-                    }
-                )
-
-                is State.MultipleOffices -> MultipleOfficesDialog(
-                    offices = (state as State.MultipleOffices).offices,
-                    onSelect = screenModel::officeSelected,
-                    onCancel = {
-                        screenModel.cancelScreen()
-                        navigator.safePop(BreviarySaveScreen.KEY)
-                    }
-                )
-
-                is State.DownloadingState -> DownloadingStateLayout(
-                    entity = (state as State.DownloadingState).entity,
-                    onBackPressed = {
-                        if ((state as State.DownloadingState).entity.id == 0L)
-                            exitDialogVisible = true
-                        else navigator.safePop(BreviarySaveScreen.KEY)
-                    }
-                )
-
-                is State.Failure -> NoInternetDialog(
-                    isVisible = true,
-                    onReconnect = screenModel::checkIfThereAreMultipleOffices,
-                    onDismiss = {
-                        screenModel.cancelScreen()
-                        navigator.safePop(BreviarySaveScreen.KEY)
-                    }
-                )
-            }
-
-            TauAlertDialog(
-                isVisible = saveCompleteDialogVisible,
-                imageVector = Icons.Default.Save,
-                dialogTitleId = R.string.saving_breviary,
-                dialogTextId = R.string.save_finished_dialog_msg,
-                confirmBtnTextId = R.string.ok,
-                onConfirm = { saveCompleteDialogVisible = false },
-                onDismissRequest = { saveCompleteDialogVisible = false }
-            )
-
-            TauAlertDialog(
-                isVisible = exitDialogVisible,
-                imageVector = Icons.Default.ErrorOutline,
-                dialogTitleId = R.string.stop_action_title,
-                dialogTextId = R.string.stop_download_dialog_msg,
-                dismissible = false,
-                confirmBtnTextId = R.string.stop,
-                dismissBtnTextId = R.string.cancel,
-                onConfirm = {
-                    exitDialogVisible = false
-                    navigator.safePop(BreviarySaveScreen.KEY)
-                },
-                onDismissRequest = { exitDialogVisible = false }
-            )
-        }
-    }
-}
-
-@Composable
-private fun DownloadingStateLayout(entity: BreviaryEntity, onBackPressed: () -> Unit) {
     Column(
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 44.dp)
+            .padding(horizontal = 8.dp)
     ) {
-        DownloadItem(stringResource(id = R.string.invitatory), entity.invitatory)
-        DownloadItem(stringResource(id = R.string.office_of_readings), entity.officeOfReadings)
-        DownloadItem(stringResource(id = R.string.lauds), entity.lauds)
-        DownloadItem(stringResource(id = R.string.midmorning_prayer), entity.prayer1)
-        DownloadItem(stringResource(id = R.string.midday_prayer), entity.prayer2)
-        DownloadItem(stringResource(id = R.string.midafternoon_prayer), entity.prayer3)
-        DownloadItem(stringResource(id = R.string.vespers), entity.vespers)
-        DownloadItem(stringResource(id = R.string.compline), entity.compline)
-        DownloadItem(
-            stringResource(id = R.string.save_in_memory),
-            if (entity.id == 0L) "" else entity.id.toString()
-        )
-    }
+        when (state) {
+            is State.Cancelled -> onBackPressed()
 
-    BackHandler(enabled = true, onBack = onBackPressed)
-}
+            is State.Loading -> LoadingBox()
 
-@Composable
-fun DownloadItem(name: String, value: String?) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth(0.75f)
-            .padding(vertical = 4.dp)
-    ) {
-        Text(text = name, fontSize = 16.sp)
-        when {
-            value == null -> Icon(
-                imageVector = Icons.Default.ErrorOutline,
-                contentDescription = stringResource(id = R.string.cd_download_error),
-                tint = MaterialTheme.colorScheme.error
+            is State.Init -> TauAlertDialog(
+                isVisible = true,
+                imageVector = Icons.Default.Save,
+                dialogTitleId = Res.string.saving_breviary,
+                dialogTextId = Res.string.save_breviary_dialog_msg,
+                dismissible = false,
+                confirmBtnTextId = Res.string.save,
+                onConfirm = onCheckOffices,
+                dismissBtnTextId = Res.string.cancel,
+                onDismissRequest = onCancelScreen
             )
 
-            value.isBlank() -> CircularProgressIndicator(modifier = Modifier.size(24.dp))
+            is State.MultipleOffices -> MultipleOfficesDialog(
+                offices = state.offices,
+                onSelect = onOfficeSelected,
+                onCancel = onCancelScreen
+            )
 
-            else -> Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = stringResource(id = R.string.cd_download_error)
+            is State.Downloading -> DownloadLayout(
+                breviaryDay = state.breviaryDay,
+                onBackPressed = onBackPressed
+            )
+
+            is State.Failure -> NoInternetDialog(
+                isVisible = true,
+                onReconnect = onCheckOffices,
+                onDismiss = onCancelScreen,
             )
         }
+
+        TauAlertDialog(
+            isVisible = saveCompleteDialogVisible,
+            imageVector = Icons.Default.Save,
+            dialogTitleId = Res.string.saving_breviary,
+            dialogTextId = Res.string.save_finished_dialog_msg,
+            confirmBtnTextId = Res.string.ok,
+            onConfirm = { saveCompleteDialogVisible = false },
+            onDismissRequest = { saveCompleteDialogVisible = false }
+        )
     }
 }

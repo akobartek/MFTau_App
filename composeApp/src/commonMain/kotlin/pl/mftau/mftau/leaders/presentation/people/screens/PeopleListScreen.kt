@@ -34,8 +34,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.LoadingBox
-import pl.mftau.mftau.common.presentation.components.TauCenteredTopBar
+import pl.mftau.mftau.common.presentation.composables.LoadingBox
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.common.utils.safePush
 import pl.mftau.mftau.leaders.presentation.LeadersScreen
