@@ -78,7 +78,7 @@ import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.showShortToast
-import pl.mftau.mftau.core.presentation.components.CommunityLogo
+import pl.mftau.mftau.common.presentation.composables.CommunityLogo
 
 
 @OptIn(ExperimentalComposeUiApi::class)

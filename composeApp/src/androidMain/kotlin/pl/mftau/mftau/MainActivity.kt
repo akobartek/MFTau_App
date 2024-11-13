@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         intent.putExtra("shortcut", "")
 
         setContent {
-
+            App()
         }
     }
 

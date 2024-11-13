@@ -2,7 +2,7 @@ package pl.mftau.mftau.leaders.presentation.meetings.components
 
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.EmptyListInfo
+import pl.mftau.mftau.common.presentation.composables.EmptyListInfo
 
 @Composable
 fun MeetingsEmptyListInfo() {

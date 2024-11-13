@@ -24,10 +24,10 @@ val breviaryModule = module {
     single { WebBreviarySource() }
     single { DbBreviarySource(get()) }
     single<BreviaryRepository> { BreviaryRepositoryImpl(get(), get()) }
-    single { CheckOfficesUseCase(get()) }
-    single { LoadBreviaryUseCase(get()) }
-    single { SaveBreviaryUseCase(get()) }
-    single { ClearBreviaryDbUseCase(get()) }
+    factory { CheckOfficesUseCase(get()) }
+    factory { LoadBreviaryUseCase(get()) }
+    factory { SaveBreviaryUseCase(get()) }
+    factory { ClearBreviaryDbUseCase(get()) }
 
     viewModel { BreviarySelectViewModel(get()) }
     viewModel { BreviaryTextViewModel(get(), get()) }

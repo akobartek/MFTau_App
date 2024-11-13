@@ -48,7 +48,7 @@ import pl.mftau.mftau.common.presentation.composables.RevealAnimatedContent
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.copyToClipboard
 import pl.mftau.mftau.common.utils.safePop
-import pl.mftau.mftau.core.presentation.components.EmptyListInfo
+import pl.mftau.mftau.common.presentation.composables.EmptyListInfo
 import pl.mftau.mftau.leaders.presentation.LeadersScreen
 import pl.mftau.mftau.leaders.presentation.people.components.EmausCard
 import pl.mftau.mftau.leaders.presentation.people.components.EmausFullListDialog

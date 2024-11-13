@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.cancel
 import mftau.composeapp.generated.resources.ok
@@ -41,7 +42,7 @@ fun BreviarySaveScreen(
     date: String,
     viewModel: BreviarySaveViewModel = koinInject()
 ) {
-    val screenState by viewModel.screenState.collectAsStateMultiplatform()
+    val screenState by viewModel.screenState.collectAsStateWithLifecycle()
     var exitDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {

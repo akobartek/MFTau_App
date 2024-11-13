@@ -2,7 +2,7 @@ package pl.mftau.mftau.songbook.presentation.components
 
 import androidx.compose.runtime.Composable
 import pl.mftau.mftau.R
-import pl.mftau.mftau.core.presentation.components.EmptyListInfo
+import pl.mftau.mftau.common.presentation.composables.EmptyListInfo
 
 @Composable
 fun SongBookEmptyListInfo(messageId: Int) {

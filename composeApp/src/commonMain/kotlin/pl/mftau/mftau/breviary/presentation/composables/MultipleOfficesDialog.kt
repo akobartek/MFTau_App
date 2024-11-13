@@ -28,6 +28,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.ic_breviary
+import mftau.composeapp.generated.resources.load
+import mftau.composeapp.generated.resources.select_office
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -48,13 +52,13 @@ fun MultipleOfficesDialog(
         AlertDialog(
             icon = {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_schedule_breviary),
+                    painter = painterResource(Res.drawable.ic_breviary),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             title = {
-                WolczynText(
+                Text(
                     text = stringResource(Res.string.select_office),
                     textStyle = MaterialTheme.typography.headlineSmall.copy(
                         textAlign = TextAlign.Center
@@ -78,7 +82,7 @@ fun MultipleOfficesDialog(
                                 .padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            WolczynText(
+                            Text(
                                 text = text,
                                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                                     color =
