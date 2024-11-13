@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import pl.mftau.mftau.Screen.*
+import pl.mftau.mftau.auth.presentation.AuthScreen
 import pl.mftau.mftau.common.presentation.ObserveAsEvents
 import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
 import pl.mftau.mftau.common.utils.navigateSafely
@@ -68,6 +69,11 @@ fun App(startDestination: Screen = Home) {
             composable<Home> {
                 HomeScreen(
                     navigate = { screen -> navController.navigateSafely(route = screen) },
+                )
+            }
+            composable<Auth> {
+                AuthScreen(
+                    navigateUp = { navController.navigateUpSafely(source = Auth) },
                 )
             }
             composable<Settings> {

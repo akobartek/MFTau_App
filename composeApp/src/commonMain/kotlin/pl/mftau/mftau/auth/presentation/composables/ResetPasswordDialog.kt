@@ -1,4 +1,4 @@
-package pl.mftau.mftau.auth.presentation
+package pl.mftau.mftau.auth.presentation.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,7 +52,7 @@ fun ResetPasswordDialog(
         title = {
             Text(
                 text = stringResource(Res.string.reset_password_dialog_title),
-                fontFamily = mfTauFont,
+                fontFamily = mfTauFont(),
             )
         },
         text = {

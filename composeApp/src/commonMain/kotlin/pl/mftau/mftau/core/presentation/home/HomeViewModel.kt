@@ -51,7 +51,9 @@ class HomeViewModel(
         state.value.user?.let { user ->
             viewModelScope.launch(Dispatchers.IO) {
                 val result = authRepository.sendRecoveryEmail(user.email ?: "")
-                if (result.isFailure)
+                if (result.isSuccess)
+                    SnackbarController.sendEvent(SnackbarEvent.ResetPasswordMessageSent)
+                else
                     _state.update { it.copy(resetPasswordFailed = true) }
             }
         }

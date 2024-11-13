@@ -2,11 +2,10 @@ package pl.mftau.mftau.auth.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,13 +21,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -37,7 +34,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -45,7 +41,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.cancel
 import mftau.composeapp.generated.resources.cd_clear_field
@@ -55,7 +51,6 @@ import mftau.composeapp.generated.resources.email_error_no_user
 import mftau.composeapp.generated.resources.email_error_user_exists
 import mftau.composeapp.generated.resources.forgot_password
 import mftau.composeapp.generated.resources.hide_password
-import mftau.composeapp.generated.resources.message_sent
 import mftau.composeapp.generated.resources.ok
 import mftau.composeapp.generated.resources.password
 import mftau.composeapp.generated.resources.password_error_empty
@@ -64,87 +59,89 @@ import mftau.composeapp.generated.resources.password_error_too_short
 import mftau.composeapp.generated.resources.password_error_wrong
 import mftau.composeapp.generated.resources.show_password
 import mftau.composeapp.generated.resources.sign_in
-import mftau.composeapp.generated.resources.sign_in_error
 import mftau.composeapp.generated.resources.sign_up
-import mftau.composeapp.generated.resources.sign_up_error
 import mftau.composeapp.generated.resources.sign_up_successful_dialog_message
 import mftau.composeapp.generated.resources.sign_up_successful_dialog_title
 import mftau.composeapp.generated.resources.verify_email_dialog_message
 import mftau.composeapp.generated.resources.verify_email_dialog_title
 import mftau.composeapp.generated.resources.verify_email_send_again
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import pl.mftau.mftau.auth.presentation.composables.ResetPasswordDialog
 import pl.mftau.mftau.common.presentation.autofill
+import pl.mftau.mftau.common.presentation.composables.CommunityLogo
 import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.showShortToast
-import pl.mftau.mftau.common.presentation.composables.CommunityLogo
 
+@Composable
+fun AuthScreen(
+    navigateUp: () -> Unit,
+    viewModel: AuthViewModel = koinInject(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    AuthScreenContent(
+        navigateUp = navigateUp,
+        state = state,
+        updateEmail = viewModel::updateEmail,
+        updatePassword = viewModel::updatePassword,
+        updatePasswordHidden = viewModel::updatePasswordHidden,
+        signIn = viewModel::signIn,
+        signUp = viewModel::signUp,
+        toggleSignUpSuccessVisibility = viewModel::toggleSignUpSuccessVisibility,
+        sendResetPasswordEmail = viewModel::sendResetPasswordEmail,
+        toggleForgottenPasswordDialogVisibility = viewModel::toggleForgottenPasswordDialogVisibility,
+        hideNoInternetDialog = viewModel::hideNoInternetDialog,
+        toggleEmailUnverifiedDialogVisibility = viewModel::toggleEmailUnverifiedDialogVisibility,
+    )
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthScreenContent(
+    navigateUp: () -> Unit,
     state: AuthScreenState,
+    updateEmail: (String) -> Unit,
+    updatePassword: (String) -> Unit,
+    updatePasswordHidden: () -> Unit,
+    signIn: () -> Unit,
+    signUp: () -> Unit,
+    toggleSignUpSuccessVisibility: () -> Unit,
+    sendResetPasswordEmail: (String) -> Unit,
+    toggleForgottenPasswordDialogVisibility: () -> Unit,
+    hideNoInternetDialog: () -> Unit,
+    toggleEmailUnverifiedDialogVisibility: (Boolean) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val focusManager = LocalFocusManager.current
 
     val (emailRef, passwordRef) = remember { FocusRequester.createRefs() }
-    val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
 
-    LaunchedEffect(key1 = state) {
-        scope.launch {
-            if (state.isSignedIn) {
-                context.showShortToast(R.string.signed_in)
-                navigator.safePop(AuthScreen.KEY)
-            }
-            if (state.signInErrorSnackbarVisible) {
-                screenModel.signInErrorShowed()
-                snackbarHostState.showSnackbar(
-                    message = stringResource(Res.string.sign_in_error),
-                    withDismissAction = true
-                )
-            }
-            if (state.signUpErrorSnackbarVisible) {
-                screenModel.signUpErrorShowed()
-                snackbarHostState.showSnackbar(
-                    message = stringResource(Res.string.sign_up_error),
-                    withDismissAction = true
-                )
-            }
-            if (state.forgottenPasswordDialogSuccess) {
-                screenModel.toggleForgottenPasswordSuccessVisibility()
-                snackbarHostState.showSnackbar(
-                    message = stringResource(Res.string.message_sent),
-                    withDismissAction = true
-                )
-            }
-        }
+    LaunchedEffect(state) {
+        if (state.isSignedIn)
+            navigateUp()
     }
 
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
         topBar = {
             TauCenteredTopBar(
                 title = "",
-                onNavClick = { navigator.safePop(AuthScreen.KEY) }
+                onNavClick = navigateUp,
             )
         },
         modifier = Modifier.clickable(
             interactionSource = interactionSource,
-            indication = null
+            indication = null,
         ) { focusManager.clearFocus(true) }
     ) { paddingValues ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(horizontal = 48.dp)
+                .padding(horizontal = 48.dp),
         ) {
             CommunityLogo(modifier = Modifier
                 .padding(top = 8.dp)
@@ -152,9 +149,10 @@ fun AuthScreenContent(
                     interactionSource = interactionSource,
                     indication = null
                 ) { focusManager.clearFocus(true) })
+
             OutlinedTextField(
                 value = state.email,
-                onValueChange = screenModel::updateEmail,
+                onValueChange = updateEmail,
                 singleLine = true,
                 label = { Text(text = stringResource(Res.string.email)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
@@ -166,7 +164,7 @@ fun AuthScreenContent(
                 }),
                 trailingIcon = {
                     if (state.email.isNotBlank())
-                        IconButton(onClick = { screenModel.updateEmail("") }) {
+                        IconButton(onClick = { updateEmail("") }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
                                 contentDescription = stringResource(Res.string.cd_clear_field)
@@ -189,24 +187,25 @@ fun AuthScreenContent(
                 } else null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp)
+                    .padding(top = 16.dp)
                     .focusRequester(emailRef)
                     .focusProperties { next = passwordRef }
                     .autofill(
                         autofillTypes = listOf(AutofillType.EmailAddress),
-                        onFill = { screenModel.updateEmail(it) },
+                        onFill = updateEmail,
                     )
             )
+
             OutlinedTextField(
                 value = state.password,
-                onValueChange = screenModel::updatePassword,
+                onValueChange = updatePassword,
                 singleLine = true,
                 label = { Text(text = stringResource(Res.string.password)) },
                 visualTransformation = if (state.passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
                 trailingIcon = {
-                    IconButton(onClick = screenModel::updatePasswordHidden) {
+                    IconButton(onClick = updatePasswordHidden) {
                         if (state.passwordHidden)
                             Icon(
                                 imageVector = Icons.Filled.Visibility,
@@ -236,58 +235,36 @@ fun AuthScreenContent(
                 } else null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp)
                     .focusRequester(passwordRef)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+
             Button(
                 onClick = {
                     focusManager.clearFocus(true)
-                    screenModel.signIn()
+                    signIn()
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(Res.string.sign_in))
             }
-            Spacer(modifier = Modifier.height(8.dp))
+
             OutlinedButton(
                 onClick = {
                     focusManager.clearFocus(true)
-                    screenModel.signUp()
+                    signUp()
                 },
                 modifier = Modifier.fillMaxWidth(0.75f)
             ) {
                 Text(text = stringResource(Res.string.sign_up))
             }
-            Spacer(modifier = Modifier.height(8.dp))
+
             OutlinedButton(
-                onClick = screenModel::toggleForgottenPasswordDialogVisibility,
+                onClick = toggleForgottenPasswordDialogVisibility,
                 modifier = Modifier.fillMaxWidth(0.75f)
             ) {
                 Text(text = stringResource(Res.string.forgot_password))
             }
         }
-
-        if (state.forgottenPasswordDialogVisible)
-            ResetPasswordDialog(
-                onReset = screenModel::sendResetPasswordEmail,
-                onCancel = screenModel::toggleForgottenPasswordDialogVisibility,
-                isError = state.forgottenPasswordDialogError
-            )
-
-        NoInternetDialog(
-            isVisible = state.noInternetAction != null,
-            onReconnect = {
-                screenModel.hideNoInternetDialog()
-                when (state.noInternetAction) {
-                    NoInternetAction.SIGN_IN -> screenModel.signIn()
-                    NoInternetAction.SIGN_UP -> screenModel.signUp()
-                    NoInternetAction.RESET_PASSWORD -> screenModel.toggleForgottenPasswordDialogVisibility()
-                    else -> {}
-                }
-            },
-            onDismiss = screenModel::hideNoInternetDialog
-        )
 
         TauAlertDialog(
             isVisible = state.isSignedUpDialogVisible,
@@ -295,8 +272,29 @@ fun AuthScreenContent(
             dialogTitleId = Res.string.sign_up_successful_dialog_title,
             dialogTextId = Res.string.sign_up_successful_dialog_message,
             confirmBtnTextId = Res.string.ok,
-            onConfirm = screenModel::toggleSignUpSuccessVisibility,
+            onConfirm = toggleSignUpSuccessVisibility,
             dismissible = false,
+        )
+
+        if (state.forgottenPasswordDialogVisible)
+            ResetPasswordDialog(
+                onReset = sendResetPasswordEmail,
+                onCancel = toggleForgottenPasswordDialogVisibility,
+                isError = state.forgottenPasswordDialogError,
+            )
+
+        NoInternetDialog(
+            isVisible = state.noInternetAction != null,
+            onReconnect = {
+                hideNoInternetDialog()
+                when (state.noInternetAction) {
+                    NoInternetAction.SIGN_IN -> signIn()
+                    NoInternetAction.SIGN_UP -> signUp()
+                    NoInternetAction.RESET_PASSWORD -> toggleForgottenPasswordDialogVisibility()
+                    else -> {}
+                }
+            },
+            onDismiss = hideNoInternetDialog,
         )
 
         TauAlertDialog(
@@ -305,10 +303,10 @@ fun AuthScreenContent(
             dialogTitleId = Res.string.verify_email_dialog_title,
             dialogTextId = Res.string.verify_email_dialog_message,
             confirmBtnTextId = Res.string.verify_email_send_again,
-            onConfirm = { screenModel.toggleEmailUnverifiedDialogVisibility(true) },
+            onConfirm = { toggleEmailUnverifiedDialogVisibility(true) },
             dismissible = false,
             dismissBtnTextId = Res.string.cancel,
-            onDismissRequest = { screenModel.toggleEmailUnverifiedDialogVisibility(false) }
+            onDismissRequest = { toggleEmailUnverifiedDialogVisibility(false) },
         )
     }
 }

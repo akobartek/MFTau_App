@@ -8,11 +8,8 @@ data class AuthScreenState(
     val passwordError: PasswordErrorType? = null,
     val isSignedIn: Boolean = false,
     val isSignedUpDialogVisible: Boolean = false,
-    val signInErrorSnackbarVisible: Boolean = false,
-    val signUpErrorSnackbarVisible: Boolean = false,
     val noInternetAction: NoInternetAction? = null,
     val forgottenPasswordDialogVisible: Boolean = false,
-    val forgottenPasswordDialogSuccess: Boolean = false,
     val forgottenPasswordDialogError: Boolean = false,
     val emailUnverifiedDialogVisible: Boolean = false
 )

@@ -16,9 +16,11 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.auth.domain.AuthRepository
 import pl.mftau.mftau.auth.domain.model.EmailNotVerifiedException
 import pl.mftau.mftau.common.data.PreferencesRepository
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarEvent
 import pl.mftau.mftau.common.utils.isValidEmail
 
-class AuthScreenViewModel(
+class AuthViewModel(
     private val authRepository: AuthRepository,
     private val preferencesRepository: PreferencesRepository,
 ) : ViewModel() {
@@ -42,14 +44,6 @@ class AuthScreenViewModel(
         _state.update { it.copy(passwordHidden = !it.passwordHidden) }
     }
 
-    fun signInErrorShowed() {
-        _state.update { it.copy(signInErrorSnackbarVisible = !it.signInErrorSnackbarVisible) }
-    }
-
-    fun signUpErrorShowed() {
-        _state.update { it.copy(signUpErrorSnackbarVisible = !it.signUpErrorSnackbarVisible) }
-    }
-
     fun hideNoInternetDialog() {
         _state.update { it.copy(noInternetAction = null) }
     }
@@ -61,10 +55,6 @@ class AuthScreenViewModel(
                 forgottenPasswordDialogError = false,
             )
         }
-    }
-
-    fun toggleForgottenPasswordSuccessVisibility() {
-        _state.update { it.copy(forgottenPasswordDialogSuccess = !it.forgottenPasswordDialogSuccess) }
     }
 
     fun toggleSignUpSuccessVisibility() {
@@ -86,6 +76,7 @@ class AuthScreenViewModel(
             _state.update {
                 if (result.isSuccess && result.getOrDefault(false)) {
                     preferencesRepository.updateLastUsedEmail(state.value.email)
+                    SnackbarController.sendEvent(SnackbarEvent.SignedIn)
                     it.copy(isSignedIn = true)
                 } else result.exceptionOrNull()?.let { exc ->
                     when (exc) {
@@ -101,9 +92,12 @@ class AuthScreenViewModel(
                         is FirebaseAuthInvalidCredentialsException ->
                             it.copy(passwordError = PasswordErrorType.INVALID)
 
-                        else -> it.copy(signInErrorSnackbarVisible = true)
+                        else -> {
+                            SnackbarController.sendEvent(SnackbarEvent.SignInError)
+                            it
+                        }
                     }
-                } ?: it.copy(signInErrorSnackbarVisible = true)
+                } ?: it
             }
         }
     }
@@ -123,9 +117,12 @@ class AuthScreenViewModel(
                         is FirebaseNetworkException ->
                             it.copy(noInternetAction = NoInternetAction.SIGN_UP)
 
-                        else -> it.copy(signUpErrorSnackbarVisible = true)
+                        else -> {
+                            SnackbarController.sendEvent(SnackbarEvent.SignUpError)
+                            it
+                        }
                     }
-                } ?: it.copy(signUpErrorSnackbarVisible = true)
+                } ?: it
             }
         }
     }
@@ -135,12 +132,10 @@ class AuthScreenViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val result = authRepository.sendRecoveryEmail(email)
             _state.update {
-                if (result.isSuccess && result.getOrDefault(false))
-                    it.copy(
-                        forgottenPasswordDialogSuccess = true,
-                        forgottenPasswordDialogVisible = false,
-                    )
-                else result.exceptionOrNull()?.let { exc ->
+                if (result.isSuccess && result.getOrDefault(false)) {
+                    SnackbarController.sendEvent(SnackbarEvent.ResetPasswordMessageSent)
+                    it.copy(forgottenPasswordDialogVisible = false)
+                } else result.exceptionOrNull()?.let { exc ->
                     when (exc) {
                         is FirebaseNetworkException -> it.copy(
                             noInternetAction = NoInternetAction.RESET_PASSWORD,
