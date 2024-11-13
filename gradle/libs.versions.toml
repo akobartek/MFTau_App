@@ -10,13 +10,14 @@ androidx-core-ktx = "1.15.0"
 androidx-espresso-core = "3.6.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
-compose-multiplatform = "1.7.0"
+compose-multiplatform = "1.7.1"
 junit = "4.13.2"
 kotlin = "2.0.20"
 buildconfig = "5.3.5"
 
 serialization = "1.7.3"
 navigation = "2.8.0-alpha08"
+adaptive = "1.0.1"
 kotlinx-datetime = "0.6.0"
 viewmodel = "2.8.0"
 room = "2.7.0-alpha11"
@@ -51,6 +52,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
+adaptive-compose = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewmodel" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }

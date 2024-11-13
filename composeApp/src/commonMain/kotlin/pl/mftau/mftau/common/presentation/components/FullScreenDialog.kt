@@ -23,11 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.close_dialog
+import mftau.composeapp.generated.resources.save
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FullScreenDialog(
@@ -41,10 +43,7 @@ fun FullScreenDialog(
     if (isVisible)
         Dialog(
             onDismissRequest = onDismiss,
-            properties = DialogProperties(
-                decorFitsSystemWindows = true,
-                usePlatformDefaultWidth = false
-            )
+            properties = DialogProperties(usePlatformDefaultWidth = false),
         ) {
             val focusManager = LocalFocusManager.current
             val interactionSource = remember { MutableInteractionSource() }
@@ -64,7 +63,7 @@ fun FullScreenDialog(
                     IconButton(onClick = onDismiss) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = stringResource(id = R.string.close_dialog)
+                            contentDescription = stringResource(Res.string.close_dialog)
                         )
                     }
                     Text(
@@ -76,7 +75,7 @@ fun FullScreenDialog(
                     )
                     if (onSave != null)
                         TextButton(onClick = onSave) {
-                            Text(text = stringResource(id = R.string.save))
+                            Text(text = stringResource(Res.string.save))
                         }
                     action()
                 }

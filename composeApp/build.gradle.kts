@@ -51,6 +51,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.datetime)
             implementation(libs.navigation.compose)
+            implementation(libs.adaptive.compose)
             implementation(libs.viewmodel)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)

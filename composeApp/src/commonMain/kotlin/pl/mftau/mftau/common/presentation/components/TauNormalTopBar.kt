@@ -10,11 +10,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cd_navigate_up
+import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +29,7 @@ fun TauNormalTopBar(
         title = {
             Text(
                 text = title,
-                fontFamily = mfTauFont,
+                fontFamily = mfTauFont(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 maxLines = 2
@@ -39,7 +39,7 @@ fun TauNormalTopBar(
             IconButton(onClick = onNavClick) {
                 Icon(
                     imageVector = navIcon,
-                    contentDescription = stringResource(id = R.string.cd_navigate_up)
+                    contentDescription = stringResource(Res.string.cd_navigate_up),
                 )
             }
         },

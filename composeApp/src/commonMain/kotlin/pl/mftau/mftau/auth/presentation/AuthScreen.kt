@@ -27,7 +27,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -46,7 +45,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.cancel
@@ -55,7 +53,6 @@ import mftau.composeapp.generated.resources.email
 import mftau.composeapp.generated.resources.email_error_invalid
 import mftau.composeapp.generated.resources.email_error_no_user
 import mftau.composeapp.generated.resources.email_error_user_exists
-import mftau.composeapp.generated.resources.empty_field_error
 import mftau.composeapp.generated.resources.forgot_password
 import mftau.composeapp.generated.resources.hide_password
 import mftau.composeapp.generated.resources.message_sent

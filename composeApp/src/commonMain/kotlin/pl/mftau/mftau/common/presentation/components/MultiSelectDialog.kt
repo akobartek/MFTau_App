@@ -19,17 +19,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.save
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun MultiSelectDialog(
     isVisible: Boolean,
     imageVector: ImageVector,
-    titleId: Int,
+    titleId: StringResource,
     currentValue: String,
     values: Array<String>,
     onSave: (String) -> Unit,
@@ -40,7 +43,7 @@ fun MultiSelectDialog(
 
         AlertDialog(
             icon = { Icon(imageVector = imageVector, contentDescription = null) },
-            title = { Text(text = stringResource(id = titleId), fontFamily = mfTauFont) },
+            title = { Text(text = stringResource(titleId), fontFamily = mfTauFont()) },
             text = {
                 Column(Modifier.selectableGroup()) {
                     values.forEach { value ->
@@ -51,19 +54,19 @@ fun MultiSelectDialog(
                                 .selectable(
                                     selected = (value == selectedValue),
                                     onClick = { onValueSelected(value) },
-                                    role = Role.RadioButton
+                                    role = Role.RadioButton,
                                 )
                                 .padding(horizontal = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             RadioButton(
                                 selected = (value == selectedValue),
-                                onClick = null
+                                onClick = null,
                             )
                             Text(
                                 text = value,
                                 style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 16.dp)
+                                modifier = Modifier.padding(start = 16.dp),
                             )
                         }
                     }
@@ -77,12 +80,12 @@ fun MultiSelectDialog(
                         onSave(selectedValue)
                     }
                 ) {
-                    Text(stringResource(id = R.string.save))
+                    Text(stringResource(Res.string.save))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(stringResource(id = R.string.cancel))
+                    Text(stringResource(Res.string.cancel))
                 }
             }
         )

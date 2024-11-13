@@ -3,8 +3,11 @@ package pl.mftau.mftau.common.presentation.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
-import pl.mftau.mftau.R
-import pl.mftau.mftau.common.presentation.components.TauAlertDialog
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.discard
+import mftau.composeapp.generated.resources.unsaved_changes_dialog_msg
+import mftau.composeapp.generated.resources.unsaved_changes_dialog_title
 
 @Composable
 fun UnsavedChangesDialog(
@@ -15,14 +18,14 @@ fun UnsavedChangesDialog(
     TauAlertDialog(
         isVisible = isVisible,
         imageVector = Icons.Default.Edit,
-        dialogTitleId = R.string.unsaved_changes_dialog_title,
-        dialogTextId = R.string.unsaved_changes_dialog_msg,
-        confirmBtnTextId = R.string.discard,
+        dialogTitleId = Res.string.unsaved_changes_dialog_title,
+        dialogTextId = Res.string.unsaved_changes_dialog_msg,
+        confirmBtnTextId = Res.string.discard,
         onConfirm = {
             onDismiss()
             onDiscard()
         },
-        dismissBtnTextId = R.string.cancel,
+        dismissBtnTextId = Res.string.cancel,
         dismissible = false,
         onDismissRequest = onDismiss
     )

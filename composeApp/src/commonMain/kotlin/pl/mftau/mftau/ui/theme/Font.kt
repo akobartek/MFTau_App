@@ -1,12 +1,14 @@
 package pl.mftau.mftau.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.mffont
+import org.jetbrains.compose.resources.Font
 
 val Typography = Typography(
     bodyLarge = TextStyle(
@@ -25,6 +27,5 @@ val Typography = Typography(
     ),
 )
 
-val mfTauFont = FontFamily(
-    Font(R.font.mffont)
-)
+@Composable
+fun mfTauFont() = FontFamily(Font(Res.font.mffont))

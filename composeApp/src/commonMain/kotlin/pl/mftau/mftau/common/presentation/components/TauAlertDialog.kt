@@ -46,7 +46,7 @@ fun TauAlertDialog(
                 Text(
                     text = stringResource(dialogTitleId),
                     textAlign = TextAlign.Center,
-                    fontFamily = mfTauFont,
+                    fontFamily = mfTauFont(),
                 )
             },
             text = { Text(text = stringResource(dialogTextId)) },

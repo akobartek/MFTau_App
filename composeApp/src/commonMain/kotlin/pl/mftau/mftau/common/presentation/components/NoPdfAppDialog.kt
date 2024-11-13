@@ -3,28 +3,31 @@ package pl.mftau.mftau.common.presentation.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import pl.mftau.mftau.R
-import pl.mftau.mftau.common.utils.openWebsiteInChromeCustomTabsIfSupported
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.no_pdf_viewer_dialog_msg
+import mftau.composeapp.generated.resources.no_pdf_viewer_dialog_title
+import mftau.composeapp.generated.resources.search
 
 @Composable
 fun NoPdfAppDialog(
     isVisible: Boolean,
     onDismiss: () -> Unit = {}
 ) {
-    val context = LocalContext.current
+//    val context = LocalContext.current
 
     TauAlertDialog(
         isVisible = isVisible,
         imageVector = Icons.Default.ErrorOutline,
-        dialogTitleId = R.string.no_pdf_viewer_dialog_title,
-        dialogTextId = R.string.no_pdf_viewer_dialog_msg,
-        confirmBtnTextId = R.string.search,
+        dialogTitleId = Res.string.no_pdf_viewer_dialog_title,
+        dialogTextId = Res.string.no_pdf_viewer_dialog_msg,
+        confirmBtnTextId = Res.string.search,
         onConfirm = {
             onDismiss()
-            context.openWebsiteInChromeCustomTabsIfSupported("https://play.google.com/store/search?q=pdf")
+            // TODO
+//            context.openWebsiteInChromeCustomTabsIfSupported("https://play.google.com/store/search?q=pdf")
         },
-        dismissBtnTextId = R.string.cancel,
+        dismissBtnTextId = Res.string.cancel,
         onDismissRequest = onDismiss
     )
 }
