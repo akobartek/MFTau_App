@@ -1,35 +1,35 @@
 package pl.mftau.mftau.core.presentation.settings
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.ui.theme.ColorTheme
 import pl.mftau.mftau.common.data.PreferencesRepository
 
-class SettingsScreenModel(private val preferencesRepository: PreferencesRepository) : ScreenModel {
+class SettingsViewModel(private val preferencesRepository: PreferencesRepository) : ViewModel() {
 
     val preferencesFlow = preferencesRepository.userPreferencesFlow
 
     fun updateNightMode(value: String) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             preferencesRepository.updateTheme(ColorTheme.fromValue(value))
         }
     }
 
     fun updateDynamicColors(dynamicColors: Boolean) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             preferencesRepository.updateDynamicColors(dynamicColors)
         }
     }
 
     fun updateRepeatGospel(repeatGospel: Boolean) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             preferencesRepository.updateRepeatGospel(repeatGospel)
         }
     }
 
     fun updateKeepScreenAwake(keepScreenAwake: Boolean) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             preferencesRepository.updateKeepScreenAwake(keepScreenAwake)
         }
     }

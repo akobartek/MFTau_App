@@ -19,11 +19,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
-import pl.mftau.mftau.Screen.Home
+import pl.mftau.mftau.Screen.*
 import pl.mftau.mftau.common.presentation.ObserveAsEvents
 import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
 import pl.mftau.mftau.common.utils.navigateSafely
+import pl.mftau.mftau.common.utils.navigateUpSafely
 import pl.mftau.mftau.core.presentation.home.HomeScreen
+import pl.mftau.mftau.core.presentation.settings.SettingsScreen
 
 @Composable
 fun App(startDestination: Screen = Home) {
@@ -65,9 +67,12 @@ fun App(startDestination: Screen = Home) {
         ) {
             composable<Home> {
                 HomeScreen(
-                    navigate = { screen ->
-                        navController.navigateSafely(route = screen)
-                    },
+                    navigate = { screen -> navController.navigateSafely(route = screen) },
+                )
+            }
+            composable<Settings> {
+                SettingsScreen(
+                    navigateUp = { navController.navigateUpSafely(source = Settings) },
                 )
             }
         }

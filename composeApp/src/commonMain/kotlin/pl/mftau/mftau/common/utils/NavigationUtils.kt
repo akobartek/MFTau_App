@@ -15,5 +15,6 @@ fun NavHostController.navigateSafely(route: Screen, screenToClean: Screen? = nul
         }
     }
 
-fun NavHostController.navigateUpSafely(sourceName: String?) =
-    if (currentDestination?.route?.contains(sourceName ?: "") == true) navigateUp() else false
+fun NavHostController.navigateUpSafely(source: Screen) =
+    if (currentDestination?.route?.contains(source::class.simpleName ?: "") == true) navigateUp()
+    else false

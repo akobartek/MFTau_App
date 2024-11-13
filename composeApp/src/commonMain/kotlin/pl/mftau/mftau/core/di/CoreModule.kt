@@ -6,12 +6,12 @@ import dev.gitlive.firebase.firestore.firestore
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import pl.mftau.mftau.core.presentation.home.HomeViewModel
-import pl.mftau.mftau.core.presentation.settings.SettingsScreenModel
+import pl.mftau.mftau.core.presentation.settings.SettingsViewModel
 
 val coreModule = module {
     single { Firebase.auth }
     single { Firebase.firestore }
 
     single { HomeViewModel(get(), get()) }
-    viewModel { SettingsScreenModel(get()) }
+    viewModel { SettingsViewModel(get()) }
 }

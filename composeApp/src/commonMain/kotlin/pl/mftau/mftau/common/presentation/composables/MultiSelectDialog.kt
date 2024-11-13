@@ -34,7 +34,7 @@ fun MultiSelectDialog(
     imageVector: ImageVector,
     titleId: StringResource,
     currentValue: String,
-    values: Array<String>,
+    values: List<String>,
     onSave: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
