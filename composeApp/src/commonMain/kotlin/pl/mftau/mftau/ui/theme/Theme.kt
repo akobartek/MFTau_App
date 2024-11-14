@@ -1,22 +1,16 @@
 package pl.mftau.mftau.ui.theme
 
-import android.app.Activity
-import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 
-private val DarkColorScheme = darkColorScheme(
+val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
     onPrimary = md_theme_dark_onPrimary,
     primaryContainer = md_theme_dark_primaryContainer,
@@ -48,7 +42,7 @@ private val DarkColorScheme = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
-private val LightColorScheme = lightColorScheme(
+val LightColorScheme = lightColorScheme(
     primary = md_theme_light_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
@@ -80,11 +74,14 @@ private val LightColorScheme = lightColorScheme(
     scrim = md_theme_light_scrim,
 )
 
+private var mfTauColorPrimary = mf_tau_light_primary
+private var mfTauColorSecondary = mf_tau_light_secondary
+val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
+
 @Composable
 fun MFTauTheme(
     colorTheme: ColorTheme = ColorTheme.SYSTEM,
     dynamicColor: Boolean = true,
-    splashScreenEnded: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val darkMode = when (colorTheme) {
@@ -92,37 +89,25 @@ fun MFTauTheme(
         ColorTheme.DARK -> true
         ColorTheme.LIGHT -> false
     }
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkMode) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val isDarkState = remember { mutableStateOf(darkMode) }
 
-        darkMode -> DarkColorScheme
-        else -> LightColorScheme
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        LaunchedEffect(splashScreenEnded, colorTheme, dynamicColor) {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
-            window.navigationBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode
-        }
-    }
+    CompositionLocalProvider(
+        LocalThemeIsDark provides isDarkState
+    ) {
+        val isDark by isDarkState
+        SystemMaterialTheme(content, isDark, dynamicColor)
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
-    )
+        mfTauColorPrimary = if (isDark) mf_tau_dark_primary else mf_tau_light_primary
+        mfTauColorSecondary = if (isDark) mf_tau_dark_secondary else mf_tau_light_secondary
+    }
 }
 
-fun getMfTauColorPrimary() =
-    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-        mf_tau_dark_primary
-    else mf_tau_light_primary
+@Composable
+expect fun SystemMaterialTheme(
+    content: @Composable () -> Unit,
+    isDark: Boolean,
+    dynamicEnabled: Boolean,
+)
 
-fun getMfTauColorSecondary() =
-    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-        mf_tau_dark_secondary
-    else mf_tau_light_secondary
+fun getMfTauColorPrimary() = mfTauColorPrimary
+fun getMfTauColorSecondary() = mfTauColorSecondary

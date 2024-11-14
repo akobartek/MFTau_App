@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
 import pl.mftau.mftau.songbook.domain.model.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
 import pl.mftau.mftau.ui.theme.ColorTheme
+import pl.mftau.mftau.ui.theme.setupAppCompatDelegate
 
 class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     private object PreferencesKeys {
@@ -51,7 +52,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
         dataStore.data.map { it[PreferencesKeys.PRESENCE_SHOW_JUSTIFIED] ?: false }
 
     suspend fun updateTheme(colorTheme: ColorTheme) {
-        colorTheme.setupAppCompatDelegate()
+        setupAppCompatDelegate(colorTheme)
         updatePreference(colorTheme.value, PreferencesKeys.THEME)
     }
 
