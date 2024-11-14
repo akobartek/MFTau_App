@@ -32,8 +32,8 @@ import mftau.composeapp.generated.resources.cancel
 import mftau.composeapp.generated.resources.ic_breviary
 import mftau.composeapp.generated.resources.load
 import mftau.composeapp.generated.resources.select_office
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun MultipleOfficesDialog(
@@ -52,7 +52,7 @@ fun MultipleOfficesDialog(
         AlertDialog(
             icon = {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_breviary),
+                    imageVector = vectorResource(Res.drawable.ic_breviary),
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )

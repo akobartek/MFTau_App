@@ -12,6 +12,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 
 abstract class ReadingsRepository {
+    abstract val readingId: String
+
     protected fun justifiedString(text: String, firstLineIndent: Int = 12) =
         buildAnnotatedString {
             withStyle(

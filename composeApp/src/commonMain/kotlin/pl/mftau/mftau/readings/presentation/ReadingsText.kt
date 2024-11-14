@@ -13,37 +13,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.safePop
-
-class ReadingsTextScreen(val name: String, val text: AnnotatedString) : ReadingsScreen() {
-    override val key: ScreenKey
-        get() = KEY
-
-    @Composable
-    override fun Content() {
-        ReadingsTextScreenContent(name, text)
-    }
-
-    companion object {
-        const val KEY = "ReadingsTextScreen"
-    }
-}
+import pl.mftau.mftau.readings.domain.model.Reading
 
 @Composable
-fun ReadingsTextScreenContent(name: String, text: AnnotatedString) {
-    val navigator = LocalNavigator.currentOrThrow
+fun ReadingsText(
+    reading: Reading,
+    onClose: () -> Unit,
+) {
     Scaffold(
         topBar = {
             TauCenteredTopBar(
-                title = name,
-                onNavClick = { navigator.safePop(ReadingsTextScreen.KEY) },
+                title = reading.name,
+                onNavClick = onClose,
                 navIcon = Icons.Default.Close
             )
         }
@@ -58,7 +42,7 @@ fun ReadingsTextScreenContent(name: String, text: AnnotatedString) {
         ) {
             SelectionContainer {
                 Text(
-                    text = text,
+                    text = reading.content,
                     fontSize = 16.sp,
                     modifier = Modifier.fillMaxWidth()
                 )

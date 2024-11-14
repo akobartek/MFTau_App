@@ -31,6 +31,7 @@ import pl.mftau.mftau.common.utils.navigateSafely
 import pl.mftau.mftau.common.utils.navigateUpSafely
 import pl.mftau.mftau.core.presentation.home.HomeScreen
 import pl.mftau.mftau.core.presentation.settings.SettingsScreen
+import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
 @Composable
@@ -121,6 +122,11 @@ fun App(startDestination: Screen = Home) {
                     BreviarySaveScreen(
                         navigateUp = { navController.navigateUpSafely(source = screen) },
                         date = screen.date,
+                    )
+                }
+                composable<Readings> {
+                    ReadingsScreen(
+                        navigateUp = { navController.navigateUpSafely(source = Readings) },
                     )
                 }
                 composable<LeadersPeople> {

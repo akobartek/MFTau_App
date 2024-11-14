@@ -24,8 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,8 +44,8 @@ import mftau.composeapp.generated.resources.song_book
 import mftau.composeapp.generated.resources.statute
 import org.jetbrains.compose.resources.InternalResourceApi
 import org.jetbrains.compose.resources.getResourceUri
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 import pl.mftau.mftau.Screen
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
 import pl.mftau.mftau.ui.theme.mfTauFont
@@ -56,7 +55,7 @@ private const val COMMUNITY_WEBSITE = "https://mftau.pl/"
 
 private data class HomeButtonData(
     val title: String,
-    val icon: Painter,
+    val icon: ImageVector,
     val onClick: () -> Unit = {}
 )
 
@@ -70,7 +69,7 @@ private fun HomeScreenButton(
         modifier = modifier.defaultMinSize(minWidth = 80.dp),
     ) {
         Icon(
-            painter = buttonData.icon,
+            imageVector = buttonData.icon,
             tint = MaterialTheme.colorScheme.primary,
             contentDescription = stringResource(Res.string.cd_main_screen_btn, buttonData.title),
             modifier = Modifier.size(48.dp),
@@ -116,17 +115,17 @@ fun FirstButtonsRow(
         buttonsData = listOf(
             HomeButtonData(
                 title = stringResource(Res.string.mftau_website),
-                icon = rememberVectorPainter(Icons.Outlined.OpenInBrowser),
+                icon = Icons.Outlined.OpenInBrowser,
                 onClick = { uriHandler.openUri(COMMUNITY_WEBSITE) },
             ),
             HomeButtonData(
                 title = stringResource(Res.string.gospel),
-                icon = painterResource(Res.drawable.ic_gospel),
+                icon = vectorResource(Res.drawable.ic_gospel),
                 onClick = { navigate(Screen.Gospel) },
             ),
             HomeButtonData(
                 title = stringResource(Res.string.statute),
-                icon = painterResource(Res.drawable.ic_statute),
+                icon = vectorResource(Res.drawable.ic_statute),
                 onClick = {
                     getResourceUri("statute.pdf").let { uri ->
                         uriHandler.openUri(uri)
@@ -149,17 +148,17 @@ fun SecondButtonsRow(
         buttonsData = listOf(
             HomeButtonData(
                 title = stringResource(Res.string.readings),
-                icon = rememberVectorPainter(Icons.Outlined.CollectionsBookmark),
+                icon = Icons.Outlined.CollectionsBookmark,
                 onClick = { navigate(Screen.Readings) },
             ),
             HomeButtonData(
                 title = stringResource(Res.string.song_book),
-                icon = painterResource(Res.drawable.ic_song_book),
+                icon = vectorResource(Res.drawable.ic_song_book),
                 onClick = { navigate(Screen.SongBook) },
             ),
             HomeButtonData(
                 title = stringResource(Res.string.breviary),
-                icon = painterResource(Res.drawable.ic_breviary),
+                icon = vectorResource(Res.drawable.ic_breviary),
                 onClick = { navigate(Screen.BreviarySelect) },
             )
         ),
@@ -176,12 +175,12 @@ fun LeaderButtonRow(
         buttonsData = listOf(
             HomeButtonData(
                 title = stringResource(Res.string.people),
-                icon = rememberVectorPainter(Icons.Outlined.PersonPin),
+                icon = Icons.Outlined.PersonPin,
                 onClick = { navigate(Screen.LeadersPeople) },
             ),
             HomeButtonData(
                 title = stringResource(Res.string.meetings),
-                icon = rememberVectorPainter(Icons.Outlined.Diversity3),
+                icon = Icons.Outlined.Diversity3,
                 onClick = { navigate(Screen.LeadersMeetings) },
             )
         ),

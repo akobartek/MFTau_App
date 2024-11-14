@@ -41,9 +41,6 @@ sealed class Screen {
     data object Readings : Screen()
 
     @Serializable
-    data class ReadingDetails(val id: String) : Screen()
-
-    @Serializable
     data object LeadersPeople : Screen()
 
     @Serializable
