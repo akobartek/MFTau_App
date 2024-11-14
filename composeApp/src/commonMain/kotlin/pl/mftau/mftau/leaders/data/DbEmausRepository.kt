@@ -5,6 +5,7 @@ import pl.mftau.mftau.leaders.domain.db.EmausDao
 import pl.mftau.mftau.leaders.domain.model.Emaus
 
 class DbEmausRepository(private val dao: EmausDao) {
+
     suspend fun getAllDraws() = dao.getAllDraws()
     fun getLastDraw(): Flow<List<Emaus>> = dao.getLastDraw()
 

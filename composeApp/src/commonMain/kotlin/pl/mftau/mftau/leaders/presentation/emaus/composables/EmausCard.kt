@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.people.components
+package pl.mftau.mftau.leaders.presentation.emaus.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +17,7 @@ import pl.mftau.mftau.leaders.domain.model.Emaus
 @Composable
 fun EmausCard(
     modifier: Modifier = Modifier,
-    emaus: Emaus
+    emaus: Emaus,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -29,12 +29,12 @@ fun EmausCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             Text(
                 text = "${emaus.person1}\n+\n${emaus.person2}",
                 style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }

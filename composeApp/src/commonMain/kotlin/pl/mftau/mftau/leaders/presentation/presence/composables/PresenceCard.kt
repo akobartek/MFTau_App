@@ -1,17 +1,13 @@
-package pl.mftau.mftau.leaders.presentation.meetings.components
+package pl.mftau.mftau.leaders.presentation.presence.composables
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,23 +15,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.leaders.domain.model.MeetingType
 import pl.mftau.mftau.leaders.domain.model.PersonPresence
-import pl.mftau.mftau.ui.theme.ColorTheme
-import pl.mftau.mftau.ui.theme.MFTauTheme
 
 @Composable
 fun PresenceCard(
@@ -90,7 +80,7 @@ fun PresenceCard(
                             end = Offset(size.width, (24 * it).dp.toPx())
                         )
                     }
-                    presence.presence.keys.forEachIndexed { index, type ->
+                    presence.presence.keys.sortedBy { it.index }.forEachIndexed { index, type ->
                         val firstVal = presence.presence[type]!!.first
                         val secondVal = presence.presence[type]!!.second
                         val presenceHeight = size.height * firstVal
@@ -134,42 +124,5 @@ fun PresenceCard(
                 }
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PresenceCardPreview() {
-    MFTauTheme(dynamicColor = false, colorTheme = ColorTheme.DARK) {
-        PresenceCard(
-            presence = PersonPresence(
-                personId = "",
-                personName = "Franciszek z Asyżu",
-                presence = mapOf(
-                    MeetingType.FORMATION to Triple(0.7f, 0.3f, 0f),
-                    MeetingType.PRAYERFUL to Triple(0.3f, 0.2f, 0.5f),
-                    MeetingType.OTHER to Triple(0.2f, 0.5f, 0.3f)
-                )
-            )
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PresenceCardPreviewWithoutJustified() {
-    MFTauTheme(dynamicColor = false, colorTheme = ColorTheme.DARK) {
-        PresenceCard(
-            showJustified = false,
-            presence = PersonPresence(
-                personId = "",
-                personName = "Franciszek z Asyżu",
-                presence = mapOf(
-                    MeetingType.FORMATION to Triple(0.5f, 0.3f, 0.2f),
-                    MeetingType.PRAYERFUL to Triple(0.3f, 0.2f, 0.5f),
-                    MeetingType.OTHER to Triple(0.2f, 0.5f, 0.3f)
-                )
-            )
-        )
     }
 }

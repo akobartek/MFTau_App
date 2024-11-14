@@ -1,26 +1,26 @@
-package pl.mftau.mftau.leaders.presentation.meetings.components
+package pl.mftau.mftau.leaders.presentation.emaus.composables
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.cancel
-import mftau.composeapp.generated.resources.clear_meetings
-import mftau.composeapp.generated.resources.clear_meetings_dialog_msg
 import mftau.composeapp.generated.resources.delete
+import mftau.composeapp.generated.resources.delete_last_draw
+import mftau.composeapp.generated.resources.delete_last_draw_msg
 import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 
 @Composable
-fun ClearMeetingsDialog(
+fun DeleteLastDrawDialog(
     isVisible: Boolean,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
     TauAlertDialog(
         isVisible = isVisible,
-        imageVector = Icons.Default.DeleteForever,
-        dialogTitleId = Res.string.clear_meetings,
-        dialogTextId = Res.string.clear_meetings_dialog_msg,
+        imageVector = Icons.Default.Delete,
+        dialogTitleId = Res.string.delete_last_draw,
+        dialogTextId = Res.string.delete_last_draw_msg,
         confirmBtnTextId = Res.string.delete,
         onConfirm = {
             onDismiss()

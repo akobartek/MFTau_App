@@ -26,14 +26,14 @@ fun PersonCard(
     person: Person,
     showOnlyName: Boolean = false,
     onClick: ((Person) -> Unit) = {},
-    additionalContent: @Composable ColumnScope.() -> Unit = {}
+    additionalContent: @Composable ColumnScope.() -> Unit = {},
 ) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         onClick = { onClick(person) },
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Column(
             verticalArrangement = if (showOnlyName) Arrangement.Center else Arrangement.spacedBy(4.dp),
@@ -41,32 +41,32 @@ fun PersonCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = if (showOnlyName) 76.dp else 100.dp)
-                .padding(8.dp)
+                .padding(8.dp),
         ) {
             if (!showOnlyName)
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 20.dp)
+                        .heightIn(min = 20.dp),
                 ) {
                     Text(
                         text = person.city,
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                     person.type.getTypeIcon()?.let {
                         Icon(
                             imageVector = it,
                             contentDescription = null,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(20.dp),
                         )
                     }
                 }
             Text(
                 text = person.name.reversed().replaceFirst(" ", "\n").reversed(),
                 style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             additionalContent()
         }

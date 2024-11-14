@@ -1,6 +1,6 @@
 package pl.mftau.mftau.leaders.domain.model
 
-import com.google.firebase.Timestamp
+import dev.gitlive.firebase.firestore.Timestamp
 
 data class Meeting(
     val id: String = "",
@@ -9,5 +9,5 @@ data class Meeting(
     val date: Timestamp = Timestamp.now(),
     val notes: String = "",
     val attendanceList: List<String> = listOf(),
-    val absenceList: Map<String, String> = mapOf()
+    val absenceList: Map<String, String> = mapOf(),
 )

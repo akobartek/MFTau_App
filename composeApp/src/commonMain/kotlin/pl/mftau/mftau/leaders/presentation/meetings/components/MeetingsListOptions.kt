@@ -16,15 +16,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.cd_more_options_btn
+import mftau.composeapp.generated.resources.clear_meetings
+import mftau.composeapp.generated.resources.show_presence
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MeetingsOptionsIcon(
     showPresenceVisible: Boolean,
     onShowPresence: () -> Unit,
-    onClearMeetings: () -> Unit
+    onClearMeetings: () -> Unit,
 ) {
     var dropdownExpanded by rememberSaveable { mutableStateOf(false) }
     var clearMeetingsDialogVisible by rememberSaveable { mutableStateOf(false) }
@@ -32,21 +35,21 @@ fun MeetingsOptionsIcon(
     IconButton(onClick = { dropdownExpanded = !dropdownExpanded }) {
         Icon(
             imageVector = Icons.Default.MoreVert,
-            contentDescription = stringResource(id = R.string.cd_more_options_btn)
+            contentDescription = stringResource(Res.string.cd_more_options_btn),
         )
     }
     DropdownMenu(
         expanded = dropdownExpanded,
         onDismissRequest = { dropdownExpanded = false },
-        modifier = Modifier.defaultMinSize(minWidth = 200.dp)
+        modifier = Modifier.defaultMinSize(minWidth = 200.dp),
     ) {
         if (showPresenceVisible)
             DropdownMenuItem(
-                text = { Text(text = stringResource(id = R.string.show_presence)) },
+                text = { Text(text = stringResource(Res.string.show_presence)) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Outlined.QueryStats,
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 },
                 onClick = {
@@ -55,11 +58,11 @@ fun MeetingsOptionsIcon(
                 }
             )
         DropdownMenuItem(
-            text = { Text(text = stringResource(id = R.string.clear_meetings)) },
+            text = { Text(text = stringResource(Res.string.clear_meetings)) },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.DeleteForever,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             },
             onClick = {
@@ -72,6 +75,6 @@ fun MeetingsOptionsIcon(
     ClearMeetingsDialog(
         isVisible = clearMeetingsDialogVisible,
         onConfirm = onClearMeetings,
-        onDismiss = { clearMeetingsDialogVisible = false }
+        onDismiss = { clearMeetingsDialogVisible = false },
     )
 }

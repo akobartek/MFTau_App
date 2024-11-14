@@ -80,6 +80,7 @@ fun AuthScreen(
     viewModel: AuthViewModel = koinInject(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
     AuthScreenContent(
         navigateUp = navigateUp,
         state = state,

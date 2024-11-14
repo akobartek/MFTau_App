@@ -1,6 +1,9 @@
 package pl.mftau.mftau.leaders.domain.model
 
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.meeting_formation
+import mftau.composeapp.generated.resources.meeting_other
+import mftau.composeapp.generated.resources.meeting_prayerful
 import pl.mftau.mftau.ui.theme.MeetingType1Color1
 import pl.mftau.mftau.ui.theme.MeetingType1Color2
 import pl.mftau.mftau.ui.theme.MeetingType1Color3
@@ -23,9 +26,9 @@ enum class MeetingType(val index: Int) {
     }
 
     fun getNameResourceId() = when(this) {
-        FORMATION -> R.string.meeting_formation
-        PRAYERFUL -> R.string.meeting_prayerful
-        OTHER -> R.string.meeting_other
+        FORMATION -> Res.string.meeting_formation
+        PRAYERFUL -> Res.string.meeting_prayerful
+        OTHER -> Res.string.meeting_other
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package pl.mftau.mftau.leaders.di
 
+import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.leaders.data.DbEmausRepository
@@ -11,10 +12,10 @@ import pl.mftau.mftau.leaders.domain.repository.PeopleRepository
 import pl.mftau.mftau.leaders.domain.usecase.DeleteDrawsUseCase
 import pl.mftau.mftau.leaders.domain.usecase.DrawNewEmausesUseCase
 import pl.mftau.mftau.leaders.domain.usecase.GetLastDrawUseCase
-import pl.mftau.mftau.leaders.presentation.meetings.screenmodels.MeetingsListScreenModel
-import pl.mftau.mftau.leaders.presentation.meetings.screenmodels.PresentListScreenModel
-import pl.mftau.mftau.leaders.presentation.people.screenmodels.EmausScreenModel
-import pl.mftau.mftau.leaders.presentation.people.screenmodels.PeopleListScreenModel
+import pl.mftau.mftau.leaders.presentation.meetings.LeadersMeetingsViewModel
+import pl.mftau.mftau.leaders.presentation.presence.LeadersPresenceViewModel
+import pl.mftau.mftau.leaders.presentation.emaus.LeadersEmausViewModel
+import pl.mftau.mftau.leaders.presentation.people.LeadersPeopleViewModel
 
 val leadersModule = module {
     single<EmausDao> {
@@ -22,23 +23,16 @@ val leadersModule = module {
         db.emausDao()
     }
 
-    single<PeopleRepository> { FirebasePeopleRepository(get(), get()) }
+    factory<PeopleRepository> { FirebasePeopleRepository(get(), get()) }
+    viewModel { LeadersPeopleViewModel(get()) }
 
-    single<MeetingsRepository> { FirebaseMeetingsRepository(get(), get()) }
+    factory { DbEmausRepository(get()) }
+    factory { GetLastDrawUseCase(get()) }
+    factory { DrawNewEmausesUseCase(get()) }
+    factory { DeleteDrawsUseCase(get()) }
+    viewModel { LeadersEmausViewModel(get(), get(), get(), get()) }
 
-    single { DbEmausRepository(get()) }
-
-    single { GetLastDrawUseCase(get()) }
-
-    single { DrawNewEmausesUseCase(get()) }
-
-    single { DeleteDrawsUseCase(get()) }
-
-    factory { PeopleListScreenModel(get()) }
-
-    factory { EmausScreenModel(get(), get(), get(), get()) }
-
-    factory { MeetingsListScreenModel(get(), get()) }
-
-    factory { PresentListScreenModel(get(), get(), get()) }
+    factory<MeetingsRepository> { FirebaseMeetingsRepository(get(), get()) }
+    factory { LeadersMeetingsViewModel(get(), get()) }
+    viewModel { LeadersPresenceViewModel(get(), get(), get()) }
 }

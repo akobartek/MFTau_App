@@ -31,6 +31,10 @@ import pl.mftau.mftau.common.utils.navigateSafely
 import pl.mftau.mftau.common.utils.navigateUpSafely
 import pl.mftau.mftau.core.presentation.home.HomeScreen
 import pl.mftau.mftau.core.presentation.settings.SettingsScreen
+import pl.mftau.mftau.leaders.presentation.emaus.LeadersEmausScreen
+import pl.mftau.mftau.leaders.presentation.meetings.LeadersMeetingsScreen
+import pl.mftau.mftau.leaders.presentation.people.LeadersPeopleScreen
+import pl.mftau.mftau.leaders.presentation.presence.LeadersPresenceScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
@@ -130,16 +134,26 @@ fun App(startDestination: Screen = Home) {
                     )
                 }
                 composable<LeadersPeople> {
-                    // TODO
+                    LeadersPeopleScreen(
+                        navigateUp = { navController.navigateUpSafely(source = LeadersPeople) },
+                        openEmauses = { navController.navigateSafely(LeadersEmaus) },
+                    )
                 }
                 composable<LeadersEmaus> {
-                    // TODO
+                    LeadersEmausScreen(
+                        navigateUp = { navController.navigateUpSafely(source = LeadersEmaus) },
+                    )
                 }
                 composable<LeadersMeetings> {
-                    // TODO
+                    LeadersMeetingsScreen(
+                        navigateUp = { navController.navigateUpSafely(source = LeadersMeetings) },
+                        openPresenceScreen = { navController.navigateSafely(LeadersPresence) },
+                    )
                 }
                 composable<LeadersPresence> {
-                    // TODO
+                    LeadersPresenceScreen(
+                        navigateUp = { navController.navigateUpSafely(source = LeadersPresence) },
+                    )
                 }
             }
         }

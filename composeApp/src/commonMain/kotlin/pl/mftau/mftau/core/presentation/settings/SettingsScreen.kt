@@ -37,6 +37,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = koinInject(),
 ) {
     val state by viewModel.preferencesFlow.collectAsStateWithLifecycle(initialValue = UserPreferences())
+
     SettingsScreenContent(
         navigateUp = navigateUp,
         preferences = state,

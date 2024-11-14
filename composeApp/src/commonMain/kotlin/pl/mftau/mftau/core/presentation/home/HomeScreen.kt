@@ -50,6 +50,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinInject(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
     HomeScreenContent(
         state = state,
         navigate = navigate,

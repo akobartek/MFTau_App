@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.presentation.people.screens
+package pl.mftau.mftau.leaders.presentation.emaus
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,11 +17,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,57 +29,72 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.deleted_person
+import mftau.composeapp.generated.resources.draw_start
+import mftau.composeapp.generated.resources.draws_empty_list
+import mftau.composeapp.generated.resources.draws_header
+import mftau.composeapp.generated.resources.emaus
+import mftau.composeapp.generated.resources.ic_draws
+import mftau.composeapp.generated.resources.not_drawn_header
+import mftau.composeapp.generated.resources.not_drawn_sub_header
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.koinInject
+import pl.mftau.mftau.common.presentation.composables.EmptyListInfo
 import pl.mftau.mftau.common.presentation.composables.RevealAnimatedContent
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.copyToClipboard
-import pl.mftau.mftau.common.utils.safePop
-import pl.mftau.mftau.common.presentation.composables.EmptyListInfo
-import pl.mftau.mftau.leaders.presentation.LeadersScreen
-import pl.mftau.mftau.leaders.presentation.people.components.EmausCard
-import pl.mftau.mftau.leaders.presentation.people.components.EmausFullListDialog
-import pl.mftau.mftau.leaders.presentation.people.components.EmausNoPeopleErrorDialog
-import pl.mftau.mftau.leaders.presentation.people.components.EmausOptionsIcon
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarEvent
+import pl.mftau.mftau.leaders.presentation.emaus.composables.EmausCard
+import pl.mftau.mftau.leaders.presentation.emaus.composables.EmausFullListDialog
+import pl.mftau.mftau.leaders.presentation.emaus.composables.EmausNoPeopleErrorDialog
+import pl.mftau.mftau.leaders.presentation.emaus.composables.EmausOptionsIcon
 import pl.mftau.mftau.leaders.presentation.people.components.PersonCard
-import pl.mftau.mftau.leaders.presentation.people.screenmodels.EmausScreenModel
 
-class EmausScreen : LeadersScreen() {
-    override val key: ScreenKey
-        get() = KEY
+const val ANIM_DURATION = 277
 
-    @Composable
-    override fun Content() {
-        EmausScreenContent(getScreenModel())
-    }
+@Composable
+fun LeadersEmausScreen(
+    navigateUp: () -> Unit,
+    viewModel: LeadersEmausViewModel = koinInject(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    companion object {
-        const val KEY = "EmausScreen"
-        const val ANIM_DURATION = 277
-    }
+    LeadersEmausScreenContent(
+        navigateUp = navigateUp,
+        state = state,
+        startDraw = viewModel::startDraw,
+        deleteDraws = viewModel::deleteDraws,
+        toggleNoPeopleErrorVisibility = viewModel::toggleNoPeopleErrorVisibility,
+        toggleDrawErrorMessageVisibility = viewModel::toggleDrawErrorMessageVisibility,
+    )
 }
 
 @Composable
-fun EmausScreenContent(screenModel: EmausScreenModel) {
-    val navigator = LocalNavigator.currentOrThrow
-    val context = LocalContext.current
-    val state by screenModel.state.collectAsStateWithLifecycle()
+fun LeadersEmausScreenContent(
+    navigateUp: () -> Unit,
+    state: LeadersEmausScreenState,
+    startDraw: () -> Unit,
+    deleteDraws: (Boolean) -> Unit,
+    toggleNoPeopleErrorVisibility: () -> Unit,
+    toggleDrawErrorMessageVisibility: () -> Unit,
+) {
+    val clipboard = LocalClipboardManager.current
+    val coroutineScope = rememberCoroutineScope()
     var fabOffset by remember { mutableStateOf(Offset.Zero) }
 
     val peopleWithoutDraw = state.people.filter { person ->
         state.lastDraw.all { it.person1 != person.id && it.person2 != person.id }
     }
-    val unknownString = context.getString(R.string.deleted_person)
+    val unknownString = stringResource(Res.string.deleted_person)
     val emauses = state.lastDraw.map { emaus ->
         emaus.copy(
             person1 = state.people.firstOrNull { it.id == emaus.person1 }?.name ?: unknownString,
@@ -90,62 +102,44 @@ fun EmausScreenContent(screenModel: EmausScreenModel) {
         )
     }
 
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(state.deleteMessageVisible) {
-        val deletedSuccessfully = state.deleteMessageVisible
-        scope.launch {
-            if (deletedSuccessfully != null) {
-                screenModel.toggleDeleteMessageVisibility()
-                snackbarHostState.showSnackbar(
-                    message = context.getString(
-                        if (deletedSuccessfully) R.string.draw_delete_success
-                        else R.string.draw_delete_error
-                    ),
-                    withDismissAction = true
-                )
-            }
-        }
-    }
-
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
         topBar = {
             TauCenteredTopBar(
-                title = stringResource(R.string.emaus),
+                title = stringResource(Res.string.emaus),
                 navIcon = Icons.Default.Close,
-                onNavClick = { navigator.safePop(EmausScreen.KEY) },
+                onNavClick = navigateUp,
                 actions = {
                     if (state.lastDraw.isNotEmpty())
                         EmausOptionsIcon(
                             onCopyDraws = {
-                                val emausesString = buildString {
+                                val emausesString = buildAnnotatedString {
                                     emauses.forEach {
                                         appendLine("${it.person1} + ${it.person2}")
                                     }
                                 }
-                                context.copyToClipboard(emausesString, "playlist")
+                                clipboard.setText(emausesString)
+                                coroutineScope.launch {
+                                    SnackbarController.sendEvent(SnackbarEvent.CopiedToClipboard)
+                                }
                             },
-                            onDeleteLastDraw = { screenModel.deleteDraws(false) },
-                            onResetDraws = { screenModel.deleteDraws(true) }
+                            onDeleteLastDraw = { deleteDraws(false) },
+                            onResetDraws = { deleteDraws(true) },
                         )
-                }
+                },
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = screenModel::startDraw,
+                onClick = startDraw,
                 modifier = Modifier.onGloballyPositioned {
                     if (it.isAttached)
                         fabOffset = it.positionInParent()
-                }
+                },
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_draws),
-                    contentDescription = stringResource(id = R.string.draw_start),
-                    modifier = Modifier.size(24.dp)
+                    imageVector = vectorResource(Res.drawable.ic_draws),
+                    contentDescription = stringResource(Res.string.draw_start),
+                    modifier = Modifier.size(24.dp),
                 )
             }
         }
@@ -157,50 +151,49 @@ fun EmausScreenContent(screenModel: EmausScreenModel) {
                 horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxSize()
+                    .fillMaxSize(),
             ) {
                 if (peopleWithoutDraw.isNotEmpty()) {
                     item(
                         key = "PEOPLE_WITHOUT_DRAW_HEADER",
-                        span = { GridItemSpan(this.maxLineSpan) }
+                        span = { GridItemSpan(this.maxLineSpan) },
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(8.dp)
+                            modifier = Modifier.padding(8.dp),
                         ) {
                             Text(
-                                text = stringResource(id = R.string.not_drawn_header),
+                                text = stringResource(Res.string.not_drawn_header),
                                 style = MaterialTheme.typography.headlineSmall,
                                 textAlign = TextAlign.Center,
                             )
                             Text(
-                                text = stringResource(id = R.string.not_drawn_sub_header),
+                                text = stringResource(Res.string.not_drawn_sub_header),
                                 style = MaterialTheme.typography.bodySmall,
                                 textAlign = TextAlign.Center,
                             )
                         }
-
                     }
                     items(
                         count = peopleWithoutDraw.size,
-                        key = { peopleWithoutDraw[it].id }
+                        key = { peopleWithoutDraw[it].id },
                     ) { index ->
                         val person = peopleWithoutDraw[index]
                         PersonCard(
                             person = person,
-                            showOnlyName = true
+                            showOnlyName = true,
                         )
                     }
                 }
                 item(
                     key = "DRAWS_HEADER",
-                    span = { GridItemSpan(this.maxLineSpan) }
+                    span = { GridItemSpan(this.maxLineSpan) },
                 ) {
                     Text(
-                        text = stringResource(id = R.string.draws_header),
+                        text = stringResource(Res.string.draws_header),
                         style = MaterialTheme.typography.headlineSmall,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(8.dp),
                     )
                 }
                 items(
@@ -212,25 +205,25 @@ fun EmausScreenContent(screenModel: EmausScreenModel) {
                 }
             }
         } else EmptyListInfo(
-            messageId = R.string.draws_empty_list,
-            drawableId = R.drawable.ic_draws
+            messageId = Res.string.draws_empty_list,
+            drawableId = Res.drawable.ic_draws,
         )
     }
 
     RevealAnimatedContent(
         offset = fabOffset,
         isContentVisible = state.drawInProgress,
-        duration = EmausScreen.ANIM_DURATION,
+        duration = ANIM_DURATION,
         content = {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(MaterialTheme.colorScheme.primary),
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_draws),
-                    contentDescription = null
+                    painter = painterResource(Res.drawable.ic_draws),
+                    contentDescription = null,
                 )
             }
         }
@@ -238,12 +231,12 @@ fun EmausScreenContent(screenModel: EmausScreenModel) {
 
     EmausNoPeopleErrorDialog(
         isVisible = state.noPeopleErrorVisible,
-        onDismiss = screenModel::toggleNoPeopleErrorVisibility
+        onDismiss = toggleNoPeopleErrorVisibility,
     )
 
     EmausFullListDialog(
         isVisible = state.drawErrorMessageVisible,
-        onReset = { screenModel.deleteDraws(true) },
-        onDismiss = screenModel::toggleDrawErrorMessageVisibility
+        onReset = { deleteDraws(true) },
+        onDismiss = toggleDrawErrorMessageVisibility,
     )
 }

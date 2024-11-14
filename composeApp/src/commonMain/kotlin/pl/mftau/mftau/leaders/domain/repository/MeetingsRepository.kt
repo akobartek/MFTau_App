@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.leaders.domain.model.Meeting
 
 interface MeetingsRepository {
-    val meetings: Flow<List<Meeting>>
-    suspend fun saveMeeting(meeting: Meeting): Boolean
-    suspend fun deleteMeeting(meeting: Meeting): Boolean
+    fun getMeetings(): Flow<List<Meeting>>
+    suspend fun saveMeeting(meeting: Meeting)
+    suspend fun deleteMeeting(meeting: Meeting)
     suspend fun clearMeetings()
 }

@@ -13,7 +13,7 @@ import mftau.composeapp.generated.resources.unsaved_changes_dialog_title
 fun UnsavedChangesDialog(
     isVisible: Boolean,
     onDiscard: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     TauAlertDialog(
         isVisible = isVisible,
@@ -27,6 +27,6 @@ fun UnsavedChangesDialog(
         },
         dismissBtnTextId = Res.string.cancel,
         dismissible = false,
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
     )
 }

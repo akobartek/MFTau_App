@@ -5,5 +5,5 @@ data class Person(
     val name: String = "",
     val city: String = "",
     val type: PersonType = PersonType.MEMBER,
-    val notes: String = ""
+    val notes: String = "",
 )

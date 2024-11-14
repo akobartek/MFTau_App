@@ -20,17 +20,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.absence_dialog_message
+import mftau.composeapp.generated.resources.cancel
+import mftau.composeapp.generated.resources.cd_clear_field
+import mftau.composeapp.generated.resources.justify_absence
+import mftau.composeapp.generated.resources.reason
+import mftau.composeapp.generated.resources.save
+import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.ui.theme.mfTauFont
 
 @Composable
 fun AbsenceReasonDialog(
     onConfirm: (String) -> Unit,
     onDismiss: () -> Unit,
-    currentReason: String
+    currentReason: String,
 ) {
     var reason by rememberSaveable { mutableStateOf(currentReason) }
 
@@ -39,48 +45,48 @@ fun AbsenceReasonDialog(
             Icon(
                 imageVector = Icons.Default.Balance,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             )
         },
         title = {
             Text(
-                text = stringResource(id = R.string.justify_absence),
-                fontFamily = mfTauFont
+                text = stringResource(Res.string.justify_absence),
+                fontFamily = mfTauFont(),
             )
         },
         text = {
             Column {
-                Text(text = stringResource(id = R.string.absence_dialog_message))
+                Text(text = stringResource(Res.string.absence_dialog_message))
                 OutlinedTextField(
                     value = reason,
                     onValueChange = { reason = it },
                     singleLine = true,
-                    placeholder = { Text(text = stringResource(id = R.string.reason)) },
+                    placeholder = { Text(text = stringResource(Res.string.reason)) },
                     keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
                     trailingIcon = {
                         if (reason.isNotBlank())
                             IconButton(onClick = { reason = "" }) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
-                                    contentDescription = stringResource(id = R.string.cd_clear_field)
+                                    contentDescription = stringResource(Res.string.cd_clear_field),
                                 )
                             }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp)
+                        .padding(top = 4.dp),
                 )
             }
         },
         onDismissRequest = {},
         confirmButton = {
             TextButton(onClick = { onConfirm(reason) }) {
-                Text(stringResource(id = R.string.save))
+                Text(stringResource(Res.string.save))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(id = R.string.cancel))
+                Text(stringResource(Res.string.cancel))
             }
         },
     )
