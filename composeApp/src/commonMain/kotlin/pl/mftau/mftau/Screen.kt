@@ -29,7 +29,7 @@ sealed class Screen {
     data object UserSongs : Screen()
 
     @Serializable
-    data object Breviary : Screen()
+    data object BreviarySelect : Screen()
 
     @Serializable
     data class BreviaryText(val position: Int, val date: String) : Screen()

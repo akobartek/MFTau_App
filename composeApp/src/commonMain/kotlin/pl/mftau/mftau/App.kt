@@ -17,10 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import pl.mftau.mftau.Screen.*
 import pl.mftau.mftau.auth.presentation.AuthScreen
+import pl.mftau.mftau.breviary.presentation.BreviarySaveScreen
+import pl.mftau.mftau.breviary.presentation.BreviarySelectScreen
+import pl.mftau.mftau.breviary.presentation.BreviaryTextScreen
 import pl.mftau.mftau.common.presentation.ObserveAsEvents
 import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
 import pl.mftau.mftau.common.utils.navigateSafely
@@ -76,10 +80,58 @@ fun App(startDestination: Screen = Home) {
                     navigateUp = { navController.navigateUpSafely(source = Auth) },
                 )
             }
+            composable<Gospel> {
+                // TODO
+            }
+            composable<SongBook> {
+                // TODO
+            }
+            composable<Playlists> {
+                // TODO
+            }
+            composable<PlaylistDetails> {
+                // TODO
+            }
+            composable<UserSongs> {
+                // TODO
+            }
             composable<Settings> {
                 SettingsScreen(
                     navigateUp = { navController.navigateUpSafely(source = Settings) },
                 )
+            }
+            composable<BreviarySelect> {
+                BreviarySelectScreen(
+                    navigateUp = { navController.navigateUpSafely(source = BreviarySelect) },
+                    navigate = { screen -> navController.navigateSafely(route = screen) },
+                )
+            }
+            composable<BreviaryText> {
+                val screen = it.toRoute<BreviaryText>()
+                BreviaryTextScreen(
+                    navigateUp = { navController.navigateUpSafely(source = screen) },
+                    position = screen.position,
+                    date = screen.date,
+                )
+            }
+            composable<BreviarySave> {
+                val screen = it.toRoute<BreviarySave>()
+                BreviarySaveScreen(
+                    navigateUp = { navController.navigateUpSafely(source = screen) },
+                    date = screen.date,
+                )
+            }
+            composable<LeadersPeople> {
+                // TODO
+            }
+            composable<LeadersEmaus> {
+                // TODO
+            }
+            composable<LeadersMeetings> {
+                // TODO
+            }
+            composable<LeadersPresence> {
+                // TODO
             }
         }
     }

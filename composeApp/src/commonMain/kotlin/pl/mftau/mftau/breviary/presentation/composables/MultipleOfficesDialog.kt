@@ -60,9 +60,7 @@ fun MultipleOfficesDialog(
             title = {
                 Text(
                     text = stringResource(Res.string.select_office),
-                    textStyle = MaterialTheme.typography.headlineSmall.copy(
-                        textAlign = TextAlign.Center
-                    ),
+                    style = MaterialTheme.typography.headlineSmall.copy(textAlign = TextAlign.Center),
                 )
             },
             text = {
@@ -84,7 +82,7 @@ fun MultipleOfficesDialog(
                         ) {
                             Text(
                                 text = text,
-                                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                                style = MaterialTheme.typography.bodyMedium.copy(
                                     color =
                                     if (selectedOfficeLink == link) MaterialTheme.colorScheme.onSecondaryContainer
                                     else MaterialTheme.colorScheme.onBackground,

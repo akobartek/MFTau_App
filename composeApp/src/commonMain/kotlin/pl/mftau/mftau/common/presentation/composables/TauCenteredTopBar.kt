@@ -38,7 +38,7 @@ fun TauCenteredTopBar(
         navigationIcon = {
             IconButton(onClick = onNavClick) {
                 Icon(
-                    navIcon,
+                    imageVector = navIcon,
                     contentDescription = stringResource(Res.string.cd_navigate_up),
                 )
             }

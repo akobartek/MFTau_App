@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,10 +45,11 @@ import pl.mftau.mftau.common.presentation.composables.ComposeWebView
 import pl.mftau.mftau.common.presentation.composables.HeightSpacer
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 
 @Composable
 fun BreviaryTextScreen(
-    onBackPressed: () -> Unit,
+    navigateUp: () -> Unit,
     position: Int,
     date: String,
     viewModel: BreviaryTextViewModel = koinInject()
@@ -59,53 +61,66 @@ fun BreviaryTextScreen(
         viewModel.setup(position, date, accentColor)
     }
 
-    ScreenLayout(
+    BreviaryTextScreenContent(
         title = stringArrayResource(Res.array.breviary_list)[position],
-        onBackPressed = onBackPressed
-    ) {
-        BreviaryTextScreenContent(
-            state = screenState,
-            onOfficeSelected = viewModel::officeSelected,
-            onReconnect = viewModel::checkIfThereAreMultipleOffices,
-            onCancel = {
-                viewModel.cancelScreen()
-                onBackPressed()
-            }
-        )
-    }
+        navigateUp = navigateUp,
+        state = screenState,
+        onOfficeSelected = viewModel::officeSelected,
+        onReconnect = viewModel::checkIfThereAreMultipleOffices,
+        onCancel = {
+            viewModel.cancelScreen()
+            navigateUp()
+        },
+    )
 }
 
 @Composable
 fun BreviaryTextScreenContent(
+    title: String,
+    navigateUp: () -> Unit,
     state: State,
     onOfficeSelected: (String) -> Unit,
     onReconnect: () -> Unit,
     onCancel: () -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        when (state) {
-            is State.Init, is State.Cancelled -> {}
-            is State.Loading -> LoadingBox()
-
-            is State.MultipleOffices -> MultipleOfficesDialog(
-                offices = state.offices,
-                onSelect = onOfficeSelected,
-                onCancel = onCancel
+    Scaffold(
+        topBar = {
+            TauCenteredTopBar(
+                title = title,
+                onNavClick = navigateUp,
             )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize(),
+        ) {
+            when (state) {
+                is State.Init, is State.Cancelled -> {}
+                is State.Loading -> LoadingBox()
 
-            is State.BreviaryAvailable -> {
-                BreviaryLayout(breviary = state.breviary)
-            }
-
-            is State.Failure -> {
-                NoInternetDialog(
-                    isVisible = true,
-                    onReconnect = onReconnect,
-                    onDismiss = onCancel
+                is State.MultipleOffices -> MultipleOfficesDialog(
+                    offices = state.offices,
+                    onSelect = onOfficeSelected,
+                    onCancel = onCancel,
                 )
+
+                is State.BreviaryAvailable -> {
+                    BreviaryLayout(breviary = state.breviary)
+                }
+
+                is State.Failure -> {
+                    NoInternetDialog(
+                        isVisible = true,
+                        onReconnect = onReconnect,
+                        onDismiss = onCancel,
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable

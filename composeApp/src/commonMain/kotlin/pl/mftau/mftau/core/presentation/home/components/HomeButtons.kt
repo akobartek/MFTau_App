@@ -160,7 +160,7 @@ fun SecondButtonsRow(
             HomeButtonData(
                 title = stringResource(Res.string.breviary),
                 icon = painterResource(Res.drawable.ic_breviary),
-                onClick = { navigate(Screen.Breviary) },
+                onClick = { navigate(Screen.BreviarySelect) },
             )
         ),
         modifier = modifier,

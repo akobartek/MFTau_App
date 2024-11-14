@@ -14,6 +14,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,77 +26,98 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.breviary
+import mftau.composeapp.generated.resources.breviary_copyright
+import mftau.composeapp.generated.resources.breviary_list
+import mftau.composeapp.generated.resources.cd_more_options_btn
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import pl.mftau.mftau.Screen
 import pl.mftau.mftau.breviary.presentation.composables.BreviarySelectOptionsMenu
+import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 
 @Composable
 fun BreviarySelectScreen(
-    onBackPressed: () -> Unit,
-    onSelected: (Int, String) -> Unit,
-    onSaveBreviary: (String) -> Unit,
+    navigateUp: () -> Unit,
+    navigate: (Screen) -> Unit,
     viewModel: BreviarySelectViewModel = koinInject()
 ) {
-    var dropDownMenuExpanded by rememberSaveable { mutableStateOf(false) }
     val daysFromToday by viewModel.daysFromToday.collectAsStateWithLifecycle()
-    val dateString = viewModel.getCorrectDaysString(daysFromToday)
 
-    ScreenLayout(
-        title = stringResource(Res.string.breviary_title) + dateString,
-        onBackPressed = onBackPressed,
-        actionIcon = {
-            IconButton(onClick = { dropDownMenuExpanded = true }) {
-                Icon(
-                    imageVector = Icons.Filled.MoreVert,
-                    tint = wolczynColors.primary,
-                    contentDescription = stringResource(Res.string.cd_more_options)
-                )
-                BreviarySelectOptionsMenu(
-                    expanded = dropDownMenuExpanded,
-                    daysFromToday = daysFromToday,
-                    onDismissRequest = { dropDownMenuExpanded = false },
-                    onSaveBreviary = { onSaveBreviary(viewModel.dateString) },
-                    onUpdateDays = viewModel::updateDaysFromToday
-                )
-            }
-        }
-    ) {
-        BreviarySelectScreenContent(onSelected = { onSelected(it, viewModel.dateString) })
-    }
+    BreviarySelectScreenContent(
+        title = stringResource(Res.string.breviary) + viewModel.getCorrectDaysString(daysFromToday),
+        navigateUp = navigateUp,
+        onSelected = { position -> navigate(Screen.BreviaryText(position, viewModel.dateString)) },
+        onSaveBreviary = { navigate(Screen.BreviarySave(viewModel.dateString)) },
+        daysFromToday = daysFromToday,
+        updateDaysFromToday = viewModel::updateDaysFromToday,
+    )
 }
 
 @Composable
 fun BreviarySelectScreenContent(
-    onSelected: (Int) -> Unit
+    title: String,
+    navigateUp: () -> Unit,
+    onSelected: (Int) -> Unit,
+    onSaveBreviary: () -> Unit,
+    daysFromToday: Int,
+    updateDaysFromToday: (Int) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        stringArrayResource(Res.array.breviary_list).forEachIndexed { index, elem ->
-            Column(modifier = Modifier.clickable { onSelected(index) }) {
-                WolczynText(
-                    text = elem,
-                    textStyle = MaterialTheme.typography.titleMedium.copy(
-                        color = wolczynColors.primary,
-                    ),
-                    modifier = Modifier.padding(12.dp)
-                )
-                HorizontalDivider()
-            }
+    var dropDownMenuExpanded by rememberSaveable { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            TauCenteredTopBar(
+                title = title,
+                onNavClick = navigateUp,
+                actions = {
+                    IconButton(onClick = { dropDownMenuExpanded = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(Res.string.cd_more_options_btn)
+                        )
+                        BreviarySelectOptionsMenu(
+                            expanded = dropDownMenuExpanded,
+                            daysFromToday = daysFromToday,
+                            onDismissRequest = { dropDownMenuExpanded = false },
+                            onSaveBreviary = onSaveBreviary,
+                            onUpdateDays = updateDaysFromToday,
+                        )
+                    }
+                }
+            )
         }
-        Spacer(modifier = Modifier.weight(1f))
-        WolczynText(
-            text = stringResource(Res.string.breviary_copyright),
-            textStyle = MaterialTheme.typography.bodySmall.copy(
-                textAlign = TextAlign.Center,
-                color = wolczynColors.primary,
-            ),
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
+                .padding(paddingValues)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            stringArrayResource(Res.array.breviary_list).forEachIndexed { index, elem ->
+                Column(modifier = Modifier.clickable { onSelected(index) }) {
+                    Text(
+                        text = elem,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
+                        modifier = Modifier.padding(12.dp),
+                    )
+                    HorizontalDivider()
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(Res.string.breviary_copyright),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary,
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+            )
+        }
     }
 }
