@@ -14,7 +14,7 @@ data class SongEntity(
     @ColumnInfo(name = "chords") val chords: String = "",
     @ColumnInfo(name = "topics") val topics: String = "",
     @ColumnInfo(name = "isFavourite") val isFavourite: Boolean = false,
-    @ColumnInfo(name = "isOriginallyInSongBook") val isOriginallyInSongBook: Boolean = false
+    @ColumnInfo(name = "isOriginallyInSongBook") val isOriginallyInSongBook: Boolean = false,
 ) {
     fun toModelObject() = Song(
         databaseId = id,
@@ -23,6 +23,6 @@ data class SongEntity(
         chords = chords,
         topics = topics.split(",").map { SongTopic.fromValue(it.toInt()) }.toSet(),
         isFavourite = isFavourite,
-        isOriginallyInSongBook = isOriginallyInSongBook
+        isOriginallyInSongBook = isOriginallyInSongBook,
     )
 }

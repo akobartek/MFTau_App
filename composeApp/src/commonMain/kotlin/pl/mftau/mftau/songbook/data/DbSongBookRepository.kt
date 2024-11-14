@@ -1,6 +1,5 @@
 package pl.mftau.mftau.songbook.data
 
-import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.songbook.domain.db.SongBookDao
 import pl.mftau.mftau.songbook.domain.db.entities.PlaylistEntity
@@ -8,7 +7,6 @@ import pl.mftau.mftau.songbook.domain.db.entities.PlaylistSongEntity
 import pl.mftau.mftau.songbook.domain.db.entities.PlaylistWithSongCount
 import pl.mftau.mftau.songbook.domain.db.entities.SongEntity
 
-@WorkerThread
 class DbSongBookRepository(private val songBookDao: SongBookDao) {
     fun getSongs(): Flow<List<SongEntity>> = songBookDao.getSongs()
     fun getUserSongs(): Flow<List<SongEntity>> = songBookDao.getUserSongs()

@@ -26,5 +26,5 @@ data class PlaylistSongEntity(
     @ColumnInfo(name = "playlistId", index = true) val playlistId: Long = 0L,
     @ColumnInfo(name = "songTitle") val songTitle: String? = null,
     @ColumnInfo(name = "songId", index = true) val songId: Long? = null,
-    @ColumnInfo(name = "position") val position: Int = 0
+    @ColumnInfo(name = "position") val position: Int = 0,
 )

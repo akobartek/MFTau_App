@@ -18,6 +18,6 @@ data class Playlist(
         PlaylistEntity(
             id,
             name,
-            createdAt.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+            createdAt.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(),
         )
 }

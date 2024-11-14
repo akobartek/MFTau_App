@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import pl.mftau.mftau.songbook.domain.model.SongBookPreferences
-import pl.mftau.mftau.songbook.domain.model.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
+import pl.mftau.mftau.common.data.SongBookPreferences.Companion.DEFAULT_FONT_SIZE
 import pl.mftau.mftau.ui.theme.ColorTheme
 import pl.mftau.mftau.ui.theme.setupAppCompatDelegate
 

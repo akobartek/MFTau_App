@@ -36,6 +36,8 @@ import pl.mftau.mftau.leaders.presentation.meetings.LeadersMeetingsScreen
 import pl.mftau.mftau.leaders.presentation.people.LeadersPeopleScreen
 import pl.mftau.mftau.leaders.presentation.presence.LeadersPresenceScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
+import pl.mftau.mftau.songbook.presentation.playlists.PlaylistDetailsScreen
+import pl.mftau.mftau.songbook.presentation.playlists.PlaylistsScreen
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
 @Composable
@@ -94,10 +96,25 @@ fun App(startDestination: Screen = Home) {
                     // TODO
                 }
                 composable<Playlists> {
-                    // TODO
+                    PlaylistsScreen(
+                        navigateUp = { navController.navigateUpSafely(source = Playlists) },
+                        openDetails = { playlistId, importCode ->
+                            navController.navigateSafely(
+                                PlaylistDetails(
+                                    playlistId = playlistId,
+                                    importCode = importCode,
+                                )
+                            )
+                        },
+                    )
                 }
                 composable<PlaylistDetails> {
-                    // TODO
+                    val screen = it.toRoute<PlaylistDetails>()
+                    PlaylistDetailsScreen(
+                        navigateUp = { navController.navigateUpSafely(source = screen) },
+                        playlistId = screen.playlistId,
+                        importCode = screen.importCode,
+                    )
                 }
                 composable<UserSongs> {
                     // TODO

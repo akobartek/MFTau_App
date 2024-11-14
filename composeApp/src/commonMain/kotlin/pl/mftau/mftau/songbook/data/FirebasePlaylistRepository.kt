@@ -1,35 +1,33 @@
 package pl.mftau.mftau.songbook.data
 
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.snapshots
-import com.google.firebase.firestore.toObject
+import dev.gitlive.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
+import pl.mftau.mftau.common.utils.getFirestoreDocument
+import pl.mftau.mftau.common.utils.randomUUID
+import pl.mftau.mftau.songbook.data.model.FirestoreSong.Companion.toFirestoreObject
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.repository.RemotePlaylistRepository
 
 class FirebasePlaylistRepository(
-    private val firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore,
 ) : RemotePlaylistRepository {
-    override suspend fun getPlaylist(playlistId: String): Flow<Playlist?> =
-        firestore.collection(COLLECTION_PLAYLISTS)
-            .document(playlistId)
-            .snapshots()
-            .map { snapshot -> snapshot.toObject() }
 
-    override suspend fun getShareCode(playlist: Playlist): Flow<String> = flow {
+    override suspend fun getPlaylist(playlistId: String): Flow<Playlist?> =
+        firestore.getFirestoreDocument(
+            collectionName = COLLECTION_PLAYLISTS,
+            documentId = playlistId,
+        )
+
+    override suspend fun getShareCode(playlist: Playlist): String =
         playlist.songs
+            .map { song -> song.toFirestoreObject() }
             .let { songs ->
-                val collection = firestore.collection(COLLECTION_PLAYLISTS)
-                val docId = collection.document().id
-                collection.document(docId)
+                val docId = randomUUID()
+                firestore.collection(COLLECTION_PLAYLISTS)
+                    .document(docId)
                     .set(mapOf(FIELD_SONGS to songs))
-                    .await()
-                emit("fs:$docId")
+                "fs:$docId"
             }
-    }
 
     companion object {
         private const val COLLECTION_PLAYLISTS = "playlists"

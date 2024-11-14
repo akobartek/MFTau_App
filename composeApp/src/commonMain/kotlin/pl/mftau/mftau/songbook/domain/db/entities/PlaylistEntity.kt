@@ -14,13 +14,13 @@ import pl.mftau.mftau.songbook.domain.model.Song
 data class PlaylistEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo(name = "name") val name: String = "",
-    @ColumnInfo(name = "createdAt") val createdAt: Long = Clock.System.now().toEpochMilliseconds()
+    @ColumnInfo(name = "createdAt") val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
 ) {
     fun toModelObject(songs: List<Song> = listOf()) =
         Playlist(
             id,
             name,
             Instant.fromEpochMilliseconds(createdAt).toLocalDateTime(TimeZone.currentSystemDefault()),
-            songs
+            songs,
         )
 }
