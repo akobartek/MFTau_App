@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -11,85 +12,67 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import kotlinx.coroutines.launch
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.add_song
+import mftau.composeapp.generated.resources.delete_song
+import mftau.composeapp.generated.resources.empty_user_songs_list
+import mftau.composeapp.generated.resources.my_songs
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
-import pl.mftau.mftau.common.utils.safePop
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.presentation.songs.components.DeleteSongDialog
 import pl.mftau.mftau.songbook.presentation.songs.components.SongBookEmptyListInfo
 import pl.mftau.mftau.songbook.presentation.songs.components.SongCard
 import pl.mftau.mftau.songbook.presentation.songs.components.SongEditorDialog
 
-class AddedSongsListScreen : SongBookScreen() {
-    override val key: ScreenKey
-        get() = KEY
+@Composable
+fun UserSongScreen(
+    navigateUp: () -> Unit,
+    viewModel: UserSongsViewModel = koinInject(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    @Composable
-    override fun Content() {
-        AddedSongsListScreenContent(getScreenModel())
-    }
-
-    companion object {
-        const val KEY = "AddedSongsListScreen"
-    }
+    UserSongsScreenContent(
+        navigateUp = navigateUp,
+        state = state,
+        toggleSongEditorVisibility = viewModel::toggleSongEditorVisibility,
+        saveSong = viewModel::saveSong,
+        deleteSong = viewModel::deleteSong,
+    )
 }
 
 @Composable
-fun AddedSongsListScreenContent(screenModel: UserSongsListScreenModel) {
-    val navigator = LocalNavigator.currentOrThrow
-    val state by screenModel.state.collectAsStateWithLifecycle()
+fun UserSongsScreenContent(
+    navigateUp: () -> Unit,
+    state: UserSongsScreenState,
+    toggleSongEditorVisibility: (Song?) -> Unit,
+    saveSong: (Song) -> Unit,
+    deleteSong: (Song?) -> Unit,
+) {
     var songDeleteClicked by remember { mutableStateOf<Song?>(null) }
 
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(key1 = state) {
-        scope.launch {
-            if (state.songSavedInfoVisible) {
-                screenModel.toggleSongSavedInfoVisibility()
-                snackbarHostState.showSnackbar(
-                    message = context.getString(R.string.song_saved),
-                    withDismissAction = true
-                )
-            }
-        }
-    }
-
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
         topBar = {
             TauCenteredTopBar(
-                title = stringResource(R.string.my_songs),
-                onNavClick = { navigator.safePop(AddedSongsListScreen.KEY) }
+                title = stringResource(Res.string.my_songs),
+                onNavClick = navigateUp,
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = screenModel::toggleSongEditorVisibility) {
+            FloatingActionButton(onClick = { toggleSongEditorVisibility(null) }) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(id = R.string.add_song)
+                    contentDescription = stringResource(Res.string.add_song),
                 )
             }
         }
@@ -99,41 +82,41 @@ fun AddedSongsListScreenContent(screenModel: UserSongsListScreenModel) {
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxSize()
+                    .fillMaxSize(),
             ) {
-                items(state.songs ?: listOf(), key = { "${it.databaseId}:${it.title}" }) { song ->
+                items(items = state.songs, key = { "${it.databaseId}:${it.title}" }) { song ->
                     SongCard(
                         song = song,
-                        onClick = { screenModel.toggleSongEditorVisibility(it) },
+                        onClick = toggleSongEditorVisibility,
                         actions = {
                             IconButton(onClick = {
                                 songDeleteClicked = song
                             }) {
                                 Icon(
                                     imageVector = Icons.Filled.Delete,
-                                    contentDescription = stringResource(id = R.string.delete_song)
+                                    contentDescription = stringResource(Res.string.delete_song),
                                 )
                             }
-                        }
+                        },
                     )
                 }
             }
 
-            if (state.songs?.isEmpty() == true)
-                SongBookEmptyListInfo(messageId = R.string.empty_user_songs_list)
+            if (state.songs.isEmpty())
+                SongBookEmptyListInfo(messageId = Res.string.empty_user_songs_list)
         } else LoadingBox()
     }
 
     if (state.songEditorVisible)
         SongEditorDialog(
             song = state.songToEdit,
-            onSave = screenModel::saveSong,
-            onDismiss = screenModel::toggleSongEditorVisibility
+            onSave = saveSong,
+            onDismiss = { toggleSongEditorVisibility(null) },
         )
 
     DeleteSongDialog(
         isVisible = songDeleteClicked != null,
-        onConfirm = { screenModel.deleteSong(songDeleteClicked) },
-        onDismiss = { songDeleteClicked = null }
+        onConfirm = { deleteSong(songDeleteClicked) },
+        onDismiss = { songDeleteClicked = null },
     )
 }

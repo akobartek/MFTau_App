@@ -25,7 +25,7 @@ class GetPlaylistFromDbUseCase(
                         )
                         songs[index] = song
                     }
-                } else songs.add(entity.toModelObject())
+                } else songs.add(entity.toDomainObject())
             }
             val playlists = dbPlaylists.map { (playlistEntity, playlistSongsEntities) ->
                 val playlistSongs = playlistSongsEntities

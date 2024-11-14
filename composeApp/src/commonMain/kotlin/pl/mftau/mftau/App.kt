@@ -38,6 +38,7 @@ import pl.mftau.mftau.leaders.presentation.presence.LeadersPresenceScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistDetailsScreen
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistsScreen
+import pl.mftau.mftau.songbook.presentation.songs.UserSongScreen
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
 @Composable
@@ -117,7 +118,9 @@ fun App(startDestination: Screen = Home) {
                     )
                 }
                 composable<UserSongs> {
-                    // TODO
+                    UserSongScreen(
+                        navigateUp = { navController.navigateUpSafely(source = UserSongs) },
+                    )
                 }
                 composable<Settings> {
                     SettingsScreen(

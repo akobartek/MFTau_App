@@ -23,10 +23,10 @@ import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SharePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.UpdateSongsInPlaylistUseCase
-import pl.mftau.mftau.songbook.presentation.songs.UserSongsListScreenModel
+import pl.mftau.mftau.songbook.presentation.songs.UserSongsViewModel
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistDetailsViewModel
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistsViewModel
-import pl.mftau.mftau.songbook.presentation.songs.SongBookListScreenModel
+import pl.mftau.mftau.songbook.presentation.songs.SongBookViewModel
 
 val songBookModule = module {
     single<SongBookDao> {
@@ -38,12 +38,11 @@ val songBookModule = module {
     single { DbSongBookRepository(get()) }
     single<RemotePlaylistRepository> { FirebasePlaylistRepository(get()) }
 
-
-    single { GetSongBookUseCase(get(), get()) }
-    single { SaveSongUseCase(get()) }
-    single { DeleteSongUseCase(get()) }
-    single { MarkSongAsFavouriteUseCase(get()) }
-    factory { SongBookListScreenModel(get(), get(), get(), get(), get(), get()) }
+    factory { GetSongBookUseCase(get(), get()) }
+    factory { SaveSongUseCase(get()) }
+    factory { DeleteSongUseCase(get()) }
+    factory { MarkSongAsFavouriteUseCase(get()) }
+    single { SongBookViewModel(get(), get(), get(), get(), get(), get()) }
 
     factory { SavePlaylistUseCase(get()) }
     factory { SaveSongsInPlaylistUseCase(get()) }
@@ -57,7 +56,6 @@ val songBookModule = module {
     viewModel { PlaylistsViewModel(get(), get()) }
     viewModel { PlaylistDetailsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
-
-    single { GetUserSongsUseCase(get()) }
-    factory { UserSongsListScreenModel(get(), get(), get()) }
+    factory { GetUserSongsUseCase(get()) }
+    viewModel { UserSongsViewModel(get(), get(), get()) }
 }

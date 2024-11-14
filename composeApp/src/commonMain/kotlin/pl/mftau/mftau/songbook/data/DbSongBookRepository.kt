@@ -1,19 +1,24 @@
 package pl.mftau.mftau.songbook.data
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import pl.mftau.mftau.songbook.domain.db.SongBookDao
 import pl.mftau.mftau.songbook.domain.db.entities.PlaylistEntity
 import pl.mftau.mftau.songbook.domain.db.entities.PlaylistSongEntity
 import pl.mftau.mftau.songbook.domain.db.entities.PlaylistWithSongCount
-import pl.mftau.mftau.songbook.domain.db.entities.SongEntity
+import pl.mftau.mftau.songbook.domain.model.Song
 
 class DbSongBookRepository(private val songBookDao: SongBookDao) {
-    fun getSongs(): Flow<List<SongEntity>> = songBookDao.getSongs()
-    fun getUserSongs(): Flow<List<SongEntity>> = songBookDao.getUserSongs()
 
-    suspend fun upsertSong(song: SongEntity) = songBookDao.upsertSong(song)
+    fun getSongs(): Flow<List<Song>> =
+        songBookDao.getSongs().map { list -> list.map { it.toDomainObject() } }
 
-    suspend fun deleteSong(song: SongEntity) = songBookDao.deleteSong(song.id)
+    fun getUserSongs(): Flow<List<Song>> =
+        songBookDao.getUserSongs().map { list -> list.map { it.toDomainObject() } }
+
+    suspend fun upsertSong(song: Song) = songBookDao.upsertSong(song.toDbEntity())
+
+    suspend fun deleteSong(song: Song) = songBookDao.deleteSong(song.databaseId)
 
 
     suspend fun upsertPlaylist(playlist: PlaylistEntity) = songBookDao.upsertSong(playlist)

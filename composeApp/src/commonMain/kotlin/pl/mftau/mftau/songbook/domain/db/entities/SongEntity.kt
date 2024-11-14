@@ -16,7 +16,7 @@ data class SongEntity(
     @ColumnInfo(name = "isFavourite") val isFavourite: Boolean = false,
     @ColumnInfo(name = "isOriginallyInSongBook") val isOriginallyInSongBook: Boolean = false,
 ) {
-    fun toModelObject() = Song(
+    fun toDomainObject() = Song(
         databaseId = id,
         title = title,
         text = text,

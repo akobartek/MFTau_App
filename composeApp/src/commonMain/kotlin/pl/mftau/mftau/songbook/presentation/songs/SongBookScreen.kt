@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -41,25 +42,30 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
-import pl.mftau.mftau.R
+import mftau.composeapp.generated.resources.Res
+import mftau.composeapp.generated.resources.add_to_favourites
+import mftau.composeapp.generated.resources.cd_navigate_up
+import mftau.composeapp.generated.resources.change_font_size
+import mftau.composeapp.generated.resources.empty_search_list
+import mftau.composeapp.generated.resources.hide_chords
+import mftau.composeapp.generated.resources.open_pdf
+import mftau.composeapp.generated.resources.remove_from_favourites
+import mftau.composeapp.generated.resources.show_added_songs
+import mftau.composeapp.generated.resources.show_chords
+import mftau.composeapp.generated.resources.show_playlists
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import pl.mftau.mftau.Screen
 import pl.mftau.mftau.common.presentation.composables.ListScrollbar
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
 import pl.mftau.mftau.common.utils.openPdf
-import pl.mftau.mftau.common.utils.safePop
-import pl.mftau.mftau.common.utils.safePush
-import pl.mftau.mftau.songbook.presentation.playlists.PlaylistsListScreen
+import pl.mftau.mftau.songbook.domain.model.SongTopic
 import pl.mftau.mftau.songbook.presentation.playlists.composables.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.songs.components.ChangeFontSizeDialog
 import pl.mftau.mftau.songbook.presentation.songs.components.SongBookBottomAppBar
@@ -68,22 +74,27 @@ import pl.mftau.mftau.songbook.presentation.songs.components.SongBookNavRail
 import pl.mftau.mftau.songbook.presentation.songs.components.SongBookSearchBar
 import pl.mftau.mftau.songbook.presentation.songs.components.SongCard
 import pl.mftau.mftau.songbook.presentation.songs.components.SongEditorDialog
-import pl.mftau.mftau.ui.WindowInfo
-import pl.mftau.mftau.ui.rememberWindowInfo
 import kotlin.math.roundToInt
 
-class SongBookListScreen : SongBookScreen() {
-    override val key: ScreenKey
-        get() = KEY
+@Composable
+fun SongBookScreen(
+    navigateUp: () -> Unit,
+    navigate: (Screen) -> Unit,
+    viewModel: SongBookViewModel = koinInject(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val searchBarState by viewModel.searchBarState.collectAsStateWithLifecycle()
 
-    @Composable
-    override fun Content() {
-        SongBookListScreenContent(getScreenModel())
-    }
+    SongBookScreenContent(
+        navigateUp = navigateUp,
+        navigate = navigate,
+        state = state,
+        searchBarState = searchBarState,
+        toggleChordsVisibility = viewModel::toggleChordsVisibility,
 
-    companion object {
-        const val KEY = "SongBookListScreen"
-    }
+        onSearchQueryChange = viewModel::onSearchQueryChange,
+        onSearchFilterChange = viewModel::onSearchFilterChange,
+    )
 }
 
 data class SongBookAction(
@@ -94,13 +105,18 @@ data class SongBookAction(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
-    val navigator = LocalNavigator.currentOrThrow
-    val context = LocalContext.current
-    val windowInfo = rememberWindowInfo()
-    val state by screenModel.state.collectAsStateWithLifecycle()
+fun SongBookScreenContent(
+    navigateUp: () -> Unit,
+    navigate: (Screen) -> Unit,
+    state: SongBookScreenState,
+    searchBarState: SongBookSearchBarState,
+    toggleChordsVisibility: () -> Unit,
 
-    val searchBarState by screenModel.searchBarState.collectAsStateWithLifecycle()
+    onSearchQueryChange: (String) -> Unit,
+    onSearchFilterChange: (SongTopic) -> Unit,
+) {
+    val windowInfo = rememberWindowInfo()
+
     val searchBarHeightDp = 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
     var changeFontSizeDialogVisible by rememberSaveable { mutableStateOf(false) }
@@ -131,70 +147,53 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         lazyListState.animateScrollToItem(songIndexToAnimate)
     }
 
-    val scope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(state.songSavedInfoVisible) {
-        scope.launch {
-            if (state.songSavedInfoVisible) {
-                screenModel.toggleSongSavedInfoVisibility()
-                snackbarHostState.showSnackbar(
-                    message = context.getString(R.string.song_saved),
-                    withDismissAction = true
-                )
-            }
-        }
-    }
-
     var pdfDialogVisible by rememberSaveable { mutableStateOf(false) }
     val actions = listOf(
         SongBookAction(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
-            description = stringResource(id = R.string.cd_navigate_up),
-            onClick = { navigator.safePop(SongBookListScreen.KEY) }
+            description = stringResource(Res.string.cd_navigate_up),
+            onClick = navigateUp,
         ),
         SongBookAction(
             icon = Icons.Filled.PictureAsPdf,
-            description = stringResource(id = R.string.open_pdf),
-            onClick = { if (!context.openPdf("spiewnik.pdf")) pdfDialogVisible = true }
+            description = stringResource(Res.string.open_pdf),
+            onClick = { if (!context.openPdf("spiewnik.pdf")) pdfDialogVisible = true },
         ),
         SongBookAction(
             icon = Icons.Filled.PostAdd,
-            description = stringResource(id = R.string.show_added_songs),
-            onClick = { navigator.safePush(AddedSongsListScreen()) }
+            description = stringResource(Res.string.show_added_songs),
+            onClick = { navigate(Screen.UserSongs) },
         ),
         SongBookAction(
             icon = Icons.AutoMirrored.Filled.QueueMusic,
-            description = stringResource(id = R.string.show_playlists),
-            onClick = { navigator.safePush(PlaylistsListScreen()) }
+            description = stringResource(Res.string.show_playlists),
+            onClick = { navigate(Screen.Playlists) },
         ),
         state.preferences.areChordsVisible.let { areChordsVisible ->
             SongBookAction(
                 icon = if (areChordsVisible) Icons.Filled.MusicNote else Icons.Filled.MusicOff,
                 description = stringResource(
-                    id = if (areChordsVisible) R.string.hide_chords else R.string.show_chords
+                    if (areChordsVisible) Res.string.hide_chords else Res.string.show_chords
                 ),
-                onClick = screenModel::toggleChordsVisibility
+                onClick = toggleChordsVisibility,
             )
         },
         SongBookAction(
             icon = Icons.Filled.FormatSize,
-            description = stringResource(id = R.string.change_font_size),
-            onClick = { changeFontSizeDialogVisible = true }
+            description = stringResource(Res.string.change_font_size),
+            onClick = { changeFontSizeDialogVisible = true },
         ),
     )
 
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
         bottomBar = {
             if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact)
                 SongBookBottomAppBar(
                     actions = actions,
-                    onFabClicked = screenModel::toggleSongEditorVisibility
+                    onFabClicked = toggleSongEditorVisibility,
                 )
         },
-        modifier = Modifier.nestedScroll(nestedScrollConnection)
+        modifier = Modifier.nestedScroll(nestedScrollConnection),
     ) { paddingValues ->
         Row(modifier = Modifier.padding(paddingValues)) {
             if (windowInfo.screenWidthInfo !is WindowInfo.WindowType.Compact)
@@ -202,37 +201,33 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
             LazyColumn(
                 state = lazyListState,
                 verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 stickyHeader {
                     SongBookSearchBar(
                         query = searchBarState.searchQuery,
-                        onQueryChanged = screenModel::onSearchQueryChange,
+                        onQueryChanged = onSearchQueryChange,
                         filter = searchBarState.selectedFilter,
-                        onFilterChanged = screenModel::onSearchFilterChange,
+                        onFilterChanged = onSearchFilterChange,
                         modifier = Modifier
-                            .offset {
-                                IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt())
-                            }
+                            .offset { IntOffset(x = 0, y = searchBarOffsetHeightPx.roundToInt()) },
                     )
                 }
 
                 if (state.isLoading)
                     item { Column(Modifier.fillParentMaxHeight()) { LoadingBox() } }
                 else if (state.songs.isNotEmpty()) {
-                    items(state.songs, key = { "${it.databaseId}:${it.title}" }) { song ->
+                    items(items = state.songs, key = { "${it.databaseId}:${it.title}" }) { song ->
                         SongCard(
                             song = song,
                             preferences = state.preferences,
                             actions = {
                                 IconButton(onClick = {
-                                    screenModel.togglePlaylistDialogVisibility(
-                                        song
-                                    )
+                                    screenModel.togglePlaylistDialogVisibility(song)
                                 }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
-                                        contentDescription = stringResource(id = R.string.cd_navigate_up)
+                                        contentDescription = stringResource(Res.string.cd_navigate_up),
                                     )
                                 }
                                 IconButton(onClick = { screenModel.markSongAsFavourite(song) }) {
@@ -240,8 +235,9 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                                         Icon(
                                             imageVector = if (it) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
                                             contentDescription = stringResource(
-                                                id = if (it) R.string.remove_from_favourites else R.string.add_to_favourites
-                                            )
+                                                if (it) Res.string.remove_from_favourites
+                                                else Res.string.add_to_favourites
+                                            ),
                                         )
                                     }
                                 }
@@ -251,7 +247,7 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                     }
                 } else item {
                     Column(Modifier.fillParentMaxHeight()) {
-                        SongBookEmptyListInfo(messageId = R.string.empty_search_list)
+                        SongBookEmptyListInfo(messageId = Res.string.empty_search_list)
                     }
                 }
             }
@@ -261,7 +257,7 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
                 headerHeight = searchBarHeightDp,
                 listState = lazyListState,
                 listSize = state.songs.size,
-                onDrag = { songIndexToAnimate = it }
+                onDrag = { songIndexToAnimate = it },
             )
         }
 
@@ -275,12 +271,12 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         isVisible = changeFontSizeDialogVisible,
         currentFontSize = state.preferences.fontSize,
         onSave = screenModel::changeFontSize,
-        dismiss = { changeFontSizeDialogVisible = false }
+        dismiss = { changeFontSizeDialogVisible = false },
     )
 
     if (state.songSelectedToPlaylists != null)
         AddToPlaylistDialog(
-            song = state.songSelectedToPlaylists!!,
+            song = state.songSelectedToPlaylists,
             playlists = state.playlists,
             addNewPlaylist = screenModel::addNewPlaylist,
             saveSongInPlaylists = screenModel::saveSongInPlaylists,
@@ -293,6 +289,6 @@ fun SongBookListScreenContent(screenModel: SongBookListScreenModel) {
         SongEditorDialog(
             song = null,
             onSave = screenModel::saveSong,
-            onDismiss = screenModel::toggleSongEditorVisibility
+            onDismiss = screenModel::toggleSongEditorVisibility,
         )
 }

@@ -1,45 +1,47 @@
 package pl.mftau.mftau.songbook.presentation.songs
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
+import pl.mftau.mftau.common.presentation.snackbars.SnackbarEvent
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.domain.usecase.DeleteSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.GetUserSongsUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 
-class UserSongsListScreenModel(
+class UserSongsViewModel(
     private val getUserSongsUseCase: GetUserSongsUseCase,
     private val saveSongUseCase: SaveSongUseCase,
-    private val deleteSongUseCase: DeleteSongUseCase
-) : StateScreenModel<UserSongsListScreenModel.UserSongsScreenState>(UserSongsScreenState()) {
+    private val deleteSongUseCase: DeleteSongUseCase,
+) : ViewModel() {
 
-    data class UserSongsScreenState(
-        val songs: List<Song>? = null,
-        val songEditorVisible: Boolean = false,
-        val songToEdit: Song? = null,
-        val songSavedInfoVisible: Boolean = false
-    )
+    private val _state = MutableStateFlow(UserSongsScreenState())
+    val state: StateFlow<UserSongsScreenState> = _state.asStateFlow()
 
     init {
-        screenModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             getUserSongsUseCase.songs.collect { list ->
-                mutableState.update { it.copy(songs = list) }
+                _state.update { it.copy(songs = list) }
             }
         }
     }
 
     fun saveSong(song: Song) {
-        screenModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             saveSongUseCase(song)
-            toggleSongSavedInfoVisibility()
+            SnackbarController.sendEvent(SnackbarEvent.SongSaved)
         }
     }
 
     fun toggleSongEditorVisibility(song: Song? = null) {
-        mutableState.update {
+        _state.update {
             it.copy(
                 songEditorVisible = !it.songEditorVisible,
                 songToEdit = song
@@ -47,13 +49,9 @@ class UserSongsListScreenModel(
         }
     }
 
-    fun toggleSongSavedInfoVisibility() {
-        mutableState.update { it.copy(songSavedInfoVisible = !it.songSavedInfoVisible) }
-    }
-
     fun deleteSong(song: Song?) {
         if (song == null) return
-        screenModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             deleteSongUseCase(song)
         }
     }
