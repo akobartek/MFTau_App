@@ -1,4 +1,4 @@
-package pl.mftau.mftau.songbook.domain.db.entities
+package pl.mftau.mftau.songbook.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

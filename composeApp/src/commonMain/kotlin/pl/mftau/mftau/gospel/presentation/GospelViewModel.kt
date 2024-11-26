@@ -1,8 +1,9 @@
 package pl.mftau.mftau.gospel.presentation
 
-import cafe.adriel.voyager.core.model.StateScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -10,48 +11,43 @@ import kotlinx.coroutines.launch
 import pl.mftau.mftau.common.data.PreferencesRepository
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import pl.mftau.mftau.gospel.domain.GospelRepository
-import pl.mftau.mftau.gospel.data.GospelRepositoryImpl
 
-class GospelScreenModel(
+class GospelViewModel(
     private val repository: GospelRepository,
     private val preferencesRepository: PreferencesRepository
-) : StateScreenModel<GospelScreenModel.State>(State.Loading) {
+) : ViewModel() {
 
-    sealed class State {
-        data object Loading : State()
-        data class Success(val gospel: Gospel) : State()
-        data object Failure : State()
-    }
-
+    private val _state = MutableStateFlow<GospelScreenState>(GospelScreenState.Loading)
+    val state = _state.asStateFlow()
+    
     private val _repeatGospel = MutableStateFlow(false)
     val repeatGospel = _repeatGospel.asStateFlow()
 
     init {
         loadGospel()
-        screenModelScope.launch {
+        viewModelScope.launch {
             _repeatGospel.update { preferencesRepository.getRepeatGospel() }
         }
     }
 
     fun loadGospel() {
-        screenModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = repository.loadGospel()
-            mutableState.update {
+            _state.update {
                 if (result.isSuccess)
-                    State.Success(result.getOrDefault(Gospel()))
-                else State.Failure
+                    GospelScreenState.Success(result.getOrDefault(Gospel()))
+                else GospelScreenState.Failure
             }
         }
     }
 
-    fun getGospelToRead(): String {
-        return if (state.value is State.Success) {
-            val gospel = (state.value as State.Success).gospel
+    fun getGospelToRead(): String =
+        state.value.takeIf { it is GospelScreenState.Success }?.let { successState ->
+            val gospel = (successState as GospelScreenState.Success).gospel
             val stringBuilder = StringBuilder()
             stringBuilder.append(gospel.author)
                 .append(". ")
                 .append(gospel.text.replace(";", "."))
             stringBuilder.toString()
-        } else ""
-    }
+        } ?: ""
 }

@@ -20,8 +20,6 @@ import com.fleeksoft.ksoup.select.Elements
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.utils.io.charsets.Charsets
-import io.ktor.utils.io.core.String
 import pl.mftau.mftau.breviary.domain.model.Breviary
 import pl.mftau.mftau.breviary.domain.model.Breviary.*
 import pl.mftau.mftau.breviary.domain.model.BreviaryPart
@@ -57,10 +55,8 @@ class WebBreviarySource {
         val client = HttpClient {
             this.followRedirects = false
         }
-        val html = String(
-            bytes = client.get(url).body<ByteArray>(),
-            charset = Charsets.ISO_8859_1,
-        )
+        val html = client.get(url).body<ByteArray>()
+            .decodeToString()
             .replace("±", "ą")
             .replace("¡", "Ą")
             .replace("æ", "ć")

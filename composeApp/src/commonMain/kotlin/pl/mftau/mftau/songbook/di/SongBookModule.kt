@@ -6,7 +6,7 @@ import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.songbook.data.DbSongBookRepository
 import pl.mftau.mftau.songbook.data.FirebasePlaylistRepository
 import pl.mftau.mftau.songbook.data.MFTauSongBookRepository
-import pl.mftau.mftau.songbook.domain.db.SongBookDao
+import pl.mftau.mftau.songbook.data.db.SongBookDao
 import pl.mftau.mftau.songbook.domain.repository.RemotePlaylistRepository
 import pl.mftau.mftau.songbook.domain.repository.TextsSongBookRepository
 import pl.mftau.mftau.songbook.domain.usecase.DeletePlaylistUseCase

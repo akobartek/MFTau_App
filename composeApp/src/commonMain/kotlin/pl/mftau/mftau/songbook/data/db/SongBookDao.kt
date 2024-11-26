@@ -1,14 +1,14 @@
-package pl.mftau.mftau.songbook.domain.db
+package pl.mftau.mftau.songbook.data.db
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import pl.mftau.mftau.songbook.domain.db.entities.SongEntity
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistEntity
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistSongEntity
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistWithSongCount
+import pl.mftau.mftau.songbook.data.db.entities.SongEntity
+import pl.mftau.mftau.songbook.data.db.entities.PlaylistEntity
+import pl.mftau.mftau.songbook.data.db.entities.PlaylistSongEntity
+import pl.mftau.mftau.songbook.data.db.entities.PlaylistWithSongCount
 
 @Dao
 interface SongBookDao {

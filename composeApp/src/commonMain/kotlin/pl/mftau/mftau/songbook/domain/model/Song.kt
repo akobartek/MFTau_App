@@ -3,8 +3,8 @@ package pl.mftau.mftau.songbook.domain.model
 import kotlinx.serialization.Serializable
 import pl.mftau.mftau.common.utils.getSimilarity
 import pl.mftau.mftau.common.utils.normalizeMultiplatform
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistSongEntity
-import pl.mftau.mftau.songbook.domain.db.entities.SongEntity
+import pl.mftau.mftau.songbook.data.db.entities.PlaylistSongEntity
+import pl.mftau.mftau.songbook.data.db.entities.SongEntity
 
 @Serializable
 data class Song(

@@ -1,7 +1,7 @@
 package pl.mftau.mftau.leaders.data
 
 import kotlinx.coroutines.flow.Flow
-import pl.mftau.mftau.leaders.domain.db.EmausDao
+import pl.mftau.mftau.leaders.data.db.EmausDao
 import pl.mftau.mftau.leaders.domain.model.Emaus
 
 class DbEmausRepository(private val dao: EmausDao) {

@@ -31,6 +31,7 @@ import pl.mftau.mftau.common.utils.navigateSafely
 import pl.mftau.mftau.common.utils.navigateUpSafely
 import pl.mftau.mftau.core.presentation.home.HomeScreen
 import pl.mftau.mftau.core.presentation.settings.SettingsScreen
+import pl.mftau.mftau.gospel.presentation.GospelScreen
 import pl.mftau.mftau.leaders.presentation.emaus.LeadersEmausScreen
 import pl.mftau.mftau.leaders.presentation.meetings.LeadersMeetingsScreen
 import pl.mftau.mftau.leaders.presentation.people.LeadersPeopleScreen
@@ -38,6 +39,7 @@ import pl.mftau.mftau.leaders.presentation.presence.LeadersPresenceScreen
 import pl.mftau.mftau.readings.presentation.ReadingsScreen
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistDetailsScreen
 import pl.mftau.mftau.songbook.presentation.playlists.PlaylistsScreen
+import pl.mftau.mftau.songbook.presentation.songs.SongBookScreen
 import pl.mftau.mftau.songbook.presentation.songs.UserSongScreen
 import pl.mftau.mftau.ui.theme.MFTauTheme
 
@@ -91,10 +93,15 @@ fun App(startDestination: Screen = Home) {
                     )
                 }
                 composable<Gospel> {
-                    // TODO
+                    GospelScreen(
+                        navigateUp = { navController.navigateUpSafely(source = Gospel) },
+                    )
                 }
                 composable<SongBook> {
-                    // TODO
+                    SongBookScreen(
+                        navigateUp = { navController.navigateUpSafely(source = SongBook) },
+                        navigate = { screen -> navController.navigateSafely(route = screen) },
+                    )
                 }
                 composable<Playlists> {
                     PlaylistsScreen(

@@ -3,17 +3,24 @@ package pl.mftau.mftau.gospel.data
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.jsoup.Jsoup
+import com.fleeksoft.ksoup.Ksoup
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 import pl.mftau.mftau.gospel.domain.GospelRepository
 import pl.mftau.mftau.gospel.domain.model.Gospel
 import kotlin.coroutines.cancellation.CancellationException
 
 class GospelRepositoryImpl : GospelRepository {
-    override fun loadGospel(): Result<Gospel> {
+    override suspend fun loadGospel(): Result<Gospel> {
         try {
-            val document = Jsoup.connect(buildGospelUrl())
-                .timeout(30000)
-                .get()
+            val client = HttpClient {
+                this.followRedirects = false
+            }
+            val document = client.get(buildGospelUrl()).body<ByteArray>()
+                .decodeToString()
+                .let { Ksoup.parse(html = it) }
+
             var counter = 3 // minimum value for the gospel
             while (true) {
                 val element = document.getElementById("tabnowy0$counter")

@@ -7,8 +7,8 @@ class MarkSongAsFavouriteUseCase(private val dbRepository: DbSongBookRepository)
     suspend operator fun invoke(song: Song) {
         val updatedSong = song.copy(isFavourite = !song.isFavourite)
         if (updatedSong.isFavourite || !updatedSong.isOriginallyInSongBook)
-            dbRepository.upsertSong(updatedSong.toDbEntity())
+            dbRepository.upsertSong(updatedSong)
         else
-            dbRepository.deleteSong(updatedSong.toDbEntity())
+            dbRepository.deleteSong(updatedSong)
     }
 }

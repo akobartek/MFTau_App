@@ -1,7 +1,6 @@
 package pl.mftau.mftau.songbook.domain.usecase
 
 import pl.mftau.mftau.songbook.data.DbSongBookRepository
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistSongEntity
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.model.Song
 

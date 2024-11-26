@@ -12,7 +12,7 @@ androidx-material = "1.12.0"
 androidx-test-junit = "1.2.1"
 compose-multiplatform = "1.7.1"
 junit = "4.13.2"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 buildconfig = "5.3.5"
 
 serialization = "1.7.3"
@@ -22,13 +22,13 @@ kotlinx-datetime = "0.6.0"
 viewmodel = "2.8.0"
 room = "2.7.0-alpha11"
 datastore = "1.1.1"
-ksp = "2.0.20-1.0.25"
+ksp = "2.0.21-1.0.28"
 sqlite = "2.5.0-alpha11"
 ktor = "3.0.0"
 koin = "3.6.0-Beta4"
 koin-multiplatform = "1.2.0-Beta4"
 coil = "3.0.0-rc01"
-ksoup = "0.1.2"
+ksoup = "0.2.0"
 webview = "1.9.12"
 
 firebase-gitlive-sdk = "1.12.0"
@@ -72,7 +72,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
-ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
+ksoup = { module = "com.fleeksoft.ksoup:ksoup-lite", version.ref = "ksoup" }
 webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 
 firebase-gitlive-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }

@@ -24,8 +24,6 @@ import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -33,9 +31,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -46,7 +44,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.launch
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.add_to_favourites
 import mftau.composeapp.generated.resources.cd_navigate_up
@@ -64,7 +61,9 @@ import pl.mftau.mftau.Screen
 import pl.mftau.mftau.common.presentation.composables.ListScrollbar
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
-import pl.mftau.mftau.common.utils.openPdf
+import pl.mftau.mftau.common.utils.getScreenHeight
+import pl.mftau.mftau.songbook.domain.model.Playlist
+import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.domain.model.SongTopic
 import pl.mftau.mftau.songbook.presentation.playlists.composables.AddToPlaylistDialog
 import pl.mftau.mftau.songbook.presentation.songs.components.ChangeFontSizeDialog
@@ -91,9 +90,15 @@ fun SongBookScreen(
         state = state,
         searchBarState = searchBarState,
         toggleChordsVisibility = viewModel::toggleChordsVisibility,
-
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onSearchFilterChange = viewModel::onSearchFilterChange,
+        addNewPlaylist = viewModel::addNewPlaylist,
+        markSongAsFavourite = viewModel::markSongAsFavourite,
+        saveSongInPlaylists = viewModel::saveSongInPlaylists,
+        togglePlaylistDialogVisibility = viewModel::togglePlaylistDialogVisibility,
+        changeFontSize = viewModel::changeFontSize,
+        saveSong = viewModel::saveSong,
+        toggleSongEditorVisibility = viewModel::toggleSongEditorVisibility,
     )
 }
 
@@ -103,7 +108,7 @@ data class SongBookAction(
     val onClick: () -> Unit
 )
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SongBookScreenContent(
     navigateUp: () -> Unit,
@@ -111,11 +116,18 @@ fun SongBookScreenContent(
     state: SongBookScreenState,
     searchBarState: SongBookSearchBarState,
     toggleChordsVisibility: () -> Unit,
-
     onSearchQueryChange: (String) -> Unit,
     onSearchFilterChange: (SongTopic) -> Unit,
+    addNewPlaylist: (String) -> Unit,
+    markSongAsFavourite: (Song) -> Unit,
+    saveSongInPlaylists: (List<Playlist>) -> Unit,
+    togglePlaylistDialogVisibility: (Song?) -> Unit,
+    changeFontSize: (Int) -> Unit,
+    saveSong: (Song) -> Unit,
+    toggleSongEditorVisibility: () -> Unit,
 ) {
-    val windowInfo = rememberWindowInfo()
+//    val windowInfo = currentWindowAdaptiveInfo()  TODO() -> Use this value in the future instead of size - currently it's not yet available
+    val height = getScreenHeight()
 
     val searchBarHeightDp = 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
@@ -157,7 +169,9 @@ fun SongBookScreenContent(
         SongBookAction(
             icon = Icons.Filled.PictureAsPdf,
             description = stringResource(Res.string.open_pdf),
-            onClick = { if (!context.openPdf("spiewnik.pdf")) pdfDialogVisible = true },
+            onClick = {
+//                if (!context.openPdf("spiewnik.pdf")) pdfDialogVisible = true
+            },
         ),
         SongBookAction(
             icon = Icons.Filled.PostAdd,
@@ -187,7 +201,7 @@ fun SongBookScreenContent(
 
     Scaffold(
         bottomBar = {
-            if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact)
+            if (height < 480.dp)
                 SongBookBottomAppBar(
                     actions = actions,
                     onFabClicked = toggleSongEditorVisibility,
@@ -196,7 +210,7 @@ fun SongBookScreenContent(
         modifier = Modifier.nestedScroll(nestedScrollConnection),
     ) { paddingValues ->
         Row(modifier = Modifier.padding(paddingValues)) {
-            if (windowInfo.screenWidthInfo !is WindowInfo.WindowType.Compact)
+            if (height >= 480.dp)
                 SongBookNavRail(actions = actions)
             LazyColumn(
                 state = lazyListState,
@@ -222,15 +236,13 @@ fun SongBookScreenContent(
                             song = song,
                             preferences = state.preferences,
                             actions = {
-                                IconButton(onClick = {
-                                    screenModel.togglePlaylistDialogVisibility(song)
-                                }) {
+                                IconButton(onClick = { togglePlaylistDialogVisibility(song) }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.PlaylistAdd,
                                         contentDescription = stringResource(Res.string.cd_navigate_up),
                                     )
                                 }
-                                IconButton(onClick = { screenModel.markSongAsFavourite(song) }) {
+                                IconButton(onClick = { markSongAsFavourite(song) }) {
                                     Crossfade(targetState = song.isFavourite, label = "") {
                                         Icon(
                                             imageVector = if (it) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
@@ -270,7 +282,7 @@ fun SongBookScreenContent(
     ChangeFontSizeDialog(
         isVisible = changeFontSizeDialogVisible,
         currentFontSize = state.preferences.fontSize,
-        onSave = screenModel::changeFontSize,
+        onSave = changeFontSize,
         dismiss = { changeFontSizeDialogVisible = false },
     )
 
@@ -278,9 +290,9 @@ fun SongBookScreenContent(
         AddToPlaylistDialog(
             song = state.songSelectedToPlaylists,
             playlists = state.playlists,
-            addNewPlaylist = screenModel::addNewPlaylist,
-            saveSongInPlaylists = screenModel::saveSongInPlaylists,
-            dismiss = { screenModel.togglePlaylistDialogVisibility(null) },
+            addNewPlaylist = addNewPlaylist,
+            saveSongInPlaylists = saveSongInPlaylists,
+            dismiss = { togglePlaylistDialogVisibility(null) },
         )
 
     NoPdfAppDialog(isVisible = pdfDialogVisible, onDismiss = { pdfDialogVisible = false })
@@ -288,7 +300,7 @@ fun SongBookScreenContent(
     if (state.songEditorVisible)
         SongEditorDialog(
             song = null,
-            onSave = screenModel::saveSong,
-            onDismiss = screenModel::toggleSongEditorVisibility,
+            onSave = saveSong,
+            onDismiss = toggleSongEditorVisibility,
         )
 }

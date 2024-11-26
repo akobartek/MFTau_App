@@ -6,7 +6,7 @@ import pl.mftau.mftau.common.data.MFTauDatabase
 import pl.mftau.mftau.leaders.data.DbEmausRepository
 import pl.mftau.mftau.leaders.data.FirebaseMeetingsRepository
 import pl.mftau.mftau.leaders.data.FirebasePeopleRepository
-import pl.mftau.mftau.leaders.domain.db.EmausDao
+import pl.mftau.mftau.leaders.data.db.EmausDao
 import pl.mftau.mftau.leaders.domain.repository.MeetingsRepository
 import pl.mftau.mftau.leaders.domain.repository.PeopleRepository
 import pl.mftau.mftau.leaders.domain.usecase.DeleteDrawsUseCase

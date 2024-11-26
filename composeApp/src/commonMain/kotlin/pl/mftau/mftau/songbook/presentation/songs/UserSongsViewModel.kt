@@ -27,7 +27,7 @@ class UserSongsViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getUserSongsUseCase.songs.collect { list ->
+            getUserSongsUseCase().collect { list ->
                 _state.update { it.copy(songs = list) }
             }
         }

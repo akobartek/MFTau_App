@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import pl.mftau.mftau.songbook.domain.db.entities.PlaylistEntity
+import pl.mftau.mftau.songbook.data.db.entities.PlaylistEntity
 
 data class Playlist(
     val id: Long = 0L,

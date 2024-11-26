@@ -1,4 +1,4 @@
-package pl.mftau.mftau.leaders.domain.db
+package pl.mftau.mftau.leaders.data.db
 
 import androidx.room.Dao
 import androidx.room.Insert

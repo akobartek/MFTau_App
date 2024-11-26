@@ -19,8 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mftau.composeapp.generated.resources.Res
@@ -37,12 +35,12 @@ import pl.mftau.mftau.auth.domain.model.UserType
 import pl.mftau.mftau.common.presentation.composables.CommunityLogo
 import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
+import pl.mftau.mftau.common.utils.getScreenHeight
 import pl.mftau.mftau.core.presentation.home.components.FirstButtonsRow
 import pl.mftau.mftau.core.presentation.home.components.HomeScreenOptions
 import pl.mftau.mftau.core.presentation.home.components.LeaderButtonRow
 import pl.mftau.mftau.core.presentation.home.components.ProfileOptions
 import pl.mftau.mftau.core.presentation.home.components.SecondButtonsRow
-
 
 @Composable
 fun HomeScreen(
@@ -72,8 +70,7 @@ fun HomeScreenContent(
     hideNoInternetDialog: () -> Unit,
 ) {
 //    val windowInfo = currentWindowAdaptiveInfo()  TODO() -> Use this value in the future instead of size - currently it's not yet available
-    val size =
-        with(LocalDensity.current) { LocalWindowInfo.current.containerSize.height.toDp() }
+    val height = getScreenHeight()
 
     var resetPasswordDialogVisible by remember { mutableStateOf(false) }
     var deleteAccountDialogVisible by remember { mutableStateOf(false) }
@@ -95,7 +92,7 @@ fun HomeScreenContent(
                 navigate = navigate,
             )
         }
-        if (size < 480.dp) {
+        if (height < 480.dp) {
             CommunityLogo()
             Spacer(modifier = Modifier.height(24.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
