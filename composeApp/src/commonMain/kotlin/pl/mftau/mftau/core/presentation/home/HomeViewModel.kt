@@ -19,7 +19,7 @@ import pl.mftau.mftau.common.presentation.snackbars.SnackbarEvent
 
 class HomeViewModel(
     private val authRepository: AuthRepository,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
 ) : ViewModel() {
 
     private var userJob: Job? = null

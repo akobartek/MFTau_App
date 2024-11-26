@@ -4,6 +4,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import pl.mftau.mftau.auth.di.authModule
 import pl.mftau.mftau.breviary.di.breviaryModule
+import pl.mftau.mftau.common.di.commonModule
 import pl.mftau.mftau.common.di.platformModule
 import pl.mftau.mftau.core.di.coreModule
 import pl.mftau.mftau.gospel.di.gospelModule
@@ -13,6 +14,7 @@ import pl.mftau.mftau.songbook.di.songBookModule
 
 private fun getBaseModules() = listOf(
     platformModule,
+    commonModule,
     coreModule,
     authModule,
     songBookModule,

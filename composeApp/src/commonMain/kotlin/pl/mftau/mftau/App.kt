@@ -109,8 +109,8 @@ fun App(startDestination: Screen = Home) {
                         openDetails = { playlistId, importCode ->
                             navController.navigateSafely(
                                 PlaylistDetails(
-                                    playlistId = playlistId,
-                                    importCode = importCode,
+                                    playlistId = playlistId ?: -1,
+                                    importCode = importCode ?: "",
                                 )
                             )
                         },
@@ -120,8 +120,8 @@ fun App(startDestination: Screen = Home) {
                     val screen = it.toRoute<PlaylistDetails>()
                     PlaylistDetailsScreen(
                         navigateUp = { navController.navigateUpSafely(source = screen) },
-                        playlistId = screen.playlistId,
-                        importCode = screen.importCode,
+                        playlistId = screen.playlistId.takeIf { id -> id != -1L },
+                        importCode = screen.importCode.takeIf { code -> code.isNotBlank() },
                     )
                 }
                 composable<UserSongs> {
