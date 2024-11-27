@@ -221,6 +221,7 @@ fun MeetingEditorDialog(
                                     )
                                 },
                                 enabled = false,
+                                singleLine = true,
                                 colors = OutlinedTextFieldDefaults.colors(
                                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                                     disabledBorderColor = MaterialTheme.colorScheme.outline,
@@ -231,7 +232,7 @@ fun MeetingEditorDialog(
                                 ),
                                 modifier = Modifier
                                     .clickable { dateDialogVisible = true }
-                                    .weight(1f),
+                                    .fillMaxWidth(0.55f),
                             )
                         }
                         Spacer(modifier = Modifier.height(16.dp))

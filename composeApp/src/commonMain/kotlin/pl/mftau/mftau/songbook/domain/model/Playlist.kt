@@ -5,8 +5,10 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.Serializable
 import pl.mftau.mftau.songbook.data.db.entities.PlaylistEntity
 
+@Serializable
 data class Playlist(
     val id: Long = 0L,
     val name: String = "",

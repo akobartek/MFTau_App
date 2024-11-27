@@ -3,6 +3,7 @@ package pl.mftau.mftau.leaders.presentation.people
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -71,6 +72,7 @@ fun LeadersPeopleScreenContent(
                         Icon(
                             imageVector = vectorResource(Res.drawable.ic_draws),
                             contentDescription = stringResource(Res.string.emaus),
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 },

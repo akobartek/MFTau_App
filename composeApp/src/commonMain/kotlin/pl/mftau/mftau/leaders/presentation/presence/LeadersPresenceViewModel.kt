@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.common.data.PreferencesRepository
@@ -30,42 +32,48 @@ class LeadersPresenceViewModel(
     init {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                peopleRepository.getPeople()
-                    .combine(meetingsRepository.getMeetings()) { people, meetings ->
-                        val map = hashMapOf<MeetingType, List<Meeting>>()
-                        map[MeetingType.FORMATION] =
-                            meetings.filter { it.meetingType == MeetingType.FORMATION }
-                        map[MeetingType.PRAYERFUL] =
-                            meetings.filter { it.meetingType == MeetingType.PRAYERFUL }
-                        map[MeetingType.OTHER] =
-                            meetings.filter { it.meetingType == MeetingType.OTHER }
+                combine(
+                    meetingsRepository.getMeetings(),
+                    peopleRepository.getPeople(),
+                ) { meetings, people ->
+                    val map = hashMapOf<MeetingType, List<Meeting>>()
+                    map[MeetingType.FORMATION] =
+                        meetings.filter { it.meetingType == MeetingType.FORMATION }
+                    map[MeetingType.PRAYERFUL] =
+                        meetings.filter { it.meetingType == MeetingType.PRAYERFUL }
+                    map[MeetingType.OTHER] =
+                        meetings.filter { it.meetingType == MeetingType.OTHER }
 
-                        val presence = people.map { person ->
-                            val presenceMap =
-                                mutableMapOf<MeetingType, Triple<Float, Float, Float>>()
-                            map.keys.forEach { type ->
-                                val list = map[type] ?: listOf()
-                                presenceMap[type] =
-                                    if (list.isNotEmpty()) {
-                                        val attendance =
-                                            list.count { it.attendanceList.contains(person.id) }
-                                                .toFloat() / list.size
-                                        val absence =
-                                            list.count { it.absenceList.keys.contains(person.id) }
-                                                .toFloat() / list.size
-                                        Triple(
-                                            attendance,
-                                            absence,
-                                            1f - attendance - absence,
-                                        )
-                                    } else Triple(0f, 0f, 0f)
-                            }
-                            PersonPresence(person.id, person.name, presenceMap)
+                    val presence = people.map { person ->
+                        val presenceMap =
+                            mutableMapOf<MeetingType, Triple<Float, Float, Float>>()
+                        map.keys.forEach { type ->
+                            val list = map[type] ?: listOf()
+                            presenceMap[type] =
+                                if (list.isNotEmpty()) {
+                                    val attendance =
+                                        list.count { it.attendanceList.contains(person.id) }
+                                            .toFloat() / list.size
+                                    val absence =
+                                        list.count { it.absenceList.keys.contains(person.id) }
+                                            .toFloat() / list.size
+                                    Triple(
+                                        attendance,
+                                        absence,
+                                        1f - attendance - absence,
+                                    )
+                                } else Triple(0f, 0f, 0f)
                         }
-
+                        PersonPresence(person.id, person.name, presenceMap)
+                    }
+                    map to presence
+                }
+                    .stateIn(viewModelScope, SharingStarted.WhileSubscribed(1000L), null)
+                    .collect { pair ->
+                        val (meetings, presence) = pair ?: return@collect
                         _state.update {
                             it.copy(
-                                meetings = map,
+                                meetings = meetings,
                                 presence = presence,
                                 isLoading = false,
                             )

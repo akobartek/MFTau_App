@@ -1,7 +1,9 @@
 package pl.mftau.mftau.leaders.domain.model
 
 import dev.gitlive.firebase.firestore.Timestamp
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Meeting(
     val id: String = "",
     val name: String = "",

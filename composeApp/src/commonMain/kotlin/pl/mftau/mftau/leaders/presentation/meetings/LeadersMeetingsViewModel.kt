@@ -45,26 +45,31 @@ class LeadersMeetingsViewModel(
 
     init {
         checkInvalidUserException { scope ->
-            meetingsRepository.getMeetings()
+            combine(
+                meetingsRepository.getMeetings(),
+                peopleRepository.getPeople(),
+            ) { meetings, people ->
+                val map = hashMapOf<MeetingType, List<Meeting>>()
+                map[MeetingType.FORMATION] =
+                    meetings.filter { it.meetingType == MeetingType.FORMATION }
+                map[MeetingType.PRAYERFUL] =
+                    meetings.filter { it.meetingType == MeetingType.PRAYERFUL }
+                map[MeetingType.OTHER] =
+                    meetings.filter { it.meetingType == MeetingType.OTHER }
+                map to people
+            }
+                .stateIn(scope, SharingStarted.WhileSubscribed(1000L), null)
                 .onEach { toggleLoadingState(true) }
-                .combine(peopleRepository.getPeople()) { meetings, people ->
-                    val map = hashMapOf<MeetingType, List<Meeting>>()
-                    map[MeetingType.FORMATION] =
-                        meetings.filter { it.meetingType == MeetingType.FORMATION }
-                    map[MeetingType.PRAYERFUL] =
-                        meetings.filter { it.meetingType == MeetingType.PRAYERFUL }
-                    map[MeetingType.OTHER] =
-                        meetings.filter { it.meetingType == MeetingType.OTHER }
-
+                .collect { pair ->
+                    val (meetings, people) = pair ?: return@collect
                     _state.update {
                         it.copy(
-                            meetings = map,
+                            meetings = meetings,
                             people = people,
                         )
                     }
                     toggleLoadingState(false)
                 }
-                .stateIn(scope, SharingStarted.WhileSubscribed(1000L), null)
         }
     }
 

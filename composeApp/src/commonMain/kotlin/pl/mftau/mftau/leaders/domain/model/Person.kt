@@ -1,5 +1,8 @@
 package pl.mftau.mftau.leaders.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Person(
     val id: String = "",
     val name: String = "",

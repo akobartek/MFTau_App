@@ -1,5 +1,6 @@
 package pl.mftau.mftau.leaders.domain.model
 
+import kotlinx.serialization.Serializable
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.meeting_formation
 import mftau.composeapp.generated.resources.meeting_other
@@ -14,6 +15,7 @@ import pl.mftau.mftau.ui.theme.MeetingType3Color1
 import pl.mftau.mftau.ui.theme.MeetingType3Color2
 import pl.mftau.mftau.ui.theme.MeetingType3Color3
 
+@Serializable
 enum class MeetingType(val index: Int) {
     FORMATION(0),
     PRAYERFUL(1),
