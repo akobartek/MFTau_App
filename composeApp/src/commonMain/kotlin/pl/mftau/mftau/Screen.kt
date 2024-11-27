@@ -23,7 +23,7 @@ sealed class Screen {
     data object Playlists : Screen()
 
     @Serializable
-    data class PlaylistDetails(val playlistId: Long, val importCode: String) : Screen()
+    data class PlaylistDetails(val playlistId: Long, val importCode: String?) : Screen()
 
     @Serializable
     data object UserSongs : Screen()

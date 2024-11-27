@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,18 +46,6 @@ fun ReadingsScreenContent(
 ) {
     val scaffoldNavigator = rememberListDetailPaneScaffoldNavigator()
 
-    // TODO CHECK BACK BEHAVIOR
-    // val backBehavior =
-    //                if (scaffoldNavigator.isListExpanded() && scaffoldNavigator.isDetailExpanded()) {
-    //                    BackNavigationBehavior.PopUntilContentChange
-    //                } else {
-    //                    BackNavigationBehavior.PopUntilScaffoldValueChange
-    //                }
-    // fun ThreePaneScaffoldNavigator<*>.isListExpanded() =
-    //        scaffoldValue[ListDetailPaneScaffoldRole.List] == PaneAdaptedValue.Expanded
-    //    fun ThreePaneScaffoldNavigator<*>.isDetailExpanded() =
-    //        scaffoldValue[ListDetailPaneScaffoldRole.Detail] == PaneAdaptedValue.Expanded
-
     BackHandler {
         if (scaffoldNavigator.canNavigateBack())
             scaffoldNavigator.navigateBack()
@@ -73,7 +62,10 @@ fun ReadingsScreenContent(
                     navigateUp = navigateUp,
                     state = state,
                     tabSelected = tabSelected,
-                    onReadingSelected = onReadingSelected,
+                    onReadingSelected = {
+                        onReadingSelected(it)
+                        scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                    },
                 )
             }
         },

@@ -4,7 +4,7 @@
     <string name="community_name">Franciscan\nYouth\nTAU</string>
     <string name="cd_more_options_btn">More options</string>
     <string name="cd_profile_pic">Profile picture</string>
-    <string name="cd_main_screen_btn">Open %s screen</string>
+    <string name="cd_main_screen_btn">Open %1$s screen</string>
     <string name="cd_navigate_up">Back to previous screen</string>
     <string name="statute">Statute</string>
     <string name="readings">Readings</string>
@@ -160,8 +160,8 @@
     <string name="empty_user_songs_list">There are no songs added before!</string>
     <string name="my_playlists">My playlists</string>
     <plurals name="playlist_song_count">
-        <item quantity="one">%d song</item>
-        <item quantity="other">%d songs</item>
+        <item quantity="one">%1$d song</item>
+        <item quantity="other">%1$d songs</item>
     </plurals>
     <string name="empty_playlists_list">No playlist created!\nIf you want, there is an option to create a playlist above.</string>
     <string name="empty_playlist">No songs have been assigned to this playlist!</string>
@@ -183,7 +183,7 @@
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Preferences</string>
-    <string name="selection_setting_summary">Current: %s</string>
+    <string name="selection_setting_summary">Current: %1$s</string>
     <string name="theme_title">Theme</string>
     <string name="theme_dialog_title">Choose theme</string>
     <string name="dynamic_colors_title">Dynamic colors</string>
@@ -214,9 +214,9 @@
     <string name="save_breviary_dialog_msg">Do you want to download and save the breviary for a selected day on your phone?</string>
     <string name="save_finished_dialog_msg">The breviary has been downloaded and saved, the loaded content will be displayed when there is no Internet.</string>
     <string name="save_in_memory">Save in phone memory</string>
-    <string name="cd_download_success">%s successfully downloaded</string>
-    <string name="cd_download_loading">%s downloading in progress</string>
-    <string name="cd_download_error">Error occurred while downloading %s</string>
+    <string name="cd_download_success">%1$s successfully downloaded</string>
+    <string name="cd_download_loading">%1$s downloading in progress</string>
+    <string name="cd_download_error">Error occurred while downloading %1$s</string>
     <string name="breviary_copyright">Texts of the Liturgy of the Hours:\n© Copyright by Polish Episcopal Conference and Pallottinum Publishing House</string>
     <string name="processing_failed_dialog_title">Processing failed</string>
     <string name="processing_failed_dialog_message">A problem was encountered while processing text. Downloading the breviary should fix this error.</string>
@@ -255,10 +255,10 @@
     <string name="absence_dialog_message">Give the reason for absence:</string>
     <string name="reason">Reason</string>
     <string name="presence">Presence</string>
-    <string name="present">Present - %d%s</string>
-    <string name="justified">Justified - %d%s</string>
-    <string name="absent">Absent - %d%s</string>
-    <string name="reason_for_absence">Reason for absence: %s</string>
+    <string name="present">Present - %1$s</string>
+    <string name="justified">Justified - %1$s</string>
+    <string name="absent">Absent - %1$s</string>
+    <string name="reason_for_absence">Reason for absence: %1$s</string>
     <string name="clear_meetings_dialog_msg">Do you want to delete ALL meetings?</string>
     <string name="clear_meetings">Clear meetings</string>
     <string name="meeting_delete_dialog_msg">Do you want to delete this meeting?</string>

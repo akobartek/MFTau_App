@@ -110,7 +110,7 @@ fun App(startDestination: Screen = Home) {
                             navController.navigateSafely(
                                 PlaylistDetails(
                                     playlistId = playlistId ?: -1,
-                                    importCode = importCode ?: "",
+                                    importCode = importCode,
                                 )
                             )
                         },
@@ -121,7 +121,7 @@ fun App(startDestination: Screen = Home) {
                     PlaylistDetailsScreen(
                         navigateUp = { navController.navigateUpSafely(source = screen) },
                         playlistId = screen.playlistId.takeIf { id -> id != -1L },
-                        importCode = screen.importCode.takeIf { code -> code.isNotBlank() },
+                        importCode = screen.importCode,
                     )
                 }
                 composable<UserSongs> {

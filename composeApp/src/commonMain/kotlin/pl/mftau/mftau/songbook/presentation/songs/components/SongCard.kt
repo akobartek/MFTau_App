@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -66,16 +67,17 @@ fun SongCard(
     ) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                SelectionContainer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp)
-                        .padding(vertical = 12.dp),
-                ) {
-                    Text(
-                        text = song.title,
-                        style = MaterialTheme.typography.titleMedium,
-                    )
+                Box(modifier = Modifier.weight(1f)) {
+                    SelectionContainer(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .padding(vertical = 12.dp),
+                    ) {
+                        Text(
+                            text = song.title,
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    }
                 }
                 actions()
             }

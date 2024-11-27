@@ -131,7 +131,8 @@ fun PlaylistsScreenContent(
                             Text(
                                 text = pluralStringResource(
                                     Res.plurals.playlist_song_count,
-                                    songsCount
+                                    songsCount,
+                                    songsCount,
                                 ),
                                 style = MaterialTheme.typography.bodySmall,
                             )

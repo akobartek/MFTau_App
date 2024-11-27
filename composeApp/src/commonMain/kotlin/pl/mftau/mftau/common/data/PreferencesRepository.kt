@@ -108,7 +108,7 @@ class PreferencesRepository(private val dataStore: DataStore<Preferences>) {
     }
 
     companion object {
-        const val DATA_STORE_NAME = "user_preferences.preferences_db"
+        const val DATA_STORE_NAME = "user_preferences.preferences_pb"
         private const val THEME_KEY = "theme"
         private const val DYNAMIC_COLORS_KEY = "dynamic_colors"
         private const val REPEAT_GOSPEL_KEY = "repeat_gospel"

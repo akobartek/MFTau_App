@@ -5,7 +5,7 @@
     <string name="community_name">Młodzież\nFranciszkańska\nTAU</string>
     <string name="cd_more_options_btn">Więcej opcji</string>
     <string name="cd_profile_pic">Zdjęcie profilowe</string>
-    <string name="cd_main_screen_btn">Przejdź na ekran %s</string>
+    <string name="cd_main_screen_btn">Przejdź na ekran %1$s</string>
     <string name="cd_navigate_up">Cofnij na poprzedni ekran</string>
     <string name="mftau_website" translatable="false">mftau.pl</string>
     <string name="statute">Statut</string>
@@ -164,9 +164,9 @@
     <string name="empty_user_songs_list">Nie dodano jeszcze żadnych utworów!</string>
     <string name="my_playlists">Moje playlisty</string>
     <plurals name="playlist_song_count">
-        <item quantity="one">%d utwór</item>
-        <item quantity="few">%d utwory</item>
-        <item quantity="other">%d utworów</item>
+        <item quantity="one">%1$d utwór</item>
+        <item quantity="few">%1$d utwory</item>
+        <item quantity="other">%1$d utworów</item>
     </plurals>
     <string name="empty_playlists_list">Nie utworzono żadnej playlisty!\nJeśli chcesz, powyżej znajduje się możliwość utworzenia playlisty.</string>
     <string name="empty_playlist">Do tej playlisty nie przypisano żadnych utworów!</string>
@@ -188,7 +188,7 @@
 
     <!-- PREFERENCES STRINGS -->
     <string name="preferences">Ustawienia</string>
-    <string name="selection_setting_summary">Obecnie: %s</string>
+    <string name="selection_setting_summary">Obecnie: %1$s</string>
     <string name="theme_title">Motyw</string>
     <string name="theme_dialog_title">Wybierz motyw</string>
     <string name="dynamic_colors_title">Dynamiczne kolory</string>
@@ -219,9 +219,9 @@
     <string name="save_breviary_dialog_msg">Czy chcesz pobrać i zapisać na telefonie brewiarz z wybranego dnia?</string>
     <string name="save_finished_dialog_msg">Pobrano oraz zapisano brewiarz, załadowane treści zostaną wyświetlone w sytuacji braku internetu.</string>
     <string name="save_in_memory">Zapis w pamięci telefonu</string>
-    <string name="cd_download_success">%s prawidłowo pobrana</string>
-    <string name="cd_download_loading">%s w trakcie pobierania</string>
-    <string name="cd_download_error">Wystąpił błąd podczas pobierania %s</string>
+    <string name="cd_download_success">%1$s prawidłowo pobrana</string>
+    <string name="cd_download_loading">%1$s w trakcie pobierania</string>
+    <string name="cd_download_error">Wystąpił błąd podczas pobierania %1$s</string>
     <string name="breviary_copyright">Teksty Liturgii Godzin:\n© Copyright by Konferencja Episkopatu Polski i Wydawnictwo Pallottinum</string>
     <string name="processing_failed_dialog_title">Błąd przetwarzania</string>
     <string name="processing_failed_dialog_message">Podczas przetwarzania tekstu napotkano problem. Pobranie brewiarza powinno naprawić błąd.</string>
@@ -260,10 +260,10 @@
     <string name="absence_dialog_message">Podaj powód nieobecności:</string>
     <string name="reason">Powód</string>
     <string name="presence">Obecności</string>
-    <string name="present">Obecność - %d%s</string>
-    <string name="justified">Wytłumaczenie - %d%s</string>
-    <string name="absent">Nieobecność - %d%s</string>
-    <string name="reason_for_absence">Powód nieobecności: %s</string>
+    <string name="present">Obecność - %1$s</string>
+    <string name="justified">Wytłumaczenie - %1$s</string>
+    <string name="absent">Nieobecność - %1$s</string>
+    <string name="reason_for_absence">Powód nieobecności: %1$s</string>
     <string name="clear_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
     <string name="clear_meetings">Wyczyść spotkania</string>
     <string name="meeting_delete_dialog_msg">Usunąć to spotkanie?</string>
