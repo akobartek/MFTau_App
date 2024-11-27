@@ -11,5 +11,3 @@ enum class ColorTheme(val value: String) {
         }
     }
 }
-
-expect fun setupAppCompatDelegate(theme: ColorTheme)

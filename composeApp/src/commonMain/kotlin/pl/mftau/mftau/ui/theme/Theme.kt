@@ -9,6 +9,9 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.compose.koinInject
+import pl.mftau.mftau.core.presentation.AppViewModel
 
 val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -80,11 +83,12 @@ val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
 @Composable
 fun MFTauTheme(
-    colorTheme: ColorTheme = ColorTheme.SYSTEM,
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    viewModel: AppViewModel = koinInject(),
+    content: @Composable () -> Unit,
 ) {
-    val darkMode = when (colorTheme) {
+    val preferences by viewModel.preferences.collectAsStateWithLifecycle()
+
+    val darkMode = when (preferences.colorTheme) {
         ColorTheme.SYSTEM -> isSystemInDarkTheme()
         ColorTheme.DARK -> true
         ColorTheme.LIGHT -> false
@@ -95,10 +99,10 @@ fun MFTauTheme(
         LocalThemeIsDark provides isDarkState
     ) {
         val isDark by isDarkState
-        SystemMaterialTheme(content, isDark, dynamicColor)
-
         mfTauColorPrimary = if (isDark) mf_tau_dark_primary else mf_tau_light_primary
         mfTauColorSecondary = if (isDark) mf_tau_dark_secondary else mf_tau_light_secondary
+
+        SystemMaterialTheme(content, isDark, preferences.dynamicColors)
     }
 }
 
