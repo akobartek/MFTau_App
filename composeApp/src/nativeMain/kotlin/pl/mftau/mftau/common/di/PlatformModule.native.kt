@@ -7,6 +7,8 @@ import kotlinx.coroutines.IO
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import pl.mftau.mftau.common.data.MFTauDatabase
+import pl.mftau.mftau.common.utils.AppleSpeech
+import pl.mftau.mftau.common.utils.MFTauSpeech
 import pl.mftau.mftau.common.utils.dataStore
 import pl.mftau.mftau.common.utils.fileDirectory
 
@@ -20,4 +22,6 @@ actual val platformModule: Module = module {
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
+
+    factory<MFTauSpeech> { AppleSpeech() }
 }

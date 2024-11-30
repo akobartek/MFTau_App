@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.gospel_for_today
 import mftau.composeapp.generated.resources.listen_gospel
@@ -34,6 +38,7 @@ import org.koin.compose.koinInject
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
+import pl.mftau.mftau.common.utils.MFTauSpeech
 import pl.mftau.mftau.gospel.domain.model.Gospel
 
 @Composable
@@ -45,24 +50,28 @@ fun GospelScreen(
     val repeatGospel by viewModel.repeatGospel.collectAsStateWithLifecycle()
     var isSpeaking by remember { mutableStateOf(false) }
 
-//    val textToSpeech = koinInject<MyTextToSpeech>()
-//    textToSpeech.setProgressListener {
-//        scope.launch {
-//            if (repeatGospel) {
-//                delay(1000)
-//                textToSpeech.speak(screenModel.getGospelToRead())
-//            } else isSpeaking = false
-//        }
-//    }
+    val textToSpeech = koinInject<MFTauSpeech>()
+
+    LaunchedEffect(Unit) {
+        textToSpeech.setListener {
+            if (repeatGospel) {
+                launch {
+                    delay(1000)
+                    if (isActive)
+                        textToSpeech.speak(viewModel.getGospelToRead())
+                }
+            }
+        }
+    }
 
     GospelScreenContent(
         state = state,
         navigateUp = navigateUp,
         loadGospel = viewModel::loadGospel,
         onPlayPauseClicked = {
-//            isSpeaking = !isSpeaking
-//            if (isSpeaking) textToSpeech.speak(screenModel.getGospelToRead())
-//            else textToSpeech.stop()
+            isSpeaking = !isSpeaking
+            if (isSpeaking) textToSpeech.speak(viewModel.getGospelToRead())
+            else textToSpeech.stop()
         },
         isSpeaking = isSpeaking,
     )
@@ -70,10 +79,7 @@ fun GospelScreen(
     DisposableEffect(Unit) {
         onDispose {
             isSpeaking = false
-//            if (textToSpeech.isSpeaking) {
-//                textToSpeech.stop()
-//                textToSpeech.shutdown()
-//            }
+            textToSpeech.shutdown()
         }
     }
 }

@@ -7,6 +7,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import pl.mftau.mftau.common.data.MFTauDatabase
+import pl.mftau.mftau.common.utils.AndroidSpeech
+import pl.mftau.mftau.common.utils.MFTauSpeech
 import pl.mftau.mftau.common.utils.dataStore
 
 actual val platformModule: Module = module {
@@ -23,4 +25,6 @@ actual val platformModule: Module = module {
             .setQueryCoroutineContext(Dispatchers.IO)
             .build()
     }
+
+    factory<MFTauSpeech> { AndroidSpeech(androidContext()) }
 }
