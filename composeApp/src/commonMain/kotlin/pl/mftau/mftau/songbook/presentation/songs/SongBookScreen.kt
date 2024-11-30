@@ -33,7 +33,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -62,6 +61,7 @@ import pl.mftau.mftau.common.presentation.composables.ListScrollbar
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
 import pl.mftau.mftau.common.utils.getScreenHeight
+import pl.mftau.mftau.common.utils.getScreenWidth
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.domain.model.SongTopic
@@ -108,7 +108,7 @@ data class SongBookAction(
     val onClick: () -> Unit
 )
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SongBookScreenContent(
     navigateUp: () -> Unit,
@@ -127,7 +127,9 @@ fun SongBookScreenContent(
     toggleSongEditorVisibility: () -> Unit,
 ) {
 //    val windowInfo = currentWindowAdaptiveInfo()  TODO() -> Use this value in the future instead of size - currently it's not yet available
-    val height = getScreenHeight()
+    val width = getScreenWidth()
+    println("Songbook height: ${getScreenHeight()}")
+    println("Songbook width: ${getScreenWidth()}")
 
     val searchBarHeightDp = 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
@@ -201,7 +203,7 @@ fun SongBookScreenContent(
 
     Scaffold(
         bottomBar = {
-            if (height < 480.dp)
+            if (width < 600.dp)
                 SongBookBottomAppBar(
                     actions = actions,
                     onFabClicked = toggleSongEditorVisibility,
@@ -210,7 +212,7 @@ fun SongBookScreenContent(
         modifier = Modifier.nestedScroll(nestedScrollConnection),
     ) { paddingValues ->
         Row(modifier = Modifier.padding(paddingValues)) {
-            if (height >= 480.dp)
+            if (width >= 600.dp)
                 SongBookNavRail(actions = actions)
             LazyColumn(
                 state = lazyListState,

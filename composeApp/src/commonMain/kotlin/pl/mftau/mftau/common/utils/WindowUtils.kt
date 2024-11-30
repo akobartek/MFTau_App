@@ -5,3 +5,6 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 expect fun getScreenHeight(): Dp
+
+@Composable
+expect fun getScreenWidth(): Dp

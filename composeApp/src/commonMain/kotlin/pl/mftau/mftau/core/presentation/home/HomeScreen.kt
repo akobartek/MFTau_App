@@ -92,7 +92,7 @@ fun HomeScreenContent(
                 navigate = navigate,
             )
         }
-        if (height < 300.dp) {
+        if (height < 440.dp) {
             CommunityLogo()
             Spacer(modifier = Modifier.height(24.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -100,7 +100,7 @@ fun HomeScreenContent(
                 SecondButtonsRow(navigate = navigate)
             }
         } else {
-            CommunityLogo(Modifier.padding(top = 16.dp))
+            CommunityLogo(Modifier.padding(top = 8.dp))
             Spacer(modifier = Modifier.height(32.dp))
             FirstButtonsRow(navigate = navigate)
             Spacer(modifier = Modifier.height(16.dp))

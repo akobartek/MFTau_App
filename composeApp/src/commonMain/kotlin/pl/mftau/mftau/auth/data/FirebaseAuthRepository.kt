@@ -14,16 +14,12 @@ import pl.mftau.mftau.common.utils.deleteObject
 import pl.mftau.mftau.common.utils.getFirestoreDocument
 import pl.mftau.mftau.common.utils.saveObject
 
-
 class FirebaseAuthRepository(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : AuthRepository {
 
-    override val currentUserEmail: String
-        get() = auth.currentUser?.email.orEmpty()
-
-    override val currentUser: Flow<User?> =
+    override fun getCurrentUser(): Flow<User?> =
         auth.currentUser?.let { authUser ->
             firestore.getFirestoreDocument<User?>(
                 collectionName = COLLECTION_USERS,

@@ -1,26 +1,22 @@
 package pl.mftau.mftau.leaders.data
 
+import dev.gitlive.firebase.auth.FirebaseAuth
 import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.FirebaseFirestore
 import dev.gitlive.firebase.firestore.orderBy
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import pl.mftau.mftau.auth.domain.AuthRepository
-import pl.mftau.mftau.leaders.domain.model.InvalidUserException
 import pl.mftau.mftau.leaders.domain.model.Meeting
 import pl.mftau.mftau.leaders.domain.repository.MeetingsRepository
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FirebaseMeetingsRepository(
     private val firestore: FirebaseFirestore,
-    private val auth: AuthRepository
+    private val auth: FirebaseAuth
 ) : MeetingsRepository {
 
     override fun getMeetings(): Flow<List<Meeting>> =
-        auth.currentUser.flatMapLatest { user ->
-            val city = user?.email?.split("@")?.get(0) ?: throw InvalidUserException()
+        getCity()?.let { city ->
             firestore.collection(COLLECTION_CITIES)
                 .document(city)
                 .collection(COLLECTION_MEETINGS)
@@ -29,34 +25,40 @@ class FirebaseMeetingsRepository(
                 .map { querySnapshot ->
                     querySnapshot.documents.map { it.data() }
                 }
+        } ?: flowOf()
+
+    override suspend fun saveMeeting(meeting: Meeting) {
+        getCity()?.let { city ->
+            firestore.collection(COLLECTION_CITIES)
+                .document(city)
+                .collection(COLLECTION_MEETINGS)
+                .document(meeting.id)
+                .set(meeting)
         }
+    }
 
-    override suspend fun saveMeeting(meeting: Meeting) =
-        firestore.collection(COLLECTION_CITIES)
-            .document(getCity())
-            .collection(COLLECTION_MEETINGS)
-            .document(meeting.id)
-            .set(meeting)
-
-    override suspend fun deleteMeeting(meeting: Meeting) =
-        firestore.collection(COLLECTION_CITIES)
-            .document(getCity())
-            .collection(COLLECTION_MEETINGS)
-            .document(meeting.id)
-            .delete()
+    override suspend fun deleteMeeting(meeting: Meeting) {
+        getCity()?.let { city ->
+            firestore.collection(COLLECTION_CITIES)
+                .document(city)
+                .collection(COLLECTION_MEETINGS)
+                .document(meeting.id)
+                .delete()
+        }
+    }
 
     override suspend fun clearMeetings() {
-        val snapshot = firestore.collection(COLLECTION_CITIES)
-            .document(getCity())
-            .collection(COLLECTION_MEETINGS)
-            .get()
-        snapshot.documents.forEach { it.reference.delete() }
+        getCity()?.let { city ->
+            val snapshot = firestore.collection(COLLECTION_CITIES)
+                .document(city)
+                .collection(COLLECTION_MEETINGS)
+                .get()
+            snapshot.documents.forEach { it.reference.delete() }
+        }
     }
 
-    private fun getCity(): String {
-        val city = auth.currentUserEmail.split("@")[0]
-        return city.ifBlank { throw InvalidUserException() }
-    }
+    private fun getCity(): String? =
+        auth.currentUser?.email?.split("@")?.get(0)
 
     companion object {
         private const val COLLECTION_CITIES = "cities"

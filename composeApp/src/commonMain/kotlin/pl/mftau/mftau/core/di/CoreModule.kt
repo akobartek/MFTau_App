@@ -14,6 +14,6 @@ val coreModule = module {
     single { Firebase.firestore }
 
     viewModel { AppViewModel(get()) }
-    single { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get(), get()) }
     viewModel { SettingsViewModel(get()) }
 }

@@ -32,7 +32,7 @@ class HomeViewModel(
 
     private fun startObservingUser() {
         userJob = viewModelScope.launch(Dispatchers.IO) {
-            authRepository.currentUser
+            authRepository.getCurrentUser()
                 .stateIn(this, SharingStarted.WhileSubscribed(5000L), null)
                 .collect { user -> _state.update { it.copy(user = user) } }
         }
@@ -43,7 +43,7 @@ class HomeViewModel(
     }
 
     fun signOut() {
-        userJob?.cancel()
+        clearUserState()
         viewModelScope.launch { authRepository.signOut() }
     }
 
@@ -60,11 +60,16 @@ class HomeViewModel(
     }
 
     fun deleteAccount() {
-        userJob?.cancel()
+        clearUserState()
         viewModelScope.launch {
             authRepository.deleteAccount()
             SnackbarController.sendEvent(SnackbarEvent.AccountDeleted)
             preferencesRepository.updateLastUsedEmail("")
         }
+    }
+
+    private fun clearUserState() {
+        userJob?.cancel()
+        _state.update { it.copy(user = null) }
     }
 }

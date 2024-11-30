@@ -4,9 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import pl.mftau.mftau.auth.domain.model.User
 
 interface AuthRepository {
-    val currentUserEmail: String
-    val currentUser: Flow<User?>
-
+    fun getCurrentUser(): Flow<User?>
     suspend fun signIn(email: String, password: String): Result<Boolean>
     suspend fun signUp(email: String, password: String): Result<Boolean>
     suspend fun sendRecoveryEmail(email: String): Result<Boolean>
