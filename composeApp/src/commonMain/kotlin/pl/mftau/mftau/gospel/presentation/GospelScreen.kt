@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
@@ -21,12 +22,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -46,6 +49,7 @@ fun GospelScreen(
     navigateUp: () -> Unit,
     viewModel: GospelViewModel = koinInject(),
 ) {
+    val scope = rememberCoroutineScope()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val repeatGospel by viewModel.repeatGospel.collectAsStateWithLifecycle()
     var isSpeaking by remember { mutableStateOf(false) }
@@ -54,24 +58,31 @@ fun GospelScreen(
 
     LaunchedEffect(Unit) {
         textToSpeech.setListener {
-            if (repeatGospel) {
-                launch {
-                    delay(1000)
+            if (repeatGospel)
+                scope.launch {
+                    delay(1111)
                     if (isActive)
                         textToSpeech.speak(viewModel.getGospelToRead())
                 }
-            }
+            else
+                isSpeaking = false
         }
     }
 
     GospelScreenContent(
         state = state,
-        navigateUp = navigateUp,
+        navigateUp = {
+            textToSpeech.stop()
+            navigateUp()
+        },
         loadGospel = viewModel::loadGospel,
         onPlayPauseClicked = {
             isSpeaking = !isSpeaking
             if (isSpeaking) textToSpeech.speak(viewModel.getGospelToRead())
-            else textToSpeech.stop()
+            else {
+                scope.cancel()
+                textToSpeech.stop()
+            }
         },
         isSpeaking = isSpeaking,
     )
@@ -134,30 +145,32 @@ fun GospelScreenContent(
 
 @Composable
 private fun GospelLayout(gospel: Gospel) {
-    Column(Modifier.verticalScroll(rememberScrollState())) {
-        Text(
-            text = gospel.verses,
-            modifier = Modifier.padding(vertical = 4.dp),
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Text(
-            text = gospel.title,
-            modifier = Modifier.padding(vertical = 8.dp),
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = gospel.author,
-            modifier = Modifier.padding(vertical = 8.dp),
-            style = MaterialTheme.typography.titleMedium,
-        )
-        Text(
-            text = gospel.text,
-            modifier = Modifier.padding(vertical = 4.dp),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyLarge,
-        )
+    SelectionContainer {
+        Column(Modifier.verticalScroll(rememberScrollState())) {
+            Text(
+                text = gospel.verses,
+                modifier = Modifier.padding(vertical = 4.dp),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleLarge,
+            )
+            Text(
+                text = gospel.title,
+                modifier = Modifier.padding(vertical = 8.dp),
+                fontWeight = FontWeight.Bold,
+                fontStyle = FontStyle.Italic,
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = gospel.author,
+                modifier = Modifier.padding(vertical = 8.dp),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = gospel.text,
+                modifier = Modifier.padding(vertical = 4.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
     }
 }

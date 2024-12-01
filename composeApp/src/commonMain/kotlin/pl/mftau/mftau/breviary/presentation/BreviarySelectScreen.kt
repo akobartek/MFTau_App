@@ -99,9 +99,7 @@ fun BreviarySelectScreenContent(
                 Column(modifier = Modifier.clickable { onSelected(index) }) {
                     Text(
                         text = elem,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            color = MaterialTheme.colorScheme.primary,
-                        ),
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(12.dp),
                     )
                     HorizontalDivider()

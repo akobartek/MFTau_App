@@ -31,6 +31,7 @@ private class MyTextToSpeech : NSObject(), AVSpeechSynthesizerDelegateProtocol {
 
     init {
         synthesizer.delegate = this
+        synthesizer.usesApplicationAudioSession = false
     }
 
     fun setListener(onDone: () -> Unit) {
@@ -38,9 +39,8 @@ private class MyTextToSpeech : NSObject(), AVSpeechSynthesizerDelegateProtocol {
     }
 
     fun speak(text: String) {
-        // TODO Check rate value
         val utterance = AVSpeechUtterance.speechUtteranceWithString(text)
-        utterance.rate = 0.9f
+        utterance.rate = 0.5f
 
         val polishVoices = AVSpeechSynthesisVoice.speechVoices().filter {
             (it as AVSpeechSynthesisVoice).language.startsWith("pl", ignoreCase = true)
