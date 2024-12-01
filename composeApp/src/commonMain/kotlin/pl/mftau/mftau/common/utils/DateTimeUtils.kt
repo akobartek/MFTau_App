@@ -53,4 +53,4 @@ fun Long.getFormattedDate() =
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .getFormattedDate()
 
-fun Timestamp.getFormattedDate() = (nanoseconds / 100L).getFormattedDate()
+fun Timestamp.getFormattedDate() = (seconds * 1000L).getFormattedDate()

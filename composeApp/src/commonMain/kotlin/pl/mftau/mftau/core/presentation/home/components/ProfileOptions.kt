@@ -17,6 +17,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,10 +45,15 @@ fun ProfileOptions(
 
     AnimatedVisibility(visible = user != null) {
         Box {
-            Box(modifier = Modifier
-                .padding(16.dp)
-                .clickable { dropdownExpanded = true }) {
-                ProfilePicture(photoUrl = user?.photoUrl)
+            Box(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .clickable { dropdownExpanded = true }
+            ) {
+                ProfilePicture(
+                    photoUrl = user?.photoUrl,
+                    color = MaterialTheme.colorScheme.primary,
+                )
             }
             DropdownMenu(
                 expanded = dropdownExpanded,

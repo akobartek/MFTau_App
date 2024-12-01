@@ -109,7 +109,10 @@ fun LeadersMeetingsScreenContent(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { toggleMeetingEditorVisibility(null) }) {
+            FloatingActionButton(
+                onClick = { toggleMeetingEditorVisibility(null) },
+                containerColor = MaterialTheme.colorScheme.primary,
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(Res.string.add_meeting)

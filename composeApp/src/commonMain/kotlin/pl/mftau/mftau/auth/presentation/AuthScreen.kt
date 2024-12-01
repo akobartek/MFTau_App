@@ -158,11 +158,11 @@ fun AuthScreenContent(
                 label = { Text(text = stringResource(Res.string.email)) },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Email,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Next,
                 ),
-                keyboardActions = KeyboardActions(onNext = {
-                    focusManager.moveFocus(FocusDirection.Next)
-                }),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Next) },
+                ),
                 trailingIcon = {
                     if (state.email.isNotBlank())
                         IconButton(onClick = { updateEmail("") }) {

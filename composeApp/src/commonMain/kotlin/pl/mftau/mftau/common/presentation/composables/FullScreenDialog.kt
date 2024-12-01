@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -37,7 +38,7 @@ fun FullScreenDialog(
     title: String,
     onSave: (() -> Unit)? = {},
     onDismiss: () -> Unit,
-    content: @Composable ColumnScope.() -> Unit = {},
+    content: @Composable ColumnScope.(FocusManager) -> Unit = {},
     action: @Composable RowScope.() -> Unit = {}
 ) {
     if (isVisible)
@@ -86,9 +87,11 @@ fun FullScreenDialog(
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null
-                        ) { focusManager.clearFocus(true) }
+                        ) {
+                            focusManager.clearFocus(true)
+                        }
                 ) {
-                    content()
+                    content(focusManager)
                 }
             }
         }

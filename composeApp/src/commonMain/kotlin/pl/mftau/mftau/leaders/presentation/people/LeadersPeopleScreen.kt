@@ -79,7 +79,10 @@ fun LeadersPeopleScreenContent(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { togglePersonEditorVisibility(null) }) {
+            FloatingActionButton(
+                onClick = { togglePersonEditorVisibility(null) },
+                containerColor = MaterialTheme.colorScheme.primary,
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(Res.string.add_song),

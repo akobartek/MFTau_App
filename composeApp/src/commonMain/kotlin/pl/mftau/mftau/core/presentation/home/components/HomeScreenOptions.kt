@@ -45,7 +45,7 @@ fun HomeScreenOptions(
     Box {
         Icon(
             imageVector = Icons.Outlined.MoreVert,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = MaterialTheme.colorScheme.primary,
             contentDescription = stringResource(Res.string.cd_more_options_btn),
             modifier = Modifier
                 .padding(16.dp)

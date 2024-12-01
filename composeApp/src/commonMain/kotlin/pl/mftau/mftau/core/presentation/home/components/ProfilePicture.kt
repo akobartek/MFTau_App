@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -18,12 +19,15 @@ import mftau.composeapp.generated.resources.cd_profile_pic
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun ProfilePicture(photoUrl: String?) {
+fun ProfilePicture(
+    photoUrl: String?,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+) {
     val placeholder = rememberVectorPainter(Icons.Outlined.AccountCircle)
     if (photoUrl.isNullOrBlank())
         Icon(
             painter = placeholder,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = color,
             contentDescription = stringResource(Res.string.cd_profile_pic),
         )
     else

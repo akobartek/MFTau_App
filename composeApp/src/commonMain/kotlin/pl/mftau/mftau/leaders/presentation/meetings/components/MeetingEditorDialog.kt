@@ -90,6 +90,8 @@ fun MeetingEditorDialog(
     onDelete: (Meeting?) -> Unit = {},
     onDismiss: () -> Unit = {},
 ) {
+    var edited by rememberSaveable { mutableStateOf(false) }
+
     var name by rememberSaveable { mutableStateOf(meeting?.name ?: "") }
     var nameError by rememberSaveable { mutableStateOf(false) }
     var notes by rememberSaveable { mutableStateOf(meeting?.notes ?: "") }
@@ -99,7 +101,6 @@ fun MeetingEditorDialog(
     var dateMillis by rememberSaveable {
         mutableStateOf((meeting?.date ?: Timestamp.now()).seconds * 1000)
     }
-    var dateDialogVisible by rememberSaveable { mutableStateOf(false) }
 
     val attendanceList = remember {
         meeting?.attendanceList?.toMutableStateList() ?: mutableStateListOf()
@@ -108,10 +109,15 @@ fun MeetingEditorDialog(
         mutableStateMapOf(*(meeting?.absenceList ?: mapOf()).toList().toTypedArray())
     }
 
+    var dateDialogVisible by rememberSaveable { mutableStateOf(false) }
     var absenceDialogVisible by rememberSaveable { mutableStateOf<String?>(null) }
     var deleteDialogVisible by rememberSaveable { mutableStateOf(false) }
     var unsavedChangesDialogVisible by rememberSaveable { mutableStateOf(false) }
-    val onBackPressed = { unsavedChangesDialogVisible = true }
+
+    val onBackPressed = {
+        if (edited) unsavedChangesDialogVisible = true
+        else onDismiss()
+    }
 
     val verifyInput = {
         if (name.isBlank()) nameError = true
@@ -167,7 +173,10 @@ fun MeetingEditorDialog(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         OutlinedTextField(
                             value = name,
-                            onValueChange = { name = it },
+                            onValueChange = {
+                                name = it
+                                edited = true
+                            },
                             label = { Text(stringResource(Res.string.meeting_name)) },
                             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                             isError = nameError,
@@ -238,7 +247,10 @@ fun MeetingEditorDialog(
                         Spacer(modifier = Modifier.height(16.dp))
                         OutlinedTextField(
                             value = notes,
-                            onValueChange = { notes = it },
+                            onValueChange = {
+                                notes = it
+                                edited = true
+                            },
                             label = { Text(stringResource(Res.string.meeting_notes)) },
                             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                             maxLines = 7,
@@ -338,7 +350,10 @@ fun MeetingEditorDialog(
         titleId = Res.string.meeting_type,
         currentValue = types[type],
         values = types,
-        onSave = { type = types.indexOf(it) },
+        onSave = {
+            type = types.indexOf(it)
+            edited = true
+        },
         onDismiss = { typesDialogVisible = false },
     )
 
@@ -351,6 +366,7 @@ fun MeetingEditorDialog(
                     onClick = {
                         dateDialogVisible = false
                         datePickerState.selectedDateMillis?.let { dateMillis = it }
+                        edited = true
                     },
                 ) {
                     Text(stringResource(Res.string.save))

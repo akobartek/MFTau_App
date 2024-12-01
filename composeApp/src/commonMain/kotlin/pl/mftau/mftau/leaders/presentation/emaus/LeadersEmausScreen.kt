@@ -131,6 +131,7 @@ fun LeadersEmausScreenContent(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = startDraw,
+                containerColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.onGloballyPositioned {
                     if (it.isAttached)
                         fabOffset = it.positionInParent()
