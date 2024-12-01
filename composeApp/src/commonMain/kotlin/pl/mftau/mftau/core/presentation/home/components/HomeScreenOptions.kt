@@ -30,9 +30,10 @@ import pl.mftau.mftau.Screen
 import pl.mftau.mftau.auth.domain.model.User
 
 private const val EMAIL_URI = "mailto:"
-private const val PRAY_URI = "${EMAIL_URI}modlitwa@mftau.pl?subject=Prośba%20o%20modlitwę"
+private const val PRAY_URI =
+    "${EMAIL_URI}modlitwa@mftau.pl?subject=Prośba o modlitwę"
 private const val ERROR_URI =
-    "${EMAIL_URI}sokolowskijbartek@gmail.com?subject=Błąd%20w%20aplikacji%20MFTau"
+    "${EMAIL_URI}sokolowskijbartek@gmail.com?subject=Błąd w aplikacji MF Tau"
 
 @Composable
 fun HomeScreenOptions(
