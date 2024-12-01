@@ -4,14 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.koinInject
-import pl.mftau.mftau.core.presentation.AppViewModel
 
 val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -79,31 +71,23 @@ val LightColorScheme = lightColorScheme(
 
 private var mfTauColorPrimary = mf_tau_light_primary
 private var mfTauColorSecondary = mf_tau_light_secondary
-val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
 @Composable
 fun MFTauTheme(
-    viewModel: AppViewModel = koinInject(),
+    colorTheme: ColorTheme,
+    dynamicColors: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val preferences by viewModel.preferences.collectAsStateWithLifecycle()
-
-    val darkMode = when (preferences.colorTheme) {
+    val darkMode = when (colorTheme) {
         ColorTheme.SYSTEM -> isSystemInDarkTheme()
         ColorTheme.DARK -> true
         ColorTheme.LIGHT -> false
     }
-    val isDarkState = remember { mutableStateOf(darkMode) }
 
-    CompositionLocalProvider(
-        LocalThemeIsDark provides isDarkState
-    ) {
-        val isDark by isDarkState
-        mfTauColorPrimary = if (isDark) mf_tau_dark_primary else mf_tau_light_primary
-        mfTauColorSecondary = if (isDark) mf_tau_dark_secondary else mf_tau_light_secondary
+    mfTauColorPrimary = if (darkMode) mf_tau_dark_primary else mf_tau_light_primary
+    mfTauColorSecondary = if (darkMode) mf_tau_dark_secondary else mf_tau_light_secondary
 
-        SystemMaterialTheme(content, isDark, preferences.dynamicColors)
-    }
+    SystemMaterialTheme(content, darkMode, dynamicColors)
 }
 
 @Composable
