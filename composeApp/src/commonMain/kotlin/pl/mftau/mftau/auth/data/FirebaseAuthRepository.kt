@@ -44,17 +44,15 @@ class FirebaseAuthRepository(
     override suspend fun signUp(email: String, password: String): Result<Boolean> {
         return try {
             val authResult = auth.createUserWithEmailAndPassword(email, password)
-            authResult.user?.let {
+            authResult.user?.let { user ->
                 withContext(NonCancellable) {
-                    auth.currentUser?.let { user ->
-                        user.sendEmailVerification()
-                        firestore.saveObject(
-                            collectionName = COLLECTION_USERS,
-                            id = user.uid,
-                            data = FirestoreUser.createUser(email),
-                        )
-                        signOut()
-                    }
+                    user.sendEmailVerification()
+                    firestore.saveObject(
+                        collectionName = COLLECTION_USERS,
+                        id = user.uid,
+                        data = FirestoreUser.createUser(email),
+                    )
+                    signOut()
                     Result.success(true)
                 }
             } ?: Result.failure(Exception())

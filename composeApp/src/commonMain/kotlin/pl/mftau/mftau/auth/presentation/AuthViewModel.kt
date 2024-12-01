@@ -71,8 +71,10 @@ class AuthViewModel(
 
     fun signIn() {
         if (!validateInput(false)) return
+        toggleLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = authRepository.signIn(state.value.email, state.value.password)
+            toggleLoading(false)
             _state.update {
                 if (result.isSuccess && result.getOrDefault(false)) {
                     preferencesRepository.updateLastUsedEmail(state.value.email)
@@ -104,8 +106,10 @@ class AuthViewModel(
 
     fun signUp() {
         if (!validateInput(true)) return
+        toggleLoading(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = authRepository.signUp(state.value.email, state.value.password)
+            toggleLoading(false)
             _state.update {
                 if (result.isSuccess && result.getOrDefault(false))
                     it.copy(isSignedUpDialogVisible = true)
@@ -148,6 +152,8 @@ class AuthViewModel(
             }
         }
     }
+
+    private fun toggleLoading(value: Boolean) = _state.update { it.copy(loading = value) }
 
     private fun validateInput(isSigningUp: Boolean): Boolean {
         val newState = _state.value.let { state ->

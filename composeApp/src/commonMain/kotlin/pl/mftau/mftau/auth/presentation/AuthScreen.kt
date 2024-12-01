@@ -70,6 +70,7 @@ import org.koin.compose.koinInject
 import pl.mftau.mftau.auth.presentation.composables.ResetPasswordDialog
 import pl.mftau.mftau.common.presentation.autofill
 import pl.mftau.mftau.common.presentation.composables.CommunityLogo
+import pl.mftau.mftau.common.presentation.composables.LoadingDialog
 import pl.mftau.mftau.common.presentation.composables.NoInternetDialog
 import pl.mftau.mftau.common.presentation.composables.TauAlertDialog
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
@@ -266,6 +267,8 @@ fun AuthScreenContent(
                 Text(text = stringResource(Res.string.forgot_password))
             }
         }
+
+        LoadingDialog(visible = state.loading)
 
         TauAlertDialog(
             isVisible = state.isSignedUpDialogVisible,

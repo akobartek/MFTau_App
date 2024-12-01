@@ -1,6 +1,7 @@
 package pl.mftau.mftau.auth.presentation
 
 data class AuthScreenState(
+    val loading: Boolean = false,
     val email: String = "",
     val emailError: EmailErrorType? = null,
     val password: String = "",
@@ -11,7 +12,7 @@ data class AuthScreenState(
     val noInternetAction: NoInternetAction? = null,
     val forgottenPasswordDialogVisible: Boolean = false,
     val forgottenPasswordDialogError: Boolean = false,
-    val emailUnverifiedDialogVisible: Boolean = false
+    val emailUnverifiedDialogVisible: Boolean = false,
 )
 
 enum class EmailErrorType {
