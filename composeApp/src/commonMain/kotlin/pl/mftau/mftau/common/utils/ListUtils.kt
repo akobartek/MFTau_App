@@ -1,9 +1,11 @@
 package pl.mftau.mftau.common.utils
 
-fun <T> List<T>.swap(index1: Int, index2: Int): List<T> {
+fun <T> List<T>.swap(from: Int, to: Int): List<T> {
+    if (from == to) return this
+
     val list = this.toMutableList()
-    val tmp = this[index1]
-    list[index1] = this[index2]
-    list[index2] = tmp
+    val tmp = this[from]
+    list[from] = this[to]
+    list[to] = tmp
     return list
 }

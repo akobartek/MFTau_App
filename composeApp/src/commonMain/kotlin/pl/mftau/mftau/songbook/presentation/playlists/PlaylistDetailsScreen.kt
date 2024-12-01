@@ -1,17 +1,10 @@
 package pl.mftau.mftau.songbook.presentation.playlists
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -30,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mftau.composeapp.generated.resources.Res
 import mftau.composeapp.generated.resources.delete_playlist
@@ -38,9 +30,6 @@ import mftau.composeapp.generated.resources.edit_playlist
 import mftau.composeapp.generated.resources.empty_playlist
 import mftau.composeapp.generated.resources.hide_chords
 import mftau.composeapp.generated.resources.imported_playlist
-import mftau.composeapp.generated.resources.move_song_down
-import mftau.composeapp.generated.resources.move_song_up
-import mftau.composeapp.generated.resources.remove_from_playlist
 import mftau.composeapp.generated.resources.save_playlist
 import mftau.composeapp.generated.resources.show_chords
 import org.jetbrains.compose.resources.stringResource
@@ -52,10 +41,11 @@ import pl.mftau.mftau.common.utils.BackHandler
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.songbook.presentation.playlists.composables.DeletePlaylistDialog
 import pl.mftau.mftau.songbook.presentation.playlists.composables.ImportPlaylistErrorDialog
+import pl.mftau.mftau.songbook.presentation.playlists.composables.PlaylistDetailsEditList
+import pl.mftau.mftau.songbook.presentation.playlists.composables.PlaylistDetailsNormalList
 import pl.mftau.mftau.songbook.presentation.playlists.composables.ShareCodeDialog
 import pl.mftau.mftau.songbook.presentation.playlists.composables.SharePlaylistErrorDialog
 import pl.mftau.mftau.songbook.presentation.songs.components.SongBookEmptyListInfo
-import pl.mftau.mftau.songbook.presentation.songs.components.SongCard
 
 @Composable
 fun PlaylistDetailsScreen(
@@ -166,65 +156,21 @@ fun PlaylistDetailsScreenContent(
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            if (state.editMode) {
-                itemsIndexed(
-                    items = state.tempSongsList,
-                    key = { _, song -> song.title })
-                { index, song ->
-                    SongCard(
-                        song = song,
-                        preferences = state.preferences,
-                        actions = {
-                            if (index > 0)
-                                IconButton(onClick = { swapItems(index, index - 1) }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.ArrowUpward,
-                                        contentDescription = stringResource(Res.string.move_song_up)
-                                    )
-                                }
-                            if (index < state.tempSongsList.size - 1)
-                                IconButton(onClick = { swapItems(index, index + 1) }) {
-                                    Icon(
-                                        imageVector = Icons.Filled.ArrowDownward,
-                                        contentDescription = stringResource(Res.string.move_song_down),
-                                    )
-                                }
-                            IconButton(onClick = { deleteSong(song) }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Clear,
-                                    contentDescription = stringResource(Res.string.remove_from_playlist),
-                                )
-                            }
-                        },
-                        modifier = Modifier.animateItem(),
-                    )
-                }
-            } else {
-                items(
-                    items = state.playlist?.songs ?: listOf(),
-                    key = { song -> song.title }
-                ) { song ->
-                    SongCard(
-                        song = song,
-                        preferences = state.preferences,
-                        actions = {
-                            IconButton(onClick = { deleteSong(song) }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Clear,
-                                    contentDescription = stringResource(Res.string.remove_from_playlist),
-                                )
-                            }
-                        },
-                        modifier = Modifier.animateItem(),
-                    )
-                }
-            }
+        Crossfade(targetState = state.editMode, label = "") {
+            if (state.editMode.not())
+                PlaylistDetailsNormalList(
+                    songs = state.playlist?.songs ?: emptyList(),
+                    preferences = state.preferences,
+                    modifier = Modifier.padding(paddingValues),
+                )
+            else
+                PlaylistDetailsEditList(
+                    songs = state.tempSongsList,
+                    preferences = state.preferences,
+                    swapSongs = swapItems,
+                    deleteSong = deleteSong,
+                    modifier = Modifier.padding(paddingValues),
+                )
         }
 
         if (state.playlist == null)

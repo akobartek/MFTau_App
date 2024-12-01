@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
@@ -107,34 +108,35 @@ fun SongCard(
                         }
                     }
 
-                    Row(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .height(IntrinsicSize.Min),
-                    ) {
-                        SelectionContainer(
+                    SelectionContainer {
+                        Row(
                             modifier = Modifier
-                                .weight(1f)
-                                .horizontalScroll(rememberScrollState()),
+                                .padding(horizontal = 8.dp)
+                                .height(IntrinsicSize.Min),
                         ) {
                             SongText(
                                 text = song.text,
                                 fontSize = preferences.fontSize,
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .horizontalScroll(rememberScrollState()),
                             )
-                        }
-                        AnimatedVisibility(visible = preferences.areChordsVisible) {
-                            Row {
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(horizontal = 4.dp)
-                                        .background(MaterialTheme.colorScheme.primary)
-                                        .width(1.dp),
-                                )
-                                SongText(
-                                    text = chords,
-                                    fontSize = preferences.fontSize,
-                                )
+                            AnimatedVisibility(visible = preferences.areChordsVisible) {
+                                Row {
+                                    Spacer(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .padding(horizontal = 4.dp)
+                                            .background(MaterialTheme.colorScheme.primary)
+                                            .width(1.dp),
+                                    )
+                                    DisableSelection {
+                                        SongText(
+                                            text = chords,
+                                            fontSize = preferences.fontSize,
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
