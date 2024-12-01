@@ -60,7 +60,6 @@ import pl.mftau.mftau.Screen
 import pl.mftau.mftau.common.presentation.composables.ListScrollbar
 import pl.mftau.mftau.common.presentation.composables.LoadingBox
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
-import pl.mftau.mftau.common.utils.getScreenHeight
 import pl.mftau.mftau.common.utils.getScreenWidth
 import pl.mftau.mftau.songbook.domain.model.Playlist
 import pl.mftau.mftau.songbook.domain.model.Song
@@ -128,8 +127,6 @@ fun SongBookScreenContent(
 ) {
 //    val windowInfo = currentWindowAdaptiveInfo()  TODO() -> Use this value in the future instead of size - currently it's not yet available
     val width = getScreenWidth()
-    println("Songbook height: ${getScreenHeight()}")
-    println("Songbook width: ${getScreenWidth()}")
 
     val searchBarHeightDp = 56.dp + 12.dp
     val searchBarHeightPx = with(LocalDensity.current) { searchBarHeightDp.roundToPx().toFloat() }
