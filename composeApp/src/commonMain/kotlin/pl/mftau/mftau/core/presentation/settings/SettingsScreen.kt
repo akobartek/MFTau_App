@@ -8,9 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,8 +22,6 @@ import org.koin.compose.koinInject
 import pl.mftau.mftau.common.data.UserPreferences
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
 import pl.mftau.mftau.common.utils.dynamicColorsAvailable
-import pl.mftau.mftau.common.utils.getCurrentLanguage
-import pl.mftau.mftau.common.utils.getUpdateLocaleFunction
 import pl.mftau.mftau.core.presentation.settings.composables.DynamicColorsPreferenceRow
 import pl.mftau.mftau.core.presentation.settings.composables.LanguagePreferenceRow
 import pl.mftau.mftau.core.presentation.settings.composables.SwitchPreferenceRow
@@ -42,7 +37,6 @@ fun SettingsScreen(
     SettingsScreenContent(
         navigateUp = navigateUp,
         preferences = state,
-        language = getCurrentLanguage(),
         updateNightMode = viewModel::updateNightMode,
         updateDynamicColors = viewModel::updateDynamicColors,
         updateKeepScreenAwake = viewModel::updateKeepScreenAwake,
@@ -54,15 +48,11 @@ fun SettingsScreen(
 fun SettingsScreenContent(
     navigateUp: () -> Unit,
     preferences: UserPreferences,
-    language: String?,
     updateNightMode: (String) -> Unit,
     updateDynamicColors: (Boolean) -> Unit,
     updateKeepScreenAwake: (Boolean) -> Unit,
     updateRepeatGospel: (Boolean) -> Unit,
 ) {
-    var currentLanguage by rememberSaveable { mutableStateOf(language) }
-    val updateLocaleFunction = getUpdateLocaleFunction()
-
     Scaffold(
         topBar = {
             TauCenteredTopBar(
@@ -99,15 +89,7 @@ fun SettingsScreenContent(
                 checked = preferences.repeatGospel,
                 onCheckedChange = updateRepeatGospel,
             )
-            currentLanguage?.let { lang ->
-                LanguagePreferenceRow(
-                    currentLanguage = lang,
-                    onSave = { selectedLanguageCode ->
-                        currentLanguage = selectedLanguageCode
-                        updateLocaleFunction?.invoke(selectedLanguageCode)
-                    }
-                )
-            }
+            LanguagePreferenceRow()
         }
     }
 }

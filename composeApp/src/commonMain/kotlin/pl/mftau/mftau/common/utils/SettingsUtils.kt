@@ -13,7 +13,12 @@ expect fun dynamicColorsAvailable(): Boolean
 expect fun SetKeepScreenAwakeWindowFlag(keepAwake: Boolean)
 
 @Composable
-expect fun getCurrentLanguage(): String?
+expect fun getCurrentLanguage(): String
 
 @Composable
-expect fun getUpdateLocaleFunction(): ((String) -> Unit)?
+expect fun getUpdateLanguageAction(): UpdateLanguageAction
+
+sealed class UpdateLanguageAction {
+    data class OpenSettings(val settingsUri: String) : UpdateLanguageAction()
+    data class RunAction(val action: (String) -> Unit) : UpdateLanguageAction()
+}

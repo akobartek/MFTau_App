@@ -32,24 +32,28 @@ fun SelectionPreferenceRow(
     codes: List<String>,
     dialogImageVector: ImageVector,
     dialogTitleId: StringResource,
-    onSave: (String) -> Unit
+    onSave: (String) -> Unit,
+    onClick: (() -> Unit)? = null,
 ) {
     var dialogVisible by rememberSaveable { mutableStateOf(false) }
     val getCorrectValueByCode = {
         val index = codes.indexOf(currentValue)
         values[if (index != -1) index else 0]
     }
-    val (selectedValue, onValueSelected) = remember { mutableStateOf(getCorrectValueByCode()) }
+    var selectedValue by remember { mutableStateOf(getCorrectValueByCode()) }
 
-    LaunchedEffect(key1 = currentValue) {
-        onValueSelected(getCorrectValueByCode())
+    LaunchedEffect(currentValue) {
+        selectedValue = getCorrectValueByCode()
     }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { dialogVisible = true }
+            .clickable {
+                if (onClick != null) onClick.invoke()
+                else dialogVisible = true
+            }
             .padding(horizontal = 16.dp, vertical = 12.dp),
     ) {
         Column(modifier = Modifier.weight(1f)) {

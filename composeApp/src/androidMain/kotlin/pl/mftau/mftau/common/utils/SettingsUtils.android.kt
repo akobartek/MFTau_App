@@ -51,7 +51,7 @@ actual fun SetKeepScreenAwakeWindowFlag(keepAwake: Boolean) {
 }
 
 @Composable
-actual fun getCurrentLanguage(): String? =
+actual fun getCurrentLanguage(): String =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         val localeManager =
             LocalContext.current.getSystemService(Context.LOCALE_SERVICE) as LocaleManager
@@ -61,19 +61,22 @@ actual fun getCurrentLanguage(): String? =
     }
 
 @Composable
-actual fun getUpdateLocaleFunction(): ((String) -> Unit)? =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val localeManager =
-            LocalContext.current.getSystemService(Context.LOCALE_SERVICE) as LocaleManager
-        { newLanguage ->
-            localeManager.applicationLocales = LocaleList.forLanguageTags(newLanguage)
+actual fun getUpdateLanguageAction(): UpdateLanguageAction =
+    UpdateLanguageAction.RunAction(
+        action =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val localeManager =
+                LocalContext.current.getSystemService(Context.LOCALE_SERVICE) as LocaleManager
+            { newLanguage ->
+                localeManager.applicationLocales = LocaleList.forLanguageTags(newLanguage)
+            }
+        } else {
+            { newLanguage ->
+                val tags = LocaleListCompat.forLanguageTags(newLanguage)
+                AppCompatDelegate.setApplicationLocales(tags)
+            }
         }
-    } else {
-        { newLanguage ->
-            val tags = LocaleListCompat.forLanguageTags(newLanguage)
-            AppCompatDelegate.setApplicationLocales(tags)
-        }
-    }
+    )
 
 private fun Context.getActivity(): ComponentActivity? = when (this) {
     is ComponentActivity -> this

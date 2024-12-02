@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.intl.Locale
 import pl.mftau.mftau.ui.theme.ColorTheme
 import platform.UIKit.UIApplication
+import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UIKit.UIUserInterfaceStyle
 
 @Composable
@@ -28,7 +29,8 @@ actual fun SetKeepScreenAwakeWindowFlag(keepAwake: Boolean) {
 }
 
 @Composable
-actual fun getCurrentLanguage(): String? = Locale.current.language
+actual fun getCurrentLanguage(): String = Locale.current.language
 
 @Composable
-actual fun getUpdateLocaleFunction(): ((String) -> Unit)? = null
+actual fun getUpdateLanguageAction(): UpdateLanguageAction =
+    UpdateLanguageAction.OpenSettings(settingsUri = UIApplicationOpenSettingsURLString)
