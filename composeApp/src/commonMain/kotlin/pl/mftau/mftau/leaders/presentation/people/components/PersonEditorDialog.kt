@@ -2,13 +2,13 @@ package pl.mftau.mftau.leaders.presentation.people.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
@@ -48,6 +48,7 @@ import mftau.composeapp.generated.resources.select_person_type
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.common.presentation.composables.FullScreenDialog
+import pl.mftau.mftau.common.presentation.composables.HeightSpacer
 import pl.mftau.mftau.common.presentation.composables.MultiSelectDialog
 import pl.mftau.mftau.common.utils.randomUUID
 import pl.mftau.mftau.leaders.domain.model.Person
@@ -105,7 +106,10 @@ fun PersonEditorDialog(
         content = { focusManager ->
             val (nameRef, cityRef, notesRef) = remember { FocusRequester.createRefs() }
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+            ) {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
@@ -129,7 +133,7 @@ fun PersonEditorDialog(
                         .focusRequester(nameRef)
                         .focusProperties { next = cityRef },
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                HeightSpacer(height = 16.dp)
                 OutlinedTextField(
                     value = city,
                     onValueChange = { city = it },
@@ -153,7 +157,7 @@ fun PersonEditorDialog(
                         .focusRequester(cityRef)
                         .focusProperties { next = notesRef },
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                HeightSpacer(height = 16.dp)
                 OutlinedTextField(
                     value = types[type],
                     onValueChange = {},
@@ -186,7 +190,7 @@ fun PersonEditorDialog(
                     ),
                     modifier = Modifier.clickable { typesDialogVisible = true },
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                HeightSpacer(height = 16.dp)
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
@@ -197,6 +201,7 @@ fun PersonEditorDialog(
                         .fillMaxWidth()
                         .focusRequester(notesRef),
                 )
+                HeightSpacer(height = 24.dp)
             }
         }
     )

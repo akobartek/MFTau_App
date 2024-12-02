@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Preview
@@ -50,6 +51,7 @@ import org.jetbrains.compose.resources.stringResource
 import pl.mftau.mftau.common.presentation.composables.FullScreenDialog
 import pl.mftau.mftau.songbook.domain.model.Song
 import pl.mftau.mftau.common.data.SongBookPreferences
+import pl.mftau.mftau.common.presentation.composables.HeightSpacer
 import pl.mftau.mftau.songbook.domain.model.SongTopic
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -107,7 +109,10 @@ fun SongEditorDialog(
         },
         content = {
             AnimatedVisibility(visible = !previewActive) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                ) {
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
@@ -182,6 +187,7 @@ fun SongEditorDialog(
                                 .horizontalScroll(rememberScrollState()),
                         )
                     }
+                    HeightSpacer(height = 24.dp)
                 }
             }
 
