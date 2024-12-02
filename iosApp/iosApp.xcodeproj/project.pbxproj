@@ -146,11 +146,12 @@
 			};
 			buildConfigurationList = 7555FF76242A565900829871 /* Build configuration list for PBXProject "iosApp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = pl;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (

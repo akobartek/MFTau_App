@@ -24,12 +24,13 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import pl.mftau.mftau.common.data.UserPreferences
 import pl.mftau.mftau.common.presentation.composables.TauCenteredTopBar
+import pl.mftau.mftau.common.utils.dynamicColorsAvailable
+import pl.mftau.mftau.common.utils.getCurrentLanguage
+import pl.mftau.mftau.common.utils.getUpdateLocaleFunction
 import pl.mftau.mftau.core.presentation.settings.composables.DynamicColorsPreferenceRow
 import pl.mftau.mftau.core.presentation.settings.composables.LanguagePreferenceRow
 import pl.mftau.mftau.core.presentation.settings.composables.SwitchPreferenceRow
 import pl.mftau.mftau.core.presentation.settings.composables.ThemePreferenceRow
-import pl.mftau.mftau.core.presentation.settings.composables.getCurrentLanguage
-import pl.mftau.mftau.core.presentation.settings.composables.getUpdateLocaleFunction
 
 @Composable
 fun SettingsScreen(
@@ -81,10 +82,11 @@ fun SettingsScreenContent(
                 currentTheme = preferences.colorTheme,
                 onThemeChange = updateNightMode,
             )
-            DynamicColorsPreferenceRow(
-                checked = preferences.dynamicColors,
-                onCheckedChange = updateDynamicColors,
-            )
+            if (dynamicColorsAvailable())
+                DynamicColorsPreferenceRow(
+                    checked = preferences.dynamicColors,
+                    onCheckedChange = updateDynamicColors,
+                )
             SwitchPreferenceRow(
                 title = stringResource(Res.string.awake_screen_title),
                 summary = stringResource(Res.string.awake_screen_summary),

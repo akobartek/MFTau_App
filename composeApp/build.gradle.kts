@@ -101,6 +101,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 35
         versionName = "8.0.0"
+        resourceConfigurations.addAll(listOf("pl", "en"))
     }
     packaging {
         resources {
