@@ -57,7 +57,7 @@ fun ReadingsScreenContent(
         directive = scaffoldNavigator.scaffoldDirective,
         value = scaffoldNavigator.scaffoldValue,
         listPane = {
-            AnimatedPane(modifier = Modifier.preferredWidth(240.dp)) {
+            AnimatedPane(modifier = Modifier.preferredWidth(300.dp)) {
                 ReadingsListPane(
                     navigateUp = navigateUp,
                     state = state,
@@ -75,9 +75,9 @@ fun ReadingsScreenContent(
                     ReadingsText(
                         reading = reading,
                         onClose = {
-                            scaffoldNavigator.navigateBack()
+                            scaffoldNavigator.navigateTo(ListDetailPaneScaffoldRole.List)
                             onReadingSelected(null)
-                        }
+                        },
                     )
                 }
             }

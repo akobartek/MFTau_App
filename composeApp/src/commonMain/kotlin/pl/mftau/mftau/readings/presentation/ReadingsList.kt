@@ -52,28 +52,30 @@ fun ReadingsListPane(
                 TauCenteredTopBar(
                     title = stringResource(Res.string.readings),
                     onNavClick = navigateUp,
-                )
-                PrimaryTabRow(
-                    selectedTabIndex = state.selectedTab,
-                    tabs = {
-                        arrayOf(
-                            vectorResource(Res.drawable.ic_pray) to stringResource(Res.string.prayers),
-                            Icons.Outlined.HistoryEdu to stringResource(Res.string.writings),
-                        ).forEachIndexed { index, (imageVector, text) ->
-                            Tab(
-                                selected = state.selectedTab == index,
-                                onClick = { tabSelected(index) },
-                                icon = {
-                                    Icon(
-                                        imageVector = imageVector,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(24.dp)
+                    titleContent = {
+                        PrimaryTabRow(
+                            selectedTabIndex = state.selectedTab,
+                            tabs = {
+                                arrayOf(
+                                    vectorResource(Res.drawable.ic_pray) to stringResource(Res.string.prayers),
+                                    Icons.Outlined.HistoryEdu to stringResource(Res.string.writings),
+                                ).forEachIndexed { index, (imageVector, text) ->
+                                    Tab(
+                                        selected = state.selectedTab == index,
+                                        onClick = { tabSelected(index) },
+                                        icon = {
+                                            Icon(
+                                                imageVector = imageVector,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(24.dp)
+                                            )
+                                        },
+                                        text = { Text(text = text) },
+                                        unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
-                                },
-                                text = { Text(text = text) },
-                                unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
+                                }
+                            }
+                        )
                     }
                 )
             }

@@ -21,19 +21,21 @@ import pl.mftau.mftau.ui.theme.mfTauFont
 @Composable
 fun TauCenteredTopBar(
     title: String,
+    titleContent: (@Composable () -> Unit)? = null,
     onNavClick: () -> Unit,
     navIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
         title = {
-            Text(
-                text = title,
-                fontFamily = mfTauFont(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 2,
-            )
+            titleContent?.invoke()
+                ?: Text(
+                    text = title,
+                    fontFamily = mfTauFont(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 2,
+                )
         },
         navigationIcon = {
             IconButton(onClick = onNavClick) {
@@ -43,6 +45,6 @@ fun TauCenteredTopBar(
                 )
             }
         },
-        actions = actions
+        actions = actions,
     )
 }
