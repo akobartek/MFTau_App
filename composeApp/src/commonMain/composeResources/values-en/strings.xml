@@ -255,9 +255,9 @@
     <string name="absence_dialog_message">Give the reason for absence:</string>
     <string name="reason">Reason</string>
     <string name="presence">Presence</string>
-    <string name="present">Present - %1$s</string>
-    <string name="justified">Justified - %1$s</string>
-    <string name="absent">Absent - %1$s</string>
+    <string name="present">Present - %1$d</string>
+    <string name="justified">Justified - %1$d</string>
+    <string name="absent">Absent - %1$d</string>
     <string name="reason_for_absence">Reason for absence: %1$s</string>
     <string name="clear_meetings_dialog_msg">Do you want to delete ALL meetings?</string>
     <string name="clear_meetings">Clear meetings</string>

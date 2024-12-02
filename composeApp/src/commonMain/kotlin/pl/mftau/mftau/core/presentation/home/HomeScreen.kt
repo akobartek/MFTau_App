@@ -2,6 +2,7 @@ package pl.mftau.mftau.core.presentation.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -75,10 +76,7 @@ fun HomeScreenContent(
     var resetPasswordDialogVisible by remember { mutableStateOf(false) }
     var deleteAccountDialogVisible by remember { mutableStateOf(false) }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Row {
             ProfileOptions(
                 user = state.user,
@@ -92,22 +90,27 @@ fun HomeScreenContent(
                 navigate = navigate,
             )
         }
-        if (height < 440.dp && width > 480.dp) {
-            CommunityLogo()
-            Spacer(modifier = Modifier.height(24.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (height < 440.dp && width > 480.dp) {
+                CommunityLogo(Modifier.padding(top = 12.dp))
+                Spacer(modifier = Modifier.height(24.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    FirstButtonsRow(navigate = navigate)
+                    SecondButtonsRow(navigate = navigate)
+                }
+            } else {
+                CommunityLogo(Modifier.padding(top = 60.dp))
+                Spacer(modifier = Modifier.height(32.dp))
                 FirstButtonsRow(navigate = navigate)
+                Spacer(modifier = Modifier.height(16.dp))
                 SecondButtonsRow(navigate = navigate)
             }
-        } else {
-            CommunityLogo(Modifier.padding(top = 8.dp))
-            Spacer(modifier = Modifier.height(32.dp))
-            FirstButtonsRow(navigate = navigate)
-            Spacer(modifier = Modifier.height(16.dp))
-            SecondButtonsRow(navigate = navigate)
-        }
-        AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
-            LeaderButtonRow(navigate = navigate)
+            AnimatedVisibility(visible = state.user?.userType == UserType.LEADER) {
+                LeaderButtonRow(navigate = navigate)
+            }
         }
 
         NoInternetDialog(

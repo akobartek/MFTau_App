@@ -260,9 +260,9 @@
     <string name="absence_dialog_message">Podaj powód nieobecności:</string>
     <string name="reason">Powód</string>
     <string name="presence">Obecności</string>
-    <string name="present">Obecność - %1$s</string>
-    <string name="justified">Wytłumaczenie - %1$s</string>
-    <string name="absent">Nieobecność - %1$s</string>
+    <string name="present">Obecność - %1$d</string>
+    <string name="justified">Wytłumaczenie - %1$d</string>
+    <string name="absent">Nieobecność - %1$d</string>
     <string name="reason_for_absence">Powód nieobecności: %1$s</string>
     <string name="clear_meetings_dialog_msg">Na pewno chcesz usunąć WSZYSTKIE spotkania?</string>
     <string name="clear_meetings">Wyczyść spotkania</string>

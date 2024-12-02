@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,6 +27,8 @@ import mftau.composeapp.generated.resources.absent
 import mftau.composeapp.generated.resources.justified
 import mftau.composeapp.generated.resources.present
 import org.jetbrains.compose.resources.stringResource
+import pl.mftau.mftau.common.presentation.composables.WidthSpacer
+import pl.mftau.mftau.common.utils.roundToDecimals
 import kotlin.math.min
 
 @Composable
@@ -34,15 +37,15 @@ fun PresenceDetailsChart(
     colors: List<Color>,
 ) {
     Row(
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .padding(vertical = 16.dp)
             .fillMaxWidth()
-            .height(200.dp),
+            .height(IntrinsicSize.Min),
     ) {
         Box(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
+                .size(200.dp)
                 .drawBehind {
                     val colorsList = colors.toList()
                     var startAngle = -90f
@@ -62,24 +65,23 @@ fun PresenceDetailsChart(
                     }
                 },
         )
+        WidthSpacer(width = 12.dp)
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight(),
         ) {
-            val stringRes = listOf(
-                Res.string.present, Res.string.justified, Res.string.absent
-            )
+            val stringRes = listOf(Res.string.present, Res.string.justified, Res.string.absent)
             presence.forEachIndexed { index, value ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(
                         modifier = Modifier
                             .size(8.dp)
-                            .background(colors[index])
+                            .background(colors[index]),
                     )
                     Text(
                         text = stringResource(
                             stringRes[index],
-                            (value * 100).toInt(), "%"
+                            "${(value * 100).roundToDecimals(2)}%"
                         ),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.bodySmall,
