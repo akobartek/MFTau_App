@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:localeConfig="@xml/locale_config"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:theme="@style/Theme.MFTau"
         tools:targetApi="tiramisu">
         <activity
             android:name=".MainActivity"
