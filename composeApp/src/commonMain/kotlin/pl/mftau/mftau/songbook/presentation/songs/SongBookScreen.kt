@@ -88,6 +88,8 @@ fun SongBookScreen(
         navigate = navigate,
         state = state,
         searchBarState = searchBarState,
+        openPdf = viewModel::openPdf,
+        togglePdfDialogVisibility = viewModel::togglePdfDialogVisibility,
         toggleChordsVisibility = viewModel::toggleChordsVisibility,
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onSearchFilterChange = viewModel::onSearchFilterChange,
@@ -114,6 +116,8 @@ fun SongBookScreenContent(
     navigate: (Screen) -> Unit,
     state: SongBookScreenState,
     searchBarState: SongBookSearchBarState,
+    openPdf: () -> Unit,
+    togglePdfDialogVisibility: () -> Unit,
     toggleChordsVisibility: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onSearchFilterChange: (SongTopic) -> Unit,
@@ -158,7 +162,6 @@ fun SongBookScreenContent(
         lazyListState.animateScrollToItem(songIndexToAnimate)
     }
 
-    var pdfDialogVisible by rememberSaveable { mutableStateOf(false) }
     val actions = listOf(
         SongBookAction(
             icon = Icons.AutoMirrored.Filled.ArrowBack,
@@ -168,9 +171,7 @@ fun SongBookScreenContent(
         SongBookAction(
             icon = Icons.Filled.PictureAsPdf,
             description = stringResource(Res.string.open_pdf),
-            onClick = {
-//                if (!context.openPdf("spiewnik.pdf")) pdfDialogVisible = true
-            },
+            onClick = openPdf,
         ),
         SongBookAction(
             icon = Icons.Filled.PostAdd,
@@ -294,7 +295,10 @@ fun SongBookScreenContent(
             dismiss = { togglePlaylistDialogVisibility(null) },
         )
 
-    NoPdfAppDialog(isVisible = pdfDialogVisible, onDismiss = { pdfDialogVisible = false })
+    NoPdfAppDialog(
+        isVisible = state.pdfDialogVisible,
+        onDismiss = togglePdfDialogVisibility,
+    )
 
     if (state.songEditorVisible)
         SongEditorDialog(

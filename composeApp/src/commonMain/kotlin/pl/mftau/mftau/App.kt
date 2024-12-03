@@ -96,7 +96,7 @@ fun App(
                 startDestination = startDestination,
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface)
-                    .windowInsetsPadding(WindowInsets.safeDrawing)
+                    .windowInsetsPadding(WindowInsets.safeDrawing),
             ) {
                 composable<Home> {
                     HomeScreen(

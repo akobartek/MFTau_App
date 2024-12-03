@@ -42,7 +42,7 @@ val songBookModule = module {
     factory { SaveSongUseCase(get()) }
     factory { DeleteSongUseCase(get()) }
     factory { MarkSongAsFavouriteUseCase(get()) }
-    single { SongBookViewModel(get(), get(), get(), get(), get(), get()) }
+    single { SongBookViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
     factory { SavePlaylistUseCase(get()) }
     factory { SaveSongsInPlaylistUseCase(get()) }

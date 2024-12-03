@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,16 +43,17 @@ import mftau.composeapp.generated.resources.people
 import mftau.composeapp.generated.resources.readings
 import mftau.composeapp.generated.resources.song_book
 import mftau.composeapp.generated.resources.statute
-import org.jetbrains.compose.resources.InternalResourceApi
-import org.jetbrains.compose.resources.getResourceUri
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.koinInject
 import pl.mftau.mftau.Screen
+import pl.mftau.mftau.common.presentation.PdfOpener
 import pl.mftau.mftau.common.presentation.composables.NoPdfAppDialog
+import pl.mftau.mftau.common.presentation.launchPdf
 import pl.mftau.mftau.ui.theme.mfTauFont
 
-
 private const val COMMUNITY_WEBSITE = "https://mftau.pl/"
+private const val STATUTE_FILE_NAME = "statut.pdf"
 
 private data class HomeButtonData(
     val title: String,
@@ -102,12 +104,13 @@ private fun ButtonsRow(
     }
 }
 
-@OptIn(InternalResourceApi::class)
 @Composable
 fun FirstButtonsRow(
     modifier: Modifier = Modifier,
     navigate: (Screen) -> Unit,
+    pdfOpener: PdfOpener = koinInject(),
 ) {
+    val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     var pdfDialogVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -127,9 +130,11 @@ fun FirstButtonsRow(
                 title = stringResource(Res.string.statute),
                 icon = vectorResource(Res.drawable.ic_statute),
                 onClick = {
-                    getResourceUri("statute.pdf").let { uri ->
-                        uriHandler.openUri(uri)
-                    }
+                    scope.launchPdf(
+                        pdfOpener = pdfOpener,
+                        fileName = STATUTE_FILE_NAME,
+                        onFailure = { pdfDialogVisible = true },
+                    )
                 },
             )
         ),

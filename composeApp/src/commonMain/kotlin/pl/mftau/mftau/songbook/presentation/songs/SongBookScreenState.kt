@@ -11,4 +11,5 @@ data class SongBookScreenState(
     val isLoading: Boolean = true,
     val songSelectedToPlaylists: Song? = null,
     val songEditorVisible: Boolean = false,
+    val pdfDialogVisible: Boolean = false,
 )

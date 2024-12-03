@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.mftau.mftau.common.data.PreferencesRepository
+import pl.mftau.mftau.common.presentation.PdfOpener
+import pl.mftau.mftau.common.presentation.launchPdf
 import pl.mftau.mftau.common.presentation.snackbars.SnackbarController
 import pl.mftau.mftau.common.presentation.snackbars.SnackbarEvent
 import pl.mftau.mftau.songbook.domain.model.Playlist
@@ -25,6 +27,8 @@ import pl.mftau.mftau.songbook.domain.usecase.SavePlaylistUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongUseCase
 import pl.mftau.mftau.songbook.domain.usecase.SaveSongsInPlaylistUseCase
 
+private const val SONG_BOOK_FILE_NAME = "spiewnik.pdf"
+
 @OptIn(FlowPreview::class)
 class SongBookViewModel(
     private val preferencesRepository: PreferencesRepository,
@@ -32,7 +36,8 @@ class SongBookViewModel(
     private val saveSongUseCase: SaveSongUseCase,
     private val markSongAsFavouriteUseCase: MarkSongAsFavouriteUseCase,
     private val savePlaylistUseCase: SavePlaylistUseCase,
-    private val saveSongsInPlaylistUseCase: SaveSongsInPlaylistUseCase
+    private val saveSongsInPlaylistUseCase: SaveSongsInPlaylistUseCase,
+    private val pdfOpener: PdfOpener,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SongBookScreenState())
@@ -95,8 +100,16 @@ class SongBookViewModel(
         _searchBarState.update { it.copy(selectedFilter = filter) }
     }
 
-    private fun toggleLoadingState(isLoading: Boolean) {
-        _state.update { it.copy(isLoading = isLoading) }
+    fun openPdf() {
+        viewModelScope.launchPdf(
+            pdfOpener = pdfOpener,
+            fileName = SONG_BOOK_FILE_NAME,
+            onFailure = { togglePdfDialogVisibility(true) },
+        )
+    }
+
+    fun togglePdfDialogVisibility(value : Boolean = false) {
+        _state.update { it.copy(pdfDialogVisible = value) }
     }
 
     fun toggleChordsVisibility() {
@@ -151,5 +164,9 @@ class SongBookViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             savePlaylistUseCase(name)
         }
+    }
+
+    private fun toggleLoadingState(isLoading: Boolean) {
+        _state.update { it.copy(isLoading = isLoading) }
     }
 }
